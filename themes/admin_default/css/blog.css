@@ -23,7 +23,7 @@ body{
 	text-align:center;
 }
 .bl-col-time, .bl-col-number{
-	width:90px;
+	width:100px;
 	text-align:center;
 }
 .bl-col-feature{
@@ -109,6 +109,11 @@ table.tab1 thead{
 }
 table.tab1 tbody.third, table.tab1 tbody.third:hover{background:#efefef}
 table.tab1 tbody:hover, table.tab1 tbody.second:hover{background:#efefef}
+
+/* ORDER DATA */
+.orderasc{height: 16px;padding-left: 16px;background-repeat: no-repeat;background-position: left center;background-image: url('../images/arrows/tall-up-arrow.gif');}
+.orderdesc{height: 16px;padding-left: 16px;background-repeat: no-repeat;background-position: left center;background-image: url('../images/arrows/tall-down-arrow.gif');}
+.orderno{height: 16px;padding-left: 16px;background-repeat: no-repeat;background-position: left center;background-image: url('../images/collapse-all.gif');}
 
 /* INPUT */
 .blog-input{

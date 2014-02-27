@@ -14,8 +14,9 @@ require_once( NV_ROOTDIR . "/modules/" . $module_file . "/blog.class.php" );
 $BL = new nv_mod_blog();
 
 $submenu['categories'] = $BL->lang('categoriesManager');
+$submenu['newsletter-manager'] = $BL->lang('nltList');
 
-$allow_func = array( 'main', 'categories' );
+$allow_func = array( 'main', 'categories', 'newsletter-manager' );
 
 define( 'NV_BLOG_ADMIN', true );
 

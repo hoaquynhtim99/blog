@@ -33,4 +33,20 @@ function nv_main_theme( $array, $generate_page )
 	return $xtpl->text( 'main' );
 }
 
+function nv_newsletters_theme( $array )
+{
+	global $lang_global, $lang_module, $module_file, $module_info;
+	
+	$xtpl = new XTemplate( "newsletters.tpl", NV_ROOTDIR . "/themes/" . $module_info['template'] . "/modules/" . $module_file );
+	$xtpl->assign( 'LANG', $lang_module );
+	$xtpl->assign( 'GLANG', $lang_global );
+	
+	$array['class'] = $array['status'] ? "notification-box-error" : "notification-box-success";
+	
+	$xtpl->assign( 'DATA', $array );
+	
+	$xtpl->parse( 'main' );
+	return $xtpl->text( 'main' );
+}
+
 ?>
