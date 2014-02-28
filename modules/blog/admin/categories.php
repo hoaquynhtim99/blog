@@ -168,7 +168,7 @@ if( $nv_Request->isset_request( "submit", "post" ) )
 	{
 		$error = $BL->lang('categoriesErrorTitle');
 	}
-	elseif( empty( $data['title'] ) )
+	elseif( empty( $data['keywords'] ) )
 	{
 		$error = $BL->lang('errorKeywords');
 	}
