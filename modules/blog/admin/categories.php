@@ -215,6 +215,7 @@ if( $nv_Request->isset_request( "submit", "post" ) )
 				if( $data['parentid'] != $row['parentid'] )
 				{
 					$BL->fixWeightCat( $row['parentid'] );
+					$BL->fixCat( $row['parentid'] );
 				}
 				
 				nv_insert_logs( NV_LANG_DATA, $module_name, $BL->lang('categoriesEditLog'), $row['title'], $admin_info['userid'] );
