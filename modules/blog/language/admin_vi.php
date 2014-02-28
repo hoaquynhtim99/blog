@@ -77,4 +77,10 @@ $lang_module['action_status_no'] = "Cho ngưng hoạt động";
 
 $lang_module['searchEmail'] = "Tìm email";
 
+$lang_module['cfgMaster'] = "Thiết lập module";
+$lang_module['cfgView'] = "Cấu hình hiển thị";
+$lang_module['cfgindexViewType'] = "Kiểu hiển thị tại trang chủ";
+$lang_module['cfgindexViewType_type_blog'] = "Dạng các bài blog (Ảnh, video demo + nội dung)";
+$lang_module['cfgindexViewType_type_news'] = "Dạng tin tức theo danh sách";
+
 ?>

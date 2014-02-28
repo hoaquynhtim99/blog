@@ -23,6 +23,8 @@ class nv_mod_blog
 	
 	public $setting = null;
 	
+	public $indexViewType = array( "type_blog", "type_news" );
+	
 	private $base_site_url = null;
 	private $root_dir = null;
 	private $upload_dir = null;

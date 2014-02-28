@@ -15,8 +15,9 @@ $BL = new nv_mod_blog();
 
 $submenu['categories'] = $BL->lang('categoriesManager');
 $submenu['newsletter-manager'] = $BL->lang('nltList');
+$submenu['config-master'] = $BL->lang('cfgMaster');
 
-$allow_func = array( 'main', 'categories', 'newsletter-manager' );
+$allow_func = array( 'main', 'categories', 'newsletter-manager', 'config-master' );
 
 define( 'NV_BLOG_ADMIN', true );
 

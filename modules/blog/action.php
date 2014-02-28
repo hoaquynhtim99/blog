@@ -14,7 +14,7 @@ $sql_drop_module[] = "DROP TABLE IF EXISTS `" . $db_config['prefix'] . "_" . $la
 
 $sql_create_module = $sql_drop_module;
 
-// Chuyen muc
+// Chuyên mục bài viết
 $sql_create_module[] = "CREATE TABLE `" . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_categories` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `parentid` mediumint(8) unsigned NOT NULL DEFAULT '0',
@@ -30,7 +30,7 @@ $sql_create_module[] = "CREATE TABLE `" . $db_config['prefix'] . "_" . $lang . "
   UNIQUE KEY `alias` (`alias`)  
 )ENGINE=MyISAM";
 
-// Dang ky nhan ban tin
+// Đăng ký nhận bản tin
 $sql_create_module[] = "CREATE TABLE `" . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_newsletters` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `email` varchar(255) NOT NULL DEFAULT '' COMMENT 'Email đăng ký',
@@ -44,5 +44,15 @@ $sql_create_module[] = "CREATE TABLE `" . $db_config['prefix'] . "_" . $lang . "
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)  
 )ENGINE=MyISAM";
+
+// Cấu hình module
+$sql_create_module[] = "CREATE TABLE `" . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_config` (
+  `config_name` varchar(30) NOT NULL,
+  `config_value` mediumtext NOT NULL,
+  UNIQUE KEY `config_name` (`config_name`)
+)ENGINE=MyISAM";
+
+$sql_create_module[] = "INSERT INTO `" . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_config` VALUES
+('indexViewType', 'type_blog')";
 
 ?>
