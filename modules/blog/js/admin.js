@@ -114,3 +114,37 @@ function nv_delete_cat( id ){
 	}
 	return false;
 }
+
+// Thao tac voi tags
+function nv_tags_action(oForm, nv_message_no_check, key) {
+	var fa = oForm['idcheck[]'];
+	var listid = [];
+	
+	if (fa.length){
+		for ( var i = 0; i < fa.length; i++){
+			if (fa[i].checked){
+				listid.push(fa[i].value);
+			}
+		}
+	}else{
+		if(fa.checked){
+			listid.push(fa.value);
+		}
+	}
+	
+	if (listid != ''){
+		if (key == 1){
+			if ( confirm(nv_is_del_confirm[0]) ){
+				nv_ajax('post', script_name, nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=tags&del=1&listid=' + listid, '', 'nv_delete_result');
+			}
+		}
+	}else{
+		alert(nv_message_no_check);
+	}
+}
+function nv_delete_tags( id ){
+	if ( confirm( nv_is_del_confirm[0] ) ){
+		nv_ajax( 'post', script_name, nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=tags&del=1&id=' + id, '', 'nv_delete_result' );
+	}
+	return false;
+}

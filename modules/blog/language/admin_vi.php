@@ -34,6 +34,7 @@ $lang_module['feature'] = 'Chức năng';
 $lang_module['status'] = 'Hoạt động';
 $lang_module['status1'] = 'Trạng thái';
 $lang_module['alert_check'] = 'Bạn phải chọn ít nhất một dòng để thao tác';
+$lang_module['numPosts'] = 'Số bài viết';
 
 $lang_module['main_title'] = 'Hệ thống quản lý blog';
 
@@ -76,11 +77,20 @@ $lang_module['action_status_ok'] = "Cho hoạt động";
 $lang_module['action_status_no'] = "Cho ngưng hoạt động";
 
 $lang_module['searchEmail'] = "Tìm email";
+$lang_module['searchTags'] = "Tìm tags";
 
 $lang_module['cfgMaster'] = "Thiết lập module";
 $lang_module['cfgView'] = "Cấu hình hiển thị";
 $lang_module['cfgindexViewType'] = "Kiểu hiển thị tại trang chủ";
 $lang_module['cfgindexViewType_type_blog'] = "Dạng các bài blog (Ảnh, video demo + nội dung)";
 $lang_module['cfgindexViewType_type_news'] = "Dạng tin tức theo danh sách";
+
+$lang_module['tagsMg'] = "Quản lý tags";
+$lang_module['tagsDelete'] = "Xóa tags";
+$lang_module['tagsErrorTitle'] = "Lỗi: Tên tags không được để trống";
+$lang_module['tagsEditLog'] = "Sửa tags";
+$lang_module['tagsAdd'] = "Thêm tags";
+$lang_module['tagsEdit'] = "Sửa tags";
+$lang_module['tagsList'] = "Danh sách tags";
 
 ?>

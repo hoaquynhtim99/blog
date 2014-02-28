@@ -145,15 +145,21 @@ class nv_mod_blog
 		
 		if( $mode == "cat" )
 		{
+			$array_table_check = array( "_rows", "_categories" );
 			$mode = "_categories";
+		}
+		elseif( $mode == "tags" )
+		{
+			$array_table_check = array( "_tags" );
+			$mode = "_tags";
 		}
 		else
 		{
+			$array_table_check = array( "_rows", "_categories" );
 			$mode = "_rows";
 		}
 		$id = intval( $id );
 		
-		$array_table_check = array( "_rows", "_categories" );
 		foreach( $array_table_check as $table_check )
 		{
 			$sql = "SELECT * FROM `" . $this->table_prefix . $table_check . "` WHERE `alias`=" . $this->db->dbescape( $alias ) . ( $mode == $table_check and ! empty( $id ) ? " AND `id`!=" . $id : "" );
@@ -339,6 +345,24 @@ class nv_mod_blog
 			$weight ++;
 			$this->db->sql_query( "UPDATE `" . $this->table_prefix . "_categories` SET `weight`=" . $weight . " WHERE `id`=" . $row['id'] );
 		}
+		
+		return;
+	}
+	
+	public function fixTags( $id )
+	{
+		if( empty( $id ) ) return;
+		
+		// Lay thong tin cua tags
+		$sql = "SELECT * FROM `" . $this->table_prefix . "_tags` WHERE `id`=" . $id;
+		$result = $this->db->sql_query( $sql );
+		
+		if( ! $this->db->sql_numrows( $result ) ) return;
+		
+		$row = $this->db->sql_fetch_assoc( $result );
+		
+		// Cap nhat so bai viet
+		// $this->db->sql_query( "UPDATE `" . $this->table_prefix . "_tags` SET `numPosts`=(SELECT COUNT(*) FROM `" . $this->table_prefix . "_rows` WHERE `catid`=" . $id . ") WHERE `id`=" . $id );
 		
 		return;
 	}

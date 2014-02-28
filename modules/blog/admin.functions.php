@@ -14,10 +14,11 @@ require_once( NV_ROOTDIR . "/modules/" . $module_file . "/blog.class.php" );
 $BL = new nv_mod_blog();
 
 $submenu['categories'] = $BL->lang('categoriesManager');
+$submenu['tags'] = $BL->lang('tagsMg');
 $submenu['newsletter-manager'] = $BL->lang('nltList');
 $submenu['config-master'] = $BL->lang('cfgMaster');
 
-$allow_func = array( 'main', 'categories', 'newsletter-manager', 'config-master' );
+$allow_func = array( 'main', 'categories', 'newsletter-manager', 'config-master', 'tags' );
 
 define( 'NV_BLOG_ADMIN', true );
 
