@@ -6,7 +6,7 @@
  */
 
 // Global
-var tmp;
+var tmp, nv_timer;
 
 // Alias
 function get_alias( id, returnId ){
@@ -92,6 +92,25 @@ function nv_newsletters_action(oForm, nv_message_no_check, key) {
 function nv_delete_newsletters( id ){
 	if ( confirm( nv_is_del_confirm[0] ) ){
 		nv_ajax( 'post', script_name, nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=newsletter-manager&del=1&id=' + id, '', 'nv_delete_result' );
+	}
+	return false;
+}
+
+// Thao tac voi danh muc tin
+function nv_change_cat_status( id ){
+	var nv_timer = nv_settimeout_disable( 'change_status' + id, 4000 );
+	nv_ajax( "post", script_name, nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=categories&changestatus=1&id=' + id, '', 'nv_change_status_result' );
+	return;
+}
+function nv_change_cat_weight( id ){
+	var nv_timer = nv_settimeout_disable( 'weight' + id, 5000 );
+	var newpos = document.getElementById( 'weight' + id ).options[document.getElementById( 'weight' + id ).selectedIndex].value;
+	nv_ajax( "post", script_name, nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=categories&changeweight=1&id=' + id + '&new=' + newpos + '&num=' + nv_randomPassword( 8 ), '', 'nv_chang_weight_result' );
+	return;
+}
+function nv_delete_cat( id ){
+	if ( confirm( nv_is_del_confirm[0] ) ){
+		nv_ajax( 'post', script_name, nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=categories&del=1&id=' + id, '', 'nv_delete_result' );
 	}
 	return false;
 }

@@ -7,7 +7,7 @@
  * @Createdate Dec 11, 2013, 09:50:11 PM
  */
 
-if ( ! defined( 'NV_MAINFILE' ) ) die( 'Stop!!!' );
+if( ! defined( 'NV_MAINFILE' ) ) die( 'Stop!!!' );
 
 class nv_mod_blog
 {
@@ -208,6 +208,7 @@ class nv_mod_blog
 				{
 					$list2[$value['id']] = $value;
 					$list2[$value['id']]['name'] = "" . $defis . "" . $list2[$value['id']]['name'];
+					$list2[$value['parentid']]['subcats'][] = $value['id'];
 					
 					if( isset( $list[$value['id']] ) )
 					{
@@ -239,30 +240,66 @@ class nv_mod_blog
 					'description' => $row['description'],
 					'numSubs' => ( int ) $row['numSubs'],
 					'numPosts' => ( int ) $row['numPosts'],
+					'numPostsFormat' => number_format( $row['numPosts'], 0, '.', '.' ),
 					'weight' => ( int ) $row['weight'],
 					'status' => ( int ) $row['status'],
 					'name' => $row['title'],
+					'subcats' => array(),
 					'selected' => $parentid == $row['id'] ? " selected=\"selected\"" : ""
 				);
 			}
-
-			if ( empty( $list ) ) return $list;
-
-			$list2 = array();
-			foreach( $list[0] as $value )
+		}
+		else
+		{
+			$sql = "SELECT * FROM `" . $this->table_prefix . "_categories` WHERE `status`=1 ORDER BY `parentid`, `weight` ASC";
+			$result = $this->db_cache( $sql, 'id', $this->mod_name );
+			
+			$list = $list1 = array();
+			
+			foreach( $result as $row )
 			{
-				if( $value['id'] != $m )
+				if( empty( $row['parentid'] ) or isset( $list1[$row['parentid']] ) )
 				{
-					$list2[$value['id']] = $value;
-					if( isset( $list[$value['id']] ) )
-					{
-						$list2 = $this->setCats( $list2, $value['id'], $list, $m );
-					}
+					$list1[$row['id']] = $row['id'];
+					
+					$list[$row['parentid']][] = array(
+						'id' => ( int ) $row['id'],
+						'parentid' => ( int ) $row['parentid'],
+						'title' => $row['title'],
+						'alias' => $row['alias'],
+						'keywords' => $row['keywords'],
+						'description' => $row['description'],
+						'numSubs' => ( int ) $row['numSubs'],
+						'numPosts' => ( int ) $row['numPosts'],
+						'numPostsFormat' => number_format( $row['numPosts'], 0, '.', '.' ),
+						'weight' => ( int ) $row['weight'],
+						'status' => ( int ) $row['status'],
+						'name' => $row['title'],
+						'subcats' => array(),
+						'selected' => $parentid == $row['id'] ? " selected=\"selected\"" : ""
+					);
 				}
 			}
+			
+			unset( $list1 );
+		}		
 
-			return $list2;
+		if( empty( $list ) ) return $list;
+		
+		$list2 = array();
+		foreach( $list[0] as $value )
+		{
+			if( $value['id'] != $m )
+			{
+				$list2[$value['id']] = $value;				
+				if( isset( $list[$value['id']] ) )
+				{
+					$list2 = $this->setCats( $list2, $value['id'], $list, $m );
+				}
+			}
 		}
+
+		return $list2;
 	}
 	
 	public function fixCat( $id )
@@ -285,6 +322,21 @@ class nv_mod_blog
 		$this->db->sql_query( "UPDATE `" . $this->table_prefix . "_categories` SET `numSubs`=" . $numPosts . " WHERE `id`=" . $id );
 		
 		$this->fixCat( $row['parentid'] );
+		
+		return;
+	}
+	
+	public function fixWeightCat( $parentid = 0 )
+	{
+		$sql = "SELECT `id` FROM `" . $this->table_prefix . "_categories` WHERE `parentid`=" . $parentid . " ORDER BY `weight` ASC";
+		$result = $this->db->sql_query( $sql );
+		
+		$weight = 0;
+		while( $row = $this->db->sql_fetchrow( $result ) )
+		{
+			$weight ++;
+			$this->db->sql_query( "UPDATE `" . $this->table_prefix . "_categories` SET `weight`=" . $weight . " WHERE `id`=" . $row['id'] );
+		}
 		
 		return;
 	}

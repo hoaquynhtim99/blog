@@ -29,7 +29,7 @@
 			<td class="center"><input name="status" id="change_status{ROW.id}" value="1" type="checkbox"{ROW.status} onclick="nv_change_cat_status({ROW.id})" /></td>
 			<td class="center">
 				<span class="edit-icon"><a href="{ROW.urlEdit}">{GLANG.edit}</a></span>
-				<span class="delete-icon"><a href="javascript:void(0);" onclick="nv_cat_del({ROW.id});">{GLANG.delete}</a></span>
+				<span class="delete-icon"><a href="javascript:void(0);" onclick="nv_delete_cat({ROW.id});">{GLANG.delete}</a></span>
 			</td>
 		</tr>
 	</tbody>

@@ -48,6 +48,7 @@ $lang_module['categoriesnumPost'] = 'Số bài đăng';
 $lang_module['categoriesMainCat'] = 'Là danh mục chính';
 $lang_module['categoriesListMainCat'] = 'Các danh mục chính';
 $lang_module['categoriesHasSub'] = '<strong>%d</strong> danh mục con';
+$lang_module['categoriesDelete'] = 'Xóa danh mục';
 
 $lang_module['nltList'] = 'Danh sách đăng ký nhận tin';
 $lang_module['nltEmail'] = 'Email nhận tin';
