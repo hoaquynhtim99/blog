@@ -13,6 +13,7 @@ $sql_drop_module = array();
 $sql_drop_module[] = "DROP TABLE IF EXISTS `" . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_categories`";
 $sql_drop_module[] = "DROP TABLE IF EXISTS `" . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_newsletters`";
 $sql_drop_module[] = "DROP TABLE IF EXISTS `" . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_tags`";
+$sql_drop_module[] = "DROP TABLE IF EXISTS `" . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_rows`";
 $sql_drop_module[] = "DROP TABLE IF EXISTS `" . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_config`";
 
 $sql_create_module = $sql_drop_module;
@@ -58,6 +59,40 @@ $sql_create_module[] = "CREATE TABLE `" . $db_config['prefix'] . "_" . $lang . "
   `numPosts` smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT 'Số bài viết',
   PRIMARY KEY (`id`),
   UNIQUE KEY `alias` (`alias`)
+)ENGINE=MyISAM";
+
+// Bài viết
+$sql_create_module[] = "CREATE TABLE `" . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_rows` (
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID bài viết',
+  `postid` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Người đăng',
+  `siteTitle` varchar(255) NOT NULL DEFAULT '' COMMENT 'Tiêu đề của trang, mặc định là tiêu đề bài viết',
+  `title` varchar(255) NOT NULL DEFAULT '' COMMENT 'Tên bài viết',
+  `alias` varchar(255) NOT NULL DEFAULT '' COMMENT 'Liên kết tĩnh',
+  `keywords` varchar(255) NOT NULL DEFAULT '' COMMENT 'Từ khóa cho máy chủ tìm kiếm',
+  `images` varchar(255) NOT NULL DEFAULT '' COMMENT 'Từ khóa cho máy chủ tìm kiếm',
+  `mediaType` smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT '0: Dùng ảnh đại diện, 1: Dùng hình ảnh tùy chọn, 2: File âm thanh, 3: File video, 4: Iframe',
+  `mediaHeight` smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT 'Chiều cao media',
+  `mediaValue` mediumtext NOT NULL COMMENT 'Nội dung media',
+  `hometext` mediumtext NOT NULL COMMENT 'Mô tả ngắn gọn',
+  `bodytext` mediumtext NOT NULL COMMENT 'Nội dung bài viết dạng text',
+  `postType` smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT '0: Bình thường, 1: Ảnh, 2: Video, 3: Audio, 4: Ghi chú, 5: Liên kết, 6: Thư viện',
+  `catids` varchar(255) NOT NULL DEFAULT '' COMMENT 'Chuyên mục',
+  `tagids` varchar(255) NOT NULL DEFAULT '' COMMENT 'Tags',
+  `numWords` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Số từ',
+  `numViews` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Lượt xem',
+  `numComments` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Số bình luận',
+  `numVotes` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Số lượt đánh giá',
+  `voteTotal` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Tổng số điểm',
+  `voteDetail` varchar(255) NOT NULL DEFAULT '' COMMENT 'Chi tiết đánh giá',
+  `postTime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Thời gian viết',
+  `updateTime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Thời gian sửa gần nhất',
+  `pubTime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Thời gian xuất bản',
+  `expTime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Thời gian hết hạn',
+  `expMode` smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT 'Kiểu xử lý tự động khi hết hạn: 0: Ngưng hoạt động, 1: Cho thành hết hạn, 2: Xóa',
+  `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '-1: Nháp, 0: Tạm ngưng, 1: Hoạt động, 2: Hết hạn',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `alias` (`alias`),
+  KEY `postid` (`postid`)
 )ENGINE=MyISAM";
 
 // Cấu hình module
