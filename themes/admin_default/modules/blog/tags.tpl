@@ -98,8 +98,8 @@ $(document).ready(function(){
 				<span class="require">ӿ</span>
 			</td>
 			<td>
-				<input type="text" required="required" class="txt-half blog-input" name="title" id="title" value="{DATA.title}" maxlength="255" onchange="if(document.getElementById('alias').value == '') get_alias('title','alias');"/>
-				<input type="button" class="blog-button-2" name="title" value="{LANG.aliasAutoGet}" onclick="get_alias('title','alias');"/>
+				<input type="text" required="required" class="txt-half blog-input" name="title" id="title" value="{DATA.title}" maxlength="255" onchange="if(document.getElementById('alias').value == '') get_alias('title','alias','tags');"/>
+				<input type="button" class="blog-button-2" name="title" value="{LANG.aliasAutoGet}" onclick="get_alias('title','alias','tags');"/>
 			</td>
 		</tr>
 	</tbody>

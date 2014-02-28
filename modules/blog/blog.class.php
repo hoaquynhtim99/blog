@@ -170,14 +170,22 @@ class nv_mod_blog
 		return false;
 	}
 	
-	public function creatAlias( $title )
+	public function creatAlias( $title, $mode )
 	{
 		if( empty( $title ) ) return "";
 		
 		$aliasRoot = $alias = strtolower( $this->change_alias( $title ) );
 		$aliasAdd = 0;
 		
-		$array_fetch_table = array( "_rows", "_categories" );
+		if( $mode == 'tags' )
+		{
+			$array_fetch_table = array( "_tags" );
+		}
+		else
+		{
+			$array_fetch_table = array( "_rows", "_categories" );
+		}
+		
 		foreach( $array_fetch_table as $table )
 		{
 			while( 1 )

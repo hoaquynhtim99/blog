@@ -28,7 +28,7 @@ if( $nv_Request->isset_request( "get_alias", "post" ) )
 	if( ! defined( 'NV_IS_AJAX' ) ) die( 'Wrong URL' );
 	
 	include ( NV_ROOTDIR . "/includes/header.php" );
-	echo $BL->creatAlias( filter_text_input( 'get_alias', 'post', '', 1, 255 ) );
+	echo $BL->creatAlias( filter_text_input( 'get_alias', 'post', '', 1, 255 ), filter_text_input( 'mode', 'post', 'cat', 1, 255 ) );
 	include ( NV_ROOTDIR . "/includes/footer.php" );
 	die();
 }

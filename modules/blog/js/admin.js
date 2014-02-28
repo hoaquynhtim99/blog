@@ -9,11 +9,11 @@
 var tmp, nv_timer;
 
 // Alias
-function get_alias( id, returnId ){
+function get_alias( id, returnId, mode ){
 	tmp = returnId;
 	var title = strip_tags( document.getElementById(id).value );
 	if( title != '' ){
-		nv_ajax('post', script_name, nv_name_variable + '=' + nv_module_name + '&' + nv_name_variable + '=' + nv_module_name + '&get_alias=' + encodeURIComponent( title ), '', 'get_alias_return');
+		nv_ajax('post', script_name, nv_name_variable + '=' + nv_module_name + '&' + nv_name_variable + '=' + nv_module_name + '&mode=' + mode + '&get_alias=' + encodeURIComponent( title ), '', 'get_alias_return');
 	}
 	return false;
 }
