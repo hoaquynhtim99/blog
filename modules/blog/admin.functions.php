@@ -13,12 +13,14 @@ if ( ! defined( 'NV_ADMIN' ) or ! defined( 'NV_MAINFILE' ) or ! defined( 'NV_IS_
 require_once( NV_ROOTDIR . "/modules/" . $module_file . "/blog.class.php" );
 $BL = new nv_mod_blog();
 
+$submenu['blog-list'] = $BL->lang('blogList');
+$submenu['blog-content'] = $BL->lang('blogAdd');
 $submenu['categories'] = $BL->lang('categoriesManager');
 $submenu['tags'] = $BL->lang('tagsMg');
 $submenu['newsletter-manager'] = $BL->lang('nltList');
 $submenu['config-master'] = $BL->lang('cfgMaster');
 
-$allow_func = array( 'main', 'categories', 'newsletter-manager', 'config-master', 'tags' );
+$allow_func = array( 'main', 'categories', 'newsletter-manager', 'config-master', 'tags', 'blog-list', 'blog-content' );
 
 define( 'NV_BLOG_ADMIN', true );
 

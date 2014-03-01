@@ -148,3 +148,132 @@ function nv_delete_tags( id ){
 	}
 	return false;
 }
+
+var BL = {};
+
+BL.data = {
+	url: script_name,
+	nv: nv_name_variable,
+	op: nv_fc_variable,
+	name: nv_module_name,
+};
+
+BL.busy = false;
+
+BL.tags = {
+	listTagsID: "post-tags-list",
+	mostTagsID: "post-tags-most",
+	inputTagsID: "post-tags",
+	typeTagsID: "post-tags-type",
+	buttonTagsID: "post-tags-button",
+	
+	remove: function(e){
+		$(e).parent().remove();
+		BL.tags.reset();
+	},
+	mostAdd: function(e){
+		BL.tags.add( $(e).attr('rel'), $(e).html() );	
+	},
+	add: function(id, value){
+		if( $('#' + BL.tags.listTagsID + ' li[rel="' + id +  '"]').length == 0 ){
+			$('#' + BL.tags.listTagsID).append('<li rel="' + id + '">' + value + '<span>&nbsp;</span></li>');
+			BL.tags.reset();
+		}
+	},
+	reset: function(){
+		var list = new Array();
+		$("#" + BL.tags.listTagsID + " li").each(function(){
+			list.push($(this).attr("rel"));
+		});
+		list = list.toString();
+		$('#' + BL.tags.inputTagsID).val(list);
+	},
+	creat: function(){
+		if( ! BL.busy ){
+			var tags = $('#' + BL.tags.typeTagsID).val();
+			
+			if( tags != '' ){
+				BL.busy = true;
+				$.ajax({
+					url: BL.data.url,
+					type: "POST",
+					dataType: "json",
+					data: BL.data.nv + '=' + BL.data.name + '&' + BL.data.op + '=tags&submit=1&quick=1&title=' + encodeURIComponent( tags ),
+					success: function (data){
+						BL.busy = false;
+						if( data.error ){
+							alert( data.message );
+						}else{
+							BL.tags.add( data.id, data.title );
+							$('#' + BL.tags.typeTagsID).val('');
+						}
+					}
+				});
+			}
+		}
+	},
+	init: function(){
+		// Xoa tags
+		$('#' + BL.tags.listTagsID).delegate( "span", "click", function(){
+			BL.tags.remove(this);
+		});
+		
+		// Sap xep
+		$('#' + BL.tags.listTagsID).sortable({
+			cursor: "crosshair",
+			update: function(event, ui){
+				BL.tags.reset();
+			}
+		});
+		
+		// Them tags pho bien
+		$('#' + BL.tags.mostTagsID).delegate( "li", "click",function(){
+			BL.tags.mostAdd(this);
+		});
+		
+		// Autocomplete
+		$('#' + BL.tags.typeTagsID).autocomplete({
+			source: function (request, response){
+				$.ajax({
+					url: BL.data.url,
+					type: "POST",
+					dataType: "json",
+					data: BL.data.nv + '=' + BL.data.name + '&' + BL.data.op + '=tags&ajaxTags=' + encodeURIComponent( request.term ),
+					success: function (data){
+						response( $.map( data, function (item){
+							return {
+								label: item.label,
+								value: item.value
+							}
+						}));
+					}
+				});
+			},
+			minLength: 2,
+			select: function( event, ui ){
+				if( ui.item ){
+					BL.tags.add( ui.item.value, ui.item.label );
+				}
+				
+				$('#' + BL.tags.typeTagsID).val('');
+				return false;
+			},
+			focus: function(){
+				return false;
+			}
+		});
+		
+		// Tao tags
+		$('#' + BL.tags.buttonTagsID).click(function(){
+			BL.tags.creat();
+		});
+		
+		// Khong submit form khi an enter tren o tim kiem tag
+		$('#' + BL.tags.typeTagsID).keypress(function(event){
+			if( event.keyCode == 13 ){
+				event.preventDefault();
+				return false;
+			}
+		});
+	},
+};

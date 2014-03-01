@@ -7,20 +7,46 @@
  * @Createdate Dec 11, 2013, 09:50:11 PM
  */
 
-if ( ! defined( 'NV_BLOG_ADMIN' ) ) die( 'Stop!!!' );
+if( ! defined( 'NV_BLOG_ADMIN' ) ) die( 'Stop!!!' );
+
+// Autocomplete tags
+if( $nv_Request->isset_request( 'ajaxTags', 'post' ) )
+{
+	$contents = array();
+	$q = filter_text_input( "ajaxTags", "post", "" );
+	
+	if( ! empty( $q ) )
+	{
+		$sql = "SELECT * FROM `" . $BL->table_prefix . "_tags` WHERE `title` LIKE '%" . $db->dblikeescape( $q ) . "%' ORDER BY `title` ASC LIMIT 0, 20";
+		$result = $db->sql_query( $sql );
+		
+		while( $row = $db->sql_fetchrow( $result ) )
+		{
+			$contents[] = array(
+				"value" => $row['id'],
+				"label" => nv_unhtmlspecialchars( $row['title'] ),
+			);
+		}
+	}
+
+	include ( NV_ROOTDIR . "/includes/header.php" );
+	echo json_encode( $contents );
+	include ( NV_ROOTDIR . "/includes/footer.php" );
+	die();
+}
 
 // Xoa tags
-if ( $nv_Request->isset_request( 'del', 'post' ) )
+if( $nv_Request->isset_request( 'del', 'post' ) )
 {
-	if ( ! defined( 'NV_IS_AJAX' ) ) die( 'Wrong URL' );
+	if( ! defined( 'NV_IS_AJAX' ) ) die( 'Wrong URL' );
 	
 	$id = $nv_Request->get_int( 'id', 'post', 0 );
 	$list_levelid = filter_text_input( 'listid', 'post', '' );
 	
-	if ( empty( $id ) and empty ( $list_levelid ) ) die( "NO" );
+	if( empty( $id ) and empty ( $list_levelid ) ) die( "NO" );
 	
 	$listid = array();
-	if ( $id )
+	if( $id )
 	{
 		$listid[] = $id;
 		$num = 1;
@@ -76,25 +102,46 @@ else
 	);
 }
 
+// Tao nhanh (chi can kiem tra tieu de)
+$quickCreat = $nv_Request->get_int( "quick", 'post', 0 );
+
 if( $nv_Request->isset_request( "submit", "post" ) )
 {
+
 	$data['title'] = filter_text_input( 'title', 'post', '', 1, 255 );
 	$data['alias'] = filter_text_input( 'alias', 'post', '', 1, 255 );
 	$data['keywords'] = filter_text_input( 'keywords', 'post', '', 1, 255 );
 	$data['description'] = filter_text_input( 'description', 'post', '', 1, 255 );
 	
-	$data['alias'] = $data['alias'] ? strtolower( change_alias( $data['alias'] ) ) : strtolower( change_alias( $data['title'] ) );
+	// Tao lien ket tinh + chuan hoa lien ket tin
+	if( empty( $data['alias'] ) )
+	{
+		if( $quickCreat )
+		{
+			$data['alias'] = $BL->creatAlias( $data['title'], 'tags' );
+		}
+		else
+		{
+			$data['alias'] = strtolower( change_alias( $data['title'] ) );
+		}
+	}
+	else
+	{
+		$data['alias'] = strtolower( change_alias( $data['alias'] ) );
+	}
+	
+	// Chuan hoa tu khoa
 	$data['keywords'] = $data['keywords'] ? implode( ", ", array_filter( array_unique( array_map( "trim", explode( ",", $data['keywords'] ) ) ) ) ) : "";
 	
 	if( empty( $data['title'] ) )
 	{
 		$error = $BL->lang('tagsErrorTitle');
 	}
-	elseif( empty( $data['keywords'] ) )
+	elseif( empty( $data['keywords'] ) and empty( $quickCreat ) )
 	{
 		$error = $BL->lang('errorKeywords');
 	}
-	elseif( empty( $data['description'] ) )
+	elseif( empty( $data['description'] ) and empty( $quickCreat ) )
 	{
 		$error = $BL->lang('errorSescription');
 	}
@@ -104,7 +151,49 @@ if( $nv_Request->isset_request( "submit", "post" ) )
 	}
 	else
 	{
-		if( $id )
+		if( empty( $id ) )
+		{
+			$sql = "INSERT INTO `" . $BL->table_prefix . "_tags` VALUES (
+				NULL, 
+				" . $db->dbescape( $data['title'] ) . ", 
+				" . $db->dbescape( $data['alias'] ) . ", 
+				" . $db->dbescape( $data['keywords'] ) . ", 
+				" . $db->dbescape( $data['description'] ) . ", 
+				0
+			)";
+			
+			$newid = $db->sql_query_insert_id( $sql );
+			
+			if( $newid )
+			{
+				nv_insert_logs( NV_LANG_DATA, $module_name, $BL->lang('tagsAdd'), $data['title'], $admin_info['userid'] );
+				nv_del_moduleCache( $module_name );
+				
+				// Tra ve neu tao nhanh
+				if( $quickCreat )
+				{
+					$contents = array(
+						"error" => 0,
+						"id" => $newid,
+						"title" => $data['title'],
+						"message" => "",
+					);
+				
+					include ( NV_ROOTDIR . "/includes/header.php" );
+					echo json_encode( $contents );
+					include ( NV_ROOTDIR . "/includes/footer.php" );
+					die();
+				}
+				
+				Header( "Location: " . NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . "&" . NV_OP_VARIABLE . "=tags" );
+				exit();
+			}
+			else
+			{
+				$error = $BL->lang('errorSaveUnknow');
+			}
+		}
+		elseif( empty( $quickCreat ) )
 		{
 			$sql = "UPDATE `" . $BL->table_prefix . "_tags` SET 
 				`title`=" . $db->dbescape( $data['title'] ) . ", 
@@ -128,32 +217,21 @@ if( $nv_Request->isset_request( "submit", "post" ) )
 				$error = $BL->lang('errorUpdateUnknow');
 			}
 		}
-		else
-		{
-			$sql = "INSERT INTO `" . $BL->table_prefix . "_tags` VALUES (
-				NULL, 
-				" . $db->dbescape( $data['title'] ) . ", 
-				" . $db->dbescape( $data['alias'] ) . ", 
-				" . $db->dbescape( $data['keywords'] ) . ", 
-				" . $db->dbescape( $data['description'] ) . ", 
-				0
-			)";
-			
-			$newid = $db->sql_query_insert_id( $sql );
-			
-			if( $newid )
-			{
-				nv_insert_logs( NV_LANG_DATA, $module_name, $BL->lang('tagsAdd'), $data['title'], $admin_info['userid'] );
-				nv_del_moduleCache( $module_name );
-				Header( "Location: " . NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . "&" . NV_OP_VARIABLE . "=tags" );
-				exit();
-			}
-			else
-			{
-				$error = $BL->lang('errorSaveUnknow');
-			}
-		}
 	}
+}
+
+// Xuat loi neu la tao nhanh
+if( $quickCreat and ! empty( $error ) )
+{
+	$contents = array(
+		"error" => 1,
+		"message" => $error,
+	);
+
+	include ( NV_ROOTDIR . "/includes/header.php" );
+	echo json_encode( $contents );
+	include ( NV_ROOTDIR . "/includes/footer.php" );
+	die();
 }
 
 // Xuat thong tin them, sua
@@ -216,7 +294,7 @@ foreach ( $order as $key => $check )
 		"title" => sprintf ( $lang_module['filter_order_by'], "&quot;" . $lang_order_2[$key] . "&quot;" ) . " " . $lang_order_1[$order[$key]['order']]
 	);
 	
-	if ( ! in_array ( $check['order'], $check_order ) )
+	if( ! in_array ( $check['order'], $check_order ) )
 	{
 		$order[$key]['order'] = "NO";
 	}

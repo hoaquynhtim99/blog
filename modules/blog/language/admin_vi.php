@@ -35,8 +35,38 @@ $lang_module['status'] = 'Hoạt động';
 $lang_module['status1'] = 'Trạng thái';
 $lang_module['alert_check'] = 'Bạn phải chọn ít nhất một dòng để thao tác';
 $lang_module['numPosts'] = 'Số bài viết';
+$lang_module['add'] = 'Thêm';
 
 $lang_module['main_title'] = 'Hệ thống quản lý blog';
+
+$lang_module['blogList'] = 'Danh sách bài viết';
+$lang_module['blogAdd'] = 'Viết bài';
+$lang_module['blogEdit'] = 'Sửa bài viết';
+$lang_module['blogManager'] = 'Quản lý bài viết';
+$lang_module['blogTitle'] = 'Tên bài viết';
+$lang_module['blogSiteTitle'] = 'Tiêu đề trang';
+$lang_module['blogSiteTitleNote'] = 'Mặc định là tên bài viết';
+$lang_module['blogBodyhtml'] = 'Nội dung bài viết';
+$lang_module['blogTools'] = 'Công cụ';
+$lang_module['blogInCats'] = 'Danh mục bài viết';
+$lang_module['blogTags'] = 'Tags';
+$lang_module['blogpostType'] = 'Loại bài viết';
+$lang_module['blogpostType0'] = 'Bài viết bình thường';
+$lang_module['blogpostType1'] = 'Bài viết có hình ảnh';
+$lang_module['blogpostType2'] = 'Bài viết có video';
+$lang_module['blogpostType3'] = 'Bài viết có âm thanh';
+$lang_module['blogpostType4'] = 'Bài ghi chú';
+$lang_module['blogpostType5'] = 'Bài viết với liên kết';
+$lang_module['blogpostType6'] = 'Thư viện';
+$lang_module['blogHometext'] = 'Nội dung tóm tắt';
+$lang_module['blogPublic'] = 'Đăng bài viết';
+$lang_module['blogSaveDraft'] = 'Lưu bản nháp';
+$lang_module['blogPubtime1'] = 'Xuất bản bài viết vào lúc';
+$lang_module['blogExptime1'] = 'Hết hạn vào lúc';
+$lang_module['blogExpMode1'] = 'Khi hết hạn sẽ';
+$lang_module['blogExpMode_0'] = 'Ngưng hoạt động';
+$lang_module['blogExpMode_1'] = 'Cho thành hết hạn';
+$lang_module['blogExpMode_2'] = 'Xóa vĩnh viễn bài viết';
 
 $lang_module['categoriesManager'] = 'Quản lý danh mục bài viết';
 $lang_module['categoriesEmpty'] = 'Chưa có danh mục bài viết nào, hãy thêm danh mục từ trình đơn bên dưới';
@@ -92,5 +122,7 @@ $lang_module['tagsEditLog'] = "Sửa tags";
 $lang_module['tagsAdd'] = "Thêm tags";
 $lang_module['tagsEdit'] = "Sửa tags";
 $lang_module['tagsList'] = "Danh sách tags";
+$lang_module['tagsMost'] = "Chọn từ tags nổi bật";
+$lang_module['tagsSearch'] = "Tìm hoặc thêm tags";
 
 ?>

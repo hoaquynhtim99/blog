@@ -24,6 +24,8 @@ class nv_mod_blog
 	public $setting = null;
 	
 	public $indexViewType = array( "type_blog", "type_news" );
+	public $blogpostType = array( 0, 1, 2, 3, 4, 5, 6 );
+	public $blogExpMode = array( 0, 1, 2 );
 	
 	private $base_site_url = null;
 	private $root_dir = null;
@@ -74,6 +76,7 @@ class nv_mod_blog
 		$this->js_data['jquery.ui.core'][] = "<script type=\"text/javascript\" src=\"" . $this->base_site_url . "js/ui/jquery.ui.core.min.js\"></script>\n";
 		
 		$this->js_data['jquery.ui.sortable'][] = "<script type=\"text/javascript\" src=\"" . $this->base_site_url . "js/ui/jquery.ui.sortable.min.js\"></script>\n";
+		$this->js_data['jquery.ui.autocomplete'][] = "<script type=\"text/javascript\" src=\"" . $this->base_site_url . "modules/" . $this->mod_file . "/js/jquery.ui.autocomplete.js\"></script>\n";
 		
 		$this->js_data['jquery.tipsy'][] = "<script type=\"text/javascript\" src=\"" . $this->base_site_url . "modules/" . $this->mod_file . "/js/jquery.tipsy.js\"></script>\n";
 		$this->js_data['jquery.tipsy'][] = "<link type=\"text/css\" href=\"" . $this->base_site_url . "modules/" . $this->mod_file . "/js/tipsy.css\" rel=\"stylesheet\" />\n";
@@ -115,16 +118,6 @@ class nv_mod_blog
 		return change_alias( $alias );
 	}
 	
-	public function lang( $key )
-	{
-		return isset( $this->language[$key] ) ? $this->language[$key] : $key;
-	}
-	
-	public function glang( $key )
-	{
-		return isset( $this->glanguage[$key] ) ? $this->glanguage[$key] : $key;
-	}
-	
 	private function get_setting()
 	{
 		$sql = "SELECT `config_name`, `config_value` FROM `" . $this->table_prefix . "_config`";
@@ -137,6 +130,68 @@ class nv_mod_blog
 		}
 
 		return $array;
+	}
+	
+	private function checkJqueryPlugin( $numargs, $arg_list )
+	{
+		$return = array();
+		for( $i = 0; $i < $numargs; $i ++ )
+		{
+			if( isset( $this->js_data[$arg_list[$i]] ) )
+			{
+				if( $arg_list[$i] == 'jquery.ui.sortable' ) $return['jquery.ui.core'] = implode( "", $this->js_data['jquery.ui.core'] );
+				$return[$arg_list[$i]] =  implode( "", $this->js_data[$arg_list[$i]] );
+			}
+		}
+		return $return;
+	}
+	
+	public function callJqueryPlugin()
+	{
+		global $my_head;
+		
+		$return = $this->checkJqueryPlugin( func_num_args(), func_get_args() );
+		
+		if( ! empty( $return ) )
+		{
+			if( empty( $my_head ) )
+			{
+				$my_head = implode( "", $return );
+			}
+			else
+			{
+				$my_head .= implode( "", $return );
+			}
+		}
+	}
+	
+	public function lang( $key )
+	{
+		return isset( $this->language[$key] ) ? $this->language[$key] : $key;
+	}
+	
+	public function glang( $key )
+	{
+		return isset( $this->glanguage[$key] ) ? $this->glanguage[$key] : $key;
+	}
+	
+	public function string2array( $str, $defis = ",", $unique = false, $empty = false )
+	{
+		if( empty( $str ) ) return array();
+		
+		$str = array_map( "trim", explode( ( string ) $defis, ( string ) $str ) );
+		
+		if( ! $unique )
+		{
+			$str = array_unique( $str );
+		}
+		
+		if( ! $empty )
+		{
+			$str = array_filter( $str );
+		}
+		
+		return $str;
 	}
 	
 	public function checkExistsAlias( $alias = "", $mode = "", $id = 0 )
@@ -224,6 +279,7 @@ class nv_mod_blog
 				{
 					$list2[$value['id']] = $value;
 					$list2[$value['id']]['name'] = "" . $defis . "" . $list2[$value['id']]['name'];
+					$list2[$value['id']]['defis'] = $defis;
 					$list2[$value['parentid']]['subcats'][] = $value['id'];
 					
 					if( isset( $list[$value['id']] ) )
@@ -260,6 +316,7 @@ class nv_mod_blog
 					'weight' => ( int ) $row['weight'],
 					'status' => ( int ) $row['status'],
 					'name' => $row['title'],
+					'defis' => "",
 					'subcats' => array(),
 					'selected' => $parentid == $row['id'] ? " selected=\"selected\"" : ""
 				);
@@ -291,6 +348,7 @@ class nv_mod_blog
 						'weight' => ( int ) $row['weight'],
 						'status' => ( int ) $row['status'],
 						'name' => $row['title'],
+						'defis' => "",
 						'subcats' => array(),
 						'selected' => $parentid == $row['id'] ? " selected=\"selected\"" : ""
 					);
