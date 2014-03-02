@@ -13,7 +13,7 @@ if( ! defined( 'NV_BLOG_ADMIN' ) ) die( 'Stop!!!' );
 if( $nv_Request->isset_request( 'ajaxTags', 'post' ) )
 {
 	$contents = array();
-	$q = filter_text_input( "ajaxTags", "post", "" );
+	$q = filter_text_input( "ajaxTags", "post", "", 1, 255 );
 	
 	if( ! empty( $q ) )
 	{
@@ -29,6 +29,36 @@ if( $nv_Request->isset_request( 'ajaxTags', 'post' ) )
 		}
 	}
 
+	include ( NV_ROOTDIR . "/includes/header.php" );
+	echo json_encode( $contents );
+	include ( NV_ROOTDIR . "/includes/footer.php" );
+	die();
+}
+
+// Tim chinh xac tags
+if( $nv_Request->isset_request( 'searchTags', 'post' ) )
+{
+	$contents = array(
+		"id" => 0,
+		"title" => ""
+	);
+	
+	$tags = filter_text_input( "searchTags", "post", "", 1, 255 );
+	
+	if( ! empty( $tags ) )
+	{
+		$sql = "SELECT * FROM `" . $BL->table_prefix . "_tags` WHERE `title`=" . $db->dbescape( $tags ) . " LIMIT 0,1";
+		$result = $db->sql_query( $sql );
+		
+		if( $db->sql_numrows( $result ) )
+		{
+			$row = $db->sql_fetch_assoc( $result );
+			
+			$contents['id'] = $row['id'];
+			$contents['title'] = $row['title'];
+		}
+	}
+	
 	include ( NV_ROOTDIR . "/includes/header.php" );
 	echo json_encode( $contents );
 	include ( NV_ROOTDIR . "/includes/footer.php" );

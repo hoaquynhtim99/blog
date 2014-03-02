@@ -198,14 +198,29 @@ BL.tags = {
 					url: BL.data.url,
 					type: "POST",
 					dataType: "json",
-					data: BL.data.nv + '=' + BL.data.name + '&' + BL.data.op + '=tags&submit=1&quick=1&title=' + encodeURIComponent( tags ),
+					data: BL.data.nv + '=' + BL.data.name + '&' + BL.data.op + '=tags&searchTags=' + encodeURIComponent( tags ),
 					success: function (data){
 						BL.busy = false;
-						if( data.error ){
-							alert( data.message );
-						}else{
+						if( data.id ){
 							BL.tags.add( data.id, data.title );
 							$('#' + BL.tags.typeTagsID).val('');
+						}else{
+							BL.busy = true;
+							$.ajax({
+								url: BL.data.url,
+								type: "POST",
+								dataType: "json",
+								data: BL.data.nv + '=' + BL.data.name + '&' + BL.data.op + '=tags&submit=1&quick=1&title=' + encodeURIComponent( tags ),
+								success: function (data){
+									BL.busy = false;
+									if( data.error ){
+										alert( data.message );
+									}else{
+										BL.tags.add( data.id, data.title );
+										$('#' + BL.tags.typeTagsID).val('');
+									}
+								}
+							});
 						}
 					}
 				});
