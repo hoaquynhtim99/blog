@@ -1,11 +1,17 @@
 <!-- BEGIN: main -->
 <h3 class="bl-post-caption">{TABLE_CAPTION}</h3>
-<form method="post" action="{FORM_ACTION}">
+<!-- BEGIN: error --><div class="infoerror">{ERROR}</div><!-- END: error -->
+<form method="post" action="{FORM_ACTION}" id="post-form">
+	<input type="hidden" name="id" id="post-id" value="{ID}"/>
 	<div class="bl-post-col-right clearfix">
 		<div class="bl-post-panel decollapse">
 			<div class="tl">{LANG.blogTools}</div>
 			<div class="ct">
-				<p class="center"><input type="submit" name="submit" value="{LANG.blogPublic}" class="blog-button"/></p>
+				<p class="center">
+					<input type="submit" name="submit" value="{LANG.blogPublic}" class="blog-button bl-button-min" id="button-public"/>
+					<input type="submit" name="draft" value="{LANG.blogSaveDraft}" class="blog-button-2 bl-button-min" id="button-draft"/>
+					<p id="post-message" class="center">&nbsp;</p>
+				</p>
 				<p>{LANG.blogPubtime1}:</p>
 				<p>
 					<select name="pubTime_h" class="blog-input">
@@ -14,7 +20,7 @@
 					<select name="pubTime_m" class="blog-input">
 						<!-- BEGIN: pubTime_m --><option value="{MIN.key}"{MIN.pub}>{MIN.title}</option><!-- END: pubTime_m -->
 					</select> {GLANG.day}
-					<input type="text" class="blog-input bl-col-day" value="{DATA.pubTime}" name="pubTime"/>
+					<input type="text" class="blog-input bl-col-day" value="{DATA.pubTime}" name="pubTime" id="pubTime"/>
 				</p>
 				<p>{LANG.blogExptime1}:</p>
 				<p>
@@ -24,7 +30,7 @@
 					<select name="expTime_m" class="blog-input">
 						<!-- BEGIN: expTime_m --><option value="{MIN.key}"{MIN.exp}>{MIN.title}</option><!-- END: expTime_m -->
 					</select> {GLANG.day}
-					<input type="text" class="blog-input bl-col-day" value="{DATA.expTime}" name="expTime"/>
+					<input type="text" class="blog-input bl-col-day" value="{DATA.expTime}" name="expTime" id="expTime"/>
 				</p>
 				<p>{LANG.blogExpMode1}:</p>
 				<p>
@@ -47,7 +53,7 @@
 			<div class="ct">
 				<input type="hidden" name="tagids" value="{TAGIDS}" id="post-tags"/>
 				<ul class="bl-list-tags" id="post-tags-list"> 
-				
+					<!-- BEGIN: tag --><li rel="{TAG.id}">{TAG.title}<span>&nbsp;</span></li><!-- END: tag -->
 				</ul>
 				<!-- BEGIN: mostTags -->
 				<div class="bl-hr">&nbsp;</div>
@@ -104,6 +110,7 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	BL.tags.init();
+	BL.post.init({EDITOR});
 	$('.bl-post-panel .tl').click(function(){
 		var $this = $(this).parent();
 		
@@ -113,6 +120,21 @@ $(document).ready(function(){
 			$this.find('.ct').slideUp(200, function(){$this.removeClass('decollapse').addClass('collapse')});
 		}
 	});
+	$("#pubTime, #expTime").datepicker({
+		dateFormat: "dd/mm/yy",
+		changeMonth: true,
+		changeYear: true,
+		showOtherMonths: true,
+		showButtonPanel: true,
+		showOn: 'focus'
+	});
 });
 </script>
 <!-- END: main -->
+
+<!-- BEGIN: complete -->
+<div class="infook center">
+	<p>{MESSAGE}</p>
+	<p><img src="{NV_BASE_SITEURL}images/load_bar.gif" alt="Loading..." height="8"/></p>
+</div>
+<!-- END: complete -->

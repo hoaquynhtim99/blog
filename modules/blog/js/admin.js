@@ -277,3 +277,53 @@ BL.tags = {
 		});
 	},
 };
+
+BL.post = {
+	IDform: 'post-form',
+	IDdraftButton: 'button-draft',
+	IDpublicButton: 'button-public',
+	IDpost: 'post-id',
+	IDmessage: 'post-message',
+	
+	draft: function(editor){
+		if( ! BL.busy ){
+			if( editor ){
+				$("textarea[name=bodyhtml]").val( CKEDITOR.instances.bodyhtml.getData() );
+			}
+			
+			var data = BL.data.nv + '=' + BL.data.name + '&' + BL.data.op + '=blog-content&draft=1&' + $('#' + BL.post.IDform).serialize();
+			BL.busy = true;
+			
+			$.ajax({
+				url: BL.data.url,
+				type: "POST",
+				dataType: "json",
+				data: data,
+				success: function (data){
+					BL.busy = false;
+					
+					if( ! data.error ){
+						$('#' + BL.post.IDpost).val( data.id );
+					}
+					BL.post.showLog( data.message, data.error );
+				}
+			});
+		}
+	},
+	showLog: function(msg, stus){
+		$('#' + BL.post.IDmessage).css({ opacity: 1 }).html( msg );
+		setTimeout( "BL.post.hideLog()", 3000 );
+	},
+	hideLog: function(){
+		$('#' + BL.post.IDmessage).animate({
+			opacity: 0,
+		}, 500);
+	},
+	init: function(editor){
+		$('#' + BL.post.IDdraftButton).click(function(){
+			BL.post.draft(editor);
+			return false;
+		});
+	}
+}
+

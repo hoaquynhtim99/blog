@@ -69,7 +69,7 @@ $sql_create_module[] = "CREATE TABLE `" . $db_config['prefix'] . "_" . $lang . "
   `title` varchar(255) NOT NULL DEFAULT '' COMMENT 'Tên bài viết',
   `alias` varchar(255) NOT NULL DEFAULT '' COMMENT 'Liên kết tĩnh',
   `keywords` varchar(255) NOT NULL DEFAULT '' COMMENT 'Từ khóa cho máy chủ tìm kiếm',
-  `images` varchar(255) NOT NULL DEFAULT '' COMMENT 'Từ khóa cho máy chủ tìm kiếm',
+  `images` varchar(255) NOT NULL DEFAULT '' COMMENT 'Hình ảnh bìa viết',
   `mediaType` smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT '0: Dùng ảnh đại diện, 1: Dùng hình ảnh tùy chọn, 2: File âm thanh, 3: File video, 4: Iframe',
   `mediaHeight` smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT 'Chiều cao media',
   `mediaValue` mediumtext NOT NULL COMMENT 'Nội dung media',
@@ -89,7 +89,7 @@ $sql_create_module[] = "CREATE TABLE `" . $db_config['prefix'] . "_" . $lang . "
   `pubTime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Thời gian xuất bản',
   `expTime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Thời gian hết hạn',
   `expMode` smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT 'Kiểu xử lý tự động khi hết hạn: 0: Ngưng hoạt động, 1: Cho thành hết hạn, 2: Xóa',
-  `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '-1: Nháp, 0: Tạm ngưng, 1: Hoạt động, 2: Hết hạn',
+  `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '-2: Nháp, -1: Chờ đăng, 0: Tạm ngưng, 1: Hoạt động, 2: Hết hạn',
   PRIMARY KEY (`id`),
   UNIQUE KEY `alias` (`alias`),
   KEY `postid` (`postid`)

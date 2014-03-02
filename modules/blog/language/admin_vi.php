@@ -70,6 +70,13 @@ $lang_module['blogExpMode1'] = 'Khi hết hạn sẽ';
 $lang_module['blogExpMode_0'] = 'Ngưng hoạt động';
 $lang_module['blogExpMode_1'] = 'Cho thành hết hạn';
 $lang_module['blogExpMode_2'] = 'Xóa vĩnh viễn bài viết';
+$lang_module['blogErrorTitle'] = 'Lỗi: Chưa nhập tên bài viết';
+$lang_module['blogErrorHometext'] = 'Lỗi: Nội dung tóm tắt còn trống';
+$lang_module['blogErrorBodyhtml'] = 'Lỗi: Nội dung bài viết còn trống';
+$lang_module['blogErrorCategories'] = 'Lỗi: Chưa chọn danh mục cho bài viết';
+$lang_module['blogErrorExpThanPub'] = 'Lỗi: Thời gian xuất bản bài viết phải sớm hơn thời gian hết hạn bài viết';
+$lang_module['blogSaveDraftOk'] = 'Lưu bản nháp thành công';
+$lang_module['blogSaveOk'] = 'Lưu dữ liệu thành công, hệ thống sẽ tự động chuyển trang trong giây lát';
 
 $lang_module['categoriesManager'] = 'Quản lý danh mục bài viết';
 $lang_module['categoriesEmpty'] = 'Chưa có danh mục bài viết nào, hãy thêm danh mục từ trình đơn bên dưới';

@@ -86,6 +86,10 @@ class nv_mod_blog
 		$this->js_data['shadowbox'][] = "<script type=\"text/javascript\" src=\"" . $this->base_site_url . "js/shadowbox/shadowbox.js\"></script>\n";
 		$this->js_data['shadowbox'][] = "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $this->base_site_url . "js/shadowbox/shadowbox.css\" />\n";
 		$this->js_data['shadowbox'][] = "<script type=\"text/javascript\">Shadowbox.init();</script>\n";
+		
+		$this->js_data['jquery.ui.datepicker'][] = "<link type=\"text/css\" href=\"" . $this->base_site_url . "js/ui/jquery.ui.datepicker.css\" rel=\"stylesheet\" />\n";
+		$this->js_data['jquery.ui.datepicker'][] = "<script type=\"text/javascript\" src=\"" . $this->base_site_url . "js/ui/jquery.ui.datepicker.min.js\"></script>\n";
+		$this->js_data['jquery.ui.datepicker'][] = "<script type=\"text/javascript\" src=\"" . $this->base_site_url . "js/language/jquery.ui.datepicker-" . NV_LANG_INTERFACE . ".js\"></script>\n";
 	}
 	
 	private function handle_error( $messgae = '' )
@@ -141,6 +145,20 @@ class nv_mod_blog
 			{
 				if( $arg_list[$i] == 'jquery.ui.sortable' ) $return['jquery.ui.core'] = implode( "", $this->js_data['jquery.ui.core'] );
 				$return[$arg_list[$i]] =  implode( "", $this->js_data[$arg_list[$i]] );
+			}
+		}
+		return $return;
+	}
+	
+	private function sortArrayFromArrayKeys( $keys, $array )
+	{
+		$return = array();
+		
+		foreach( $keys as $key )
+		{
+			if( isset( $array[$key] ) )
+			{
+				$return[$key] = $array[$key];
 			}
 		}
 		return $return;
@@ -431,6 +449,45 @@ class nv_mod_blog
 		// $this->db->sql_query( "UPDATE `" . $this->table_prefix . "_tags` SET `numPosts`=(SELECT COUNT(*) FROM `" . $this->table_prefix . "_rows` WHERE `catid`=" . $id . ") WHERE `id`=" . $id );
 		
 		return;
+	}
+	
+	// Lay tags tu id
+	public function getTagsByID( $id, $sort = false )
+	{
+		$tags = array();
+		
+		if( ! is_array( $id ) and strpos( $id, "," ) !== false )
+		{
+			$id = array_map( "intval", $this->string2array( $id ) );
+		}
+		elseif( ! is_array( $id ) )
+		{
+			$id = intval( $id );
+		}
+		
+		if( empty( $id ) )
+		{
+			return array();
+		}
+		
+		if( is_array( $id ) )
+		{
+			$result = $this->db->sql_query( "SELECT * FROM `" . $this->table_prefix . "_tags` WHERE `id` IN(" . implode( ",", $id ) . ")" );
+			
+			while( $row = $this->db->sql_fetch_assoc( $result ) )
+			{
+				$tags[$row['id']] = $row;
+			}
+			
+			if( $sort === true ) $tags = $this->sortArrayFromArrayKeys( $id, $tags );
+		}
+		else
+		{
+			$result = $this->db->sql_query( "SELECT * FROM `" . $this->table_prefix . "_tags` WHERE `id`=" . $id );
+			$tags = $this->db->sql_fetch_assoc( $result );
+		}
+		
+		return $tags;
 	}
 }
 
