@@ -69,7 +69,7 @@ $sql_create_module[] = "CREATE TABLE `" . $db_config['prefix'] . "_" . $lang . "
   `title` varchar(255) NOT NULL DEFAULT '' COMMENT 'Tên bài viết',
   `alias` varchar(255) NOT NULL DEFAULT '' COMMENT 'Liên kết tĩnh',
   `keywords` varchar(255) NOT NULL DEFAULT '' COMMENT 'Từ khóa cho máy chủ tìm kiếm',
-  `images` varchar(255) NOT NULL DEFAULT '' COMMENT 'Hình ảnh bìa viết',
+  `images` varchar(255) NOT NULL DEFAULT '' COMMENT 'Hình ảnh bài viết',
   `mediaType` smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT '0: Dùng ảnh đại diện, 1: Dùng hình ảnh tùy chọn, 2: File âm thanh, 3: File video, 4: Iframe',
   `mediaHeight` smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT 'Chiều cao media',
   `mediaValue` mediumtext NOT NULL COMMENT 'Nội dung media',
