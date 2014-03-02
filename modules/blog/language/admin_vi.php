@@ -37,7 +37,10 @@ $lang_module['alert_check'] = 'Bạn phải chọn ít nhất một dòng để 
 $lang_module['numPosts'] = 'Số bài viết';
 $lang_module['add'] = 'Thêm';
 
-$lang_module['main_title'] = 'Hệ thống quản lý blog';
+$lang_module['mainTitle'] = 'Hệ thống quản lý blog';
+$lang_module['mainNotice'] = 'Các cảnh báo cần giải quyết';
+$lang_module['mainNoticeEmpty'] = 'Tuyệt! Không có cảnh báo nào';
+$lang_module['mainTagsWarning'] = '%d tags chưa được cập nhật từ khóa hoặc mô tả';
 
 $lang_module['blogList'] = 'Danh sách bài viết';
 $lang_module['blogAdd'] = 'Viết bài';

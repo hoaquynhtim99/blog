@@ -43,7 +43,7 @@ if( $nv_Request->isset_request( 'del', 'post' ) )
 	$id = $nv_Request->get_int( 'id', 'post', 0 );
 	$list_levelid = filter_text_input( 'listid', 'post', '' );
 	
-	if( empty( $id ) and empty ( $list_levelid ) ) die( "NO" );
+	if( empty( $id ) and empty( $list_levelid ) ) die( "NO" );
 	
 	$listid = array();
 	if( $id )
@@ -107,7 +107,6 @@ $quickCreat = $nv_Request->get_int( "quick", 'post', 0 );
 
 if( $nv_Request->isset_request( "submit", "post" ) )
 {
-
 	$data['title'] = filter_text_input( 'title', 'post', '', 1, 255 );
 	$data['alias'] = filter_text_input( 'alias', 'post', '', 1, 255 );
 	$data['keywords'] = filter_text_input( 'keywords', 'post', '', 1, 255 );
@@ -249,20 +248,26 @@ $base_url = NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_n
 // Du lieu tim kiem
 $data_search = array(
 	"q" => filter_text_input( 'q', 'get', '', 1, 100 ),
+	"noComplete" => $nv_Request->get_int( 'noComplete', 'get', 0 ),
 	"disabled" => " disabled=\"disabled\""
 );
 
 // Cam an nut huy tim kiem
-if( ! empty ( $data_search['q'] ) )
+if( ! empty( $data_search['q'] ) or ! empty( $data_search['noComplete'] ) )
 {
 	$data_search['disabled'] = "";
 }
 
 // Query tim kiem
-if( ! empty ( $data_search['q'] ) )
+if( ! empty( $data_search['q'] ) )
 {
 	$base_url .= "&amp;q=" . urlencode( $data_search['q'] );
 	$sql .= " AND `title` LIKE '%" . $db->dblikeescape( $data_search['q'] ) . "%'";
+}
+if( ! empty( $data_search['noComplete'] ) )
+{
+	$base_url .= "&amp;noComplete=1";
+	$sql .= " AND ( `keywords`='' OR `description`='' )";
 }
 
 // Du lieu sap xep
