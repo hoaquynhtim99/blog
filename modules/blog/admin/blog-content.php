@@ -227,7 +227,7 @@ if( $prosessMode != 'none' )
 		{
 			$error = $BL->lang('blogErrorHometext');
 		}
-		elseif( empty( $array['bodyhtml'] ) )
+		elseif( empty( $array['bodytext'] ) )
 		{
 			$error = $BL->lang('blogErrorBodyhtml');
 		}
@@ -238,6 +238,10 @@ if( $prosessMode != 'none' )
 		elseif( ! empty( $array['expTime'] ) and $array['expTime'] <= $array['pubTime'] )
 		{
 			$error = $BL->lang('blogErrorExpThanPub');
+		}
+		elseif( ! empty( $array['expTime'] ) and $array['expTime'] <= NV_CURRENTTIME and $array['expMode'] == 2 )
+		{
+			$error = $BL->lang('blogErrorExp');
 		}
 	}
 	
@@ -260,9 +264,59 @@ if( $prosessMode != 'none' )
 	}
 	
 	// Xac dinh status
-	if( empty( $id ) and $prosessMode == "draft" )
+	if( $prosessMode == "draft" )
 	{
 		$array['status'] = -2;
+	}
+	// Bai viet het han
+	elseif( $array['expTime'] <= NV_CURRENTTIME and ! empty( $array['expTime'] ) )
+	{
+		$array['status'] = $array['expMode'] == 0 ? 0 : 2;
+	}
+	// Bai viet cho dang
+	elseif( $array['pubTime'] <= NV_CURRENTTIME )
+	{
+		// Tao bai viet thi -1
+		if( empty( $id ) )
+		{
+			$array['status'] = -1;
+		}
+		// Sua bai viet
+		else
+		{
+			// Neu khong nhap, khong bi dung thi cho dang
+			if( ! in_array( $array_old['status'], array( -2, 0 ) ) )
+			{
+				$array['status'] = -1;
+			}
+			// Bi dung thi tiep tuc dung, nhap thi tiep tuc nhap
+			else
+			{
+				$array['status'] = $array_old['status'];
+			}
+		}
+	}
+	else
+	{
+		// Tao bai viet thi 1
+		if( empty( $id ) )
+		{
+			$array['status'] = 1;
+		}
+		// Sua bai viet
+		else
+		{
+			// Neu khong nhap, khong bi dung thi cho dang
+			if( ! in_array( $array_old['status'], array( -2, 0 ) ) )
+			{
+				$array['status'] = 1;
+			}
+			// Bi dung thi tiep tuc dung, nhap thi tiep tuc nhap
+			else
+			{
+				$array['status'] = $array_old['status'];
+			}
+		}
 	}
 	
 	if( empty( $error ) )
