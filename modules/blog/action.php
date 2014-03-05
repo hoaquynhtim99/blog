@@ -10,6 +10,23 @@
 if( ! defined( 'NV_IS_FILE_MODULES' ) ) die('Stop!!!');
 
 $sql_drop_module = array();
+
+// Xoa cac bang du lieu
+$result = $db->sql_query( "SHOW TABLE STATUS LIKE '" . $db_config['prefix'] . "\_" . $lang . "\_" . $module_data . "\_%'" );
+$num_table = intval( $db->sql_numrows( $result ) );
+if( $num_table > 0 )
+{
+	// Xoa cac bang HTML
+	list( $maxid ) = $db->sql_fetchrow( $db->sql_query( "SELECT MAX(`id`) FROM `" . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_rows`" ) );
+	$i1 = 1;
+	while( $i1 <= $maxid )
+	{
+		$tb = ceil( $i1 / 4000 );
+		$sql_drop_module[] = "DROP TABLE IF EXISTS `" . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_data_" . $tb . "`";	
+		$i1 = $i1 + 4000;
+	}
+}
+
 $sql_drop_module[] = "DROP TABLE IF EXISTS `" . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_categories`";
 $sql_drop_module[] = "DROP TABLE IF EXISTS `" . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_newsletters`";
 $sql_drop_module[] = "DROP TABLE IF EXISTS `" . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_tags`";
@@ -93,6 +110,13 @@ $sql_create_module[] = "CREATE TABLE `" . $db_config['prefix'] . "_" . $lang . "
   PRIMARY KEY (`id`),
   UNIQUE KEY `alias` (`alias`),
   KEY `postid` (`postid`)
+)ENGINE=MyISAM";
+
+// Dữ liệu html
+$sql_create_module[] = "CREATE TABLE `" . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_data_1` (
+	`id` mediumint(8) unsigned NOT NULL COMMENT 'ID bài viết', 
+	`bodyhtml` longtext NOT NULL COMMENT 'Nội dung HTML của bài viết',
+	PRIMARY KEY (`id`)
 )ENGINE=MyISAM";
 
 // Cấu hình module

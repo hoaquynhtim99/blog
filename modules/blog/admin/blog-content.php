@@ -50,14 +50,23 @@ if( $id )
 		"tagids" => $BL->string2array( $row['tagids'] ),
 		"numWords" => ( int ) $row['numWords'],
 		"pubTime" => ( int ) $row['pubTime'],
-		"pubTime_h" => date( "G", $array['pubTime'] ),
-		"pubTime_m" => ( int ) date( "i", $array['pubTime'] ),
+		"pubTime_h" => date( "G", $row['pubTime'] ),
+		"pubTime_m" => ( int ) date( "i", $row['pubTime'] ),
 		"expTime" => ( int ) $row['expTime'],
-		"expTime_h" => $array['expTime'] ? date( "G", $array['expTime'] ) : 0,
-		"expTime_m" => $array['expTime'] ? ( int ) date( "i", $array['expTime'] ) : 0,
+		"expTime_h" => $row['expTime'] ? date( "G", $row['expTime'] ) : 0,
+		"expTime_m" => $row['expTime'] ? ( int ) date( "i", $row['expTime'] ) : 0,
 		"expMode" => ( int ) $row['expMode'],
 		"status" => ( int ) $row['status'],
 	);
+	
+	$sql = "SELECT * FROM `" . $BL->table_prefix . "_data_" . ceil( $id / 4000 ) . "` WHERE `id`=" . $id;
+	$result = $db->sql_query( $sql );
+	
+	if( $db->sql_numrows( $result ) )
+	{
+		$row = $db->sql_fetchrow( $result );
+		$array_old['bodyhtml'] = $array['bodyhtml'] = nv_editor_nl2br( $row['bodyhtml'] );
+	}
 	
 	$form_action = NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $op . "&amp;id=" . $id;
 	$table_caption = $BL->lang('blogEdit');
@@ -274,7 +283,7 @@ if( $prosessMode != 'none' )
 		$array['status'] = $array['expMode'] == 0 ? 0 : 2;
 	}
 	// Bai viet cho dang
-	elseif( $array['pubTime'] <= NV_CURRENTTIME )
+	elseif( $array['pubTime'] > NV_CURRENTTIME )
 	{
 		// Tao bai viet thi -1
 		if( empty( $id ) )
@@ -356,12 +365,36 @@ if( $prosessMode != 'none' )
 			
 			if( $id )
 			{
-				if( $prosessMode != "draft" )
+				// Tao bang HTML
+				$html_table = $BL->table_prefix . "_data_" . ceil( $id / 4000 );
+				
+				$sql = "CREATE TABLE IF NOT EXISTS `" . $html_table . "` (
+					`id` mediumint(8) unsigned NOT NULL, 
+					`bodyhtml` longtext NOT NULL,
+					PRIMARY KEY  (`id`) 
+				) ENGINE=MyISAM";
+				
+				if( ! $db->sql_query( $sql ) and $prosessMode != "draft" )
 				{
-					// Xoa cache 
+					$error = $BL->lang('blogErrorCreatTable');
 				}
 				
-				$complete = true;
+				// Luu noi dung bodyhtml vao
+				$sql = "INSERT INTO `" . $html_table . "` VALUES( " . $id . ", " . $db->dbescape( $array['bodyhtml'] ) . " )";
+				if( ! $db->sql_query( $sql ) and $prosessMode != "draft" )
+				{
+					$error = $BL->lang('blogErrorSaveHtml');
+				}
+				
+				if( empty( $error ) )
+				{
+					$complete = true;
+					
+					if( $prosessMode != "draft" )
+					{
+						// Xoa cache 
+					}
+				}
 			}
 			else
 			{
@@ -395,7 +428,25 @@ if( $prosessMode != 'none' )
 			
 			if( $db->sql_query( $sql ) )
 			{
-				$complete = true;
+				$html_table = $BL->table_prefix . "_data_" . ceil( $id / 4000 );
+				
+				// Luu noi dung bodyhtml vao
+				$sql = "UPDATE `" . $html_table . "` SET `bodyhtml`=" . $db->dbescape( $array['bodyhtml'] ) . " WHERE `id`=" . $id;
+				
+				if( ! $db->sql_query( $sql ) and $prosessMode != "draft" )
+				{
+					$error = $BL->lang('blogErrorUpdateHtml');
+				}
+				
+				if( ! empty( $error ) )
+				{
+					$complete = true;
+					
+					if( $prosessMode != "draft" )
+					{
+						// Xoa cache 
+					}
+				}
 			}
 			else
 			{

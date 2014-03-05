@@ -76,6 +76,9 @@ $lang_module['blogErrorBodyhtml'] = 'Lỗi: Nội dung bài viết còn trống'
 $lang_module['blogErrorCategories'] = 'Lỗi: Chưa chọn danh mục cho bài viết';
 $lang_module['blogErrorExpThanPub'] = 'Lỗi: Thời gian xuất bản bài viết phải sớm hơn thời gian hết hạn bài viết';
 $lang_module['blogErrorExp'] = 'Lỗi: Bạn đã chọn phương thức xử lý là xóa bài viết khi hết hạn, nhưng bài viết đang soạn thảo đã là hết hạn nên bạn không thể lưu được';
+$lang_module['blogErrorCreatTable'] = 'Lỗi: Hệ thống không thể tạo thêm bảng dữ liệu nên không thể thực hiện yêu cầu này';
+$lang_module['blogErrorSaveHtml'] = 'Lỗi: Hệ thống không lưu được nội dung bài viết';
+$lang_module['blogErrorUpdateHtml'] = 'Lỗi: Hệ thống không cập nhật được nội dung bài viết';
 $lang_module['blogSaveDraftOk'] = 'Lưu bản nháp thành công';
 $lang_module['blogSaveOk'] = 'Lưu dữ liệu thành công, hệ thống sẽ tự động chuyển trang trong giây lát';
 
