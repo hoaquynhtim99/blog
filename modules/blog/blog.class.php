@@ -164,6 +164,26 @@ class nv_mod_blog
 		return $return;
 	}
 	
+	private function IdHandle( $stroarr, $defis = "," )
+	{
+		$return = array();
+		
+		if( is_array( $stroarr ) )
+		{
+			$return = array_filter( array_unique( array_map( "intval", $stroarr ) ) );
+		}
+		elseif( strpos( $stroarr, $defis ) !== false )
+		{
+			$return = array_map( "intval", $this->string2array( $stroarr, $defis ) );
+		}
+		else
+		{
+			$return = array( intval( $stroarr ) );
+		}
+		
+		return $return;
+	}
+	
 	public function callJqueryPlugin()
 	{
 		global $my_head;
@@ -398,22 +418,27 @@ class nv_mod_blog
 	{
 		if( empty( $id ) ) return;
 		
-		// Lay thong tin cua danh muc
-		$sql = "SELECT * FROM `" . $this->table_prefix . "_categories` WHERE `id`=" . $id;
-		$result = $this->db->sql_query( $sql );
+		$ids = $this->IdHandle( $id );
 		
-		if( ! $this->db->sql_numrows( $result ) ) return;
-		
-		$row = $this->db->sql_fetch_assoc( $result );
-		
-		// Cap nhat so bai viet
-		$this->db->sql_query( "UPDATE `" . $this->table_prefix . "_categories` SET `numPosts`=(SELECT COUNT(*) FROM `" . $this->table_prefix . "_rows` WHERE `catid`=" . $id . ") WHERE `id`=" . $id );
-		
-		// Cap nhat so danh muc con
-		list( $numPosts ) = $this->db->sql_fetchrow( $this->db->sql_query( "SELECT COUNT(*) FROM `" . $this->table_prefix . "_categories` WHERE `parentid`=" . $id ) );
-		$this->db->sql_query( "UPDATE `" . $this->table_prefix . "_categories` SET `numSubs`=" . $numPosts . " WHERE `id`=" . $id );
-		
-		$this->fixCat( $row['parentid'] );
+		foreach( $ids as $id )
+		{
+			// Lay thong tin cua danh muc
+			$sql = "SELECT * FROM `" . $this->table_prefix . "_categories` WHERE `id`=" . $id;
+			$result = $this->db->sql_query( $sql );
+			
+			if( ! $this->db->sql_numrows( $result ) ) return;
+			
+			$row = $this->db->sql_fetch_assoc( $result );
+			
+			// Cap nhat so bai viet
+			$this->db->sql_query( "UPDATE `" . $this->table_prefix . "_categories` SET `numPosts`=(SELECT COUNT(*) FROM `" . $this->table_prefix . "_rows` WHERE " . $this->build_query_search_id( $id, 'catids' ) . "AND `status`=1) WHERE `id`=" . $id );
+			
+			// Cap nhat so danh muc con
+			list( $numPosts ) = $this->db->sql_fetchrow( $this->db->sql_query( "SELECT COUNT(*) FROM `" . $this->table_prefix . "_categories` WHERE `parentid`=" . $id ) );
+			$this->db->sql_query( "UPDATE `" . $this->table_prefix . "_categories` SET `numSubs`=" . $numPosts . " WHERE `id`=" . $id );
+			
+			$this->fixCat( $row['parentid'] );
+		}
 		
 		return;
 	}
@@ -437,16 +462,19 @@ class nv_mod_blog
 	{
 		if( empty( $id ) ) return;
 		
-		// Lay thong tin cua tags
-		$sql = "SELECT * FROM `" . $this->table_prefix . "_tags` WHERE `id`=" . $id;
-		$result = $this->db->sql_query( $sql );
+		$ids = $this->IdHandle( $id );
 		
-		if( ! $this->db->sql_numrows( $result ) ) return;
-		
-		$row = $this->db->sql_fetch_assoc( $result );
-		
-		// Cap nhat so bai viet
-		// $this->db->sql_query( "UPDATE `" . $this->table_prefix . "_tags` SET `numPosts`=(SELECT COUNT(*) FROM `" . $this->table_prefix . "_rows` WHERE `catid`=" . $id . ") WHERE `id`=" . $id );
+		foreach( $ids as $id )
+		{
+			// Lay thong tin cua tags
+			$sql = "SELECT * FROM `" . $this->table_prefix . "_tags` WHERE `id`=" . $id;
+			$result = $this->db->sql_query( $sql );
+			
+			if( ! $this->db->sql_numrows( $result ) ) return;
+			
+			// Cap nhat so bai viet
+			$this->db->sql_query( "UPDATE `" . $this->table_prefix . "_tags` SET `numPosts`=(SELECT COUNT(*) FROM `" . $this->table_prefix . "_rows` WHERE " . $this->build_query_search_id( $id, 'tagids' ) . " AND `status`=1) WHERE `id`=" . $id );
+		}
 		
 		return;
 	}
@@ -454,40 +482,45 @@ class nv_mod_blog
 	// Lay tags tu id
 	public function getTagsByID( $id, $sort = false )
 	{
-		$tags = array();
-		
-		if( ! is_array( $id ) and strpos( $id, "," ) !== false )
-		{
-			$id = array_map( "intval", $this->string2array( $id ) );
-		}
-		elseif( ! is_array( $id ) )
-		{
-			$id = intval( $id );
-		}
+		$id = $this->IdHandle( $id );
 		
 		if( empty( $id ) )
 		{
 			return array();
 		}
 		
-		if( is_array( $id ) )
+		// Lay du lieu
+		$tags = array();
+		$result = $this->db->sql_query( "SELECT * FROM `" . $this->table_prefix . "_tags` WHERE `id` IN(" . implode( ",", $id ) . ")" );
+		
+		while( $row = $this->db->sql_fetch_assoc( $result ) )
 		{
-			$result = $this->db->sql_query( "SELECT * FROM `" . $this->table_prefix . "_tags` WHERE `id` IN(" . implode( ",", $id ) . ")" );
-			
-			while( $row = $this->db->sql_fetch_assoc( $result ) )
-			{
-				$tags[$row['id']] = $row;
-			}
-			
-			if( $sort === true ) $tags = $this->sortArrayFromArrayKeys( $id, $tags );
+			$tags[$row['id']] = $row;
 		}
-		else
+		
+		// Sap xep theo thu tu cua array
+		if( $sort === true and sizeof( $tags ) > 1 )
 		{
-			$result = $this->db->sql_query( "SELECT * FROM `" . $this->table_prefix . "_tags` WHERE `id`=" . $id );
-			$tags = $this->db->sql_fetch_assoc( $result );
+			$tags = $this->sortArrayFromArrayKeys( $id, $tags );
 		}
 		
 		return $tags;
+	}
+	
+	public function build_query_search_id( $id, $field, $logic = 'OR' )
+	{
+		if( empty( $id ) ) return $field . "=''";
+		
+		$id = $this->IdHandle( $id );
+		
+		$query = array();
+		foreach( $id as $_id )
+		{
+			$query[] = $field . " LIKE '%," . $_id . ",%'";
+		}
+		$query = implode( " " . $logic . " ", $query );
+		
+		return $query;
 	}
 }
 

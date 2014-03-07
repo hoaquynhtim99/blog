@@ -392,7 +392,14 @@ if( $prosessMode != 'none' )
 					
 					if( $prosessMode != "draft" )
 					{
-						// Xoa cache 
+						// Cap nhat danh muc
+						$BL->fixCat( $array['catids'] );
+						
+						// Cap nhat tags
+						$BL->fixTags( $array['tagids'] );
+						
+						// Xoa cache
+						nv_del_moduleCache( $module_name );
 					}
 				}
 			}
@@ -438,13 +445,20 @@ if( $prosessMode != 'none' )
 					$error = $BL->lang('blogErrorUpdateHtml');
 				}
 				
-				if( ! empty( $error ) )
+				if( empty( $error ) )
 				{
 					$complete = true;
 					
 					if( $prosessMode != "draft" )
 					{
-						// Xoa cache 
+						// Cap nhat danh muc
+						$BL->fixCat( array_unique( array_filter( array_merge_recursive( $array_old['catids'], $array['catids'] ) ) ) );
+						
+						// Cap nhat tags
+						$BL->fixTags( array_unique( array_filter( array_merge_recursive( $array_old['tagids'], $array['tagids'] ) ) ) );
+						
+						// Xoa cache
+						nv_del_moduleCache( $module_name );
 					}
 				}
 			}
