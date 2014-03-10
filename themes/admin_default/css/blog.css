@@ -27,6 +27,9 @@ body{
 .bl-col-left-large{
 	width:250px;
 }
+.bl-col-left-largest{
+	width:400px;
+}
 .bl-col-id, .bl-col-order, .bl-col-status{
 	width:30px;
 	text-align:center;
@@ -273,6 +276,9 @@ select.blog-input{
 }
 .bl-txt-f{
 	width:98%;
+}
+.bl-txt-h{
+	width:49%;
 }
 
 .textarea-animated{-webkit-transition: height 0.2s;-moz-transition: height 0.2s;transition: height 0.2s;}

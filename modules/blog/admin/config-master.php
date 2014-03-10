@@ -13,15 +13,56 @@ $page_title = $BL->lang('cfgMaster');
 
 $array = array();
 
+// Thu muc uploads
+$array_structure_image = array();
+$array_structure_image[''] = NV_UPLOADS_DIR . '/' . $module_name;
+$array_structure_image['Y'] = NV_UPLOADS_DIR . '/' . $module_name . '/' . date( 'Y' );
+$array_structure_image['Ym'] = NV_UPLOADS_DIR . '/' . $module_name . '/' . date( 'Y_m' );
+$array_structure_image['Y_m'] = NV_UPLOADS_DIR . '/' . $module_name . '/' . date( 'Y/m' );
+$array_structure_image['Ym_d'] = NV_UPLOADS_DIR . '/' . $module_name . '/' . date( 'Y_m/d' );
+$array_structure_image['Y_m_d'] = NV_UPLOADS_DIR . '/' . $module_name . '/' . date( 'Y/m/d' );
+$array_structure_image['username'] = NV_UPLOADS_DIR . '/' . $module_name . '/username';
+
+$array_structure_image['username_Y'] = NV_UPLOADS_DIR . '/' . $module_name . '/username/' . date( 'Y' );
+$array_structure_image['username_Ym'] = NV_UPLOADS_DIR . '/' . $module_name . '/username/' . date( 'Y_m' );
+$array_structure_image['username_Y_m'] = NV_UPLOADS_DIR . '/' . $module_name . '/username/' . date( 'Y/m' );
+$array_structure_image['username_Ym_d'] = NV_UPLOADS_DIR . '/' . $module_name . '/username/' . date( 'Y_m/d' );
+$array_structure_image['username_Y_m_d'] = NV_UPLOADS_DIR . '/' . $module_name . '/username/' . date( 'Y/m/d' );
+
 // Lay thong tin submit
 if( $nv_Request->isset_request( 'submit', 'post' ) )
 {
 	$array['indexViewType'] = filter_text_input( 'indexViewType', 'post', 'type_blog', 1, 255 );
+	$array['initPostExp'] = $nv_Request->get_int( 'initPostExp', 'post', 0 );
+	$array['initPostType'] = $nv_Request->get_int( 'initPostType', 'post', 0 );
+	$array['initMediaType'] = $nv_Request->get_int( 'initMediaType', 'post', 0 );
+	$array['initMediaHeight'] = $nv_Request->get_int( 'initMediaHeight', 'post', 250 );
+	$array['folderStructure'] = filter_text_input( 'folderStructure', 'post', '', 0, 255 );
 	
 	// Kiem tra xac nhan
 	if( ! in_array( $array['indexViewType'], $BL->indexViewType ) )
 	{
 		$array['indexViewType'] = $BL->indexViewType[0];
+	}
+	if( ! in_array( $array['initPostExp'], $BL->blogExpMode ) )
+	{
+		$array['initPostExp'] = $BL->blogExpMode[0];
+	}
+	if( ! in_array( $array['initPostType'], $BL->blogpostType ) )
+	{
+		$array['initPostType'] = $BL->blogpostType[0];
+	}
+	if( ! in_array( $array['initMediaType'], $BL->blogMediaType ) )
+	{
+		$array['initMediaType'] = $BL->blogMediaType[0];
+	}
+	if( $array['initMediaHeight'] <= 0 )
+	{
+		$array['initMediaHeight'] = 250;
+	}
+	if( ! isset( $array_structure_image[$array['folderStructure']] ) )
+	{
+		$array['folderStructure'] = "Ym";
 	}
 	
 	foreach( $array as $config_name => $config_value )
@@ -48,6 +89,58 @@ foreach( $BL->indexViewType as $type )
 {
 	$xtpl->assign( 'INDEXVIEWTYPE', array( "key" => $type, "title" => $BL->lang('cfgindexViewType_' . $type), "selected" => $type == $BL->setting['indexViewType'] ? " selected=\"selected\"" : "" ) );
 	$xtpl->parse( 'main.indexViewType' );
+}
+
+// Xuat cac kieu xu ly khi het han dang bai
+foreach( $BL->blogExpMode as $initPostExp )
+{
+	$initPostExp = array(
+		"key" => $initPostExp,
+		"title" => $BL->lang('blogExpMode_' . $initPostExp),
+		"selected" => $initPostExp == $BL->setting['initPostExp'] ? " selected=\"selected\"" : "",
+	);
+
+	$xtpl->assign( 'INITPOSTEXP', $initPostExp );
+	$xtpl->parse( 'main.initPostExp' );
+}
+
+// Loai bai viet mac dinh
+foreach( $BL->blogpostType as $initPostType )
+{
+	$initPostType = array(
+		"key" => $initPostType,
+		"title" => $BL->lang('blogpostType' . $initPostType),
+		"selected" => $initPostType == $BL->setting['initPostType'] ? " selected=\"selected\"" : "",
+	);
+
+	$xtpl->assign( 'INITPOSTTYPE', $initPostType );
+	$xtpl->parse( 'main.initPostType' );
+}
+
+// Loai Media mac dinh
+foreach( $BL->blogMediaType as $initMediaType )
+{
+	$initMediaType = array(
+		"key" => $initMediaType,
+		"title" => $BL->lang('blogmediaType' . $initMediaType),
+		"selected" => $initMediaType == $BL->setting['initMediaType'] ? " selected=\"selected\"" : "",
+	);
+
+	$xtpl->assign( 'INITMEDIATYPE', $initMediaType );
+	$xtpl->parse( 'main.initMediaType' );
+}
+
+// Xuat thu muc uploads
+foreach( $array_structure_image as $folderStructure => $dir )
+{
+	$folderStructure = array(
+		"key" => $folderStructure,
+		"title" => $dir,
+		"selected" => $folderStructure == $BL->setting['folderStructure'] ? " selected=\"selected\"" : "",
+	);
+	
+	$xtpl->assign( 'FOLDERSTRUCTURE', $folderStructure );
+	$xtpl->parse( 'main.folderStructure' );
 }
 
 $xtpl->parse( 'main' );

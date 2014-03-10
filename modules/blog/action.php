@@ -127,6 +127,14 @@ $sql_create_module[] = "CREATE TABLE `" . $db_config['prefix'] . "_" . $lang . "
 )ENGINE=MyISAM";
 
 $sql_create_module[] = "INSERT INTO `" . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_config` VALUES
-('indexViewType', 'type_blog')";
+('indexViewType', 'type_blog'),
+
+('initPostExp', '0'),
+('initPostType', '0'),
+('initMediaType', '4'),
+('initMediaHeight', '250'),
+
+('folderStructure', 'Ym')
+";
 
 ?>
