@@ -508,6 +508,34 @@ class nv_mod_blog
 		return $tags;
 	}
 	
+	// Lay bai viet tu id
+	public function getPostByID( $id, $sort = false )
+	{
+		$id = $this->IdHandle( $id );
+		
+		if( empty( $id ) )
+		{
+			return array();
+		}
+		
+		// Lay du lieu
+		$posts = array();
+		$result = $this->db->sql_query( "SELECT * FROM `" . $this->table_prefix . "_rows` WHERE `id` IN(" . implode( ",", $id ) . ")" );
+		
+		while( $row = $this->db->sql_fetch_assoc( $result ) )
+		{
+			$posts[$row['id']] = $row;
+		}
+		
+		// Sap xep theo thu tu cua array
+		if( $sort === true and sizeof( $posts ) > 1 )
+		{
+			$posts = $this->sortArrayFromArrayKeys( $id, $posts );
+		}
+		
+		return $posts;
+	}
+	
 	public function build_query_search_id( $id, $field, $logic = 'OR' )
 	{
 		if( empty( $id ) ) return $field . "=''";
@@ -522,6 +550,61 @@ class nv_mod_blog
 		$query = implode( " " . $logic . " ", $query );
 		
 		return $query;
+	}
+	
+	public function delPost( $id )
+	{
+		// Lay thong tin cac bai viet
+		$posts = $this->getPostByID( $id );
+		
+		// Cac tags se fix
+		$array_tags_fix = array();
+		
+		// Cac danh muc se fix
+		$array_cat_fix = array();
+		
+		foreach( $posts as $row )
+		{
+			// Xoa bang chinh
+			$sql = "DELETE FROM `" . $this->table_prefix . "_rows` WHERE `id`=" . $row['id'];
+			$this->db->sql_query( $sql );
+			
+			// Xoa bang data
+			$html_table = $this->table_prefix . "_data_" . ceil( $row['id'] / 4000 );
+			$sql = "DELETE FROM `" . $html_table . "` WHERE `id`=" . $row['id'];
+			$this->db->sql_query( $sql );
+			
+			// Them cac danh muc can fix
+			$row['catids'] = $this->string2array( $row['catids'] );
+			foreach( $row['catids'] as $catid )
+			{
+				$array_cat_fix[$catid] = $catid;
+			}
+			
+			// Them cac tags can fix
+			$row['tagids'] = $this->string2array( $row['tagids'] );
+			foreach( $row['tagids'] as $tagsid )
+			{
+				$array_tags_fix[$tagsid] = $tagsid;
+			}
+			
+			// Xoa bang data neu khong con bai viet nao
+			$sql = "SELECT COUNT(*) FROM `" . $html_table . "`";
+			$result = $this->db->sql_query( $sql );
+			list( $numPosts ) = $this->db->sql_fetchrow( $result );
+			
+			if( ! $numPosts )
+			{
+				$sql = "DROP TABLE `" . $html_table . "`";
+				$this->db->sql_query( $sql );
+			}
+		}
+		
+		// Cap nhat tags
+		$this->fixTags( $array_tags_fix );
+		
+		// Cap nhat danh muc
+		$this->fixCat( $array_cat_fix );
 	}
 }
 

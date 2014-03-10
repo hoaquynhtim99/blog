@@ -7,7 +7,110 @@
  * @Createdate Dec 11, 2013, 09:50:11 PM
  */
 
-if ( ! defined( 'NV_BLOG_ADMIN' ) ) die( 'Stop!!!' );
+if( ! defined( 'NV_BLOG_ADMIN' ) ) die( 'Stop!!!' );
+
+// Xoa bai viet
+if( $nv_Request->isset_request( 'del', 'post' ) )
+{
+	if( ! defined( 'NV_IS_AJAX' ) ) die( 'Wrong URL' );
+	
+	$id = $nv_Request->get_int( 'id', 'post', 0 );
+	$list_levelid = filter_text_input( 'listid', 'post', '' );
+	
+	if( empty( $id ) and empty( $list_levelid ) ) die( "NO" );
+	
+	$listid = array();
+	if( $id )
+	{
+		$listid[] = $id;
+		$num = 1;
+	}
+	else
+	{
+		$list_levelid = explode ( ",", $list_levelid );
+		$list_levelid = array_map ( "trim", $list_levelid );
+		$list_levelid = array_filter ( $list_levelid );
+
+		$listid = $list_levelid;
+		$num = sizeof( $list_levelid );
+	}
+	
+	// Goi chuc nang xoa
+	$BL->delPost( $listid );
+	
+	// Ghi log
+	nv_insert_logs( NV_LANG_DATA, $module_name, $BL->lang('blogDelete'), implode( ", ", $listid ), $admin_info['userid'] );
+	
+	// Xoa cache
+	nv_del_moduleCache( $module_name );
+	
+	die( "OK" );
+}
+
+// Thay doi hoat dong bai viet
+if( $nv_Request->isset_request( 'changestatus', 'post' ) )
+{
+	if( ! defined( 'NV_IS_AJAX' ) ) die( 'Wrong URL' );
+	
+	$id = $nv_Request->get_int( 'id', 'post', 0 );
+	$controlstatus = $nv_Request->get_int( 'status', 'post', 0 );
+	$array_id = filter_text_input( 'listid', 'post', '' );
+	
+	if( ( empty( $id ) and empty( $array_id ) ) or empty( $controlstatus ) ) die( "NO" );
+	
+	$listid = array();
+	if( $id )
+	{
+		$listid[] = $id;
+		$num = 1;
+	}
+	else
+	{
+		$array_id = explode ( ",", $array_id );
+		$array_id = array_map ( "trim", $array_id );
+		$array_id = array_filter ( $array_id );
+
+		$listid = $array_id;
+		$num = sizeof( $array_id );
+	}
+	
+	// Lay cac bai viet
+	$posts = $BL->getPostByID( $listid );
+	
+	// Kiem tra du lieu
+	if( sizeof( $posts ) != $num ) die( "NO" );
+	
+	$array_status = array();
+	foreach( $posts as $row )
+	{
+		if( $controlstatus == 2 )
+		{
+			$array_status[$row['id']] = 0;
+		}
+		else
+		{
+			if( ! empty( $row['title'] ) and ! empty( $row['alias'] ) and ! empty( $row['keywords'] ) and ! empty( $row['hometext'] ) and ! empty( $row['bodytext'] ) and ! empty( $row['catids'] ) and ( empty( $row['expTime'] ) or $row['expTime'] > NV_CURRENTTIME ) and $row['pubTime'] > 0 and $row['pubTime'] <= NV_CURRENTTIME )
+			{
+				$array_status[$row['id']] = 1;
+			}
+			else
+			{
+				$array_status[$row['id']] = $row['status'];
+			}
+		}
+	}
+	
+	foreach( $array_status as $id => $status )
+	{
+		$sql = "UPDATE `" . $BL->table_prefix . "_rows` SET `status`=" . $status . " WHERE `id`=" . $id;
+		$db->sql_query( $sql );	
+	}
+	
+	// Xoa cache
+	nv_del_moduleCache( $module_name );
+	
+	die( "OK" );
+}
 
 $page_title = $BL->lang('blogList');
 
@@ -163,6 +266,16 @@ $list_action = array(
 		"class" => "delete",
 		"title" => $BL->glang('delete')
 	),
+	1 => array(
+		"key" => 2,
+		"class" => "status-ok",
+		"title" => $BL->lang('action_status_public')
+	),
+	2 => array(
+		"key" => 3,
+		"class" => "status-no",
+		"title" => $BL->lang('action_status_no')
+	)
 );
 
 foreach( $list_action as $action )

@@ -7,20 +7,20 @@
  * @Createdate Dec 11, 2013, 09:50:11 PM
  */
 
-if ( ! defined( 'NV_BLOG_ADMIN' ) ) die( 'Stop!!!' );
+if( ! defined( 'NV_BLOG_ADMIN' ) ) die( 'Stop!!!' );
 
 // Xoa email dang ky nhan ban tin
-if ( $nv_Request->isset_request( 'del', 'post' ) )
+if( $nv_Request->isset_request( 'del', 'post' ) )
 {
-    if ( ! defined( 'NV_IS_AJAX' ) ) die( 'Wrong URL' );
+    if( ! defined( 'NV_IS_AJAX' ) ) die( 'Wrong URL' );
     
     $id = $nv_Request->get_int( 'id', 'post', 0 );
     $list_levelid = filter_text_input( 'listid', 'post', '' );
     
-    if ( empty( $id ) and empty ( $list_levelid ) ) die( "NO" );
+    if( empty( $id ) and empty ( $list_levelid ) ) die( "NO" );
     
 	$listid = array();
-	if ( $id )
+	if( $id )
 	{
 		$listid[] = $id;
 		$num = 1;
@@ -47,18 +47,18 @@ if ( $nv_Request->isset_request( 'del', 'post' ) )
 }
 
 // Thay doi hoat dong email nhan tin
-if ( $nv_Request->isset_request( 'changestatus', 'post' ) )
+if( $nv_Request->isset_request( 'changestatus', 'post' ) )
 {
-    if ( ! defined( 'NV_IS_AJAX' ) ) die( 'Wrong URL' );
+    if( ! defined( 'NV_IS_AJAX' ) ) die( 'Wrong URL' );
     
     $id = $nv_Request->get_int( 'id', 'post', 0 );
     $controlstatus = $nv_Request->get_int( 'status', 'post', 0 );
     $array_id = filter_text_input( 'listid', 'post', '' );
     
-    if ( empty( $id ) and empty ( $array_id ) ) die( "NO" );
+    if( empty( $id ) and empty ( $array_id ) ) die( "NO" );
     
 	$listid = array();
-	if ( $id )
+	if( $id )
 	{
 		$listid[] = $id;
 		$num = 1;
@@ -78,13 +78,13 @@ if ( $nv_Request->isset_request( 'changestatus', 'post' ) )
 	$result = $db->sql_query( $sql );
 	$check = $db->sql_numrows( $result );
 	
-	if ( $check != $num ) die( "NO" );
+	if( $check != $num ) die( "NO" );
 	
 	$array_status = array();
 	$array_title = array();
 	while ( list( $id, $status ) = $db->sql_fetchrow( $result ) )
 	{		
-		if ( empty ( $controlstatus ) )
+		if( empty ( $controlstatus ) )
 		{
 			$array_status[$id] = $status ? 0 : 1;
 		}
@@ -166,7 +166,7 @@ foreach ( $order as $key => $check )
 		"title" => sprintf ( $BL->lang('filter_order_by'), "&quot;" . $lang_order_2[$key] . "&quot;" ) . " " . $lang_order_1[$order[$key]['order']]
 	);
 	
-	if ( ! in_array ( $check['order'], $check_order ) )
+	if( ! in_array ( $check['order'], $check_order ) )
 	{
 		$order[$key]['order'] = "NO";
 	}

@@ -89,6 +89,7 @@ $lang_module['blogStatus-1'] = 'Chờ đăng';
 $lang_module['blogStatus0'] = 'Tạm ngưng';
 $lang_module['blogStatus1'] = 'Hiệu lực';
 $lang_module['blogStatus2'] = 'Hết hạn';
+$lang_module['blogDelete'] = 'Xóa bài viết';
 
 $lang_module['categoriesManager'] = 'Quản lý danh mục bài viết';
 $lang_module['categoriesEmpty'] = 'Chưa có danh mục bài viết nào, hãy thêm danh mục từ trình đơn bên dưới';
@@ -128,6 +129,7 @@ $lang_module['filter_all_cat'] = 'Tất cả chuyên mục';
 
 $lang_module['action_status_ok'] = "Cho hoạt động";
 $lang_module['action_status_no'] = "Cho ngưng hoạt động";
+$lang_module['action_status_public'] = "Cho đăng bài viết";
 
 $lang_module['searchEmail'] = "Tìm email";
 $lang_module['searchTags'] = "Tìm tags";

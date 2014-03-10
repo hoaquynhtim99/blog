@@ -7,7 +7,7 @@
  * @Createdate Dec 11, 2013, 09:50:11 PM
  */
 
-if ( ! defined( 'NV_BLOG_ADMIN' ) ) die( 'Stop!!!' );
+if( ! defined( 'NV_BLOG_ADMIN' ) ) die( 'Stop!!!' );
 
 $page_title = $BL->lang('cfgMaster');
 

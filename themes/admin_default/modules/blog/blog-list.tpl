@@ -81,7 +81,7 @@ $(document).ready(function(){
 				<td class="center">{ROW.statusText}</td>
 				<td class="center">
 					<span class="edit-icon"><a href="{ROW.urlEdit}">{GLANG.edit}</a></span>
-					<span class="delete-icon"><a href="javascript:void(0);" onclick="nv_delete_tags({ROW.id});">{GLANG.delete}</a></span>
+					<span class="delete-icon"><a href="javascript:void(0);" onclick="nv_delete_post({ROW.id});">{GLANG.delete}</a></span>
 				</td>
 			</tr>
 		</tbody>
@@ -99,7 +99,7 @@ $(document).ready(function(){
 			<tr>
 				<td colspan="8">
 					<!-- BEGIN: action -->
-					<span class="{ACTION.class}-icon"><a onclick="nv_tags_action(document.getElementById('levelnone'), '{LANG.alert_check}', {ACTION.key});" href="javascript:void(0);" class="nounderline">{ACTION.title}</a>&nbsp;</span>
+					<span class="{ACTION.class}-icon"><a onclick="nv_post_action(document.getElementById('levelnone'), '{LANG.alert_check}', {ACTION.key});" href="javascript:void(0);" class="nounderline">{ACTION.title}</a>&nbsp;</span>
 					<!-- END: action -->
 				</td>
 			</tr>
