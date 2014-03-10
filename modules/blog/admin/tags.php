@@ -345,7 +345,7 @@ if( $order['title']['order'] != "NO" )
 }
 elseif( $order['numPosts']['order'] != "NO" )
 {
-	$sql .= " ORDER BY `numPosts` " . $order['numsong']['order'];
+	$sql .= " ORDER BY `numPosts` " . $order['numPosts']['order'];
 }
 else
 {
