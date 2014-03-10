@@ -144,6 +144,7 @@ class nv_mod_blog
 			if( isset( $this->js_data[$arg_list[$i]] ) )
 			{
 				if( $arg_list[$i] == 'jquery.ui.sortable' ) $return['jquery.ui.core'] = implode( "", $this->js_data['jquery.ui.core'] );
+				if( $arg_list[$i] == 'jquery.ui.datepicker' ) $return['jquery.ui.core'] = implode( "", $this->js_data['jquery.ui.core'] );
 				$return[$arg_list[$i]] =  implode( "", $this->js_data[$arg_list[$i]] );
 			}
 		}

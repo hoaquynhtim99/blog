@@ -53,6 +53,8 @@ $lang_module['blogBodyhtml'] = 'Nội dung bài viết';
 $lang_module['blogTools'] = 'Công cụ';
 $lang_module['blogInCats'] = 'Danh mục bài viết';
 $lang_module['blogTags'] = 'Tags';
+$lang_module['blogpostTime'] = 'Thời gian đăng';
+$lang_module['blogupdateTime'] = 'Thời gian cập nhật';
 $lang_module['blogpostType'] = 'Loại bài viết';
 $lang_module['blogpostType0'] = 'Bài viết bình thường';
 $lang_module['blogpostType1'] = 'Bài viết có hình ảnh';
@@ -64,6 +66,7 @@ $lang_module['blogpostType6'] = 'Thư viện';
 $lang_module['blogHometext'] = 'Nội dung tóm tắt';
 $lang_module['blogPublic'] = 'Đăng bài viết';
 $lang_module['blogSaveDraft'] = 'Lưu bản nháp';
+$lang_module['blogPubtime'] = 'Ngày xuất bản';
 $lang_module['blogPubtime1'] = 'Xuất bản bài viết vào lúc';
 $lang_module['blogExptime1'] = 'Hết hạn vào lúc';
 $lang_module['blogExpMode1'] = 'Khi hết hạn sẽ';
@@ -81,6 +84,11 @@ $lang_module['blogErrorSaveHtml'] = 'Lỗi: Hệ thống không lưu được n�
 $lang_module['blogErrorUpdateHtml'] = 'Lỗi: Hệ thống không cập nhật được nội dung bài viết';
 $lang_module['blogSaveDraftOk'] = 'Lưu bản nháp thành công';
 $lang_module['blogSaveOk'] = 'Lưu dữ liệu thành công, hệ thống sẽ tự động chuyển trang trong giây lát';
+$lang_module['blogStatus-2'] = 'Bản nháp';
+$lang_module['blogStatus-1'] = 'Chờ đăng';
+$lang_module['blogStatus0'] = 'Tạm ngưng';
+$lang_module['blogStatus1'] = 'Hiệu lực';
+$lang_module['blogStatus2'] = 'Hết hạn';
 
 $lang_module['categoriesManager'] = 'Quản lý danh mục bài viết';
 $lang_module['categoriesEmpty'] = 'Chưa có danh mục bài viết nào, hãy thêm danh mục từ trình đơn bên dưới';
@@ -116,12 +124,14 @@ $lang_module['filter_err_submit'] = 'Bạn cần chọn ít nhất một điều
 $lang_module['filter_lang_asc'] = 'tăng dần';
 $lang_module['filter_lang_desc'] = 'giảm dần';
 $lang_module['filter_order_by'] = 'Sắp xếp theo %s thứ tự';
+$lang_module['filter_all_cat'] = 'Tất cả chuyên mục';
 
 $lang_module['action_status_ok'] = "Cho hoạt động";
 $lang_module['action_status_no'] = "Cho ngưng hoạt động";
 
 $lang_module['searchEmail'] = "Tìm email";
 $lang_module['searchTags'] = "Tìm tags";
+$lang_module['searchPost'] = "Tìm bài viết";
 
 $lang_module['cfgMaster'] = "Thiết lập module";
 $lang_module['cfgView'] = "Cấu hình hiển thị";
