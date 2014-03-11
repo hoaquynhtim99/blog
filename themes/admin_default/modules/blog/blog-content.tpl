@@ -104,13 +104,81 @@
 			<dd><textarea type="text" class="blog-input bl-txt-f autoresize textarea-animated" id="hometext" name="hometext" rows="1">{DATA.hometext}</textarea></dd>
 		</dl>
 		<p><strong>{LANG.blogBodyhtml}:</strong></p>
-		{DATA.bodyhtml}
+		<div class="bl-editor">
+			{DATA.bodyhtml}
+		</div>
+		<dl class="bl-post-dl">
+			<dt class="aright"><label for="images">{LANG.blogImages}:</label></dt>
+			<dd>
+				<input type="text" class="blog-input bl-txt-q" name="images" id="images" value="{DATA.images}"/>
+				<input type="button" class="blog-button-2" name="imagesBrowser" id="imagesBrowser" value="{LANG.browser}" onclick="nv_open_browse_file(script_name + '?' + nv_name_variable + '=upload&popup=1&area=images&path={UPLOADS_PATH}&type=image&currentpath={CURRENT_PATH}', 'NVImg', '850', '420', 'resizable=no,scrollbars=no,toolbar=no,location=no,status=no');"/>
+				<input type="button" class="blog-button-2" name="imagesView" id="imagesView" value="{LANG.view}" onclick="viewImages();"/>
+			</dd>
+		</dl>
+		<dl class="bl-post-dl">
+			<dt class="aright"><label for="mediaType">{LANG.blogmediaType}:</label></dt>
+			<dd>
+				<select name="mediaType" id="mediaType" class="blog-input">
+					<!-- BEGIN: mediaType --><option value="{MEDIATYPE.key}"{MEDIATYPE.selected}>{MEDIATYPE.title}</option><!-- END: mediaType -->
+				</select>
+			</dd>
+		</dl>
+		<dl class="bl-post-dl" id="mediaHeight-wrap">
+			<dt class="aright"><label for="mediaHeight">{LANG.blogMediaHeight}:</label></dt>
+			<dd><input type="text" class="blog-input bl-txt-q" name="mediaHeight" id="mediaHeight" value="{DATA.mediaHeight}"/></dd>
+		</dl>
+		<dl class="bl-post-dl" id="mediaValue-wrap">
+			<dt class="aright"><label for="mediaValue">{LANG.blogMediaValue}:</label></dt>
+			<dd>
+				<input type="text" class="blog-input bl-txt-q" name="mediaValue" id="mediaValue" value="{DATA.mediaValue}"/>
+				<input type="button" class="blog-button-2" name="mediaBrowser" id="mediaBrowser" value="{LANG.browser}" onclick="nv_open_browse_file(script_name + '?' + nv_name_variable + '=upload&popup=1&area=mediaValue&path={UPLOADS_PATH}&type=file&currentpath={CURRENT_PATH}', 'NVImg', '850', '420', 'resizable=no,scrollbars=no,toolbar=no,location=no,status=no');"/>
+			</dd>
+		</dl>
 	</div>
 </form>
 <script type="text/javascript">
+function mediaHandle(){
+	var mediaType = $('#mediaType').val();
+	if( mediaType != '2' && mediaType != '3' &&  mediaType != 4 ){
+		$('#mediaHeight').attr('disabled','disabled');
+		$('#mediaHeight-wrap').hide();
+	}
+	else
+	{
+		$('#mediaHeight').removeAttr('disabled');
+		$('#mediaHeight-wrap').show();
+	}
+	if( mediaType == '0' ){
+		$('#mediaValue').attr('disabled','disabled');
+		$('#mediaValue-wrap').hide();
+	}
+	else
+	{
+		$('#mediaValue').removeAttr('disabled');
+		$('#mediaValue-wrap').show();
+	}
+	if( mediaType == '0' || mediaType == '4' ){
+		$('#mediaBrowser').hide();
+	}else{
+		$('#mediaBrowser').show();
+	}
+}
+function viewImages(){
+	var images = $('#images').val();
+	if( images == '' ){
+		return;
+	}
+	Shadowbox.open({
+		content : images,
+		player : 'img',
+		hanleOversize: 'resize'
+	});
+}
 $(document).ready(function(){
 	BL.tags.init();
 	BL.post.init({EDITOR});
+	mediaHandle();
+	// Xu ly panel
 	$('.bl-post-panel .tl').click(function(){
 		var $this = $(this).parent();
 		
@@ -120,6 +188,8 @@ $(document).ready(function(){
 			$this.find('.ct').slideUp(200, function(){$this.removeClass('decollapse').addClass('collapse')});
 		}
 	});
+	
+	// Chon ngay thang
 	$("#pubTime, #expTime").datepicker({
 		dateFormat: "dd/mm/yy",
 		changeMonth: true,
@@ -127,6 +197,11 @@ $(document).ready(function(){
 		showOtherMonths: true,
 		showButtonPanel: true,
 		showOn: 'focus'
+	});
+	
+	// Xu ly media
+	$('#mediaType').change(function(){
+		mediaHandle();
 	});
 });
 </script>

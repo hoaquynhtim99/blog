@@ -9,8 +9,61 @@
 
 if( ! defined( 'NV_BLOG_ADMIN' ) ) die( 'Stop!!!' );
 
+// Xu ly thu muc uploads
+$username_alias = change_alias( $admin_info['username'] );
+$array_structure_image = array();
+$array_structure_image[''] = $module_name;
+$array_structure_image['Y'] = $module_name . '/' . date( 'Y' );
+$array_structure_image['Ym'] = $module_name . '/' . date( 'Y_m' );
+$array_structure_image['Y_m'] = $module_name . '/' . date( 'Y/m' );
+$array_structure_image['Ym_d'] = $module_name . '/' . date( 'Y_m/d' );
+$array_structure_image['Y_m_d'] = $module_name . '/' . date( 'Y/m/d' );
+$array_structure_image['username'] = $module_name . '/' . $username_alias;
+
+$array_structure_image['username_Y'] = $module_name . '/' . $username_alias . '/' . date( 'Y' );
+$array_structure_image['username_Ym'] = $module_name . '/' . $username_alias . '/' . date( 'Y_m' );
+$array_structure_image['username_Y_m'] = $module_name . '/' . $username_alias . '/' . date( 'Y/m' );
+$array_structure_image['username_Ym_d'] = $module_name . '/' . $username_alias . '/' . date( 'Y_m/d' );
+$array_structure_image['username_Y_m_d'] = $module_name . '/' . $username_alias . '/' . date( 'Y/m/d' );
+
+$currentpath = isset( $array_structure_image[$BL->setting['folderStructure']] ) ? $array_structure_image[$BL->setting['folderStructure']] : '';
+
+if( file_exists( NV_UPLOADS_REAL_DIR . '/' . $currentpath ) )
+{
+	$upload_real_dir_page = NV_UPLOADS_REAL_DIR . '/' . $currentpath;
+}
+else
+{
+	$upload_real_dir_page = NV_UPLOADS_REAL_DIR . '/' . $module_name;
+	$e = explode( "/", $currentpath );
+	if( ! empty( $e ) )
+	{
+		$cp = "";
+		foreach( $e as $p )
+		{
+			if( ! empty( $p ) and ! is_dir( NV_UPLOADS_REAL_DIR . '/' . $cp . $p ) )
+			{
+				$mk = nv_mkdir( NV_UPLOADS_REAL_DIR . '/' . $cp, $p );
+				nv_loadUploadDirList( false );
+				if( $mk[0] > 0 )
+				{
+					$upload_real_dir_page = $mk[2];
+				}
+			}
+			elseif( ! empty( $p ) )
+			{
+				$upload_real_dir_page = NV_UPLOADS_REAL_DIR . '/' . $cp . $p;
+			}
+			$cp .= $p . '/';
+		}
+	}
+	$upload_real_dir_page = str_replace( "\\", "/", $upload_real_dir_page );
+}
+
+$currentpath = str_replace( NV_ROOTDIR . "/", "", $upload_real_dir_page );
+
 // Goi js
-$BL->callJqueryPlugin( 'jquery.ui.sortable', 'jquery.tipsy', 'jquery.autosize', 'jquery.ui.autocomplete', 'jquery.ui.datepicker' );
+$BL->callJqueryPlugin( 'jquery.ui.sortable', 'jquery.tipsy', 'jquery.autosize', 'jquery.ui.autocomplete', 'jquery.ui.datepicker', 'shadowbox' );
 
 $page_title = $BL->lang('blogManager');
 
@@ -83,13 +136,13 @@ else
 		"alias" => '',
 		"keywords" => '',
 		"images" => '',
-		"mediaType" => 0,
-		"mediaHeight" => 0,
+		"mediaType" => $BL->setting['initMediaType'],
+		"mediaHeight" => $BL->setting['initMediaHeight'],
 		"mediaValue" => '',
 		"hometext" => '',
 		"bodytext" => '',
 		"bodyhtml" => '',
-		"postType" => 0,
+		"postType" => $BL->setting['initPostType'],
 		"catids" => array(),
 		"tagids" => array(),
 		"numWords" => 0,
@@ -99,7 +152,7 @@ else
 		"expTime" => 0,
 		"expTime_h" => 0,
 		"expTime_m" => 0,
-		"expMode" => 0,
+		"expMode" => $BL->setting['initPostExp'],
 		"status" => -2,
 	);
 }
@@ -125,7 +178,7 @@ if( $prosessMode != 'none' )
 	$array['images'] = $nv_Request->get_string( 'images', 'post', '' );
 	$array['mediaType'] = $nv_Request->get_int( 'mediaType', 'post', 0 );
 	$array['mediaHeight'] = $nv_Request->get_int( 'mediaHeight', 'post', 0 );
-	$array['mediaValue'] = filter_text_textarea( 'mediaValue', '', NV_ALLOWED_HTML_TAGS );
+	$array['mediaValue'] = $nv_Request->get_string( 'mediaValue', 'post', '' );
 	$array['hometext'] = filter_text_textarea( 'hometext', '', NV_ALLOWED_HTML_TAGS );
 	$array['bodyhtml'] = nv_editor_filter_textarea( 'bodyhtml', '', NV_ALLOWED_HTML_TAGS );
 	$array['postType'] = $nv_Request->get_int( 'postType', 'post', 0 );
@@ -147,7 +200,16 @@ if( $prosessMode != 'none' )
 	{
 		if( preg_match( "/^\//i", $array['images'] ) )
 		{
-			$array['images'] = substr( $array['images'], strlen( NV_BASE_SITEURL . NV_UPLOADS_DIR . "/" . $module_name . "/images/" ) );
+			$array['images'] = substr( $array['images'], strlen( NV_BASE_SITEURL . NV_UPLOADS_DIR . "/" . $module_name ) );
+		}
+	}
+	
+	// Chinh duong dan media
+	if( ! empty( $array['mediaValue'] ) )
+	{
+		if( preg_match( "/^\//i", $array['mediaValue'] ) )
+		{
+			$array['mediaValue'] = substr( $array['mediaValue'], strlen( NV_BASE_SITEURL . NV_UPLOADS_DIR . "/" . $module_name ) );
 		}
 	}
 	
@@ -175,6 +237,12 @@ if( $prosessMode != 'none' )
 	if( ! in_array( $array['postType'], $BL->blogpostType ) )
 	{
 		$array['postType'] = 0;
+	}
+	
+	// Chuan hoa loai media
+	if( ! in_array( $array['mediaType'], $BL->blogMediaType ) )
+	{
+		$array['mediaType'] = 0;
 	}
 	
 	// Thay doi danh muc, tags string => array
@@ -251,6 +319,14 @@ if( $prosessMode != 'none' )
 		elseif( ! empty( $array['expTime'] ) and $array['expTime'] <= NV_CURRENTTIME and $array['expMode'] == 2 )
 		{
 			$error = $BL->lang('blogErrorExp');
+		}
+		elseif( ! empty( $array['mediaType'] ) and empty( $array['mediaValue'] ) )
+		{
+			$error = $BL->lang('blogErrorMediaValue');
+		}
+		elseif( $array['mediaType'] > 1 and empty( $array['mediaHeight'] ) )
+		{
+			$error = $BL->lang('blogErrorMediaHeight');
 		}
 	}
 	
@@ -482,16 +558,34 @@ if( defined( 'NV_EDITOR' ) )
 
 if( defined( 'NV_EDITOR' ) and nv_function_exists( 'nv_aleditor' ) )
 {
-	$array['bodyhtml'] = nv_aleditor( 'bodyhtml', '100%', '800px', $array['bodyhtml'] );
+	$array['bodyhtml'] = nv_aleditor( 'bodyhtml', '100%', '500px', $array['bodyhtml'] );
 }
 else
 {
-	$array['bodyhtml'] = "<textarea style=\"width:100%; height:800px\" name=\"bodyhtml\" id=\"bodyhtml\">" . $array['bodyhtml'] . "</textarea>";
+	$array['bodyhtml'] = "<textarea style=\"width:100%; height:500px\" name=\"bodyhtml\" id=\"bodyhtml\">" . $array['bodyhtml'] . "</textarea>";
 }
 
 // Sua lai gio tu so thanh text
 $array['pubTime'] = $array['pubTime'] ? date( "d/m/Y", $array['pubTime'] ) : "";
 $array['expTime'] = $array['expTime'] ? date( "d/m/Y", $array['expTime'] ) : "";
+
+// Chuyen so thanh chuoi
+if( empty( $array['mediaHeight'] ) )
+{
+	$array['mediaHeight'] = "";
+}
+
+// Chinh duong dan anh
+if( ! empty( $array['images'] ) and preg_match( "/^\//i", $array['images'] ) )
+{
+	$array['images'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . "/" . $module_name . $array['images'];
+}
+
+// Chinh duong dan media
+if( ! empty( $array['mediaValue'] ) and preg_match( "/^\//i", $array['mediaValue'] ) )
+{
+	$array['mediaValue'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . "/" . $module_name . $array['mediaValue'];
+}
 
 $xtpl = new XTemplate( "blog-content.tpl", NV_ROOTDIR . "/themes/" . $global_config['module_theme'] . "/modules/" . $module_file );
 $xtpl->assign( 'LANG', $lang_module );
@@ -637,6 +731,23 @@ if( ! empty( $error ) )
 	$xtpl->assign( 'ERROR', $error );
 	$xtpl->parse( 'main.error' );
 }
+
+// Xuat kieu media
+foreach( $BL->blogMediaType as $mediaType )
+{
+	$mediaType = array(
+		"key" => $mediaType,
+		"title" => $BL->lang('blogmediaType' . $mediaType),
+		"selected" => $mediaType == $array['mediaType'] ? " selected=\"selected\"" : "",
+	);
+
+	$xtpl->assign( 'MEDIATYPE', $mediaType );
+	$xtpl->parse( 'main.mediaType' );
+}
+
+// Bien chon media
+$xtpl->assign( 'UPLOADS_PATH', NV_UPLOADS_DIR . '/' . $module_name );
+$xtpl->assign( 'CURRENT_PATH', $currentpath );
 
 $xtpl->parse( 'main' );
 $contents = $xtpl->text( 'main' );

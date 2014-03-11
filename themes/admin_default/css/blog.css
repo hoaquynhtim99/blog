@@ -280,6 +280,9 @@ select.blog-input{
 .bl-txt-h{
 	width:49%;
 }
+.bl-txt-q{
+	width:25%;
+}
 
 .textarea-animated{-webkit-transition: height 0.2s;-moz-transition: height 0.2s;transition: height 0.2s;}
 
@@ -402,8 +405,11 @@ select.blog-input{
 .bl-post-fix-height.large{
 	max-height:400px;
 }
+.bl-editor{
+	margin-bottom:15px;
+}
 
-/* JQUERY AUTOCOMPLETE */
+/* JQUERY UI AUTOCOMPLETE */
 .ui-autocomplete-loading {
 	background-image:url('../images/blog/load.gif');
 	background-position: 95% center;
