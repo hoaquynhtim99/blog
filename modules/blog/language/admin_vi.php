@@ -43,6 +43,9 @@ $lang_module['mainTitle'] = 'Hệ thống quản lý blog';
 $lang_module['mainNotice'] = 'Các cảnh báo cần giải quyết';
 $lang_module['mainNoticeEmpty'] = 'Tuyệt! Không có cảnh báo nào';
 $lang_module['mainTagsWarning'] = '%d tags chưa được cập nhật từ khóa hoặc mô tả';
+$lang_module['mainPostExpriedWarning'] = '%d bài viết hết hạn';
+$lang_module['mainPostDraftWarning'] = '%d bài viết nháp';
+$lang_module['mainPostWaitWarning'] = '%d bài viết đang chờ đăng';
 
 $lang_module['blogList'] = 'Danh sách bài viết';
 $lang_module['blogAdd'] = 'Viết bài';

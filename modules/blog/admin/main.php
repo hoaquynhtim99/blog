@@ -29,6 +29,38 @@ if( $num > 0 )
 	);
 }
 
+// Bai viet het han, cho dang, nhap
+$sql = "SELECT COUNT(*) AS `number`, `status` FROM `" . $BL->table_prefix . "_rows` GROUP BY `status`";
+$result = $db->sql_query( $sql );
+
+while( $row = $db->sql_fetchrow( $result ) )
+{
+	if( $row['number'] > 0 )
+	{
+		if( $row['status'] == 2 )
+		{
+			$array_notice[] = array(
+				"link" => NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name  . "&amp;" . NV_OP_VARIABLE . "=tags&amp;noComplete=1",
+				"title" => sprintf( $BL->lang('mainPostExpriedWarning'), $row['number'] ),
+			);
+		}
+		elseif( $row['status'] == -2 )
+		{
+			$array_notice[] = array(
+				"link" => NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name  . "&amp;" . NV_OP_VARIABLE . "=tags&amp;noComplete=1",
+				"title" => sprintf( $BL->lang('mainPostDraftWarning'), $row['number'] ),
+			);
+		}
+		elseif( $row['status'] == -1 )
+		{
+			$array_notice[] = array(
+				"link" => NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name  . "&amp;" . NV_OP_VARIABLE . "=tags&amp;noComplete=1",
+				"title" => sprintf( $BL->lang('mainPostWaitWarning'), $row['number'] ),
+			);
+		}
+	}
+}
+
 // Xuat cac canh bao
 if( ! empty( $array_notice ) )
 {

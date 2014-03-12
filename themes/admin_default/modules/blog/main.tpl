@@ -16,12 +16,22 @@
 </div>
 <div class="bl-main-col clearfix">
 	<div class="col-2">
-		
+		<div class="bl-post-panel decollapse">
+			<div class="tl">{LANG.mainNotice}</div>
+			<div class="ct">
+				
+			</div>
+		</div>
 	</div>
 </div>
 <div class="bl-main-col clearfix">
 	<div class="col-3">
-		
+		<div class="bl-post-panel decollapse">
+			<div class="tl">{LANG.mainNotice}</div>
+			<div class="ct">
+				
+			</div>
+		</div>
 	</div>
 </div>
 <script type="text/javascript">
