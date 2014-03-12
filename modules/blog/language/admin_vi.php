@@ -154,6 +154,7 @@ $lang_module['filter_lang_asc'] = 'tăng dần';
 $lang_module['filter_lang_desc'] = 'giảm dần';
 $lang_module['filter_order_by'] = 'Sắp xếp theo %s thứ tự';
 $lang_module['filter_all_cat'] = 'Tất cả chuyên mục';
+$lang_module['filter_all_status'] = 'Tất cả trạng thái';
 
 $lang_module['action_status_ok'] = "Cho hoạt động";
 $lang_module['action_status_no'] = "Cho ngưng hoạt động";

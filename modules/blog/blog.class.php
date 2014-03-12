@@ -11,13 +11,13 @@ if( ! defined( 'NV_MAINFILE' ) ) die( 'Stop!!!' );
 
 class nv_mod_blog
 {
+	public $author_email = 'phantandung92@gmail.com';
+	
 	private $lang_data = '';
 	private $mod_data = '';
 	private $mod_name = '';
 	private $mod_file = '';
 	private $db = null;
-	
-	public $author_email = 'phantandung92@gmail.com';
 	
 	public $db_prefix = '';
 	public $db_prefix_lang = "";
@@ -29,6 +29,7 @@ class nv_mod_blog
 	public $blogpostType = array( 0, 1, 2, 3, 4, 5, 6 );
 	public $blogMediaType = array( 0, 1, 2, 3, 4 );
 	public $blogExpMode = array( 0, 1, 2 );
+	public $blogStatus = array( -2, -1, 0, 1, 2 );
 	
 	private $base_site_url = null;
 	private $root_dir = null;

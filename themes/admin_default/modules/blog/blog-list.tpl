@@ -15,6 +15,12 @@
 						<option value="{CAT.id}"{CAT.selected}>{CAT.name}</option>
 						<!-- END: cat -->
 					</select>
+					<select class="blog-input text" name="status">
+						<option value="10">{LANG.filter_all_status}</option>
+						<!-- BEGIN: status -->
+						<option value="{STATUS.key}"{STATUS.selected}>{STATUS.title}</option>
+						<!-- END: status -->
+					</select>
 					<input class="blog-button" type="button" name="do" value="{LANG.filter_action}"/>
 					<input class="blog-button" type="button" name="cancel" value="{LANG.filter_cancel}" onclick="window.location='{URL_CANCEL}';"{DATA_SEARCH.disabled}/>
 					<input class="blog-button" type="button" name="clear" value="{LANG.filter_clear}"/>
@@ -43,10 +49,11 @@ $(document).ready(function(){
 		var f_from = $('input[name=from]').val();
 		var f_to = $('input[name=to]').val();
 		var f_catid = $('select[name=catid]').val();
+		var f_status = $('select[name=status]').val();
 
-		if( f_q != '' || f_from != '' || f_to != '' || f_catid != '0' ){
+		if( f_q != '' || f_from != '' || f_to != '' || f_catid != '0' || f_status != '10' ){
 			$('#filter-form input, #filter-form select').attr('disabled', 'disabled');
-			window.location = '{NV_BASE_ADMINURL}index.php?{NV_NAME_VARIABLE}={MODULE_NAME}&{NV_OP_VARIABLE}={OP}&q=' + f_q + '&from=' + f_from + '&to=' + f_to + '&catid=' + f_catid;	
+			window.location = '{NV_BASE_ADMINURL}index.php?{NV_NAME_VARIABLE}={MODULE_NAME}&{NV_OP_VARIABLE}={OP}&q=' + f_q + '&from=' + f_from + '&to=' + f_to + '&catid=' + f_catid + '&status=' + f_status;	
 		}else{
 			alert ('{LANG.filter_err_submit}');
 		}

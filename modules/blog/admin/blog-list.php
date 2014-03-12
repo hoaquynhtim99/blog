@@ -132,11 +132,12 @@ $data_search = array(
 	"from" => filter_text_input( 'from', 'get', '', 1, 100 ),
 	"to" => filter_text_input( 'to', 'get', '', 1, 100 ),
 	"catid" => $nv_Request->get_int( 'catid', 'get', 0 ),
+	"status" => $nv_Request->get_int( 'status', 'get', 10 ),
 	"disabled" => " disabled=\"disabled\""
 );
 
 // Cam an nut huy tim kiem
-if( ! empty( $data_search['q'] ) or ! empty( $data_search['from'] ) or ! empty( $data_search['to'] ) or ! empty( $data_search['catid'] ) )
+if( ! empty( $data_search['q'] ) or ! empty( $data_search['from'] ) or ! empty( $data_search['to'] ) or ! empty( $data_search['catid'] ) or in_array( $data_search['status'], $BL->blogStatus ) )
 {
 	$data_search['disabled'] = "";
 }
@@ -171,6 +172,11 @@ if( ! empty( $data_search['catid'] ) )
 {
 	$base_url .= "&amp;catid=" . $data_search['catid'];
 	$sql .= " AND " . $BL->build_query_search_id( $data_search['catid'], 'catids' );
+}
+if( in_array( $data_search['status'], $BL->blogStatus ) )
+{
+	$base_url .= "&amp;status=" . $data_search['status'];
+	$sql .= " AND `status`=" . $data_search['status'];
 }
 
 // Du lieu sap xep
@@ -311,6 +317,19 @@ foreach( $list_cats as $cat )
 {
 	$xtpl->assign( 'CAT', $cat );
 	$xtpl->parse( 'main.cat' );
+}
+
+// Xuat trng thai
+foreach( $BL->blogStatus as $status )
+{
+	$status = array(
+		"key" => $status,
+		"title" => $BL->lang('blogStatus' . $status),
+		"selected" => $status == $data_search['status'] ? " selected=\"selected\"" : "",
+	);
+
+	$xtpl->assign( 'STATUS', $status );
+	$xtpl->parse( 'main.status' );
 }
 
 $xtpl->parse( 'main' );
