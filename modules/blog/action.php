@@ -33,6 +33,24 @@ $sql_drop_module[] = "DROP TABLE IF EXISTS `" . $db_config['prefix'] . "_" . $la
 $sql_drop_module[] = "DROP TABLE IF EXISTS `" . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_rows`";
 $sql_drop_module[] = "DROP TABLE IF EXISTS `" . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_config`";
 
+// Xoa cron cua module
+$result = $db->sql_query( "SELECT `id`, `params` FROM `" . NV_CRONJOBS_GLOBALTABLE . "` ORDER BY `id` DESC" );
+$is_auto = 0;
+while( list( $id, $params ) = $db->sql_fetchrow( $result ) )
+{
+    $params = ( ! empty( $params ) ) ? array_map( "trim", explode( ",", $params ) ) : array( "", 0 );
+    if( $params[0] == $lang . "_" . $module_data )
+    {
+        $is_auto = $id;
+        break;
+    }
+}
+
+if( $is_auto )
+{
+    $db->sql_query( "DELETE FROM `" . NV_CRONJOBS_GLOBALTABLE . "` WHERE `id`=" . $is_auto );
+}
+
 $sql_create_module = $sql_drop_module;
 
 // Chuyên mục bài viết
@@ -136,5 +154,50 @@ $sql_create_module[] = "INSERT INTO `" . $db_config['prefix'] . "_" . $lang . "_
 
 ('folderStructure', 'Ym')
 ";
+
+// Them cron cua module
+$result = $db->sql_query( "SHOW COLUMNS FROM `" . NV_CRONJOBS_GLOBALTABLE . "`" );
+
+$list_field = array();
+$list_value = array();
+
+while( $row = $db->sql_fetch_assoc( $result ) )
+{
+	if( preg_match( "/^([a-zA-Z0-9]{2})\_cron_name$/", $row['Field'] ) )
+	{
+		$list_field[] = $row['Field'];
+		$list_value[] = "'Cron Blog Newsletters'";
+	}
+}
+
+$list_field = ", `" . implode( "`, `", $list_field ) . "`";
+$list_value = ", " . implode( ", ", $list_value );
+
+$sql_create_module[] = "INSERT INTO `" . NV_CRONJOBS_GLOBALTABLE . "` (
+	`id`, 
+	`start_time`, 
+	`interval`, 
+	`run_file`, 
+	`run_func`, 
+	`params`, 
+	`del`, 
+	`is_sys`, 
+	`act`, 
+	`last_time`, 
+	`last_result` " . $list_field . "
+) VALUES (
+	NULL, 
+	" . NV_CURRENTTIME . ", 
+	5, 
+	'module_blog_newsletters.php', 
+	'cron_blog_newsletters', 
+	'" . $lang . "_" . $module_data . ", 
+	5', 
+	0, 
+	0, 
+	1, 
+	" . NV_CURRENTTIME . ", 
+	1 " . $list_value . "
+)";
 
 ?>
