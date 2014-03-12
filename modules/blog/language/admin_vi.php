@@ -186,4 +186,6 @@ $lang_module['tagsList'] = "Danh sách tags";
 $lang_module['tagsMost'] = "Chọn từ tags nổi bật";
 $lang_module['tagsSearch'] = "Tìm hoặc thêm tags";
 
+$lang_module['donateComment'] = "Quyên góp xây dựng module blog";
+
 ?>

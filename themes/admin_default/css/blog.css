@@ -479,4 +479,5 @@ select.blog-input{
 	margin-left:6px;
 }
 
-
+/* DONATE */
+.bl-donate form{display:inline-block}

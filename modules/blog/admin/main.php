@@ -122,6 +122,15 @@ $module_version['date'] = $module_version['date'] ? nv_date( "D, j M Y H:i:s", $
 $xtpl->assign( 'MODULE_INFO', $module_version );
 $xtpl->assign( 'AUTHOR_CONTACT', nv_EncodeEmail( $BL->author_email ) );
 
+$xtpl->assign( 'DONATE_EMAIL', $BL->author_email );
+$xtpl->assign( 'DONATE_ORDERID', NV_CURRENTTIME );
+$xtpl->assign( 'DONATE_AMOUNT', 200000 );
+$xtpl->assign( 'DONATE_RETURN', NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name );
+
+$xtpl->assign( 'NV_BASE_SITEURL', NV_BASE_SITEURL );
+$xtpl->assign( 'TEMPLATE', $global_config['module_theme'] );
+$xtpl->assign( 'MODULE_FILE', $module_file );
+
 $xtpl->parse( 'main' );
 $contents = $xtpl->text( 'main' );
 
