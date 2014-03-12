@@ -369,8 +369,8 @@ if( $prosessMode != 'none' )
 		// Sua bai viet
 		else
 		{
-			// Neu khong nhap, khong bi dung thi cho dang
-			if( ! in_array( $array_old['status'], array( -2, 0 ) ) )
+			// Neu khong bi dung thi cho dang
+			if( ! in_array( $array_old['status'], array( 0 ) ) )
 			{
 				$array['status'] = -1;
 			}
@@ -391,8 +391,8 @@ if( $prosessMode != 'none' )
 		// Sua bai viet
 		else
 		{
-			// Neu khong nhap, khong bi dung thi cho dang
-			if( ! in_array( $array_old['status'], array( -2, 0 ) ) )
+			// Neu khong bi dung thi cho dang
+			if( ! in_array( $array_old['status'], array( 0 ) ) )
 			{
 				$array['status'] = 1;
 			}
