@@ -17,6 +17,8 @@ class nv_mod_blog
 	private $mod_file = '';
 	private $db = null;
 	
+	public $author_email = 'phantandung92@gmail.com';
+	
 	public $db_prefix = '';
 	public $db_prefix_lang = "";
 	public $table_prefix = "";

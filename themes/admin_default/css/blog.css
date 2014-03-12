@@ -72,6 +72,9 @@ body{
 	padding:0;
 	margin:0;
 }
+.bl-ul li strong{
+	color:#e06f6f;
+}
 .bl-warning{
 	color:#e06f6f;
 }
@@ -300,6 +303,7 @@ select.blog-input{
 .list-icon{background: url('../images/blog/list-icon.png') no-repeat left center;padding-left: 17px;text-decoration:none}
 .note-icon{background: url('../images/blog/note-icon.png') no-repeat left center;padding-left: 17px;text-decoration:none}
 .warning-icon{background: url('../images/blog/warning-icon.png') no-repeat left center;padding-left: 17px;text-decoration:none}
+.ul-icon{background: url('../images/blog/ul-icon.png') no-repeat left center;padding-left: 17px;text-decoration:none}
 
 /* POST */
 .bl-post-col-left{

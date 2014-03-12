@@ -40,26 +40,55 @@ while( $row = $db->sql_fetchrow( $result ) )
 		if( $row['status'] == 2 )
 		{
 			$array_notice[] = array(
-				"link" => NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name  . "&amp;" . NV_OP_VARIABLE . "=tags&amp;noComplete=1",
+				"link" => NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name  . "&amp;" . NV_OP_VARIABLE . "=blog-list&amp;status=2",
 				"title" => sprintf( $BL->lang('mainPostExpriedWarning'), $row['number'] ),
 			);
 		}
 		elseif( $row['status'] == -2 )
 		{
 			$array_notice[] = array(
-				"link" => NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name  . "&amp;" . NV_OP_VARIABLE . "=tags&amp;noComplete=1",
+				"link" => NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name  . "&amp;" . NV_OP_VARIABLE . "=blog-list&amp;status=-2",
 				"title" => sprintf( $BL->lang('mainPostDraftWarning'), $row['number'] ),
 			);
 		}
 		elseif( $row['status'] == -1 )
 		{
 			$array_notice[] = array(
-				"link" => NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name  . "&amp;" . NV_OP_VARIABLE . "=tags&amp;noComplete=1",
+				"link" => NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name  . "&amp;" . NV_OP_VARIABLE . "=blog-list&amp;status=-1",
 				"title" => sprintf( $BL->lang('mainPostWaitWarning'), $row['number'] ),
 			);
 		}
 	}
 }
+
+$array_statistics = array();
+
+// Thong ke so bai viet
+$sql = "SELECT COUNT(*) FROM `" . $BL->table_prefix . "_rows`";
+list( $num ) = $db->sql_fetchrow( $db->sql_query( $sql ) );
+
+$array_statistics[] = array(
+	"link" => NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name  . "&amp;" . NV_OP_VARIABLE . "=blog-list",
+	"title" => sprintf( $BL->lang('mainStatPostTotal'), $num ),
+);
+
+// Thong ke so tags
+$sql = "SELECT COUNT(*) FROM `" . $BL->table_prefix . "_tags`";
+list( $num ) = $db->sql_fetchrow( $db->sql_query( $sql ) );
+
+$array_statistics[] = array(
+	"link" => NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name  . "&amp;" . NV_OP_VARIABLE . "=tags",
+	"title" => sprintf( $BL->lang('mainStatTagsTotal'), $num ),
+);
+
+// Thong ke so email dang ky nhan tin
+$sql = "SELECT COUNT(*) FROM `" . $BL->table_prefix . "_newsletters`";
+list( $num ) = $db->sql_fetchrow( $db->sql_query( $sql ) );
+
+$array_statistics[] = array(
+	"link" => NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name  . "&amp;" . NV_OP_VARIABLE . "=newsletter-manager",
+	"title" => sprintf( $BL->lang('mainStatNewsletters'), $num ),
+);
 
 // Xuat cac canh bao
 if( ! empty( $array_notice ) )
@@ -76,6 +105,22 @@ else
 {
 	$xtpl->parse( 'main.NoNotice' );
 }
+
+// Xuat cac thong tin thong ke
+foreach( $array_statistics as $statistics )
+{
+	$xtpl->assign( 'STATISTICS', $statistics );
+	$xtpl->parse( 'main.statistics' );
+}
+
+// Xuat thong tin module
+include( NV_ROOTDIR . "/modules/" . $module_file . "/version.php" );
+
+$module_version['date'] = intval( strtotime( $module_version['date'] ) );
+$module_version['date'] = $module_version['date'] ? nv_date( "D, j M Y H:i:s", $module_version['date'] ) . " GMT" : "N/A";
+
+$xtpl->assign( 'MODULE_INFO', $module_version );
+$xtpl->assign( 'AUTHOR_CONTACT', nv_EncodeEmail( $BL->author_email ) );
 
 $xtpl->parse( 'main' );
 $contents = $xtpl->text( 'main' );

@@ -17,9 +17,13 @@
 <div class="bl-main-col clearfix">
 	<div class="col-2">
 		<div class="bl-post-panel decollapse">
-			<div class="tl">{LANG.mainNotice}</div>
+			<div class="tl">{LANG.mainStat}</div>
 			<div class="ct">
-				
+				<ul class="bl-ul">
+					<!-- BEGIN: statistics -->
+					<li class="note-icon"><a href="{STATISTICS.link}">{STATISTICS.title}</a></li>
+					<!-- END: statistics -->
+				</ul>
 			</div>
 		</div>
 	</div>
@@ -27,7 +31,20 @@
 <div class="bl-main-col clearfix">
 	<div class="col-3">
 		<div class="bl-post-panel decollapse">
-			<div class="tl">{LANG.mainNotice}</div>
+			<div class="tl">{LANG.mainInfo}</div>
+			<div class="ct">
+				<ul class="bl-ul">
+					<li class="ul-icon">{LANG.mainInfoVersion}: <strong>{MODULE_INFO.version}</strong></li>
+					<li class="ul-icon">{LANG.mainInfoRelease}: <strong>{MODULE_INFO.date}</strong></li>
+					<li class="ul-icon">{LANG.mainInfoAuthor}: <strong>{MODULE_INFO.author}</strong></li>
+					<li class="ul-icon">{LANG.mainInfoContact}: <strong>{AUTHOR_CONTACT}</strong></li>
+					<li class="ul-icon">{LANG.mainInfoSupport}: <strong><a href="https://github.com/hoaquynhtim99/blog/" target="_blank">https://github.com/hoaquynhtim99/blog/</a></strong></li>
+					<li class="ul-icon">{LANG.mainInfoIssue}: <strong><a href="https://github.com/hoaquynhtim99/blog/issues" target="_blank">https://github.com/hoaquynhtim99/blog/issues</a></strong></li>
+				</ul>
+			</div>
+		</div>
+		<div class="bl-post-panel decollapse">
+			<div class="tl">{LANG.mainDonation}</div>
 			<div class="ct">
 				
 			</div>
