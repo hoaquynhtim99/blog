@@ -94,6 +94,12 @@ class nv_mod_blog
 		$this->js_data['jquery.ui.datepicker'][] = "<link type=\"text/css\" href=\"" . $this->base_site_url . "js/ui/jquery.ui.datepicker.css\" rel=\"stylesheet\" />\n";
 		$this->js_data['jquery.ui.datepicker'][] = "<script type=\"text/javascript\" src=\"" . $this->base_site_url . "js/ui/jquery.ui.datepicker.min.js\"></script>\n";
 		$this->js_data['jquery.ui.datepicker'][] = "<script type=\"text/javascript\" src=\"" . $this->base_site_url . "js/language/jquery.ui.datepicker-" . NV_LANG_INTERFACE . ".js\"></script>\n";
+		
+		// Check Execute Data
+		if( ! empty( $this->setting['nextExecuteTime'] ) and $this->setting['nextExecuteTime'] <= $this->currenttime )
+		{
+			$this->executeData( true );
+		}
 	}
 	
 	private function handle_error( $messgae = '' )
@@ -187,6 +193,74 @@ class nv_mod_blog
 		}
 		
 		return $return;
+	}
+	
+	public function executeData( $rmCache = false )
+	{
+		// Cho dang nhung bai dang cho duyet
+		$sql = "UPDATE `" . $this->table_prefix . "_rows` SET `status`=1 WHERE `status`=-1 AND `pubTime`<=" . $this->currenttime;
+		$this->db->sql_query( $sql );
+		
+		// Xu ly cac bai viet het han
+		$sql = "SELECT `id`, `expMode` FROM `" . $this->table_prefix . "_rows` WHERE `status`=1 AND `expTime`!=0 AND `expTime`<=" . $this->currenttime;
+		$result = $this->db->sql_query( $sql );
+		
+		while( $row = $this->db->sql_fetchrow( $result ) )
+		{
+			if( $row['expMode'] != 2 )
+			{
+				$status = $row['expMode'] == 0 ? 0 : 2;
+
+				$sql = "UPDATE `" . $this->table_prefix . "_rows` SET `status`=" . $status . " WHERE `id`=" . $row['id'];
+				$result = $this->db->sql_query( $sql );
+			}
+			else
+			{
+				$this->delPost( $row['id'] );
+			}
+		}
+		
+		// Xac dinh lan thuc hien tiep theo
+		$sql = "SELECT MIN(`pubTime`) AS `nextpublic` FROM `" . $this->table_prefix . "_rows` WHERE `status`=-1 AND `pubTime`>" . $this->currenttime;
+		$result = $this->db->sql_query( $sql );
+		list( $nextpublic ) = $this->db->sql_fetchrow( $result );
+		
+		$sql = "SELECT MIN(`expTime`) AS `nextexpire` FROM `" . $this->table_prefix . "_rows` WHERE `status`=1 AND `expTime`>" . $this->currenttime;
+		$result = $this->db->sql_query( $sql );
+		list( $nextexpire ) = $this->db->sql_fetchrow( $result );
+		
+		if( ! empty( $nextpublic ) or ! empty( $nextexpire ) )
+		{
+			if( empty( $nextpublic ) )
+			{
+				$nextime = intval( $nextexpire );
+			}
+			elseif( empty( $nextexpire ) )
+			{
+				$nextime = intval( $nextpublic );
+			}
+			elseif( $nextexpire > $nextpublic )
+			{
+				$nextime = intval( $nextpublic );
+			}
+			else
+			{
+				$nextime = intval( $nextexpire );
+			}
+		}
+		else
+		{
+			$nextime = 0;
+		}
+		
+		$sql = "UPDATE `" . $this->table_prefix . "_config` SET `config_value`='" . $nextime . "' WHERE `config_name`='nextExecuteTime'";
+		$this->db->sql_query( $sql );
+		
+		// Xoa cache neu co
+		if( $rmCache )
+		{
+			$this->del_cache( $this->mod_name );
+		}
 	}
 	
 	public function callJqueryPlugin()

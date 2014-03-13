@@ -477,6 +477,9 @@ if( $prosessMode != 'none' )
 						// Xoa cache
 						nv_del_moduleCache( $module_name );
 					}
+					
+					// Xu ly tin
+					$BL->executeData();
 				}
 			}
 			else
@@ -536,6 +539,9 @@ if( $prosessMode != 'none' )
 						// Xoa cache
 						nv_del_moduleCache( $module_name );
 					}
+					
+					// Xu ly tin
+					$BL->executeData();
 				}
 			}
 			else
