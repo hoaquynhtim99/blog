@@ -29,6 +29,7 @@ if( $num_table > 0 )
 
 $sql_drop_module[] = "DROP TABLE IF EXISTS `" . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_categories`";
 $sql_drop_module[] = "DROP TABLE IF EXISTS `" . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_newsletters`";
+$sql_drop_module[] = "DROP TABLE IF EXISTS `" . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_send`";
 $sql_drop_module[] = "DROP TABLE IF EXISTS `" . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_tags`";
 $sql_drop_module[] = "DROP TABLE IF EXISTS `" . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_rows`";
 $sql_drop_module[] = "DROP TABLE IF EXISTS `" . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_config`";
@@ -82,6 +83,21 @@ $sql_create_module[] = "CREATE TABLE `" . $db_config['prefix'] . "_" . $lang . "
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '-1: Chưa xác nhận, 0: Vô hiệu, 1: Hiệu lực',
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)  
+)ENGINE=MyISAM";
+
+// Dữ liệu gửi email newsletters
+$sql_create_module[] = "CREATE TABLE `" . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_send` (
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `pid` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'ID bài viết',
+  `startTime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Thời gian bắt đầu gửi',
+  `endTime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Thời gian kết thúc gửi',
+  `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0: Chờ gửi, 1: Đang gửi, 2: Đã gửi',
+  `round` smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT 'Gửi lần mấy 1, 2, 3, 4...',
+  `lastID` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'ID email đăng ký nhận tin lần cuối cùng gửi',
+  `resendData` mediumtext NOT NULL COMMENT 'Danh sách ID đăng ký nhận tin chờ gửi lại',
+  `errorData` mediumtext NOT NULL COMMENT 'Danh sách ID đăng ký nhận tin gửi bị lỗi cho đến thời điểm hiện tại',
+  PRIMARY KEY (`id`),
+  KEY `pid` (`pid`)  
 )ENGINE=MyISAM";
 
 // Tags
