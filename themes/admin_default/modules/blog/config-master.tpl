@@ -77,6 +77,16 @@
 			</td>
 		</tr>
 	</tbody>
+	<tbody class="second">
+		<tr>
+			<td>
+				<strong>{LANG.cfginitNewsletters}</strong>
+			</td>
+			<td>
+				<input type="checkbox" name="initNewsletters"{INITNEWSLETTERS} value="1"/>
+			</td>
+		</tr>
+	</tbody>
 </table>
 <table class="tab1">
 	<tbody>

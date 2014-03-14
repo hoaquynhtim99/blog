@@ -174,6 +174,7 @@ $lang_module['cfginitPostExp'] = "Kiểu xử lý mặc định khi hết hạn 
 $lang_module['cfginitPostType'] = "Kiểu bài viết mặc định";
 $lang_module['cfginitMediaType'] = "Loại Media mặc định";
 $lang_module['cfginitMediaHeight'] = "Chiều cao Media mặc định";
+$lang_module['cfginitNewsletters'] = "Gửi mail đến các email đăng ký nhận bản tin khi tạo bài viết";
 $lang_module['cfgfolderStructure'] = "Cấu trúc thư mục chứa media và ảnh";
 
 $lang_module['tagsMg'] = "Quản lý tags";

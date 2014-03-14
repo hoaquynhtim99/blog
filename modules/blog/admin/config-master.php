@@ -37,6 +37,7 @@ if( $nv_Request->isset_request( 'submit', 'post' ) )
 	$array['initPostType'] = $nv_Request->get_int( 'initPostType', 'post', 0 );
 	$array['initMediaType'] = $nv_Request->get_int( 'initMediaType', 'post', 0 );
 	$array['initMediaHeight'] = $nv_Request->get_int( 'initMediaHeight', 'post', 250 );
+	$array['initNewsletters'] = $nv_Request->get_int( 'initNewsletters', 'post', 0 );
 	$array['folderStructure'] = filter_text_input( 'folderStructure', 'post', '', 0, 255 );
 	
 	// Kiem tra xac nhan
@@ -65,6 +66,8 @@ if( $nv_Request->isset_request( 'submit', 'post' ) )
 		$array['folderStructure'] = "Ym";
 	}
 	
+	$array['initNewsletters'] = $array['initNewsletters'] ? 1 : 0;
+	
 	foreach( $array as $config_name => $config_value )
 	{
 		$sql = "REPLACE INTO `" . $BL->table_prefix . "_config` VALUES (" . $db->dbescape( $config_name ) . "," . $db->dbescape( $config_value ) . ")";
@@ -83,6 +86,8 @@ $xtpl->assign( 'GLANG', $lang_global );
 
 $xtpl->assign( 'FORM_ACTION', NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $op );
 $xtpl->assign( 'DATA', $BL->setting );
+
+$xtpl->assign( 'INITNEWSLETTERS', $BL->setting['initNewsletters'] ? " checked=\"checked\"" : "" );
 
 // Xuat cac kieu hien thi
 foreach( $BL->indexViewType as $type )
