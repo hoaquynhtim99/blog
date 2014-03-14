@@ -27,13 +27,18 @@ function cron_blog_newsletters( $table_data, $num_onesend )
 		$module_data = implode( "_", $table_data );
 		
 		// Lay module file, module name
-		$sql = "SELECT `title`, `module_file` FROM `" . NV_MODULES_TABLE . "` WHERE `module_data`=" . $db->dbescape( $module_data ) . "";
+		$sql = "SELECT `title`, `module_file` FROM `" . NV_MODULES_TABLE . "` WHERE `module_data`=" . $db->dbescape( $module_data );
 		$result = $db->sql_query( $sql );
 		list( $module_name, $module_file ) = $db->sql_fetchrow( $result );
 		
 		$table_data = $db_config['prefix'] . "_" . $lang ."_" . $module_data;
 		
-		// Lay tin can gui
+		// Lay cau hinh gui mail
+		$sql = "SELECT `config_value` FROM `" . $table_data . "_config` WHERE `config_name`=" . $db->dbescape('numberResendNewsletter');
+		$result = $db->sql_query( $sql );
+		list( $numberResendNewsletter ) = $db->sql_fetchrow( $result );
+		
+		// Lay tin can gui (uu tien cac tin round 1 hon)
 		$sql = "SELECT a.*, b.title, b.alias, b.hometext FROM `" . $table_data . "_send` AS a INNER JOIN `" . $table_data . "_rows` AS b ON a.pid=b.id WHERE a.status!=2 AND b.status=1 ORDER BY a.status DESC, a.id ASC LIMIT 0,1";
 		$result = $db->sql_query( $sql );
 		
@@ -56,8 +61,16 @@ function cron_blog_newsletters( $table_data, $num_onesend )
 			// Goi ngon ngu
 			include( NV_ROOTDIR . "/modules/" . $module_file . "/language/" . $lang . ".php" );
 			
-			// Lay nguoi gui
-			$sql = "SELECT `id`, `email` FROM `" . $table_data . "_newsletters` WHERE `status`=1 AND `id`>" . $data_send['lastID'] . " ORDER BY `id` ASC LIMIT 0," . $num_onesend;
+			// Lay nguoi gui lan gui 1
+			if( $data_send['round'] <= 1 )
+			{
+				$sql = "SELECT `id`, `email` FROM `" . $table_data . "_newsletters` WHERE `status`=1 AND `id`>" . $data_send['lastID'] . " ORDER BY `id` ASC LIMIT 0," . $num_onesend;
+			}
+			// Nguoi gui o cac lan gui tiep theo
+			else
+			{
+				$sql = "SELECT `id`, `email` FROM `" . $table_data . "_newsletters` WHERE `status`=1 AND `id`>" . $data_send['lastID'] . " AND `id` IN(" . implode( ",", $data_send['resendData'] ) . ") ORDER BY `id` ASC LIMIT 0," . $num_onesend;
+			}
 			$result = $db->sql_query( $sql );
 			$num = $db->sql_numrows( $result );
 			
@@ -67,14 +80,10 @@ function cron_blog_newsletters( $table_data, $num_onesend )
 				{
 					// Cap nhat lan gui cuoi va so email da gui
 					$db->sql_query( "UPDATE `" . $table_data . "_newsletters` SET `numEmail`=`numEmail`+1, `lastSendTime`=" . NV_CURRENTTIME . " WHERE `id`=" . $row['id'] );
-					
-					// Xoa danh dau loi
-					unset( $data_send['errorData'][$row['id']] );
 				}
 				else
 				{
-					// Danh dau cac email bi loi se gui lai
-					$data_send['resendData'][$row['id']] = $row['id'];
+					// Danh dau cac email bi loi trong lan gui nay
 					$data_send['errorData'][$row['id']] = $row['id'];
 				}
 				
@@ -85,13 +94,32 @@ function cron_blog_newsletters( $table_data, $num_onesend )
 			$sql = array();
 			
 			$sql[] = "`lastID`=" . $data_send['lastID'];
-			$sql[] = "`resendData`=" . $db->dbescape( $data_send['resendData'] ? implode( ",", $data_send['resendData'] ) : '' );
-			$sql[] = "`errorData`=" . $db->dbescape( $data_send['errorData'] ? implode( ",", $data_send['errorData'] ) : '' );
 			
 			if( $num < $num_onesend )
 			{
-				$sql[] = "`status`=2";
-				$sql[] = "`endTime`=" . NV_CURRENTTIME;
+				// Tang so lan gui len 1
+				$data_send['round'] = $data_send['round'] + 1;
+				
+				// Danh dau da gui xong neu qua so lan gui hoac khong co email loi
+				if( $data_send['round'] > $numberResendNewsletter or empty( $data_send['errorData'] ) )
+				{
+					$sql[] = "`status`=2";
+					$sql[] = "`endTime`=" . NV_CURRENTTIME;
+				}
+				// Gui chua xong thi moi tang va ghi vào CSDL
+				else
+				{
+					$sql[] = "`round`=" . $data_send['round'];
+					
+					// Du lieu gui lan tiep theo la du lieu loi cua lan nay
+					$sql[] = "`resendData`=" . $db->dbescape( implode( ",", $data_send['errorData'] ) );
+					$sql[] = "`errorData`=''";
+				}
+			}
+			else
+			{
+				// Ghi lai du lieu loi
+				$sql[] = "`errorData`=" . $db->dbescape( $data_send['errorData'] ? implode( ",", $data_send['errorData'] ) : '' );
 			}
 			
 			$db->sql_query( "UPDATE `" . $table_data . "_send` SET " . implode( ", ", $sql ) . " WHERE `id`=" . $data_send['id'] );

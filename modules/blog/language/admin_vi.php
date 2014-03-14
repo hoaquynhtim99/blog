@@ -158,37 +158,39 @@ $lang_module['filter_order_by'] = 'Sắp xếp theo %s thứ tự';
 $lang_module['filter_all_cat'] = 'Tất cả chuyên mục';
 $lang_module['filter_all_status'] = 'Tất cả trạng thái';
 
-$lang_module['action_status_ok'] = "Cho hoạt động";
-$lang_module['action_status_no'] = "Cho ngưng hoạt động";
-$lang_module['action_status_public'] = "Cho đăng bài viết";
+$lang_module['action_status_ok'] = 'Cho hoạt động';
+$lang_module['action_status_no'] = 'Cho ngưng hoạt động';
+$lang_module['action_status_public'] = 'Cho đăng bài viết';
 
-$lang_module['searchEmail'] = "Tìm email";
-$lang_module['searchTags'] = "Tìm tags";
-$lang_module['searchPost'] = "Tìm bài viết";
+$lang_module['searchEmail'] = 'Tìm email';
+$lang_module['searchTags'] = 'Tìm tags';
+$lang_module['searchPost'] = 'Tìm bài viết';
 
-$lang_module['cfgMaster'] = "Thiết lập module";
-$lang_module['cfgView'] = "Cấu hình hiển thị";
-$lang_module['cfgindexViewType'] = "Kiểu hiển thị tại trang chủ";
-$lang_module['cfgindexViewType_type_blog'] = "Dạng các bài blog (Ảnh, video demo + nội dung)";
-$lang_module['cfgindexViewType_type_news'] = "Dạng tin tức theo danh sách";
-$lang_module['cfgPost'] = "Thiết lập đăng bài";
-$lang_module['cfginitPostExp'] = "Kiểu xử lý mặc định khi hết hạn bài viết lúc đăng bài";
-$lang_module['cfginitPostType'] = "Kiểu bài viết mặc định";
-$lang_module['cfginitMediaType'] = "Loại Media mặc định";
-$lang_module['cfginitMediaHeight'] = "Chiều cao Media mặc định";
-$lang_module['cfginitNewsletters'] = "Gửi mail đến các email đăng ký nhận bản tin khi tạo bài viết";
-$lang_module['cfgfolderStructure'] = "Cấu trúc thư mục chứa media và ảnh";
+$lang_module['cfgMaster'] = 'Thiết lập module';
+$lang_module['cfgView'] = 'Cấu hình hiển thị';
+$lang_module['cfgindexViewType'] = 'Kiểu hiển thị tại trang chủ';
+$lang_module['cfgindexViewType_type_blog'] = 'Dạng các bài blog (Ảnh, video demo + nội dung)';
+$lang_module['cfgindexViewType_type_news'] = 'Dạng tin tức theo danh sách';
+$lang_module['cfgPost'] = 'Thiết lập đăng bài';
+$lang_module['cfginitPostExp'] = 'Kiểu xử lý mặc định khi hết hạn bài viết lúc đăng bài';
+$lang_module['cfginitPostType'] = 'Kiểu bài viết mặc định';
+$lang_module['cfginitMediaType'] = 'Loại Media mặc định';
+$lang_module['cfginitMediaHeight'] = 'Chiều cao Media mặc định';
+$lang_module['cfginitNewsletters'] = 'Gửi mail đến các email đăng ký nhận bản tin khi tạo bài viết';
+$lang_module['cfgfolderStructure'] = 'Cấu trúc thư mục chứa media và ảnh';
+$lang_module['cfgNewsletter'] = 'Cấu hình gửi mail';
+$lang_module['cfgnumberResendNewsletter'] = 'Số lần gửi lại email';
 
-$lang_module['tagsMg'] = "Quản lý tags";
-$lang_module['tagsDelete'] = "Xóa tags";
-$lang_module['tagsErrorTitle'] = "Lỗi: Tên tags không được để trống";
-$lang_module['tagsEditLog'] = "Sửa tags";
-$lang_module['tagsAdd'] = "Thêm tags";
-$lang_module['tagsEdit'] = "Sửa tags";
-$lang_module['tagsList'] = "Danh sách tags";
-$lang_module['tagsMost'] = "Chọn từ tags nổi bật";
-$lang_module['tagsSearch'] = "Tìm hoặc thêm tags";
+$lang_module['tagsMg'] = 'Quản lý tags';
+$lang_module['tagsDelete'] = 'Xóa tags';
+$lang_module['tagsErrorTitle'] = 'Lỗi: Tên tags không được để trống';
+$lang_module['tagsEditLog'] = 'Sửa tags';
+$lang_module['tagsAdd'] = 'Thêm tags';
+$lang_module['tagsEdit'] = 'Sửa tags';
+$lang_module['tagsList'] = 'Danh sách tags';
+$lang_module['tagsMost'] = 'Chọn từ tags nổi bật';
+$lang_module['tagsSearch'] = 'Tìm hoặc thêm tags';
 
-$lang_module['donateComment'] = "Quyên góp xây dựng module blog";
+$lang_module['donateComment'] = 'Quyên góp xây dựng module blog';
 
 ?>

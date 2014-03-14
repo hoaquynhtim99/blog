@@ -29,6 +29,9 @@ $array_structure_image['username_Y_m'] = NV_UPLOADS_DIR . '/' . $module_name . '
 $array_structure_image['username_Ym_d'] = NV_UPLOADS_DIR . '/' . $module_name . '/username/' . date( 'Y_m/d' );
 $array_structure_image['username_Y_m_d'] = NV_UPLOADS_DIR . '/' . $module_name . '/username/' . date( 'Y/m/d' );
 
+// Fix du lieu
+$numberResendNewsletterMax = 5;
+
 // Lay thong tin submit
 if( $nv_Request->isset_request( 'submit', 'post' ) )
 {
@@ -39,6 +42,7 @@ if( $nv_Request->isset_request( 'submit', 'post' ) )
 	$array['initMediaHeight'] = $nv_Request->get_int( 'initMediaHeight', 'post', 250 );
 	$array['initNewsletters'] = $nv_Request->get_int( 'initNewsletters', 'post', 0 );
 	$array['folderStructure'] = filter_text_input( 'folderStructure', 'post', '', 0, 255 );
+	$array['numberResendNewsletter'] = $nv_Request->get_int( 'numberResendNewsletter', 'post', 0 );
 	
 	// Kiem tra xac nhan
 	if( ! in_array( $array['indexViewType'], $BL->indexViewType ) )
@@ -67,6 +71,11 @@ if( $nv_Request->isset_request( 'submit', 'post' ) )
 	}
 	
 	$array['initNewsletters'] = $array['initNewsletters'] ? 1 : 0;
+	
+	if( $array['numberResendNewsletter'] > $numberResendNewsletterMax or $array['numberResendNewsletter'] < 0 )
+	{
+		$array['numberResendNewsletter'] = 0;
+	}
 	
 	foreach( $array as $config_name => $config_value )
 	{
@@ -146,6 +155,19 @@ foreach( $array_structure_image as $folderStructure => $dir )
 	
 	$xtpl->assign( 'FOLDERSTRUCTURE', $folderStructure );
 	$xtpl->parse( 'main.folderStructure' );
+}
+
+// Xuat so lan gui lai mail
+for( $i = 0; $i <= $numberResendNewsletterMax; $i ++ )
+{
+	$numberResendNewsletter = array(
+		"key" => $i,
+		"title" => $i,
+		"selected" => $i == $BL->setting['numberResendNewsletter'] ? " selected=\"selected\"" : "",
+	);
+	
+	$xtpl->assign( 'NUMBERRESENDNEWSLETTER', $numberResendNewsletter );
+	$xtpl->parse( 'main.numberResendNewsletter' );
 }
 
 $xtpl->parse( 'main' );

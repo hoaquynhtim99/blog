@@ -89,6 +89,22 @@
 	</tbody>
 </table>
 <table class="tab1">
+	<caption>{LANG.cfgNewsletter}</caption>
+	<col class="bl-col-left-largest"/>
+	<tbody>
+		<tr>
+			<td>
+				<strong>{LANG.cfgnumberResendNewsletter}</strong>
+			</td>
+			<td>
+				<select name="numberResendNewsletter" class="blog-input">
+					<!-- BEGIN: numberResendNewsletter --><option value="{NUMBERRESENDNEWSLETTER.key}"{NUMBERRESENDNEWSLETTER.selected}>{NUMBERRESENDNEWSLETTER.title}</option><!-- END: numberResendNewsletter -->
+				</select>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<table class="tab1">
 	<tbody>
 		<tr>
 			<td class="center"><input class="blog-button" type="submit" name="submit" value="{LANG.save}"/></td>
