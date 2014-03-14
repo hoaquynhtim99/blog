@@ -78,6 +78,14 @@
 				</ul>
 			</div>
 		</div>
+		<div class="bl-post-panel collapse">
+			<div class="tl">{LANG.blogOtherOption}</div>
+			<div class="ct bl-post-fix-height large">
+				<ul class="bl-ul">
+					<li><label><input type="checkbox" name="newsletters" value="1"{NEWSLETTERS}/> {LANG.blogSendNewsletter}</label></li>
+				</ul>
+			</div>
+		</div>
 	</div>
 	<div class="bl-post-col-left">
 		<dl class="bl-post-dl">

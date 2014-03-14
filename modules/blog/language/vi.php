@@ -32,5 +32,6 @@ $lang_module['newsletterMailOk'] = 'Đăng ký thành công, một email đã đ
 $lang_module['newsletterConfirmErrorVar'] = 'Lỗi: Thông tin xác nhận không hợp lệ hoặc hệ thống không tìm thấy email này trong danh sách đăng ký';
 $lang_module['newsletterCancelComplete'] = 'Bạn đã hủy đăng ký nhận tin cho email %s, bạn có thể đăng ký nhận tin trở lại bất kỳ lúc nào';
 $lang_module['newsletterConfirmComplete'] = 'Bạn đã đăng ký nhận tin thành công cho email %s. Kể từ bây giờ bạn sẽ được thông báo mỗi khi có bài viết mới';
+$lang_module['newsletterMessage'] = 'Xem chi tiết tại';
 
 ?>

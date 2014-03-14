@@ -118,6 +118,8 @@ $lang_module['blogStatus0'] = 'Tạm ngưng';
 $lang_module['blogStatus1'] = 'Hiệu lực';
 $lang_module['blogStatus2'] = 'Hết hạn';
 $lang_module['blogDelete'] = 'Xóa bài viết';
+$lang_module['blogOtherOption'] = 'Các tùy chọn khác';
+$lang_module['blogSendNewsletter'] = 'Gửi email đến các email đăng ký nhận tin';
 
 $lang_module['categoriesManager'] = 'Quản lý danh mục bài viết';
 $lang_module['categoriesEmpty'] = 'Chưa có danh mục bài viết nào, hãy thêm danh mục từ trình đơn bên dưới';

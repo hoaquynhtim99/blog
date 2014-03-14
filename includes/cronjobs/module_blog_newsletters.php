@@ -15,9 +15,90 @@ function cron_blog_newsletters( $table_data, $num_onesend )
 {
 	global $db, $global_config, $db_config;
 	
-	$is_complete = true;
+	$num_onesend = empty( $num_onesend ) ? 5 : intval( $num_onesend );
 	
-	return $is_complete;
+	if( ! empty( $table_data ) )
+	{
+		$table_data = explode( "_", $table_data );
+		$table_data = array_map( "trim", $table_data );
+		
+		$lang = $table_data[0];
+		unset( $table_data[0] );
+		$module_data = implode( "_", $table_data );
+		
+		// Lay module file, module name
+		$sql = "SELECT `title`, `module_file` FROM `" . NV_MODULES_TABLE . "` WHERE `module_data`=" . $db->dbescape( $module_data ) . "";
+		$result = $db->sql_query( $sql );
+		list( $module_name, $module_file ) = $db->sql_fetchrow( $result );
+		
+		$table_data = $db_config['prefix'] . "_" . $lang ."_" . $module_data;
+		
+		// Lay tin can gui
+		$sql = "SELECT a.*, b.title, b.alias, b.hometext FROM `" . $table_data . "_send` AS a INNER JOIN `" . $table_data . "_rows` AS b ON a.pid=b.id WHERE a.status!=2 AND b.status=1 ORDER BY a.status DESC, a.id ASC LIMIT 0,1";
+		$result = $db->sql_query( $sql );
+		
+		if( $db->sql_numrows( $result ) )
+		{
+			// Du lieu gui
+			$data_send = $db->sql_fetch_assoc( $result );
+			
+			$data_send['lastID'] = intval( $data_send['lastID'] );
+			$data_send['link'] = NV_MY_DOMAIN . NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . $lang . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $data_send['alias'];
+			$data_send['resendData'] = explode( ",", $data_send['resendData'] );
+			$data_send['errorData'] = explode( ",", $data_send['errorData'] );
+			
+			// Danh dau la dang gui
+			if( empty( $data_send['status'] ) )
+			{
+				$db->sql_query( "UPDATE `" . $table_data . "_send` SET `status`=1, `startTime`=" . NV_CURRENTTIME . ", `round`=1 WHERE `id`=" . $data_send['id'] );
+			}
+		
+			// Goi ngon ngu
+			include( NV_ROOTDIR . "/modules/" . $module_file . "/language/" . $lang . ".php" );
+			
+			// Lay nguoi gui
+			$sql = "SELECT `id`, `email` FROM `" . $table_data . "_newsletters` WHERE `status`=1 AND `id`>" . $data_send['lastID'] . " ORDER BY `id` ASC LIMIT 0," . $num_onesend;
+			$result = $db->sql_query( $sql );
+			$num = $db->sql_numrows( $result );
+			
+			while( $row = $db->sql_fetchrow( $result ) )
+			{
+				if( nv_sendmail( array( $global_config['site_name'], $global_config['site_email'] ), $row['email'], nv_unhtmlspecialchars( $data_send['title'] ), $data_send['hometext'] . "<br /><br />" . $lang_module['newsletterMessage'] . ": <a href=\"" . $data_send['link'] . "\">" . $data_send['link'] . "</a>" ) )
+				{
+					// Cap nhat lan gui cuoi va so email da gui
+					$db->sql_query( "UPDATE `" . $table_data . "_newsletters` SET `numEmail`=`numEmail`+1, `lastSendTime`=" . NV_CURRENTTIME . " WHERE `id`=" . $row['id'] );
+					
+					// Xoa danh dau loi
+					unset( $data_send['errorData'][$row['id']] );
+				}
+				else
+				{
+					// Danh dau cac email bi loi se gui lai
+					$data_send['resendData'][$row['id']] = $row['id'];
+					$data_send['errorData'][$row['id']] = $row['id'];
+				}
+				
+				$data_send['lastID'] = $row['id'];
+			}
+			
+			// Cap nhat lai thong tin
+			$sql = array();
+			
+			$sql[] = "`lastID`=" . $data_send['lastID'];
+			$sql[] = "`resendData`=" . $db->dbescape( $data_send['resendData'] ? implode( ",", $data_send['resendData'] ) : '' );
+			$sql[] = "`errorData`=" . $db->dbescape( $data_send['errorData'] ? implode( ",", $data_send['errorData'] ) : '' );
+			
+			if( $num < $num_onesend )
+			{
+				$sql[] = "`status`=2";
+				$sql[] = "`endTime`=" . NV_CURRENTTIME;
+			}
+			
+			$db->sql_query( "UPDATE `" . $table_data . "_send` SET " . implode( ", ", $sql ) . " WHERE `id`=" . $data_send['id'] );
+		}
+	}
+	
+	return true;
 }
 
 ?>

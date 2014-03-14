@@ -123,6 +123,9 @@ if( $id )
 	
 	$form_action = NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $op . "&amp;id=" . $id;
 	$table_caption = $BL->lang('blogEdit');
+	
+	// Gui email den cac email dang ky nhan tin
+	$newsletters = 0;
 }
 else
 {
@@ -155,6 +158,9 @@ else
 		"expMode" => $BL->setting['initPostExp'],
 		"status" => -2,
 	);
+	
+	// Gui email den cac email dang ky nhan tin
+	$newsletters = $BL->setting['initNewsletters'];
 }
 
 // Thao tac xu ly
@@ -191,6 +197,8 @@ if( $prosessMode != 'none' )
 	$array['expTime_h'] = $nv_Request->get_int( 'expTime_h', 'post', 0 );
 	$array['expTime_m'] = $nv_Request->get_int( 'expTime_m', 'post', 0 );
 	$array['expMode'] = $nv_Request->get_int( 'expMode', 'post', 0 );
+	
+	$newsletters = $nv_Request->get_int( 'newsletters', 'post', 0 );
 	
 	// Chuan hoa tu khoa
 	$array['keywords'] = $array['keywords'] ? implode( ", ", array_filter( array_unique( array_map( "trim", explode( ",", $array['keywords'] ) ) ) ) ) : "";
@@ -474,6 +482,13 @@ if( $prosessMode != 'none' )
 						// Cap nhat tags
 						$BL->fixTags( $array['tagids'] );
 						
+						// Gui newsletters
+						if( ! empty( $newsletters ) )
+						{
+							$sql = "INSERT INTO `" . $BL->table_prefix . "_send` VALUES( NULL, " . $id . ", 0, 0, 0, 1, 0, '', '' )";
+							$db->sql_query( $sql );
+						}
+						
 						// Xoa cache
 						nv_del_moduleCache( $module_name );
 					}
@@ -754,6 +769,9 @@ foreach( $BL->blogMediaType as $mediaType )
 // Bien chon media
 $xtpl->assign( 'UPLOADS_PATH', NV_UPLOADS_DIR . '/' . $module_name );
 $xtpl->assign( 'CURRENT_PATH', $currentpath );
+
+// Cac checkbox
+$xtpl->assign( 'NEWSLETTERS', $newsletters ? " checked=\"checked\"" : "" );
 
 $xtpl->parse( 'main' );
 $contents = $xtpl->text( 'main' );
