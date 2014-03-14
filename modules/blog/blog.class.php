@@ -676,6 +676,10 @@ class nv_mod_blog
 				$sql = "DROP TABLE `" . $html_table . "`";
 				$this->db->sql_query( $sql );
 			}
+			
+			// Xoa tien trinh gui email
+			$sql = "DELETE FROM `" . $this->table_prefix . "_send` WHERE `pid`=" . $row['id'];
+			$this->db->sql_query( $sql );
 		}
 		
 		// Cap nhat tags
