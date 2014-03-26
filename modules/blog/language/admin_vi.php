@@ -180,6 +180,7 @@ $lang_module['cfginitNewsletters'] = 'Gửi mail đến các email đăng ký nh
 $lang_module['cfgfolderStructure'] = 'Cấu trúc thư mục chứa media và ảnh';
 $lang_module['cfgNewsletter'] = 'Cấu hình gửi mail';
 $lang_module['cfgnumberResendNewsletter'] = 'Số lần gửi lại email';
+$lang_module['cfgnumPostPerPage'] = 'Số bài đăng trên một trang';
 
 $lang_module['tagsMg'] = 'Quản lý tags';
 $lang_module['tagsDelete'] = 'Xóa tags';

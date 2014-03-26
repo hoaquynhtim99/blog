@@ -15,6 +15,16 @@
 			</td>
 		</tr>
 	</tbody>
+	<tbody class="second">
+		<tr>
+			<td>
+				<strong>{LANG.cfgnumPostPerPage}</strong>
+			</td>
+			<td>
+				<input type="text" class="blog-input" name="numPostPerPage" value="{DATA.numPostPerPage}"/>
+			</td>
+		</tr>
+	</tbody>
 </table>
 <table class="tab1">
 	<caption>{LANG.cfgPost}</caption>

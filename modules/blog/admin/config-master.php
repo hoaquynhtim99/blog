@@ -36,6 +36,7 @@ $numberResendNewsletterMax = 5;
 if( $nv_Request->isset_request( 'submit', 'post' ) )
 {
 	$array['indexViewType'] = filter_text_input( 'indexViewType', 'post', 'type_blog', 1, 255 );
+	$array['numPostPerPage'] = $nv_Request->get_int( 'numPostPerPage', 'post', 0 );
 	$array['initPostExp'] = $nv_Request->get_int( 'initPostExp', 'post', 0 );
 	$array['initPostType'] = $nv_Request->get_int( 'initPostType', 'post', 0 );
 	$array['initMediaType'] = $nv_Request->get_int( 'initMediaType', 'post', 0 );
@@ -75,6 +76,10 @@ if( $nv_Request->isset_request( 'submit', 'post' ) )
 	if( $array['numberResendNewsletter'] > $numberResendNewsletterMax or $array['numberResendNewsletter'] < 0 )
 	{
 		$array['numberResendNewsletter'] = 0;
+	}
+	if( $array['numPostPerPage'] > 100 or $array['numPostPerPage'] < 1 )
+	{
+		$array['numPostPerPage'] = 10;
 	}
 	
 	foreach( $array as $config_name => $config_value )

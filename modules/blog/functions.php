@@ -7,12 +7,188 @@
  * @Createdate Dec 11, 2013, 09:50:11 PM
  */
 
-if ( ! defined( 'NV_SYSTEM' ) ) die( 'Stop!!!' );
+if( ! defined( 'NV_SYSTEM' ) ) die( 'Stop!!!' );
 
 define( 'NV_IS_MOD_BLOG', true );
 
 // Class cua module
 require_once( NV_ROOTDIR . "/modules/" . $module_file . "/blog.class.php" );
 $BL = new nv_mod_blog();
+
+// Toan bo cac danh muc
+$global_array_cat = $BL->listCat( 0, 0 );
+
+// Xac dinh RSS co ban cua module
+if( $module_info['rss'] )
+{
+	$rss[] = array(
+		'title' => $module_info['custom_title'],
+		'src' => NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=rss"
+	);
+}
+
+// Cac bien he thong
+$catid = 0;
+$nv_vertical_menu = array();
+$page = 1;
+$blog_op = $op;
+$blog_data = array();
+
+// Xac dinh $catid
+if( $op == 'main' )
+{
+	if( isset( $array_op[0] ) )
+	{
+		if( preg_match( "/^page\-([0-9]+)$/i", $array_op[0], $m ) )
+		{
+			$page = intval( $m[1] );
+			
+			if( $page <= 1 )
+			{
+				header( 'Location:' . nv_url_rewrite( NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name, true ) );
+				die();
+			}
+		}
+		else
+		{
+			$defis = -1;
+			
+			foreach( $global_array_cat as $_cat )
+			{
+				$catlev = strlen( $_cat['defis'] );
+				
+				if( $_cat['alias'] == $array_op[0] and $catlev > $defis )
+				{
+					$defis = $catlev;
+					$catid = $_cat['id'];
+					$op = $blog_op = 'viewcat';
+				}
+			}
+			
+			// Xem danh muc
+			if( $blog_op == 'viewcat' )
+			{
+				// Phan trang tai danh muc
+				if( isset( $array_op[1] ) )
+				{
+					if( preg_match( "/^page\-([0-9]+)$/i", $array_op[1], $m ) )
+					{
+						$page = intval( $m[1] );
+					}
+					else
+					{
+						header( 'Location:' . nv_url_rewrite( NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . '&' . NV_OP_VARIABLE . '=' . $array_op[0], true ) );
+						die();
+					}
+				}
+			}
+			// Xem bai viet
+			else
+			{
+				// Khong cho array_op nao lon hon
+				if( sizeof( $array_op ) > 1 )
+				{
+					header( 'Location:' . nv_url_rewrite( NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . '&' . NV_OP_VARIABLE . '=' . $array_op[0], true ) );
+					die();
+				}
+				
+				$sql = "SELECT * FROM `" . $BL->table_prefix . "_rows` WHERE `status`=1 AND `alias`=" . $db->dbescape( $array_op[0] );
+				$result = $db->sql_query( $sql );
+				
+				if( $db->sql_numrows( $result ) )
+				{
+					$blog_data = $db->sql_fetch_assoc( $result );
+					$op = $blog_op = 'detail';
+					
+					// Chinh mot so thong tin
+					$blog_data['catids'] = $BL->string2array( $blog_data['catids'] );
+					$blog_data['tagids'] = $BL->string2array( $blog_data['tagids'] );
+					$blog_data['catid'] = 0;
+					
+					// Xac dinh ID danh muc
+					foreach( $global_array_cat as $_cat )
+					{
+						$catlev = strlen( $_cat['defis'] );
+						
+						if( in_array( $_cat['id'], $blog_data['catids'] ) and $catlev > $defis )
+						{
+							$defis = $catlev;
+							$blog_data['catid'] = $catid = $_cat['id'];
+						}
+					}
+					
+					// Xuat breadcrumbs
+				    $array_mod_title[] = array(
+						'catid' => $blog_data['id'],
+						'title' => $blog_data['title'],
+						'link' => NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $blog_data['alias'],
+					);
+				}
+				else
+				{
+					header( 'Location:' . nv_url_rewrite( NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name, true ) );
+					die();
+				}
+			}
+		}
+	}
+}
+
+// Xac dinh rss cac danh muc va
+foreach( $global_array_cat as $_cat )
+{
+	// Rss danh muc
+	if( $module_info['rss'] )
+	{
+		$rss[] = array(
+			'title' => $_cat['title'] . ' ' . NV_TITLEBAR_DEFIS . ' ' . $module_info['custom_title'],
+			'src' => NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=rss/" . $_cat['alias']
+		);
+	}
+	
+	if( $_cat['parentid'] == 0 )
+	{
+		$sub_menu = array();
+		$act = ( $_cat['id'] == $catid ) ? 1 : 0;
+		
+		if( $act or ( $catid > 0 and $_cat['id'] == $global_array_cat[$catid]['parentid'] ) )
+		{
+			foreach( $_cat['subcats'] as $catid_i )
+			{
+				$sub_menu[] = array(
+					0 => $global_array_cat[$catid_i]['title'],
+					1 => NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $global_array_cat[$catid_i]['alias'],
+					2 => 0
+				);
+			}
+		}
+
+		$nv_vertical_menu[] = array(
+			0 => $_cat['title'],
+			1 => NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $_cat['alias'],
+			2 => $act,
+			'submenu' => $sub_menu,
+		);
+	}
+}
+
+// Xuat breadcrumbs cua danh muc
+if( ! empty( $catid ) )
+{
+	$parentid = $catid;
+	while( $parentid > 0 )
+	{
+	    $array_mod_title[] = array(
+			'catid' => $parentid,
+			'title' => $global_array_cat[$parentid]['title'],
+			'link' => NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $global_array_cat[$parentid]['alias'],
+		);
+	    $parentid = $global_array_cat[$parentid]['parentid'];
+	}
+	sort( $array_mod_title, SORT_NUMERIC );
+}
+
+// Loai bo cac bien tam
+unset( $_cat, $sub_menu, $act, $catid_i, $subcats, $defis, $catlev, $parentid, $result, $sql );
 
 ?>

@@ -10,15 +10,17 @@
 
 if( ! defined( 'NV_MAINFILE' ) ) die( 'Stop!!!' );
 
-$lang_translator['author'] = "VINADES.,JSC (contact@vinades.vn)";
-$lang_translator['createdate'] = "22/2/2011, 22:19";
-$lang_translator['copyright'] = "(C) 2011 VINADES.,JSC. All rights reserved";
-$lang_translator['info'] = "";
-$lang_translator['langtype'] = "lang_module";
+$lang_translator['author'] = 'PHAN TAN DUNG (phantandung92@gmail.com)';
+$lang_translator['createdate'] = '26/3/2014, 22:19';
+$lang_translator['copyright'] = '(C) 2014 PHAN TAN DUNG. All rights reserved';
+$lang_translator['info'] = '';
+$lang_translator['langtype'] = 'lang_module';
 
-$lang_module['main'] = "Trang chủ";
-$lang_module['search'] = "Tìm kiếm bài viết";
-$lang_module['detail'] = "Chi tiết bài viết";
+$lang_module['main'] = 'Trang chủ';
+$lang_module['search'] = 'Tìm kiếm bài viết';
+$lang_module['detail'] = 'Chi tiết bài viết';
+
+$lang_module['paginationInfo'] = 'trong tổng số';
 
 $lang_module['newsletter'] = 'Đăng ký nhận tin';
 $lang_module['newsletterNote'] = 'Hãy để lại email của bạn, tôi sẽ thông báo với bạn khi có bài viết mới nhất';
@@ -33,5 +35,8 @@ $lang_module['newsletterConfirmErrorVar'] = 'Lỗi: Thông tin xác nhận khôn
 $lang_module['newsletterCancelComplete'] = 'Bạn đã hủy đăng ký nhận tin cho email %s, bạn có thể đăng ký nhận tin trở lại bất kỳ lúc nào';
 $lang_module['newsletterConfirmComplete'] = 'Bạn đã đăng ký nhận tin thành công cho email %s. Kể từ bây giờ bạn sẽ được thông báo mỗi khi có bài viết mới';
 $lang_module['newsletterMessage'] = 'Xem chi tiết tại';
+
+$lang_module['blNumComments'] = 'Bình luận';
+$lang_module['blDetail'] = 'Chi tiết';
 
 ?>
