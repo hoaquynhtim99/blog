@@ -112,7 +112,7 @@ if( $page > 1 )
 	$description .= ' ' . NV_TITLEBAR_DEFIS . ' ' . $BL->glang('page') . ' ' . $page;
 }
 
-$contents = nv_main_theme( $array, $generate_page, $BL->setting, $page, $total_pages );
+$contents = nv_main_theme( $array, $generate_page, $BL->setting, $page, $total_pages, $BL );
 
 include ( NV_ROOTDIR . "/includes/header.php" );
 echo nv_site_theme( $contents );

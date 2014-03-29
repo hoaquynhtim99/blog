@@ -181,6 +181,7 @@ $lang_module['cfgfolderStructure'] = 'Cấu trúc thư mục chứa media và �
 $lang_module['cfgNewsletter'] = 'Cấu hình gửi mail';
 $lang_module['cfgnumberResendNewsletter'] = 'Số lần gửi lại email';
 $lang_module['cfgnumPostPerPage'] = 'Số bài đăng trên một trang';
+$lang_module['cfgstrCutHomeText'] = 'Cắt phần mô tả ngắn gọn tại trang danh sách bài viết. Nhập 0 nếu không muốn cắt';
 
 $lang_module['tagsMg'] = 'Quản lý tags';
 $lang_module['tagsDelete'] = 'Xóa tags';

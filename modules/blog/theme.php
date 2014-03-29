@@ -9,13 +9,23 @@
 
 if ( ! defined( 'NV_IS_MOD_BLOG' ) ) die( 'Stop!!!' );
 
-function nv_main_theme( $array, $generate_page, $cfg, $page, $total_pages )
+function nv_main_theme( $array, $generate_page, $cfg, $page, $total_pages, $BL )
 {
 	global $lang_global, $lang_module, $module_file, $module_info, $my_head;
 	
 	$my_head .= "<script type=\"text/javascript\" src=\"" . NV_BASE_SITEURL . "modules/" . $module_file . "/media/jwplayer.js\"></script>" . NV_EOL;
 	
-	$xtpl = new XTemplate( "main.tpl", NV_ROOTDIR . "/themes/" . $module_info['template'] . "/modules/" . $module_file );
+	if( $BL->setting['indexViewType'] == 'type_blog' )
+	{
+		// Kieu danh sach blog
+		$xtpl = new XTemplate( "list_blog.tpl", NV_ROOTDIR . "/themes/" . $module_info['template'] . "/modules/" . $module_file );
+	}
+	else
+	{
+		// Kieu danh sach tin tuc
+		$xtpl = new XTemplate( "list_news.tpl", NV_ROOTDIR . "/themes/" . $module_info['template'] . "/modules/" . $module_file );
+	}
+	
 	$xtpl->assign( 'LANG', $lang_module );
 	$xtpl->assign( 'GLANG', $lang_global );
 	
@@ -28,10 +38,29 @@ function nv_main_theme( $array, $generate_page, $cfg, $page, $total_pages )
 		$row['numComments'] = number_format( $row['numComments'], 0, ',', '.' );
 		$row['linkComment'] = nv_url_rewrite( $row['link'], true ) . '#comment';
 		
-		if( ! empty( $row['mediaValue'] ) )
+		// Cat phan gioi thieu ngan gon
+		if( $BL->setting['strCutHomeText'] )
 		{
-			$xtpl->assign( 'ROW', $row );
-			
+			$row['hometext'] = nv_clean60( $row['hometext'], $BL->setting['strCutHomeText'] );
+		}
+		
+		// Hinh anh mac dinh neu khong co anh mo ta
+		if( empty( $row['images'] ) )
+		{
+			if( $BL->setting['indexViewType'] == 'type_blog' )
+			{
+				$row['images'] = NV_BASE_SITEURL . 'themes/' . $module_info['template'] . '/images/' . $module_file . '/comingsoon-large.jpg';
+			}
+			else
+			{
+				$row['images'] = NV_BASE_SITEURL . 'themes/' . $module_info['template'] . '/images/' . $module_file . '/comingsoon-medium.jpg';
+			}
+		}
+		
+		$xtpl->assign( 'ROW', $row );
+		
+		if( ! empty( $row['mediaValue'] ) and $BL->setting['indexViewType'] == 'type_blog' )
+		{		
 			if( in_array( $row['mediaType'], array( 0, 1 ) ) )
 			{
 				// Kieu hinh anh

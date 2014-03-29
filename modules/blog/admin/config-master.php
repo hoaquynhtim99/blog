@@ -44,6 +44,7 @@ if( $nv_Request->isset_request( 'submit', 'post' ) )
 	$array['initNewsletters'] = $nv_Request->get_int( 'initNewsletters', 'post', 0 );
 	$array['folderStructure'] = filter_text_input( 'folderStructure', 'post', '', 0, 255 );
 	$array['numberResendNewsletter'] = $nv_Request->get_int( 'numberResendNewsletter', 'post', 0 );
+	$array['strCutHomeText'] = $nv_Request->get_int( 'strCutHomeText', 'post', 0 );
 	
 	// Kiem tra xac nhan
 	if( ! in_array( $array['indexViewType'], $BL->indexViewType ) )
@@ -80,6 +81,10 @@ if( $nv_Request->isset_request( 'submit', 'post' ) )
 	if( $array['numPostPerPage'] > 100 or $array['numPostPerPage'] < 1 )
 	{
 		$array['numPostPerPage'] = 10;
+	}
+	if( $array['strCutHomeText'] < 0 )
+	{
+		$array['strCutHomeText'] = 0;
 	}
 	
 	foreach( $array as $config_name => $config_value )

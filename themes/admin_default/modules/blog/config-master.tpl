@@ -25,6 +25,16 @@
 			</td>
 		</tr>
 	</tbody>
+	<tbody class="second">
+		<tr>
+			<td>
+				<strong>{LANG.cfgstrCutHomeText}</strong>
+			</td>
+			<td>
+				<input type="text" class="blog-input" name="strCutHomeText" value="{DATA.strCutHomeText}"/>
+			</td>
+		</tr>
+	</tbody>
 </table>
 <table class="tab1">
 	<caption>{LANG.cfgPost}</caption>

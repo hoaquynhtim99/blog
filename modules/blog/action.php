@@ -165,6 +165,7 @@ $sql_create_module[] = "INSERT INTO `" . $db_config['prefix'] . "_" . $lang . "_
 ('numPostPerPage', '10'),
 ('nextExecuteTime', '0'),
 ('numberResendNewsletter', '1'),
+('strCutHomeText', '150'),
 
 ('initPostExp', '0'),
 ('initPostType', '0'),
