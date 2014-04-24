@@ -59,6 +59,7 @@ function nv_main_theme( $array, $generate_page, $cfg, $page, $total_pages, $BL )
 		
 		$xtpl->assign( 'ROW', $row );
 		
+		// Chi xuat media neu nhu kieu hien thi la danh sach dang blog
 		if( ! empty( $row['mediaValue'] ) and $BL->setting['indexViewType'] == 'type_blog' )
 		{		
 			if( in_array( $row['mediaType'], array( 0, 1 ) ) )
