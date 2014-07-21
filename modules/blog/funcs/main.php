@@ -45,9 +45,9 @@ while( $row = $db->sql_fetch_assoc( $result ) )
 	
 	if( ! empty( $row['mediaValue'] ) )
 	{
-		if( is_file( NV_UPLOADS_REAL_DIR . '/' . $module_name . '/' . $row['mediaValue'] ) )
+		if( is_file( NV_UPLOADS_REAL_DIR . '/' . $module_name . $row['mediaValue'] ) )
 		{
-			$row['mediaValue'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_name . '/' . $row['mediaValue'];
+			$row['mediaValue'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_name . $row['mediaValue'];
 		}
 		elseif( ! nv_is_url( $row['mediaValue'] ) )
 		{
@@ -58,9 +58,9 @@ while( $row = $db->sql_fetch_assoc( $result ) )
 	// Xac dinh images
 	if( ! empty( $row['images'] ) )
 	{
-		if( is_file( NV_UPLOADS_REAL_DIR . '/' . $module_name . '/' . $row['images'] ) )
+		if( is_file( NV_UPLOADS_REAL_DIR . '/' . $module_name . $row['images'] ) )
 		{
-			$row['images'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_name . '/' . $row['images'];
+			$row['images'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_name . $row['images'];
 		}
 		elseif( ! nv_is_url( $row['images'] ) )
 		{

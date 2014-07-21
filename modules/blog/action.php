@@ -168,6 +168,14 @@ $sql_create_module[] = "INSERT INTO `" . $db_config['prefix'] . "_" . $lang . "_
 ('numberResendNewsletter', '1'),
 ('strCutHomeText', '150'),
 
+('iconClass0', 'icon-pencil'),
+('iconClass1', 'icon-picture'),
+('iconClass2', 'icon-film'),
+('iconClass3', 'icon-music'),
+('iconClass4', 'icon-quote-left'),
+('iconClass5', 'icon-link'),
+('iconClass6', 'icon-camera'),
+
 ('initPostExp', '0'),
 ('initPostType', '0'),
 ('initMediaType', '4'),

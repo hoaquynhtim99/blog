@@ -103,9 +103,47 @@ if( $op == 'main' )
 					$op = $blog_op = 'detail';
 					
 					// Chinh mot so thong tin
+					$blog_data['catid'] = 0;
 					$blog_data['catids'] = $BL->string2array( $blog_data['catids'] );
 					$blog_data['tagids'] = $BL->string2array( $blog_data['tagids'] );
-					$blog_data['catid'] = 0;
+					
+					if( empty( $blog_data['siteTitle'] ) )
+					{
+						$blog_data['siteTitle'] = $blog_data['title'];
+					}
+					
+					$blog_data['bodyhtml'] = $blog_data['bodytext'];
+					
+					// Xac dinh media
+					if( $blog_data['mediaType'] == 0 )
+					{
+						$blog_data['mediaValue'] = $blog_data['images'];
+					}
+					
+					if( ! empty( $blog_data['mediaValue'] ) )
+					{
+						if( is_file( NV_UPLOADS_REAL_DIR . '/' . $module_name . $blog_data['mediaValue'] ) )
+						{
+							$blog_data['mediaValue'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_name . $blog_data['mediaValue'];
+						}
+						elseif( ! nv_is_url( $blog_data['mediaValue'] ) )
+						{
+							$blog_data['mediaValue'] = '';
+						}
+					}
+				
+					// Xac dinh images
+					if( ! empty( $blog_data['images'] ) )
+					{
+						if( is_file( NV_UPLOADS_REAL_DIR . '/' . $module_name . $blog_data['images'] ) )
+						{
+							$blog_data['images'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_name . $blog_data['images'];
+						}
+						elseif( ! nv_is_url( $blog_data['images'] ) )
+						{
+							$blog_data['images'] = '';
+						}
+					}
 					
 					// Xac dinh ID danh muc
 					foreach( $global_array_cat as $_cat )

@@ -49,6 +49,22 @@
 	</tbody>
 </table>
 <table class="tab1">
+	<caption>{LANG.cfgTheme}</caption>
+	<col class="bl-col-left-largest"/>
+	<!-- BEGIN: iconClass -->
+	<tbody{ICONCLASS.class}>
+		<tr>
+			<td>
+				<strong>{ICONCLASS.title}</strong>
+			</td>
+			<td>
+				<input type="text" class="blog-input" name="iconClass{ICONCLASS.key}" value="{ICONCLASS.value}"/>
+			</td>
+		</tr>
+	</tbody>
+	<!-- END: iconClass -->
+</table>
+<table class="tab1">
 	<caption>{LANG.cfgPost}</caption>
 	<col class="bl-col-left-largest"/>
 	<tbody>

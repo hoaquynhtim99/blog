@@ -47,6 +47,12 @@ if( $nv_Request->isset_request( 'submit', 'post' ) )
 	$array['numberResendNewsletter'] = $nv_Request->get_int( 'numberResendNewsletter', 'post', 0 );
 	$array['strCutHomeText'] = $nv_Request->get_int( 'strCutHomeText', 'post', 0 );
 	
+	// Lấy cấu hình lớp của icon loại bài viết
+	foreach( $BL->blogpostType as $type )
+	{
+		$array['iconClass' . $type] = filter_text_input( 'iconClass' . $type, 'post', 'icon-pencil', 1, 255 );
+	}
+	
 	// Kiem tra xac nhan
 	if( ! in_array( $array['indexViewType'], $BL->indexViewType ) )
 	{
@@ -190,6 +196,22 @@ for( $i = 0; $i <= $numberResendNewsletterMax; $i ++ )
 	$xtpl->assign( 'NUMBERRESENDNEWSLETTER', $numberResendNewsletter );
 	$xtpl->parse( 'main.numberResendNewsletter' );
 }
+
+// Xuất các loại bài đăng để chọn icon
+$i = 0;
+foreach( $BL->blogpostType as $type )
+{
+	$iconClass = array(
+		'class' => $i ++ % 2 ? " class=\"second\"" : "",
+		'key' => $type,
+		'title' => sprintf( $BL->lang('cfgIconPost'), $BL->lang('blogpostType' . $type) ),
+		'value' => $BL->setting['iconClass' . $type],
+	);
+	
+	$xtpl->assign( 'ICONCLASS', $iconClass );
+	$xtpl->parse( 'main.iconClass' );
+}
+
 
 $xtpl->parse( 'main' );
 $contents = $xtpl->text( 'main' );

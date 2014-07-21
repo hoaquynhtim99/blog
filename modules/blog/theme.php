@@ -48,6 +48,7 @@ function nv_main_theme( $array, $generate_page, $cfg, $page, $total_pages, $BL )
 		$row['pubTime'] = str_replace( array( ' AM ', ' PM ' ), array( ' SA ', ' CH ' ), nv_date( 'g:i A d/m/Y', $row['pubTime'] ) );
 		$row['numComments'] = number_format( $row['numComments'], 0, ',', '.' );
 		$row['linkComment'] = nv_url_rewrite( $row['link'], true ) . '#comment';
+		$row['icon'] = empty( $BL->setting['iconClass' . $row['postType']] ) ? 'icon-pencil' : $BL->setting['iconClass' . $row['postType']];
 		
 		// Cat phan gioi thieu ngan gon
 		if( $BL->setting['strCutHomeText'] )
@@ -149,6 +150,7 @@ function nv_viewcat_theme( $array, $generate_page, $cfg, $page, $total_pages, $B
 		$row['pubTime'] = str_replace( array( ' AM ', ' PM ' ), array( ' SA ', ' CH ' ), nv_date( 'g:i A d/m/Y', $row['pubTime'] ) );
 		$row['numComments'] = number_format( $row['numComments'], 0, ',', '.' );
 		$row['linkComment'] = nv_url_rewrite( $row['link'], true ) . '#comment';
+		$row['icon'] = empty( $BL->setting['iconClass' . $row['postType']] ) ? 'icon-pencil' : $BL->setting['iconClass' . $row['postType']];
 		
 		// Cat phan gioi thieu ngan gon
 		if( $BL->setting['strCutHomeText'] )
@@ -228,6 +230,50 @@ function nv_newsletters_theme( $array )
 	$array['class'] = $array['status'] ? "notification-box-error" : "notification-box-success";
 	
 	$xtpl->assign( 'DATA', $array );
+	
+	$xtpl->parse( 'main' );
+	return $xtpl->text( 'main' );
+}
+
+function nv_detail_theme( $blog_data )
+{
+	global $lang_global, $lang_module, $module_file, $module_info, $my_head;
+	
+	$my_head .= "<script type=\"text/javascript\" src=\"" . NV_BASE_SITEURL . "modules/" . $module_file . "/media/jwplayer.js\"></script>" . NV_EOL;
+	
+	$xtpl = new XTemplate( "detail.tpl", NV_ROOTDIR . "/themes/" . $module_info['template'] . "/modules/" . $module_file );
+	$xtpl->assign( 'LANG', $lang_module );
+	$xtpl->assign( 'GLANG', $lang_global );
+
+	$xtpl->assign( 'DATA', $blog_data );
+	
+	// Xuất media - ảnh minh họa
+	if( ! empty( $blog_data['mediaValue'] ) )
+	{		
+		if( in_array( $blog_data['mediaType'], array( 0, 1 ) ) )
+		{
+			// Kieu hinh anh
+			$xtpl->parse( 'main.media.image' );
+		}
+		elseif( $blog_data['mediaType'] == 2 )
+		{
+			// Kieu am thanh
+			$xtpl->parse( 'main.media.audio' );
+		}
+		elseif( $blog_data['mediaType'] == 3 )
+		{
+			// Kieu video
+			$xtpl->parse( 'main.media.video' );
+		}
+		elseif( $blog_data['mediaType'] == 4 )
+		{
+			// Kieu iframe
+			$xtpl->parse( 'main.media.iframe' );
+		}
+		
+		$xtpl->parse( 'main.media' );
+	}
+	
 	
 	$xtpl->parse( 'main' );
 	return $xtpl->text( 'main' );

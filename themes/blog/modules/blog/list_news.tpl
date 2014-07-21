@@ -6,7 +6,7 @@
 			<a href="{ROW.link}"><img src="{ROW.images}" alt="{ROW.title}"/></a>
 		</div>
 		<div class="news-content">
-			<h3 class="news-title"><i class="icon-play">&nbsp;</i><a href="{ROW.link}">{ROW.title}</a> </h3>
+			<h3 class="news-title"><i class="{ROW.icon}">&nbsp;</i><a href="{ROW.link}">{ROW.title}</a> </h3>
 			<p>
 				{ROW.hometext}
 			</p>

@@ -32,7 +32,7 @@
 		<iframe class="media-iframe" src="{ROW.mediaValue}" height="{ROW.mediaHeight}"></iframe>
 		<!-- END: iframe -->
 		<!-- END: media -->
-		<h3 class="post-title"><i class="icon-play">&nbsp;</i><a href="{ROW.link}">{ROW.title}</a> </h3>
+		<h3 class="post-title"><i class="{ROW.icon}">&nbsp;</i><a href="{ROW.link}">{ROW.title}</a> </h3>
 		<p>
 			{ROW.hometext}
 		</p>
