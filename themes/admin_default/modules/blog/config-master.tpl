@@ -18,6 +18,18 @@
 	<tbody class="second">
 		<tr>
 			<td>
+				<strong>{LANG.cfgcatViewType}</strong>
+			</td>
+			<td>
+				<select name="catViewType" class="blog-input">
+					<!-- BEGIN: catViewType --><option value="{CATVIEWTYPE.key}"{CATVIEWTYPE.selected}>{CATVIEWTYPE.title}</option><!-- END: catViewType -->
+				</select>
+			</td>
+		</tr>
+	</tbody>
+	<tbody>
+		<tr>
+			<td>
 				<strong>{LANG.cfgnumPostPerPage}</strong>
 			</td>
 			<td>

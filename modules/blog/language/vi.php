@@ -19,6 +19,7 @@ $lang_translator['langtype'] = 'lang_module';
 $lang_module['main'] = 'Trang chủ';
 $lang_module['search'] = 'Tìm kiếm bài viết';
 $lang_module['detail'] = 'Chi tiết bài viết';
+$lang_module['viewcat'] = 'Xem bài viết theo danh mục';
 
 $lang_module['paginationInfo'] = 'trong tổng số';
 

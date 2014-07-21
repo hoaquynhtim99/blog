@@ -49,9 +49,9 @@
 				<div class="bl-donate">
 					<a target="_blank" href="https://www.nganluong.vn/button_payment.php?receiver={DONATE_EMAIL}&product_name={DONATE_ORDERID}&price={DONATE_AMOUNT}&return_url={DONATE_RETURN}&comments={LANG.donateComment}" ><img src="{NV_BASE_SITEURL}themes/{TEMPLATE}/images/{MODULE_FILE}/nganluong.gif"  border="0" /></a>
 					<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-						<input type="hidden" name="cmd" value="_s-xclick">
-						<input type="hidden" name="hosted_button_id" value="5C3MM5P45Z72L">
-						<input type="image" src="{NV_BASE_SITEURL}themes/{TEMPLATE}/images/{MODULE_FILE}/paypal.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+						<input type="hidden" name="cmd" value="_s-xclick"/>
+						<input type="hidden" name="hosted_button_id" value="5C3MM5P45Z72L"/>
+						<input type="image" src="{NV_BASE_SITEURL}themes/{TEMPLATE}/images/{MODULE_FILE}/paypal.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!"/>
 					</form>
 				</div>
 			</div>

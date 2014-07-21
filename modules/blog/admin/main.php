@@ -125,7 +125,7 @@ $xtpl->assign( 'AUTHOR_CONTACT', nv_EncodeEmail( $BL->author_email ) );
 $xtpl->assign( 'DONATE_EMAIL', $BL->author_email );
 $xtpl->assign( 'DONATE_ORDERID', NV_CURRENTTIME );
 $xtpl->assign( 'DONATE_AMOUNT', 200000 );
-$xtpl->assign( 'DONATE_RETURN', NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name );
+$xtpl->assign( 'DONATE_RETURN', NV_MY_DOMAIN . NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name );
 
 $xtpl->assign( 'NV_BASE_SITEURL', NV_BASE_SITEURL );
 $xtpl->assign( 'TEMPLATE', $global_config['module_theme'] );

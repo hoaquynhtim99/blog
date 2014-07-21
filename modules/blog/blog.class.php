@@ -26,6 +26,7 @@ class nv_mod_blog
 	public $setting = null;
 	
 	public $indexViewType = array( "type_blog", "type_news" );
+	public $catViewType = array( "type_blog", "type_news" );
 	public $blogpostType = array( 0, 1, 2, 3, 4, 5, 6 );
 	public $blogMediaType = array( 0, 1, 2, 3, 4 );
 	public $blogExpMode = array( 0, 1, 2 );

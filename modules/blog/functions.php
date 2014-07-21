@@ -39,6 +39,7 @@ if( $op == 'main' )
 {
 	if( isset( $array_op[0] ) )
 	{
+		// Trang chủ phân trang
 		if( preg_match( "/^page\-([0-9]+)$/i", $array_op[0], $m ) )
 		{
 			$page = intval( $m[1] );
@@ -57,6 +58,7 @@ if( $op == 'main' )
 			{
 				$catlev = strlen( $_cat['defis'] );
 				
+				// Xem theo danh mục, ưu tiên danh mục con càng nhỏ càng tốt
 				if( $_cat['alias'] == $array_op[0] and $catlev > $defis )
 				{
 					$defis = $catlev;
@@ -134,7 +136,7 @@ if( $op == 'main' )
 	}
 }
 
-// Xac dinh rss cac danh muc va
+// Xac dinh rss cac danh muc va menu
 foreach( $global_array_cat as $_cat )
 {
 	// Rss danh muc

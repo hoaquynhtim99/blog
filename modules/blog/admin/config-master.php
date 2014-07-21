@@ -36,6 +36,7 @@ $numberResendNewsletterMax = 5;
 if( $nv_Request->isset_request( 'submit', 'post' ) )
 {
 	$array['indexViewType'] = filter_text_input( 'indexViewType', 'post', 'type_blog', 1, 255 );
+	$array['catViewType'] = filter_text_input( 'catViewType', 'post', 'type_blog', 1, 255 );
 	$array['numPostPerPage'] = $nv_Request->get_int( 'numPostPerPage', 'post', 0 );
 	$array['initPostExp'] = $nv_Request->get_int( 'initPostExp', 'post', 0 );
 	$array['initPostType'] = $nv_Request->get_int( 'initPostType', 'post', 0 );
@@ -50,6 +51,10 @@ if( $nv_Request->isset_request( 'submit', 'post' ) )
 	if( ! in_array( $array['indexViewType'], $BL->indexViewType ) )
 	{
 		$array['indexViewType'] = $BL->indexViewType[0];
+	}
+	if( ! in_array( $array['catViewType'], $BL->catViewType ) )
+	{
+		$array['catViewType'] = $BL->catViewType[0];
 	}
 	if( ! in_array( $array['initPostExp'], $BL->blogExpMode ) )
 	{
@@ -113,6 +118,12 @@ foreach( $BL->indexViewType as $type )
 {
 	$xtpl->assign( 'INDEXVIEWTYPE', array( "key" => $type, "title" => $BL->lang('cfgindexViewType_' . $type), "selected" => $type == $BL->setting['indexViewType'] ? " selected=\"selected\"" : "" ) );
 	$xtpl->parse( 'main.indexViewType' );
+}
+
+foreach( $BL->catViewType as $type )
+{
+	$xtpl->assign( 'CATVIEWTYPE', array( "key" => $type, "title" => $BL->lang('cfgcatViewType_' . $type), "selected" => $type == $BL->setting['catViewType'] ? " selected=\"selected\"" : "" ) );
+	$xtpl->parse( 'main.catViewType' );
 }
 
 // Xuat cac kieu xu ly khi het han dang bai
