@@ -4,3 +4,12 @@
  * @Copyright (C) 2013 PHAN TAN DUNG. All rights reserved
  * @Createdate Dec 11, 2013, 09:50:11 PM
  */
+ 
+// Comment click
+$(document).ready(function(){
+	$('a[href^="#"]').click(function(e){
+		e.preventDefault();
+		
+		console.log(e);
+	});	
+});

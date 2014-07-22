@@ -94,7 +94,7 @@ if( $op == 'main' )
 					die();
 				}
 				
-				$sql = "SELECT * FROM `" . $BL->table_prefix . "_rows` WHERE `status`=1 AND `alias`=" . $db->dbescape( $array_op[0] );
+				$sql = "SELECT a.*, b.username AS `postName` FROM `" . $BL->table_prefix . "_rows` AS a LEFT JOIN `" . NV_USERS_GLOBALTABLE . "` AS b ON a.postid=b.userid WHERE a.status=1 AND a.alias=" . $db->dbescape( $array_op[0] );
 				$result = $db->sql_query( $sql );
 				
 				if( $db->sql_numrows( $result ) )

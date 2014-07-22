@@ -22,6 +22,8 @@ $lang_module['detail'] = 'Chi tiết bài viết';
 $lang_module['viewcat'] = 'Xem bài viết theo danh mục';
 
 $lang_module['paginationInfo'] = 'trong tổng số';
+$lang_module['tags'] = 'Từ khóa';
+$lang_module['share'] = 'Chia sẻ';
 
 $lang_module['newsletter'] = 'Đăng ký nhận tin';
 $lang_module['newsletterNote'] = 'Hãy để lại email của bạn, tôi sẽ thông báo với bạn khi có bài viết mới nhất';

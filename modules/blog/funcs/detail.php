@@ -28,10 +28,32 @@ if( $db->sql_numrows( $result ) )
 	list( $blog_data['bodyhtml'] ) = $db->sql_fetchrow( $result );
 }
 
-//print_r( $blog_data );
-//die();
+// Lấy tags bài viết
+$blog_data['tags'] = $BL->getTagsByID( $blog_data['tagids'], true );
 
-$contents = nv_detail_theme( $blog_data );
+// Lấy bài viết tiếp theo
+$blog_data['nextPost'] = array();
+$sql = "SELECT `title`, `alias` FROM `" . $BL->table_prefix . "_rows` WHERE `status`=1 AND ( " . $BL->build_query_search_id( $catid, 'catids' ) . " ) AND `pubTime`>" . $blog_data['pubTime'] . " ORDER BY `pubTime` ASC LIMIT 1";
+$result = $db->sql_query( $sql );
+
+if( $db->sql_numrows( $result ) )
+{
+	$blog_data['nextPost'] = $db->sql_fetch_assoc( $result );
+	$blog_data['nextPost']['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $blog_data['nextPost']['alias'];
+}
+
+// Lấy bài viết trước đó
+$blog_data['prevPost'] = array();
+$sql = "SELECT `title`, `alias` FROM `" . $BL->table_prefix . "_rows` WHERE `status`=1 AND ( " . $BL->build_query_search_id( $catid, 'catids' ) . " ) AND `pubTime`<" . $blog_data['pubTime'] . " ORDER BY `pubTime` DESC LIMIT 1";
+$result = $db->sql_query( $sql );
+
+if( $db->sql_numrows( $result ) )
+{
+	$blog_data['prevPost'] = $db->sql_fetch_assoc( $result );
+	$blog_data['prevPost']['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $blog_data['prevPost']['alias'];
+}
+
+$contents = nv_detail_theme( $blog_data, $BL );
 
 include ( NV_ROOTDIR . "/includes/header.php" );
 echo nv_site_theme( $contents );

@@ -13,7 +13,8 @@
 			file: "{ROW.mediaValue}",
 			height: {ROW.mediaHeight},
 			image: "{ROW.images}",
-			width: '100%'
+			width: '100%',
+			stretching: 'fill'
 		});		
 		</script>
 		<!-- END: audio -->
@@ -24,7 +25,8 @@
 			file: "{ROW.mediaValue}",
 			height: {ROW.mediaHeight},
 			image: "{ROW.images}",
-			width: '100%'
+			width: '100%',
+			stretching: 'fill'
 		});		
 		</script>
 		<!-- END: video -->

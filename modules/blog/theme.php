@@ -235,15 +235,20 @@ function nv_newsletters_theme( $array )
 	return $xtpl->text( 'main' );
 }
 
-function nv_detail_theme( $blog_data )
+function nv_detail_theme( $blog_data, $BL )
 {
-	global $lang_global, $lang_module, $module_file, $module_info, $my_head;
+	global $lang_global, $lang_module, $module_file, $module_info, $my_head, $module_name;
 	
 	$my_head .= "<script type=\"text/javascript\" src=\"" . NV_BASE_SITEURL . "modules/" . $module_file . "/media/jwplayer.js\"></script>" . NV_EOL;
 	
 	$xtpl = new XTemplate( "detail.tpl", NV_ROOTDIR . "/themes/" . $module_info['template'] . "/modules/" . $module_file );
 	$xtpl->assign( 'LANG', $lang_module );
 	$xtpl->assign( 'GLANG', $lang_global );
+
+	$blog_data['pubTime'] = str_replace( array( ' AM ', ' PM ' ), array( ' SA ', ' CH ' ), nv_date( 'g:i A d/m/Y', $blog_data['pubTime'] ) );
+	$blog_data['numComments'] = number_format( $blog_data['numComments'], 0, ',', '.' );
+	$blog_data['icon'] = empty( $BL->setting['iconClass' . $blog_data['postType']] ) ? 'icon-pencil' : $BL->setting['iconClass' . $blog_data['postType']];
+	$blog_data['postName'] = $blog_data['postName'] ? $blog_data['postName'] : 'N/A';
 
 	$xtpl->assign( 'DATA', $blog_data );
 	
@@ -274,6 +279,35 @@ function nv_detail_theme( $blog_data )
 		$xtpl->parse( 'main.media' );
 	}
 	
+	// Xuất tags nếu có
+	if( ! empty( $blog_data['tags'] ) )
+	{
+		foreach( $blog_data['tags'] as $tag )
+		{
+			$tag['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=tags/' . $tag['alias'];
+			
+			$xtpl->assign( 'TAG', $tag );
+			$xtpl->parse( 'main.tags.loop' );
+		}
+		
+		$xtpl->parse( 'main.tags' );
+	}
+	
+	// Xuất bài viết tiếp theo, bài viết trước đó
+	if( ! empty( $blog_data['nextPost'] ) or ! empty( $blog_data['prevPost'] ) )
+	{
+		if( ! empty( $blog_data['nextPost'] ) )
+		{
+			$xtpl->parse( 'main.navPost.nextPost' );
+		}
+		
+		if( ! empty( $blog_data['prevPost'] ) )
+		{
+			$xtpl->parse( 'main.navPost.prevPost' );
+		}
+		
+		$xtpl->parse( 'main.navPost' );
+	}
 	
 	$xtpl->parse( 'main' );
 	return $xtpl->text( 'main' );
