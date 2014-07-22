@@ -52,7 +52,7 @@
 	</div>
 	<div class="fr">
 		<div class="addthis_sharing_toolbox"></div>
-		<!--script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=hoaquynhtim99"></script-->
+		<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=hoaquynhtim99"></script>
 	</div>
 	<div class="fr">{LANG.share}: </div>
 </div>
