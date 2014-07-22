@@ -235,6 +235,13 @@ function nv_newsletters_theme( $array )
 	return $xtpl->text( 'main' );
 }
 
+/**
+ * nv_detail_theme()
+ * 
+ * @param mixed $blog_data
+ * @param mixed $BL
+ * @return
+ */
 function nv_detail_theme( $blog_data, $BL )
 {
 	global $lang_global, $lang_module, $module_file, $module_info, $my_head, $module_name;
@@ -307,6 +314,141 @@ function nv_detail_theme( $blog_data, $BL )
 		}
 		
 		$xtpl->parse( 'main.navPost' );
+	}
+	
+	$xtpl->parse( 'main' );
+	return $xtpl->text( 'main' );
+}
+
+/**
+ * nv_all_tags_theme()
+ * 
+ * @param mixed $array
+ * @param mixed $BL
+ * @return
+ */
+function nv_all_tags_theme( $array, $BL )
+{
+	global $lang_global, $lang_module, $module_file, $module_info;
+	
+	$xtpl = new XTemplate( "tags-list.tpl", NV_ROOTDIR . "/themes/" . $module_info['template'] . "/modules/" . $module_file );
+	$xtpl->assign( 'LANG', $lang_module );
+	$xtpl->assign( 'GLANG', $lang_global );
+	
+	if( empty( $array ) )
+	{
+		$xtpl->parse( 'empty' );
+		return $xtpl->text( 'empty' );
+	}
+	
+	$xtpl->assign( 'MESSAGE', sprintf( $BL->lang('tagsInfoNumbers'), sizeof( $array ) ) );
+	
+	foreach( $array as $row )
+	{
+		$xtpl->assign( 'ROW', $row );
+		$xtpl->parse( 'main.loop' );
+	}
+	
+	$xtpl->parse( 'main' );
+	return $xtpl->text( 'main' );
+}
+
+/**
+ * nv_detail_tags_theme()
+ * 
+ * @param mixed $array
+ * @param mixed $generate_page
+ * @param mixed $cfg
+ * @param mixed $page
+ * @param mixed $total_pages
+ * @param mixed $BL
+ * @return
+ */
+function nv_detail_tags_theme( $array, $generate_page, $cfg, $page, $total_pages, $BL )
+{
+	global $lang_global, $lang_module, $module_file, $module_info, $my_head;
+	
+	$my_head .= "<script type=\"text/javascript\" src=\"" . NV_BASE_SITEURL . "modules/" . $module_file . "/media/jwplayer.js\"></script>" . NV_EOL;
+	
+	if( $BL->setting['catViewType'] == 'type_blog' )
+	{
+		// Kieu danh sach blog
+		$xtpl = new XTemplate( "list_blog.tpl", NV_ROOTDIR . "/themes/" . $module_info['template'] . "/modules/" . $module_file );
+	}
+	else
+	{
+		// Kieu danh sach tin tuc
+		$xtpl = new XTemplate( "list_news.tpl", NV_ROOTDIR . "/themes/" . $module_info['template'] . "/modules/" . $module_file );
+	}
+	
+	$xtpl->assign( 'LANG', $lang_module );
+	$xtpl->assign( 'GLANG', $lang_global );
+	
+	$xtpl->assign( 'PAGE_TOTAL', $total_pages );
+	$xtpl->assign( 'PAGE_CURRENT', $page );
+	
+	foreach( $array as $row )
+	{
+		$row['pubTime'] = str_replace( array( ' AM ', ' PM ' ), array( ' SA ', ' CH ' ), nv_date( 'g:i A d/m/Y', $row['pubTime'] ) );
+		$row['numComments'] = number_format( $row['numComments'], 0, ',', '.' );
+		$row['linkComment'] = nv_url_rewrite( $row['link'], true ) . '#comment';
+		$row['icon'] = empty( $BL->setting['iconClass' . $row['postType']] ) ? 'icon-pencil' : $BL->setting['iconClass' . $row['postType']];
+		
+		// Cat phan gioi thieu ngan gon
+		if( $BL->setting['strCutHomeText'] )
+		{
+			$row['hometext'] = nv_clean60( $row['hometext'], $BL->setting['strCutHomeText'] );
+		}
+		
+		// Hinh anh mac dinh neu khong co anh mo ta
+		if( empty( $row['images'] ) )
+		{
+			if( $BL->setting['indexViewType'] == 'type_blog' )
+			{
+				$row['images'] = NV_BASE_SITEURL . 'themes/' . $module_info['template'] . '/images/' . $module_file . '/comingsoon-large.jpg';
+			}
+			else
+			{
+				$row['images'] = NV_BASE_SITEURL . 'themes/' . $module_info['template'] . '/images/' . $module_file . '/comingsoon-medium.jpg';
+			}
+		}
+		
+		$xtpl->assign( 'ROW', $row );
+		
+		// Chi xuat media neu nhu kieu hien thi la danh sach dang blog
+		if( ! empty( $row['mediaValue'] ) and $BL->setting['indexViewType'] == 'type_blog' )
+		{		
+			if( in_array( $row['mediaType'], array( 0, 1 ) ) )
+			{
+				// Kieu hinh anh
+				$xtpl->parse( 'main.loop.media.image' );
+			}
+			elseif( $row['mediaType'] == 2 )
+			{
+				// Kieu am thanh
+				$xtpl->parse( 'main.loop.media.audio' );
+			}
+			elseif( $row['mediaType'] == 3 )
+			{
+				// Kieu video
+				$xtpl->parse( 'main.loop.media.video' );
+			}
+			elseif( $row['mediaType'] == 4 )
+			{
+				// Kieu iframe
+				$xtpl->parse( 'main.loop.media.iframe' );
+			}
+			
+			$xtpl->parse( 'main.loop.media' );
+		}
+		
+		$xtpl->parse( 'main.loop' );
+	}	
+	
+	if( ! empty( $generate_page ) )
+	{
+		$xtpl->assign( 'GENERATE_PAGE', $generate_page );
+		$xtpl->parse( 'main.generate_page' );
 	}
 	
 	$xtpl->parse( 'main' );

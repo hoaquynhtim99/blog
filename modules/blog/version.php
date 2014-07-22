@@ -11,8 +11,8 @@ if ( ! defined( 'NV_ADMIN' ) or ! defined( 'NV_MAINFILE' ) ) die( 'Stop!!!' );
 
 $module_version = array(
 	"name" => "NukeViet Blog",
-	"modfuncs" => "main, viewcat, search, detail, newsletters",
-	"submenu" => "main, viewcat, search, detail, newsletters",
+	"modfuncs" => "main, tags, viewcat, search, detail, newsletters",
+	"submenu" => "main, tags, viewcat, search, detail, newsletters",
 	"is_sysmod" => 0,
 	"virtual" => 1,
 	"version" => "3.4.01",

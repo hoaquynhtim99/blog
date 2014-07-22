@@ -22,7 +22,6 @@ $lang_module['detail'] = 'Chi tiết bài viết';
 $lang_module['viewcat'] = 'Xem bài viết theo danh mục';
 
 $lang_module['paginationInfo'] = 'trong tổng số';
-$lang_module['tags'] = 'Từ khóa';
 $lang_module['share'] = 'Chia sẻ';
 
 $lang_module['newsletter'] = 'Đăng ký nhận tin';
@@ -41,5 +40,12 @@ $lang_module['newsletterMessage'] = 'Xem chi tiết tại';
 
 $lang_module['blNumComments'] = 'Bình luận';
 $lang_module['blDetail'] = 'Chi tiết';
+
+$lang_module['allTags'] = 'Tất cả từ khóa';
+$lang_module['tags'] = 'Từ khóa';
+$lang_module['tagsEmpty'] = 'Hiện tại không có từ khóa nào';
+$lang_module['tagsInfoNumbers'] = 'Có tổng cộng <strong>%s</strong> từ khóa';
+
+$lang_module['detailDefDescription'] = 'Các bài viết về';
 
 ?>
