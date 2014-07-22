@@ -58,6 +58,7 @@ $lang_module['mainInfoContact'] = 'Liên hệ';
 $lang_module['mainInfoSupport'] = 'Hỗ trợ';
 $lang_module['mainInfoIssue'] = 'Báo lỗi';
 $lang_module['mainDonation'] = 'Tài trợ';
+$lang_module['mainQuickLink'] = 'Liên kết hữu dụng';
 
 $lang_module['blogList'] = 'Danh sách bài viết';
 $lang_module['blogAdd'] = 'Viết bài';
@@ -187,6 +188,14 @@ $lang_module['cfgnumPostPerPage'] = 'Số bài đăng trên một trang';
 $lang_module['cfgstrCutHomeText'] = 'Cắt phần mô tả ngắn gọn tại trang danh sách bài viết. Nhập 0 nếu không muốn cắt';
 $lang_module['cfgTheme'] = 'Cấu hình giao diện';
 $lang_module['cfgIconPost'] = 'Tên class css của loại %s';
+$lang_module['cfgBlockTags'] = 'Cấu hình block tags';
+$lang_module['cfgblockTagsShowType'] = 'Kiểu hiển thị';
+$lang_module['cfgblockTagsShowType_random'] = 'Hiển thị ngẫu nhiên';
+$lang_module['cfgblockTagsShowType_latest'] = 'Mới nhất lên trên';
+$lang_module['cfgblockTagsShowType_popular'] = 'Có nhiều bài viết nhất lên trên';
+$lang_module['cfgblockTagsNums'] = 'Số tags hiển thị';
+$lang_module['cfgblockTagsCacheIfRandom'] = 'Lưu cache nếu kiểu hiển thị random';
+$lang_module['cfgblockTagsCacheLive'] = 'Thời gian tồn tại của cache';
 
 $lang_module['tagsMg'] = 'Quản lý tags';
 $lang_module['tagsDelete'] = 'Xóa tags';

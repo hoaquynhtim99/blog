@@ -13,7 +13,7 @@ if ( ! nv_function_exists( 'nv_blog_verticalCategories' ) )
 {
 	function nv_blog_verticalCategories( $block_config )
 	{
-		global $module_info, $global_config, $site_mods, $client_info, $BL, $global_array_cat, $module_name;
+		global $module_info, $global_config, $site_mods, $client_info, $global_array_cat, $module_name;
 		
 		$module = $block_config['module'];
 		$module_file = $site_mods[$module]['module_file'];
@@ -33,18 +33,14 @@ if ( ! nv_function_exists( 'nv_blog_verticalCategories' ) )
 		}
 		
 		// Lay danh sach chuyen muc
-		if( $module_name == $module and ! empty( $global_array_cat ) )
+		if( $module_name == $module )
 		{
 			$list_cats = $global_array_cat;
 		}
 		else
 		{
-			// Goi class blog
-			if( empty( $BL ) )
-			{
-				require_once( NV_ROOTDIR . "/modules/" . $module_file . "/blog.class.php" );
-				$BL = new nv_mod_blog( $module_data, $module, $module_file );
-			}
+			require_once( NV_ROOTDIR . "/modules/" . $module_file . "/blog.class.php" );
+			$BL = new nv_mod_blog( $module_data, $module, $module_file );
 			
 			$list_cats = $BL->listCat( 0, 0 );
 		}

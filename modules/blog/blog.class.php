@@ -9,6 +9,15 @@
 
 if( ! defined( 'NV_MAINFILE' ) ) die( 'Stop!!!' );
 
+/**
+ * nv_mod_blog
+ * 
+ * @package Blog Phan Tan Dung
+ * @author PHAN TAN DUNG
+ * @copyright 2014
+ * @version 1.0
+ * @access public
+ */
 class nv_mod_blog
 {
 	public $author_email = 'phantandung92@gmail.com';
@@ -27,6 +36,7 @@ class nv_mod_blog
 	
 	public $indexViewType = array( "type_blog", "type_news" );
 	public $catViewType = array( "type_blog", "type_news" );
+	public $blockTagsShowType = array( "random", "latest", "popular" );
 	public $blogpostType = array( 0, 1, 2, 3, 4, 5, 6 );
 	public $blogMediaType = array( 0, 1, 2, 3, 4 );
 	public $blogExpMode = array( 0, 1, 2 );
@@ -42,6 +52,15 @@ class nv_mod_blog
 	
 	private $js_data = array();
 
+	/**
+	 * nv_mod_blog::__construct()
+	 * 
+	 * @param string $d
+	 * @param string $n
+	 * @param string $f
+	 * @param string $lang
+	 * @return
+	 */
 	public function __construct( $d = "", $n = "", $f = "", $lang = "" )
 	{
 		global $module_data, $module_name, $module_file, $db_config, $db, $lang_module, $lang_global;
@@ -103,36 +122,78 @@ class nv_mod_blog
 		}
 	}
 	
+	/**
+	 * nv_mod_blog::handle_error()
+	 * 
+	 * @param string $messgae
+	 * @return
+	 */
 	private function handle_error( $messgae = '' )
 	{
 		trigger_error( "Error! " . ( $messgae ? ( string ) $messgae : "You are not allowed to access this feature now" ) . "!", 256 );
 	}
 	
+	/**
+	 * nv_mod_blog::check_admin()
+	 * 
+	 * @return
+	 */
 	private function check_admin()
 	{
 		if( ! defined( 'NV_IS_MODADMIN' ) ) $this->handle_error();
 	}
 	
+	/**
+	 * nv_mod_blog::nl2br()
+	 * 
+	 * @param mixed $string
+	 * @return
+	 */
 	private function nl2br( $string )
 	{
 		return nv_nl2br( $string );
 	}
 	
+	/**
+	 * nv_mod_blog::db_cache()
+	 * 
+	 * @param mixed $sql
+	 * @param string $id
+	 * @param string $module_name
+	 * @return
+	 */
 	private function db_cache( $sql, $id = '', $module_name = '' )
 	{
 		return nv_db_cache( $sql, $id, $module_name );
 	}
 	
+	/**
+	 * nv_mod_blog::del_cache()
+	 * 
+	 * @param mixed $module_name
+	 * @return
+	 */
 	private function del_cache( $module_name )
 	{
 		return nv_del_moduleCache( $module_name );
 	}
 	
+	/**
+	 * nv_mod_blog::change_alias()
+	 * 
+	 * @param mixed $alias
+	 * @return
+	 */
 	private function change_alias( $alias )
 	{
 		return change_alias( $alias );
 	}
 	
+	/**
+	 * nv_mod_blog::get_setting()
+	 * 
+	 * @return
+	 */
 	private function get_setting()
 	{
 		$sql = "SELECT `config_name`, `config_value` FROM `" . $this->table_prefix . "_config`";
@@ -147,6 +208,13 @@ class nv_mod_blog
 		return $array;
 	}
 	
+	/**
+	 * nv_mod_blog::checkJqueryPlugin()
+	 * 
+	 * @param mixed $numargs
+	 * @param mixed $arg_list
+	 * @return
+	 */
 	private function checkJqueryPlugin( $numargs, $arg_list )
 	{
 		$return = array();
@@ -162,6 +230,13 @@ class nv_mod_blog
 		return $return;
 	}
 	
+	/**
+	 * nv_mod_blog::sortArrayFromArrayKeys()
+	 * 
+	 * @param mixed $keys
+	 * @param mixed $array
+	 * @return
+	 */
 	private function sortArrayFromArrayKeys( $keys, $array )
 	{
 		$return = array();
@@ -176,6 +251,13 @@ class nv_mod_blog
 		return $return;
 	}
 	
+	/**
+	 * nv_mod_blog::IdHandle()
+	 * 
+	 * @param mixed $stroarr
+	 * @param string $defis
+	 * @return
+	 */
 	private function IdHandle( $stroarr, $defis = "," )
 	{
 		$return = array();
@@ -196,6 +278,12 @@ class nv_mod_blog
 		return $return;
 	}
 	
+	/**
+	 * nv_mod_blog::executeData()
+	 * 
+	 * @param bool $rmCache
+	 * @return
+	 */
 	public function executeData( $rmCache = false )
 	{
 		// Cho dang nhung bai dang cho duyet
@@ -264,6 +352,11 @@ class nv_mod_blog
 		}
 	}
 	
+	/**
+	 * nv_mod_blog::callJqueryPlugin()
+	 * 
+	 * @return
+	 */
 	public function callJqueryPlugin()
 	{
 		global $my_head;
@@ -283,16 +376,37 @@ class nv_mod_blog
 		}
 	}
 	
+	/**
+	 * nv_mod_blog::lang()
+	 * 
+	 * @param mixed $key
+	 * @return
+	 */
 	public function lang( $key )
 	{
 		return isset( $this->language[$key] ) ? $this->language[$key] : $key;
 	}
 	
+	/**
+	 * nv_mod_blog::glang()
+	 * 
+	 * @param mixed $key
+	 * @return
+	 */
 	public function glang( $key )
 	{
 		return isset( $this->glanguage[$key] ) ? $this->glanguage[$key] : $key;
 	}
 	
+	/**
+	 * nv_mod_blog::string2array()
+	 * 
+	 * @param mixed $str
+	 * @param string $defis
+	 * @param bool $unique
+	 * @param bool $empty
+	 * @return
+	 */
 	public function string2array( $str, $defis = ",", $unique = false, $empty = false )
 	{
 		if( empty( $str ) ) return array();
@@ -312,6 +426,14 @@ class nv_mod_blog
 		return $str;
 	}
 	
+	/**
+	 * nv_mod_blog::checkExistsAlias()
+	 * 
+	 * @param string $alias
+	 * @param string $mode
+	 * @param integer $id
+	 * @return
+	 */
 	public function checkExistsAlias( $alias = "", $mode = "", $id = 0 )
 	{
 		$this->check_admin();
@@ -343,6 +465,13 @@ class nv_mod_blog
 		return false;
 	}
 	
+	/**
+	 * nv_mod_blog::creatAlias()
+	 * 
+	 * @param mixed $title
+	 * @param mixed $mode
+	 * @return
+	 */
 	public function creatAlias( $title, $mode )
 	{
 		if( empty( $title ) ) return "";
@@ -380,6 +509,16 @@ class nv_mod_blog
 		return $alias;
 	}
 
+	/**
+	 * nv_mod_blog::setCats()
+	 * 
+	 * @param mixed $list2
+	 * @param mixed $id
+	 * @param mixed $list
+	 * @param integer $m
+	 * @param integer $num
+	 * @return
+	 */
 	private function setCats( $list2, $id, $list, $m = 0, $num = 0 )
 	{
 		$num++;
@@ -411,6 +550,13 @@ class nv_mod_blog
 		return $list2;
 	}
 	
+	/**
+	 * nv_mod_blog::listCat()
+	 * 
+	 * @param mixed $parentid
+	 * @param integer $m
+	 * @return
+	 */
 	public function listCat( $parentid, $m = 0 )
 	{
 		if( defined('NV_ADMIN') )
@@ -494,6 +640,12 @@ class nv_mod_blog
 		return $list2;
 	}
 	
+	/**
+	 * nv_mod_blog::fixCat()
+	 * 
+	 * @param mixed $id
+	 * @return
+	 */
 	public function fixCat( $id )
 	{
 		if( empty( $id ) ) return;
@@ -523,6 +675,12 @@ class nv_mod_blog
 		return;
 	}
 	
+	/**
+	 * nv_mod_blog::fixWeightCat()
+	 * 
+	 * @param integer $parentid
+	 * @return
+	 */
 	public function fixWeightCat( $parentid = 0 )
 	{
 		$sql = "SELECT `id` FROM `" . $this->table_prefix . "_categories` WHERE `parentid`=" . $parentid . " ORDER BY `weight` ASC";
@@ -538,6 +696,12 @@ class nv_mod_blog
 		return;
 	}
 	
+	/**
+	 * nv_mod_blog::fixTags()
+	 * 
+	 * @param mixed $id
+	 * @return
+	 */
 	public function fixTags( $id )
 	{
 		if( empty( $id ) ) return;
@@ -559,7 +723,14 @@ class nv_mod_blog
 		return;
 	}
 	
-	// Lay tags tu id
+	/**
+	 * nv_mod_blog::getTagsByID()
+	 * Lay tags tu id
+	 * 
+	 * @param mixed $id
+	 * @param bool $sort
+	 * @return
+	 */
 	public function getTagsByID( $id, $sort = false )
 	{
 		$id = $this->IdHandle( $id );
@@ -587,7 +758,14 @@ class nv_mod_blog
 		return $tags;
 	}
 	
-	// Lay bai viet tu id
+	/**
+	 * nv_mod_blog::getPostByID()
+	 * Lay bai viet tu id
+	 * 
+	 * @param mixed $id
+	 * @param bool $sort
+	 * @return
+	 */
 	public function getPostByID( $id, $sort = false )
 	{
 		$id = $this->IdHandle( $id );
@@ -615,6 +793,14 @@ class nv_mod_blog
 		return $posts;
 	}
 	
+	/**
+	 * nv_mod_blog::build_query_search_id()
+	 * 
+	 * @param mixed $id
+	 * @param mixed $field
+	 * @param string $logic
+	 * @return
+	 */
 	public function build_query_search_id( $id, $field, $logic = 'OR' )
 	{
 		if( empty( $id ) ) return $field . "=''";
@@ -631,6 +817,12 @@ class nv_mod_blog
 		return $query;
 	}
 	
+	/**
+	 * nv_mod_blog::delPost()
+	 * 
+	 * @param mixed $id
+	 * @return
+	 */
 	public function delPost( $id )
 	{
 		// Lay thong tin cac bai viet
@@ -690,6 +882,17 @@ class nv_mod_blog
 		$this->fixCat( $array_cat_fix );
 	}
 	
+	/**
+	 * nv_mod_blog::pagination()
+	 * 
+	 * @param mixed $title
+	 * @param mixed $base_url
+	 * @param mixed $num_items
+	 * @param mixed $per_page
+	 * @param mixed $on_page
+	 * @param bool $add_prevnext_text
+	 * @return
+	 */
 	public function pagination( $title, $base_url, $num_items, $per_page, $on_page, $add_prevnext_text = true )
 	{
 		global $lang_global;

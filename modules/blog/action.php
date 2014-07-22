@@ -176,6 +176,11 @@ $sql_create_module[] = "INSERT INTO `" . $db_config['prefix'] . "_" . $lang . "_
 ('iconClass5', 'icon-link'),
 ('iconClass6', 'icon-camera'),
 
+('blockTagsShowType', 'random'),
+('blockTagsNums', '10'),
+('blockTagsCacheIfRandom', '1'),
+('blockTagsCacheLive', '5'),
+
 ('initPostExp', '0'),
 ('initPostType', '0'),
 ('initMediaType', '4'),

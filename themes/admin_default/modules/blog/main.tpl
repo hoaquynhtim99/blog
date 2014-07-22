@@ -12,6 +12,14 @@
 				<!-- END: notice -->
 			</div>
 		</div>
+		<div class="bl-post-panel decollapse">
+			<div class="tl">{LANG.mainQuickLink}</div>
+			<div class="ct">
+				<ul class="bl-ul">
+					<li><a href="{BASE_ADMIN_LINK}config-block-tags">{LANG.cfgBlockTags}</a></li>
+				</ul>
+			</div>
+		</div>
 	</div>
 </div>
 <div class="bl-main-col clearfix">

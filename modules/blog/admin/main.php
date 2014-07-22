@@ -131,6 +131,9 @@ $xtpl->assign( 'NV_BASE_SITEURL', NV_BASE_SITEURL );
 $xtpl->assign( 'TEMPLATE', $global_config['module_theme'] );
 $xtpl->assign( 'MODULE_FILE', $module_file );
 
+// Xuất một số link cần thiết
+$xtpl->assign( 'BASE_ADMIN_LINK', NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . '&amp;' . NV_OP_VARIABLE . '=' );
+
 $xtpl->parse( 'main' );
 $contents = $xtpl->text( 'main' );
 
