@@ -196,6 +196,8 @@ $lang_module['cfgblockTagsShowType_popular'] = 'Có nhiều bài viết nhất l
 $lang_module['cfgblockTagsNums'] = 'Số tags hiển thị';
 $lang_module['cfgblockTagsCacheIfRandom'] = 'Lưu cache nếu kiểu hiển thị random';
 $lang_module['cfgblockTagsCacheLive'] = 'Thời gian tồn tại của cache';
+$lang_module['cfgSys'] = 'Tùy chỉnh chuyên sâu';
+$lang_module['cfgsysDismissAdminCache'] = 'Không lưu cache đối với admin';
 
 $lang_module['tagsMg'] = 'Quản lý tags';
 $lang_module['tagsDelete'] = 'Xóa tags';

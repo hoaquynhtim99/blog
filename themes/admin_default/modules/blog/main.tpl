@@ -17,6 +17,7 @@
 			<div class="ct">
 				<ul class="bl-ul">
 					<li><a href="{BASE_ADMIN_LINK}config-block-tags">{LANG.cfgBlockTags}</a></li>
+					<li><a href="{BASE_ADMIN_LINK}config-sys">{LANG.cfgSys}</a></li>
 				</ul>
 			</div>
 		</div>
