@@ -9,13 +9,12 @@
 
 if ( ! defined( 'NV_IS_MOD_BLOG' ) ) die( 'Stop!!!' );
 
-$page_title = $mod_title = $module_info['custom_title'];
-$key_words = $module_info['keywords'];
+$page_title = $mod_title = $BL->lang('search');
 	
 $generate_page = "";
 $array = array();
 
-$contents = nv_main_theme( $array, $generate_page );
+$contents = '';
 
 include ( NV_ROOTDIR . "/includes/header.php" );
 echo nv_site_theme( $contents );

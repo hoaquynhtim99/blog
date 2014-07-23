@@ -24,6 +24,12 @@ function nv_main_theme( $array, $generate_page, $cfg, $page, $total_pages, $BL )
 {
 	global $lang_global, $lang_module, $module_file, $module_info, $my_head;
 	
+	// Nếu không có bài viết thì chỉ cần thông báo
+	if( empty( $array ) )
+	{
+		return nv_message_theme( $lang_module['noPost'], 3 );
+	}
+	
 	$my_head .= "<script type=\"text/javascript\" src=\"" . NV_BASE_SITEURL . "modules/" . $module_file . "/media/jwplayer.js\"></script>" . NV_EOL;
 	
 	if( $BL->setting['indexViewType'] == 'type_blog' )
@@ -125,6 +131,12 @@ function nv_main_theme( $array, $generate_page, $cfg, $page, $total_pages, $BL )
 function nv_viewcat_theme( $array, $generate_page, $cfg, $page, $total_pages, $BL )
 {
 	global $lang_global, $lang_module, $module_file, $module_info, $my_head;
+	
+	// Nếu không có bài viết thuộc danh mục thì chỉ cần thông báo
+	if( empty( $array ) )
+	{
+		return nv_message_theme( $lang_module['catNoPost'], 3 );
+	}
 	
 	$my_head .= "<script type=\"text/javascript\" src=\"" . NV_BASE_SITEURL . "modules/" . $module_file . "/media/jwplayer.js\"></script>" . NV_EOL;
 	
@@ -450,6 +462,25 @@ function nv_detail_tags_theme( $array, $generate_page, $cfg, $page, $total_pages
 		$xtpl->assign( 'GENERATE_PAGE', $generate_page );
 		$xtpl->parse( 'main.generate_page' );
 	}
+	
+	$xtpl->parse( 'main' );
+	return $xtpl->text( 'main' );
+}
+
+/**
+ * nv_message_theme()
+ * 
+ * @param mixed $message
+ * @param integer $lev: 0: Error, 1: Warning, 2: Success, 3: Info
+ * @return void
+ */
+function nv_message_theme( $message, $lev = 0 )
+{
+	global $lang_global, $lang_module, $module_file, $module_info, $my_head;
+	
+	$xtpl = new XTemplate( "message.tpl", NV_ROOTDIR . "/themes/" . $module_info['template'] . "/modules/" . $module_file );
+	$xtpl->assign( 'MESSAGE', $message );
+	$xtpl->assign( 'CLASS', $lev == 0 ? 'notification-box-error' : ( $lev == 1 ? 'notification-box-warning' : ( $lev == 2 ? 'notification-box-success' : 'notification-box-info' ) ) );
 	
 	$xtpl->parse( 'main' );
 	return $xtpl->text( 'main' );

@@ -23,6 +23,7 @@ $lang_module['viewcat'] = 'Xem bài viết theo danh mục';
 
 $lang_module['paginationInfo'] = 'trong tổng số';
 $lang_module['share'] = 'Chia sẻ';
+$lang_module['noPost'] = 'Hiện tại chưa có bài viết nào';
 
 $lang_module['newsletter'] = 'Đăng ký nhận tin';
 $lang_module['newsletterNote'] = 'Hãy để lại email của bạn, tôi sẽ thông báo với bạn khi có bài viết mới nhất';
@@ -47,5 +48,9 @@ $lang_module['tagsEmpty'] = 'Hiện tại không có từ khóa nào';
 $lang_module['tagsInfoNumbers'] = 'Có tổng cộng <strong>%s</strong> từ khóa';
 
 $lang_module['detailDefDescription'] = 'Các bài viết về';
+
+$lang_module['catNoPost'] = 'Danh mục này chưa có bài viết nào';
+
+$lang_module['search'] = 'Tìm kiếm bài viết';
 
 ?>

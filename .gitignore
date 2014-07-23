@@ -51,3 +51,4 @@
 !/themes/mobile_nukeviet/modules/blog
 !/themes/mobile_nukeviet/modules/blog/*
 !/includes/cronjobs/module_blog_newsletters.php
+/*.txt
