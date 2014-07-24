@@ -83,6 +83,7 @@
 			<div class="ct bl-post-fix-height large">
 				<ul class="bl-ul">
 					<li><label><input type="checkbox" name="newsletters" value="1"{NEWSLETTERS}/> {LANG.blogSendNewsletter}</label></li>
+					<li><label><input type="checkbox" name="fullPage" value="1"{FULLPAGE}/> {LANG.blogFullPage}</label></li>
 				</ul>
 			</div>
 		</div>

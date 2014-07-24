@@ -50,7 +50,7 @@ class nv_mod_blog
 	private $language = array();
 	private $glanguage = array();
 	
-	private $js_data = array();
+	private $frameworks_called = array();
 
 	/**
 	 * nv_mod_blog::__construct()
@@ -94,26 +94,6 @@ class nv_mod_blog
 		$this->language = $lang_module;
 		$this->glanguage = $lang_global;
 		$this->currenttime = NV_CURRENTTIME;
-		
-		$this->js_data['jquery.ui.core'][] = "<link type=\"text/css\" href=\"" . $this->base_site_url . "js/ui/jquery.ui.core.css\" rel=\"stylesheet\" />\n";
-		$this->js_data['jquery.ui.core'][] = "<link type=\"text/css\" href=\"" . $this->base_site_url . "js/ui/jquery.ui.theme.css\" rel=\"stylesheet\" />\n";
-		$this->js_data['jquery.ui.core'][] = "<script type=\"text/javascript\" src=\"" . $this->base_site_url . "js/ui/jquery.ui.core.min.js\"></script>\n";
-		
-		$this->js_data['jquery.ui.sortable'][] = "<script type=\"text/javascript\" src=\"" . $this->base_site_url . "js/ui/jquery.ui.sortable.min.js\"></script>\n";
-		$this->js_data['jquery.ui.autocomplete'][] = "<script type=\"text/javascript\" src=\"" . $this->base_site_url . "modules/" . $this->mod_file . "/js/jquery.ui.autocomplete.js\"></script>\n";
-		
-		$this->js_data['jquery.tipsy'][] = "<script type=\"text/javascript\" src=\"" . $this->base_site_url . "modules/" . $this->mod_file . "/js/jquery.tipsy.js\"></script>\n";
-		$this->js_data['jquery.tipsy'][] = "<link type=\"text/css\" href=\"" . $this->base_site_url . "modules/" . $this->mod_file . "/js/tipsy.css\" rel=\"stylesheet\" />\n";
-		
-		$this->js_data['jquery.autosize'][] = "<script type=\"text/javascript\" src=\"" . $this->base_site_url . "modules/" . $this->mod_file . "/js/jquery.autosize.js\"></script>\n";
-		
-		$this->js_data['shadowbox'][] = "<script type=\"text/javascript\" src=\"" . $this->base_site_url . "js/shadowbox/shadowbox.js\"></script>\n";
-		$this->js_data['shadowbox'][] = "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $this->base_site_url . "js/shadowbox/shadowbox.css\" />\n";
-		$this->js_data['shadowbox'][] = "<script type=\"text/javascript\">Shadowbox.init();</script>\n";
-		
-		$this->js_data['jquery.ui.datepicker'][] = "<link type=\"text/css\" href=\"" . $this->base_site_url . "js/ui/jquery.ui.datepicker.css\" rel=\"stylesheet\" />\n";
-		$this->js_data['jquery.ui.datepicker'][] = "<script type=\"text/javascript\" src=\"" . $this->base_site_url . "js/ui/jquery.ui.datepicker.min.js\"></script>\n";
-		$this->js_data['jquery.ui.datepicker'][] = "<script type=\"text/javascript\" src=\"" . $this->base_site_url . "js/language/jquery.ui.datepicker-" . NV_LANG_INTERFACE . ".js\"></script>\n";
 		
 		// Check Execute Data
 		if( ! empty( $this->setting['nextExecuteTime'] ) and $this->setting['nextExecuteTime'] <= $this->currenttime )
@@ -202,32 +182,112 @@ class nv_mod_blog
 		$array = array();
 		foreach ( $result as $values )
 		{
-			$array[$values['config_name']] = $values['config_value'];
+			$array[$this->db->unfixdb( $values['config_name'] )] = $this->db->unfixdb( $values['config_value'] );
 		}
 
 		return $array;
 	}
 	
 	/**
-	 * nv_mod_blog::checkJqueryPlugin()
+	 * nv_mod_blog::findFrameWorks()
 	 * 
 	 * @param mixed $numargs
-	 * @param mixed $arg_list
+	 * @param mixed $list_args
+	 * @param bool $allow_called
 	 * @return
 	 */
-	private function checkJqueryPlugin( $numargs, $arg_list )
+	private function findFrameWorks( $numargs, $list_args, $allow_called = false )
 	{
-		$return = array();
-		for( $i = 0; $i < $numargs; $i ++ )
+		$frameWorks = '';
+		
+		if( $numargs > 0 )
 		{
-			if( isset( $this->js_data[$arg_list[$i]] ) )
+			for( $i = 0; $i < $numargs; $i ++ )
 			{
-				if( $arg_list[$i] == 'jquery.ui.sortable' ) $return['jquery.ui.core'] = implode( "", $this->js_data['jquery.ui.core'] );
-				if( $arg_list[$i] == 'jquery.ui.datepicker' ) $return['jquery.ui.core'] = implode( "", $this->js_data['jquery.ui.core'] );
-				$return[$arg_list[$i]] =  implode( "", $this->js_data[$arg_list[$i]] );
+				// Các frameworks trong thư mục frameworks của module
+				if( ( is_dir( $this->root_dir . '/modules/' . $this->mod_file . '/frameworks/' . $list_args[$i] ) or preg_match( "/^ui\./i", $list_args[$i] ) ) and ( ! in_array( $list_args[$i], $this->frameworks_called ) or $allow_called === true ) )
+				{
+					// Highlight js
+					if( $list_args[$i] == 'highlight' )
+					{
+						$this->frameworks_called[md5( $list_args[$i] )] = $list_args[$i];
+						
+						// Xác định giao diện
+						$css_file = 'modules/' . $this->mod_file . '/frameworks/' . $list_args[$i] . '/styles/' . $this->setting['sysHighlightTheme'] . '.css';
+						
+						if( ! is_file( $this->root_dir . '/' . $css_file ) )
+						{
+							$css_file = $this->base_site_url . 'modules/' . $this->mod_file . '/frameworks/' . $list_args[$i] . '/styles/default.css';
+						}
+						else
+						{
+							$css_file = $this->base_site_url . $css_file;
+						}
+						
+						$frameWorks .= "<link rel=\"stylesheet\" href=\"" . $css_file . "\"/>" . NV_EOL;
+						$frameWorks .= "<script type=\"text/javascript\" src=\"" . $this->base_site_url . "modules/" . $this->mod_file . "/frameworks/highlight/highlight.pack.js\"></script>\n";
+						$frameWorks .= "<script type=\"text/javascript\">hljs.initHighlightingOnLoad();</script>" . NV_EOL;
+					}
+					elseif( $list_args[$i] == 'tipsy' )
+					{
+						$this->frameworks_called[md5( $list_args[$i] )] = $list_args[$i];
+						
+						$frameWorks .= "<script type=\"text/javascript\" src=\"" . $this->base_site_url . "modules/" . $this->mod_file . "/frameworks/tipsy/jquery.tipsy.js\"></script>\n";
+						$frameWorks .= "<link type=\"text/css\" href=\"" . $this->base_site_url . "modules/" . $this->mod_file . "/frameworks/tipsy/tipsy.css\" rel=\"stylesheet\" />\n";
+					}
+					elseif( $list_args[$i] == 'autosize' )
+					{
+						$this->frameworks_called[md5( $list_args[$i] )] = $list_args[$i];
+						
+						$frameWorks .= "<script type=\"text/javascript\" src=\"" . $this->base_site_url . "modules/" . $this->mod_file . "/frameworks/autosize/jquery.autosize.js\"></script>\n";
+					}
+					elseif( $list_args[$i] == 'ui.autocomplete' )
+					{
+						$this->frameworks_called[md5( $list_args[$i] )] = $list_args[$i];
+						
+						$frameWorks .= "<script type=\"text/javascript\" src=\"" . $this->base_site_url . "modules/" . $this->mod_file . "/frameworks/ui/jquery.ui.autocomplete.js\"></script>\n";
+					}
+					elseif( $list_args[$i] == 'ui.core' )
+					{
+						$this->frameworks_called[md5( $list_args[$i] )] = $list_args[$i];
+						
+						$frameWorks .= "<link type=\"text/css\" href=\"" . $this->base_site_url . "js/ui/jquery.ui.core.css\" rel=\"stylesheet\" />\n";
+						$frameWorks .= "<link type=\"text/css\" href=\"" . $this->base_site_url . "js/ui/jquery.ui.theme.css\" rel=\"stylesheet\" />\n";
+						$frameWorks .= "<script type=\"text/javascript\" src=\"" . $this->base_site_url . "js/ui/jquery.ui.core.min.js\"></script>\n";		
+					}
+					elseif( $list_args[$i] == 'ui.sortable' )
+					{
+						$this->frameworks_called[md5( $list_args[$i] )] = $list_args[$i];
+						
+						$frameWorks .= $this->getFrameWorks( 'ui.core' );
+						$frameWorks .= "<script type=\"text/javascript\" src=\"" . $this->base_site_url . "js/ui/jquery.ui.sortable.min.js\"></script>\n";
+					}
+					elseif( $list_args[$i] == 'ui.datepicker' )
+					{
+						$this->frameworks_called[md5( $list_args[$i] )] = $list_args[$i];
+						
+						$frameWorks .= $this->getFrameWorks( 'ui.core' );
+						$frameWorks .= "<link type=\"text/css\" href=\"" . $this->base_site_url . "js/ui/jquery.ui.datepicker.css\" rel=\"stylesheet\" />\n";
+						$frameWorks .= "<script type=\"text/javascript\" src=\"" . $this->base_site_url . "js/ui/jquery.ui.datepicker.min.js\"></script>\n";
+						$frameWorks .= "<script type=\"text/javascript\" src=\"" . $this->base_site_url . "js/language/jquery.ui.datepicker-" . NV_LANG_INTERFACE . ".js\"></script>\n";
+					}
+				}
+				// Các frameworks của hệ thống khác
+				elseif( ! in_array( $list_args[$i], $this->frameworks_called ) or $allow_called === true )
+				{
+					if( $list_args[$i] == 'shadowbox' )
+					{
+						$this->frameworks_called[md5( $list_args[$i] )] = $list_args[$i];
+						
+						$frameWorks .= "<script type=\"text/javascript\" src=\"" . $this->base_site_url . "js/shadowbox/shadowbox.js\"></script>\n";
+						$frameWorks .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $this->base_site_url . "js/shadowbox/shadowbox.css\" />\n";
+						$frameWorks .= "<script type=\"text/javascript\">Shadowbox.init();</script>\n";
+					}
+				}
 			}
 		}
-		return $return;
+		
+		return $frameWorks;
 	}
 	
 	/**
@@ -349,30 +409,6 @@ class nv_mod_blog
 		if( $rmCache )
 		{
 			$this->del_cache( $this->mod_name );
-		}
-	}
-	
-	/**
-	 * nv_mod_blog::callJqueryPlugin()
-	 * 
-	 * @return
-	 */
-	public function callJqueryPlugin()
-	{
-		global $my_head;
-		
-		$return = $this->checkJqueryPlugin( func_num_args(), func_get_args() );
-		
-		if( ! empty( $return ) )
-		{
-			if( empty( $my_head ) )
-			{
-				$my_head = implode( "", $return );
-			}
-			else
-			{
-				$my_head .= implode( "", $return );
-			}
 		}
 	}
 	
@@ -880,6 +916,37 @@ class nv_mod_blog
 		
 		// Cap nhat danh muc
 		$this->fixCat( $array_cat_fix );
+	}
+	
+	/**
+	 * nv_mod_blog::callFrameWorks()
+	 * 
+	 * @return void
+	 */
+	public function callFrameWorks()
+	{
+		$frameWorks = $this->findFrameWorks( func_num_args(), func_get_args() );
+		
+		global $my_head;
+		
+		if( ! isset( $my_head ) or empty( $my_head ) )
+		{
+			$my_head = $frameWorks;
+		}
+		else
+		{
+			$my_head .= $frameWorks;
+		}
+	}
+	
+	/**
+	 * nv_mod_blog::getFrameWorks()
+	 * 
+	 * @return
+	 */
+	public function getFrameWorks()
+	{
+		return $this->findFrameWorks( func_num_args(), func_get_args() );
 	}
 	
 	/**

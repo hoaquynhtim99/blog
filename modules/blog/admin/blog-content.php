@@ -63,7 +63,7 @@ else
 $currentpath = str_replace( NV_ROOTDIR . "/", "", $upload_real_dir_page );
 
 // Goi js
-$BL->callJqueryPlugin( 'jquery.ui.sortable', 'jquery.tipsy', 'jquery.autosize', 'jquery.ui.autocomplete', 'jquery.ui.datepicker', 'shadowbox' );
+$BL->callFrameWorks( 'ui.sortable', 'tipsy', 'autosize', 'ui.autocomplete', 'ui.datepicker', 'shadowbox' );
 
 $page_title = $BL->lang('blogManager');
 
@@ -99,6 +99,7 @@ if( $id )
 		"bodytext" => $row['bodytext'],
 		"bodyhtml" => '',
 		"postType" => ( int ) $row['postType'],
+		"fullPage" => ( int ) $row['fullPage'],
 		"catids" => $BL->string2array( $row['catids'] ),
 		"tagids" => $BL->string2array( $row['tagids'] ),
 		"numWords" => ( int ) $row['numWords'],
@@ -118,7 +119,7 @@ if( $id )
 	if( $db->sql_numrows( $result ) )
 	{
 		$row = $db->sql_fetchrow( $result );
-		$array_old['bodyhtml'] = $array['bodyhtml'] = nv_editor_nl2br( $row['bodyhtml'] );
+		$array_old['bodyhtml'] = $array['bodyhtml'] = $row['bodyhtml'];
 	}
 	
 	$form_action = NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $op . "&amp;id=" . $id;
@@ -146,6 +147,7 @@ else
 		"bodytext" => '',
 		"bodyhtml" => '',
 		"postType" => $BL->setting['initPostType'],
+		"fullPage" => 0,
 		"catids" => array(),
 		"tagids" => array(),
 		"numWords" => 0,
@@ -188,6 +190,7 @@ if( $prosessMode != 'none' )
 	$array['hometext'] = filter_text_textarea( 'hometext', '', NV_ALLOWED_HTML_TAGS );
 	$array['bodyhtml'] = nv_editor_filter_textarea( 'bodyhtml', '', NV_ALLOWED_HTML_TAGS );
 	$array['postType'] = $nv_Request->get_int( 'postType', 'post', 0 );
+	$array['fullPage'] = $nv_Request->get_int( 'fullPage', 'post', 0 );
 	$array['catids'] = $nv_Request->get_typed_array( 'catids', 'post', 'int' );
 	$array['tagids'] = filter_text_input( 'tagids', 'post', '', 1, 255 );
 	$array['pubTime'] = $nv_Request->get_string( 'pubTime', 'post', '' );
@@ -296,6 +299,9 @@ if( $prosessMode != 'none' )
 	{
 		$array['expMode'] = 0;
 	}
+	
+	// Chuẩn hóa giá trị 0, 1
+	$array['fullPage'] = $array['fullPage'] ? 1 : 0;
 	
 	// Kiem tra loi, khong kiem tra neu luu ban nhap
 	if( $prosessMode == "public" )
@@ -415,7 +421,6 @@ if( $prosessMode != 'none' )
 	if( empty( $error ) )
 	{
 		$array['hometext'] = nv_nl2br( $array['hometext'] );
-		$array['bodyhtml'] = nv_editor_nl2br( $array['bodyhtml'] );
 		
 		if( empty( $id ) )
 		{
@@ -433,6 +438,7 @@ if( $prosessMode != 'none' )
 				" . $db->dbescape( $array['hometext'] ) . ",
 				" . $db->dbescape( $array['bodytext'] ) . ",
 				" . $array['postType'] . ", 
+				" . $array['fullPage'] . ", 
 				" . $db->dbescape( $array['catids'] ? "0," . implode( ",", $array['catids'] ) . ",0" : "" ) . ",
 				" . $db->dbescape( $array['tagids'] ? "0," . implode( ",", $array['tagids'] ) . ",0" : "" ) . ",
 				" . $array['numWords'] . ", 
@@ -517,6 +523,7 @@ if( $prosessMode != 'none' )
 				`hometext`=" . $db->dbescape( $array['hometext'] ) . ",
 				`bodytext`=" . $db->dbescape( $array['bodytext'] ) . ",
 				`postType`=" . $array['postType'] . ", 
+				`fullPage`=" . $array['fullPage'] . ", 
 				`catids`=" . $db->dbescape( $array['catids'] ? "0," . implode( ",", $array['catids'] ) . ",0" : "" ) . ",
 				`tagids`=" . $db->dbescape( $array['tagids'] ? "0," . implode( ",", $array['tagids'] ) . ",0" : "" ) . ",
 				`numWords`=" . $array['numWords'] . ", 
@@ -569,7 +576,6 @@ if( $prosessMode != 'none' )
 
 // Sua lai noi dung
 if( ! empty( $array['hometext'] ) ) $array['hometext'] = nv_htmlspecialchars( $array['hometext'] );
-if( ! empty( $array['bodyhtml'] ) ) $array['bodyhtml'] = nv_htmlspecialchars( $array['bodyhtml'] );
 
 // Trinh soan thao
 if( defined( 'NV_EDITOR' ) )
@@ -772,6 +778,7 @@ $xtpl->assign( 'CURRENT_PATH', $currentpath );
 
 // Cac checkbox
 $xtpl->assign( 'NEWSLETTERS', $newsletters ? " checked=\"checked\"" : "" );
+$xtpl->assign( 'FULLPAGE', $array['fullPage'] ? " checked=\"checked\"" : "" );
 
 $xtpl->parse( 'main' );
 $contents = $xtpl->text( 'main' );

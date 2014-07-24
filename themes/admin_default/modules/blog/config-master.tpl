@@ -51,6 +51,18 @@
 <table class="tab1">
 	<caption>{LANG.cfgTheme}</caption>
 	<col class="bl-col-left-largest"/>
+	<tbody>
+		<tr>
+			<td>
+				<strong>{LANG.cfgsysHighlightTheme}</strong>
+			</td>
+			<td>
+				<select name="sysHighlightTheme" class="blog-input">
+					<!-- BEGIN: highlightTheme --><option value="{HIGHLIGHTTHEME.key}"{HIGHLIGHTTHEME.selected}>{HIGHLIGHTTHEME.title}</option><!-- END: highlightTheme -->
+				</select>
+			</td>
+		</tr>
+	</tbody>
 	<!-- BEGIN: iconClass -->
 	<tbody{ICONCLASS.class}>
 		<tr>

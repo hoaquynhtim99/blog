@@ -29,6 +29,9 @@ $array_structure_image['username_Y_m'] = NV_UPLOADS_DIR . '/' . $module_name . '
 $array_structure_image['username_Ym_d'] = NV_UPLOADS_DIR . '/' . $module_name . '/username/' . date( 'Y_m/d' );
 $array_structure_image['username_Y_m_d'] = NV_UPLOADS_DIR . '/' . $module_name . '/username/' . date( 'Y/m/d' );
 
+// Giao diện của highlight js
+$array_highlight_themes = nv_scandir( NV_ROOTDIR . '/modules/' . $module_file . '/frameworks/highlight/styles', "/^(.*?)\.css$/i" );
+
 // Fix du lieu
 $numberResendNewsletterMax = 5;
 
@@ -46,6 +49,7 @@ if( $nv_Request->isset_request( 'submit', 'post' ) )
 	$array['folderStructure'] = filter_text_input( 'folderStructure', 'post', '', 0, 255 );
 	$array['numberResendNewsletter'] = $nv_Request->get_int( 'numberResendNewsletter', 'post', 0 );
 	$array['strCutHomeText'] = $nv_Request->get_int( 'strCutHomeText', 'post', 0 );
+	$array['sysHighlightTheme'] = filter_text_input( 'sysHighlightTheme', 'post', '', 0, 255 );
 	
 	// Lấy cấu hình lớp của icon loại bài viết
 	foreach( $BL->blogpostType as $type )
@@ -96,6 +100,12 @@ if( $nv_Request->isset_request( 'submit', 'post' ) )
 	if( $array['strCutHomeText'] < 0 )
 	{
 		$array['strCutHomeText'] = 0;
+	}
+	
+	// Kiểm tra giao diện highlight tồn tại
+	if( ! in_array( $array['sysHighlightTheme'] . '.css', $array_highlight_themes ) )
+	{
+		$array['sysHighlightTheme'] = 'default';
 	}
 	
 	foreach( $array as $config_name => $config_value )
@@ -212,6 +222,20 @@ foreach( $BL->blogpostType as $type )
 	$xtpl->parse( 'main.iconClass' );
 }
 
+// Xuất giao diện highlight
+foreach( $array_highlight_themes as $_highlightTheme )
+{
+	$_highlightTheme = substr( $_highlightTheme, 0, -4 );
+	
+	$highlightTheme = array(
+		'key' => $_highlightTheme,
+		'title' => ucfirst( str_replace( array( '-', '_', '.' ), ' ', $_highlightTheme ) ),
+		'selected' => $_highlightTheme == $BL->setting['sysHighlightTheme'] ? " selected=\"selected\"" : "",
+	);
+	
+	$xtpl->assign( 'HIGHLIGHTTHEME', $highlightTheme );
+	$xtpl->parse( 'main.highlightTheme' );
+}
 
 $xtpl->parse( 'main' );
 $contents = $xtpl->text( 'main' );

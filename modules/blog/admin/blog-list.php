@@ -115,7 +115,7 @@ if( $nv_Request->isset_request( 'changestatus', 'post' ) )
 $page_title = $BL->lang('blogList');
 
 // Goi js
-$BL->callJqueryPlugin( 'jquery.tipsy', 'jquery.ui.datepicker' );
+$BL->callFrameWorks( 'tipsy', 'ui.datepicker' );
 
 // Khoi tao bien, phan trang
 $array = array();

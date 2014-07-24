@@ -35,9 +35,16 @@
 		<!-- END: iframe -->
 		<!-- END: media -->
 		<h3 class="post-title"><i class="{ROW.icon}">&nbsp;</i><a href="{ROW.link}">{ROW.title}</a> </h3>
+		<!-- BEGIN: hometext -->
 		<p>
 			{ROW.hometext}
 		</p>
+		<!-- END: hometext -->
+		<!-- BEGIN: bodyhtml -->
+		<div class="post-item-html clearfix">
+			{ROW.bodyhtml}
+		</div>
+		<!-- END: bodyhtml -->
 		<div class="meta">
 		    <span><i class="icon-user mi">&nbsp;</i> {ROW.postName} </span>
 		    <span><i class="icon-time mi">&nbsp;</i>{ROW.pubTime} </span>

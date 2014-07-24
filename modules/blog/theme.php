@@ -49,6 +49,9 @@ function nv_main_theme( $array, $generate_page, $cfg, $page, $total_pages, $BL )
 	$xtpl->assign( 'PAGE_TOTAL', $total_pages );
 	$xtpl->assign( 'PAGE_CURRENT', $page );
 	
+	// Có gọi lighlight js không
+	$call_highlight = false;
+	
 	foreach( $array as $row )
 	{
 		$row['pubTime'] = str_replace( array( ' AM ', ' PM ' ), array( ' SA ', ' CH ' ), nv_date( 'g:i A d/m/Y', $row['pubTime'] ) );
@@ -104,6 +107,18 @@ function nv_main_theme( $array, $generate_page, $cfg, $page, $total_pages, $BL )
 			$xtpl->parse( 'main.loop.media' );
 		}
 		
+		// Xuất html, text
+		if( ! empty( $row['fullPage'] ) )
+		{
+			$call_highlight = true;
+			
+			$xtpl->parse( 'main.loop.bodyhtml' );
+		}
+		else
+		{
+			$xtpl->parse( 'main.loop.hometext' );
+		}
+		
 		$xtpl->parse( 'main.loop' );
 	}	
 	
@@ -111,6 +126,12 @@ function nv_main_theme( $array, $generate_page, $cfg, $page, $total_pages, $BL )
 	{
 		$xtpl->assign( 'GENERATE_PAGE', $generate_page );
 		$xtpl->parse( 'main.generate_page' );
+	}
+	
+	// Gọi framewokrs highlight nếu có full page
+	if( $call_highlight == true )
+	{
+		$BL->callFrameWorks( 'highlight' );
 	}
 	
 	$xtpl->parse( 'main' );
