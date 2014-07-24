@@ -83,6 +83,9 @@ if( isset( $array_op[1] ) )
 	
 	$array = $array_userids = array();
 	
+	// Danh sách các bảng data của bài viết sẽ cần duyệt qua để lấy nội dung hmtl
+	$array_table_pass = array();
+	
 	while( $row = $db->sql_fetch_assoc( $result ) )
 	{
 		$row['mediaType'] = intval( $row['mediaType'] );
@@ -120,6 +123,14 @@ if( isset( $array_op[1] ) )
 			}
 		}
 		
+		// Đánh dấu fullpage
+		if( ! empty( $row['fullPage'] ) )
+		{
+			$table = ceil( $row['id'] / 4000 );
+			$array_table_pass[$table][$row['id']] = $row['id'];
+			unset( $table );
+		}
+		
 		$array[$row['id']] = $row;
 		$array_userids[$row['postid']] = $row['postid'];
 	}
@@ -148,6 +159,21 @@ if( isset( $array_op[1] ) )
 			if( isset( $array_userids[$row['postid']] ) )
 			{
 				$array[$row['id']]['postName'] = $array_userids[$row['postid']];
+			}
+		}
+	}
+	
+	// Lấy nội dung html nếu có
+	if( ! empty( $array_table_pass ) )
+	{
+		foreach( $array_table_pass as $table => $postids )
+		{
+			$sql = "SELECT `id`, `bodyhtml` FROM `" . $BL->table_prefix . "_data_" . $table . "` WHERE `id` IN( " . implode( ",", $postids ) . " )";
+			$result = $db->sql_query( $sql );
+			
+			while( $row = $db->sql_fetch_assoc( $result ) )
+			{
+				$array[$row['id']]['bodyhtml'] = $row['bodyhtml'];
 			}
 		}
 	}
