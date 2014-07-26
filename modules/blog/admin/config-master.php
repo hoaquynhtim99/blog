@@ -40,6 +40,7 @@ if( $nv_Request->isset_request( 'submit', 'post' ) )
 {
 	$array['indexViewType'] = filter_text_input( 'indexViewType', 'post', 'type_blog', 1, 255 );
 	$array['catViewType'] = filter_text_input( 'catViewType', 'post', 'type_blog', 1, 255 );
+	$array['tagsViewType'] = filter_text_input( 'tagsViewType', 'post', 'type_blog', 1, 255 );
 	$array['numPostPerPage'] = $nv_Request->get_int( 'numPostPerPage', 'post', 0 );
 	$array['initPostExp'] = $nv_Request->get_int( 'initPostExp', 'post', 0 );
 	$array['initPostType'] = $nv_Request->get_int( 'initPostType', 'post', 0 );
@@ -50,6 +51,7 @@ if( $nv_Request->isset_request( 'submit', 'post' ) )
 	$array['numberResendNewsletter'] = $nv_Request->get_int( 'numberResendNewsletter', 'post', 0 );
 	$array['strCutHomeText'] = $nv_Request->get_int( 'strCutHomeText', 'post', 0 );
 	$array['sysHighlightTheme'] = filter_text_input( 'sysHighlightTheme', 'post', '', 0, 255 );
+	$array['numSearchResult'] = $nv_Request->get_int( 'numSearchResult', 'post', 20 );
 	
 	// Lấy cấu hình lớp của icon loại bài viết
 	foreach( $BL->blogpostType as $type )
@@ -65,6 +67,10 @@ if( $nv_Request->isset_request( 'submit', 'post' ) )
 	if( ! in_array( $array['catViewType'], $BL->catViewType ) )
 	{
 		$array['catViewType'] = $BL->catViewType[0];
+	}
+	if( ! in_array( $array['tagsViewType'], $BL->tagsViewType ) )
+	{
+		$array['tagsViewType'] = $BL->tagsViewType[0];
 	}
 	if( ! in_array( $array['initPostExp'], $BL->blogExpMode ) )
 	{
@@ -101,6 +107,10 @@ if( $nv_Request->isset_request( 'submit', 'post' ) )
 	{
 		$array['strCutHomeText'] = 0;
 	}
+	if( $array['numSearchResult'] < 0 or $array['numSearchResult'] > 200 )
+	{
+		$array['numSearchResult'] = 20;
+	}
 	
 	// Kiểm tra giao diện highlight tồn tại
 	if( ! in_array( $array['sysHighlightTheme'] . '.css', $array_highlight_themes ) )
@@ -134,6 +144,12 @@ foreach( $BL->indexViewType as $type )
 {
 	$xtpl->assign( 'INDEXVIEWTYPE', array( "key" => $type, "title" => $BL->lang('cfgindexViewType_' . $type), "selected" => $type == $BL->setting['indexViewType'] ? " selected=\"selected\"" : "" ) );
 	$xtpl->parse( 'main.indexViewType' );
+}
+
+foreach( $BL->tagsViewType as $type )
+{
+	$xtpl->assign( 'TAGSVIEWTYPE', array( "key" => $type, "title" => $BL->lang('cfgtagsViewType_' . $type), "selected" => $type == $BL->setting['tagsViewType'] ? " selected=\"selected\"" : "" ) );
+	$xtpl->parse( 'main.tagsViewType' );
 }
 
 foreach( $BL->catViewType as $type )

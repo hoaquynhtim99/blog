@@ -542,11 +542,57 @@ function nv_detail_tags_theme( $array, $generate_page, $cfg, $page, $total_pages
  */
 function nv_message_theme( $message, $lev = 0 )
 {
-	global $lang_global, $lang_module, $module_file, $module_info, $my_head;
+	global $lang_global, $lang_module, $module_file, $module_info;
 	
 	$xtpl = new XTemplate( "message.tpl", NV_ROOTDIR . "/themes/" . $module_info['template'] . "/modules/" . $module_file );
 	$xtpl->assign( 'MESSAGE', $message );
 	$xtpl->assign( 'CLASS', $lev == 0 ? 'notification-box-error' : ( $lev == 1 ? 'notification-box-warning' : ( $lev == 2 ? 'notification-box-success' : 'notification-box-info' ) ) );
+	
+	$xtpl->parse( 'main' );
+	return $xtpl->text( 'main' );
+}
+
+function nv_search_theme( $array, $page, $total_pages, $generate_page, $BL )
+{
+	global $lang_global, $lang_module, $module_file, $module_info;
+	
+	$xtpl = new XTemplate( "search.tpl", NV_ROOTDIR . "/themes/" . $module_info['template'] . "/modules/" . $module_file );
+	$xtpl->assign( 'GLANG', $lang_global );
+	$xtpl->assign( 'LANG', $lang_module );
+	
+	if( empty( $array['contents'] ) and ! empty( $array['q'] ) )
+	{
+		$xtpl->assign( 'NORESULT_MESSAGE', nv_message_theme( sprintf( $BL->lang('searchNoResult'), $array['q'] ), 1 ) );
+		$xtpl->parse( 'main.noResult' );
+	}
+	
+	if( ! empty( $array['contents'] ) )
+	{
+		$xtpl->assign( 'RESULT_INFO', sprintf( $BL->lang('searchResultInfo'), $total_pages, $array['q'] ) );
+		$xtpl->assign( 'PAGE_TOTAL', $total_pages );
+		$xtpl->assign( 'PAGE_CURRENT', $page );
+		
+		foreach( $array['contents'] as $row )
+		{
+			$row['title'] = $BL->BoldKeywordInStr( $row['title'], $array['q'] );
+			$row['hometext'] = $BL->BoldKeywordInStr( $row['hometext'], $array['q'] );
+			$row['pubTime'] = str_replace( array( ' AM ', ' PM ' ), array( ' SA ', ' CH ' ), nv_date( 'g:i A d/m/Y', $row['pubTime'] ) );
+			$row['numComments'] = number_format( $row['numComments'], 0, ',', '.' );
+			$row['linkComment'] = nv_url_rewrite( $row['link'], true ) . '#comment';
+			$row['icon'] = empty( $BL->setting['iconClass' . $row['postType']] ) ? 'icon-pencil' : $BL->setting['iconClass' . $row['postType']];
+			
+			$xtpl->assign( 'ROW', $row );
+			$xtpl->parse( 'main.result.loop' );
+		}
+		
+		if( ! empty( $generate_page ) )
+		{
+			$xtpl->assign( 'GENERATE_PAGE', $generate_page );
+			$xtpl->parse( 'main.result.generate_page' );
+		}
+		
+		$xtpl->parse( 'main.result' );
+	}
 	
 	$xtpl->parse( 'main' );
 	return $xtpl->text( 'main' );

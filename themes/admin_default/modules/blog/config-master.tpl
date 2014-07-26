@@ -30,6 +30,18 @@
 	<tbody>
 		<tr>
 			<td>
+				<strong>{LANG.cfgtagsViewType}</strong>
+			</td>
+			<td>
+				<select name="tagsViewType" class="blog-input">
+					<!-- BEGIN: tagsViewType --><option value="{TAGSVIEWTYPE.key}"{TAGSVIEWTYPE.selected}>{TAGSVIEWTYPE.title}</option><!-- END: tagsViewType -->
+				</select>
+			</td>
+		</tr>
+	</tbody>
+	<tbody class="second">
+		<tr>
+			<td>
 				<strong>{LANG.cfgnumPostPerPage}</strong>
 			</td>
 			<td>
@@ -37,13 +49,23 @@
 			</td>
 		</tr>
 	</tbody>
-	<tbody class="second">
+	<tbody>
 		<tr>
 			<td>
 				<strong>{LANG.cfgstrCutHomeText}</strong>
 			</td>
 			<td>
 				<input type="text" class="blog-input" name="strCutHomeText" value="{DATA.strCutHomeText}"/>
+			</td>
+		</tr>
+	</tbody>
+	<tbody class="second">
+		<tr>
+			<td>
+				<strong>{LANG.cfgnumSearchResult}</strong>
+			</td>
+			<td>
+				<input type="text" class="blog-input" name="numSearchResult" value="{DATA.numSearchResult}"/>
 			</td>
 		</tr>
 	</tbody>

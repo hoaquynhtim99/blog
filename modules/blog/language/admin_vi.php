@@ -176,6 +176,9 @@ $lang_module['cfgindexViewType_type_news'] = 'Dạng tin tức theo danh sách';
 $lang_module['cfgcatViewType'] = 'Kiểu hiển thị tại trang danh mục';
 $lang_module['cfgcatViewType_type_blog'] = 'Dạng các bài blog (Ảnh, video demo + nội dung)';
 $lang_module['cfgcatViewType_type_news'] = 'Dạng tin tức theo danh sách';
+$lang_module['cfgtagsViewType'] = 'Kiểu hiển thị tại trang tags';
+$lang_module['cfgtagsViewType_type_blog'] = 'Dạng các bài blog (Ảnh, video demo + nội dung)';
+$lang_module['cfgtagsViewType_type_news'] = 'Dạng tin tức theo danh sách';
 $lang_module['cfgPost'] = 'Thiết lập đăng bài';
 $lang_module['cfginitPostExp'] = 'Kiểu xử lý mặc định khi hết hạn bài viết lúc đăng bài';
 $lang_module['cfginitPostType'] = 'Kiểu bài viết mặc định';
@@ -200,6 +203,7 @@ $lang_module['cfgblockTagsCacheLive'] = 'Thời gian tồn tại của cache';
 $lang_module['cfgSys'] = 'Tùy chỉnh chuyên sâu';
 $lang_module['cfgsysDismissAdminCache'] = 'Không lưu cache đối với admin';
 $lang_module['cfgsysHighlightTheme'] = 'Giao diện định dạng code';
+$lang_module['cfgnumSearchResult'] = 'Số kết quả tìm kiếm trên một trang';
 
 $lang_module['tagsMg'] = 'Quản lý tags';
 $lang_module['tagsDelete'] = 'Xóa tags';

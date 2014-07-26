@@ -36,6 +36,7 @@ class nv_mod_blog
 	
 	public $indexViewType = array( "type_blog", "type_news" );
 	public $catViewType = array( "type_blog", "type_news" );
+	public $tagsViewType = array( "type_blog", "type_news" );
 	public $blockTagsShowType = array( "random", "latest", "popular" );
 	public $blogpostType = array( 0, 1, 2, 3, 4, 5, 6 );
 	public $blogMediaType = array( 0, 1, 2, 3, 4 );
@@ -958,9 +959,10 @@ class nv_mod_blog
 	 * @param mixed $per_page
 	 * @param mixed $on_page
 	 * @param bool $add_prevnext_text
+	 * @param string $defis
 	 * @return
 	 */
-	public function pagination( $title, $base_url, $num_items, $per_page, $on_page, $add_prevnext_text = true )
+	public function pagination( $title, $base_url, $num_items, $per_page, $on_page, $add_prevnext_text = true, $defis = '/' )
 	{
 		global $lang_global;
 	
@@ -977,7 +979,7 @@ class nv_mod_blog
 		
 			for( $i = 2; $i <= $init_page_max; ++$i )
 			{
-				$page_string .= ( $i == $on_page ) ? "<li><span class=\"deactive\">" . $i . "</span></li>" : "<li><a class=\"tbutton\" title=\"" . $title . " " . $i . "\" href=\"" . $base_url . "/page-" . $i . "\"><span>" . $i . "</span></a></li>";
+				$page_string .= ( $i == $on_page ) ? "<li><span class=\"deactive\">" . $i . "</span></li>" : "<li><a class=\"tbutton\" title=\"" . $title . " " . $i . "\" href=\"" . $base_url . $defis . "page" . ( $defis == '/' ? '-' : '=' ) . $i . "\"><span>" . $i . "</span></a></li>";
 			}
 		
 			if( $total_pages > 3 )
@@ -994,7 +996,7 @@ class nv_mod_blog
 				
 					for( $i = $init_page_min - 1; $i < $init_page_max + 2; ++$i )
 					{
-						$page_string .= ( $i == $on_page ) ? "<li><span class=\"deactive\">" . $i . "</span></li>" : "<li><a class=\"tbutton\" title=\"" . $title . " " . $i . "\" href=\"" . $base_url . "/page-" . $i . "\"><span>" . $i . "</span></a></li>";
+						$page_string .= ( $i == $on_page ) ? "<li><span class=\"deactive\">" . $i . "</span></li>" : "<li><a class=\"tbutton\" title=\"" . $title . " " . $i . "\" href=\"" . $base_url . $defis . "page" . ( $defis == '/' ? '-' : '=' ) . $i . "\"><span>" . $i . "</span></a></li>";
 					}
 					
 					if( $on_page < $total_pages - 4 )
@@ -1009,7 +1011,7 @@ class nv_mod_blog
 	
 				for( $i = $total_pages - 2; $i < $total_pages + 1; ++$i )
 				{
-					$page_string .= ( $i == $on_page ) ? "<li><span class=\"deactive\">" . $i . "</span></li>" : "<li><a class=\"tbutton\" title=\"" . $title . " " . $i . "\" href=\"" . $base_url . "/page-" . $i . "\"><span>" . $i . "</span></a></li>";
+					$page_string .= ( $i == $on_page ) ? "<li><span class=\"deactive\">" . $i . "</span></li>" : "<li><a class=\"tbutton\" title=\"" . $title . " " . $i . "\" href=\"" . $base_url . $defis . "page" . ( $defis == '/' ? '-' : '=' ) . $i . "\"><span>" . $i . "</span></a></li>";
 				}
 			}
 		}
@@ -1017,7 +1019,7 @@ class nv_mod_blog
 		{
 			for( $i = 2; $i < $total_pages + 1; ++$i )
 			{
-				$page_string .= ( $i == $on_page ) ? "<li><span class=\"deactive\">" . $i . "</span></li>" : "<li><a class=\"tbutton\" title=\"" . $title . " " . $i . "\" href=\"" . $base_url . "/page-" . $i . "\"><span>" . $i . "</span></a></li>";
+				$page_string .= ( $i == $on_page ) ? "<li><span class=\"deactive\">" . $i . "</span></li>" : "<li><a class=\"tbutton\" title=\"" . $title . " " . $i . "\" href=\"" . $base_url . $defis . "page" . ( $defis == '/' ? '-' : '=' ) . $i . "\"><span>" . $i . "</span></a></li>";
 			}
 		}
 	
@@ -1025,16 +1027,33 @@ class nv_mod_blog
 		{
 			if( $on_page > 1 )
 			{
-				$page_string = "<li><a class=\"tbutton\" title=\"" . $title . " " . ( $on_page - 1 ) . "\" href=\"" . $base_url . "/page-" . ( $on_page - 1 ) . "\"><span>" . $this->glang('pageprev') . "</span></a></li>" . $page_string;
+				$page_string = "<li><a class=\"tbutton\" title=\"" . $title . " " . ( $on_page - 1 ) . "\" href=\"" . $base_url . $defis . "page" . ( $defis == '/' ? '-' : '=' ) . ( $on_page - 1 ) . "\"><span>" . $this->glang('pageprev') . "</span></a></li>" . $page_string;
 			}
 		
 			if( $on_page < $total_pages )
 			{
-				$page_string .= "<li><a class=\"tbutton\" title=\"" . $title . " " . ( $on_page + 1 ) . "\"  href=\"" . $base_url . "/page-" . ( $on_page + 1 ) . "\"><span>" . $this->glang('pagenext') . "</span></a></li>";
+				$page_string .= "<li><a class=\"tbutton\" title=\"" . $title . " " . ( $on_page + 1 ) . "\"  href=\"" . $base_url . $defis . "page" . ( $defis == '/' ? '-' : '=' ) . ( $on_page + 1 ) . "\"><span>" . $this->glang('pagenext') . "</span></a></li>";
 			}
 		}
 		
 		return '<ul>' . $page_string . '</ul>';
+	}
+	
+	public function BoldKeywordInStr( $str, $keyword )
+	{
+		$tmp = explode( " ", $keyword );
+	
+		foreach( $tmp as $k )
+		{
+			$tp = nv_strtolower( $k );
+			$str = str_replace( $tp, "<span class=\"highlight\">" . $tp . "</span>", $str );
+			$tp = nv_strtoupper( $k );
+			$str = str_replace( $tp, "<span class=\"highlight\">" . $tp . "</span>", $str );
+			$k[0] = nv_strtoupper( $k[0] );
+			$str = str_replace( $k, "<span class=\"highlight\">" . $k . "</span>", $str );
+		}
+	
+		return $str;
 	}
 }
 

@@ -18,7 +18,7 @@ $per_page = intval( $BL->setting['numPostPerPage'] );
 
 // SQL co ban
 $sql = "FROM `" . $BL->table_prefix . "_rows` WHERE `status`=1 AND " . $BL->build_query_search_id( $catid, 'catids', 'AND' );
-$base_url = NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name;
+$base_url = NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . '=' . $global_array_cat[$catid]['alias'];
 
 // Lay so row
 $sql1 = "SELECT COUNT(*) " . $sql;

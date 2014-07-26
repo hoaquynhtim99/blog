@@ -52,5 +52,9 @@ $lang_module['detailDefDescription'] = 'Các bài viết về';
 $lang_module['catNoPost'] = 'Danh mục này chưa có bài viết nào';
 
 $lang_module['search'] = 'Tìm kiếm bài viết';
+$lang_module['searchAbout'] = 'Bài viết về';
+$lang_module['searchAllCat'] = 'tất cả các danh mục';
+$lang_module['searchNoResult'] = 'Không có kết quả nào phù hợp với từ khóa &quot;%s&quot;';
+$lang_module['searchResultInfo'] = 'Tìm thấy <strong>%s</strong> kết quả phù hợp với từ khóa &quot;%s&quot;';
 
 ?>

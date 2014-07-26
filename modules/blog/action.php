@@ -164,10 +164,12 @@ $sql_create_module[] = "CREATE TABLE `" . $db_config['prefix'] . "_" . $lang . "
 $sql_create_module[] = "INSERT INTO `" . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_config` VALUES
 ('indexViewType', 'type_blog'),
 ('catViewType', 'type_blog'),
+('tagsViewType', 'type_blog'),
 ('numPostPerPage', '10'),
 ('nextExecuteTime', '0'),
 ('numberResendNewsletter', '1'),
 ('strCutHomeText', '150'),
+('numSearchResult', '20'),
 
 ('iconClass0', 'icon-pencil'),
 ('iconClass1', 'icon-picture'),
