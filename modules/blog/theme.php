@@ -552,6 +552,16 @@ function nv_message_theme( $message, $lev = 0 )
 	return $xtpl->text( 'main' );
 }
 
+/**
+ * nv_search_theme()
+ * 
+ * @param mixed $array
+ * @param mixed $page
+ * @param mixed $total_pages
+ * @param mixed $generate_page
+ * @param mixed $BL
+ * @return
+ */
 function nv_search_theme( $array, $page, $total_pages, $generate_page, $BL )
 {
 	global $lang_global, $lang_module, $module_file, $module_info;
