@@ -169,16 +169,6 @@
 			</td>
 		</tr>
 	</tbody>
-	<tbody>
-		<tr>
-			<td>
-				<strong>{LANG.cfgsysGoogleAuthor}</strong>
-			</td>
-			<td>
-				<input type="text" class="blog-input bl-txt-h" name="sysGoogleAuthor" value="{DATA.sysGoogleAuthor}"/>
-			</td>
-		</tr>
-	</tbody>
 </table>
 <table class="tab1">
 	<caption>{LANG.cfgNewsletter}</caption>

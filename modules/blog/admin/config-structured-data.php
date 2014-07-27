@@ -9,16 +9,20 @@
 
 if( ! defined( 'NV_BLOG_ADMIN' ) ) die( 'Stop!!!' );
 
-$page_title = $BL->lang('cfgSys');
-$set_active_op = 'config-master';
+$page_title = $BL->lang('cfgStructureData');
 
 $array = array();
 
 // Lay thong tin submit
 if( $nv_Request->isset_request( 'submit', 'post' ) )
 {
-	$array['sysDismissAdminCache'] = $nv_Request->get_int( 'sysDismissAdminCache', 'post', 0 ) ? 1 : 0;
-	$array['sysRedirect2Home'] = $nv_Request->get_int( 'sysRedirect2Home', 'post', 0 ) ? 1 : 0;
+	$array['sysGoogleAuthor'] = filter_text_input( 'sysGoogleAuthor', 'post', '', 0, 255 );
+	$array['sysFbAppID'] = filter_text_input( 'sysFbAppID', 'post', '', 0, 255 );
+	
+	if( ! preg_match( "/^([0-9]+)$/", $array['sysGoogleAuthor'] ) )
+	{
+		$array['sysGoogleAuthor'] = '';
+	}
 	
 	foreach( $array as $config_name => $config_value )
 	{
@@ -32,15 +36,14 @@ if( $nv_Request->isset_request( 'submit', 'post' ) )
 	die();
 }
 
-$xtpl = new XTemplate( "config-sys.tpl", NV_ROOTDIR . "/themes/" . $global_config['module_theme'] . "/modules/" . $module_file );
+$xtpl = new XTemplate( "config-structured-data.tpl", NV_ROOTDIR . "/themes/" . $global_config['module_theme'] . "/modules/" . $module_file );
 $xtpl->assign( 'LANG', $lang_module );
 $xtpl->assign( 'GLANG', $lang_global );
 
 $xtpl->assign( 'FORM_ACTION', NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $op );
 $xtpl->assign( 'DATA', $BL->setting );
 
-$xtpl->assign( 'SYSDISMISSADMINCACHE', $BL->setting['sysDismissAdminCache'] ? " checked=\"checked\"" : "" );
-$xtpl->assign( 'SYSREDIRECT2HOME', $BL->setting['sysRedirect2Home'] ? " checked=\"checked\"" : "" );
+$xtpl->assign( 'INITNEWSLETTERS', $BL->setting['initNewsletters'] ? " checked=\"checked\"" : "" );
 
 $xtpl->parse( 'main' );
 $contents = $xtpl->text( 'main' );

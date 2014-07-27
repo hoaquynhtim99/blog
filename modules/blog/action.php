@@ -194,6 +194,8 @@ $sql_create_module[] = "INSERT INTO `" . $db_config['prefix'] . "_" . $lang . "_
 ('sysDismissAdminCache', '0'),
 ('sysHighlightTheme', 'default'),
 ('sysGoogleAuthor', ''),
+('sysFbAppID', ''),
+('sysRedirect2Home', '0'),
 
 ('folderStructure', 'Ym')
 ";

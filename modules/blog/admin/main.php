@@ -61,6 +61,24 @@ while( $row = $db->sql_fetchrow( $result ) )
 	}
 }
 
+// Cảnh báo Google Author chưa được đặt.
+if( empty( $BL->setting['sysGoogleAuthor'] ) )
+{
+	$array_notice[] = array(
+		"link" => NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name  . "&amp;" . NV_OP_VARIABLE . "=config-structured-data",
+		"title" => $BL->lang('mainCfgGoogleAuthorWarning'),
+	);
+}
+
+// Cảnh báo Facebook App ID chưa được đặt.
+if( empty( $BL->setting['sysFbAppID'] ) )
+{
+	$array_notice[] = array(
+		"link" => NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name  . "&amp;" . NV_OP_VARIABLE . "=config-structured-data",
+		"title" => $BL->lang('mainCfgFbAppIDWarning'),
+	);
+}
+
 $array_statistics = array();
 
 // Thong ke so bai viet

@@ -373,6 +373,16 @@ function nv_detail_theme( $blog_data, $BL )
 		$xtpl->parse( 'main.navPost' );
 	}
 	
+	// Xuất google authorship
+	if( ! empty( $blog_data['postGoogleID'] ) )
+	{
+		$xtpl->parse( 'main.postGoogleID' );
+	}
+	else
+	{
+		$xtpl->parse( 'main.postName' );
+	}
+	
 	$xtpl->parse( 'main' );
 	return $xtpl->text( 'main' );
 }

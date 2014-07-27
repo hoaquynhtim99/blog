@@ -5,20 +5,20 @@
 	<tbody>
 		<tr>
 			<td>
-				<strong>{LANG.cfgsysDismissAdminCache}</strong>
+				<strong>{LANG.cfgsysGoogleAuthor}</strong>
 			</td>
 			<td>
-				<input type="checkbox" class="blog-input" name="sysDismissAdminCache" value="1"{SYSDISMISSADMINCACHE}/>
+				<input type="text" class="blog-input bl-txt-h" name="sysGoogleAuthor" value="{DATA.sysGoogleAuthor}"/>
 			</td>
 		</tr>
 	</tbody>
 	<tbody class="second">
 		<tr>
 			<td>
-				<strong>{LANG.cfgsysRedirect2Home}</strong>
+				<strong>{LANG.cfgsysFbAppID}</strong>
 			</td>
 			<td>
-				<input type="checkbox" class="blog-input" name="sysRedirect2Home" value="1"{SYSREDIRECT2HOME}/>
+				<input type="text" class="blog-input bl-txt-h" name="sysFbAppID" value="{DATA.sysFbAppID}"/>
 			</td>
 		</tr>
 	</tbody>

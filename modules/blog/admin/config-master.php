@@ -52,7 +52,6 @@ if( $nv_Request->isset_request( 'submit', 'post' ) )
 	$array['strCutHomeText'] = $nv_Request->get_int( 'strCutHomeText', 'post', 0 );
 	$array['sysHighlightTheme'] = filter_text_input( 'sysHighlightTheme', 'post', '', 0, 255 );
 	$array['numSearchResult'] = $nv_Request->get_int( 'numSearchResult', 'post', 20 );
-	$array['sysGoogleAuthor'] = filter_text_input( 'sysGoogleAuthor', 'post', '', 0, 255 );
 	
 	// Lấy cấu hình lớp của icon loại bài viết
 	foreach( $BL->blogpostType as $type )
@@ -117,11 +116,6 @@ if( $nv_Request->isset_request( 'submit', 'post' ) )
 	if( ! in_array( $array['sysHighlightTheme'] . '.css', $array_highlight_themes ) )
 	{
 		$array['sysHighlightTheme'] = 'default';
-	}
-	
-	if( ! preg_match( "/^([0-9]+)$/", $array['sysGoogleAuthor'] ) )
-	{
-		$array['sysGoogleAuthor'] = '';
 	}
 	
 	foreach( $array as $config_name => $config_value )

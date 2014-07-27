@@ -59,6 +59,8 @@ $lang_module['mainInfoSupport'] = 'Hỗ trợ';
 $lang_module['mainInfoIssue'] = 'Báo lỗi';
 $lang_module['mainDonation'] = 'Tài trợ';
 $lang_module['mainQuickLink'] = 'Liên kết hữu dụng';
+$lang_module['mainCfgFbAppIDWarning'] = 'Giá trị Facebook App ID chưa được đặt, chức năng like facebook sẽ không hiển thị';
+$lang_module['mainCfgGoogleAuthorWarning'] = 'Giá trị Google Author mặc định chưa được đặt';
 
 $lang_module['blogList'] = 'Danh sách bài viết';
 $lang_module['blogAdd'] = 'Viết bài';
@@ -206,6 +208,9 @@ $lang_module['cfgsysDismissAdminCache'] = 'Không lưu cache đối với admin'
 $lang_module['cfgsysHighlightTheme'] = 'Giao diện định dạng code';
 $lang_module['cfgnumSearchResult'] = 'Số kết quả tìm kiếm trên một trang';
 $lang_module['cfgsysGoogleAuthor'] = 'Tác giả google + mặc định khi tạo bài đăng';
+$lang_module['cfgsysRedirect2Home'] = 'Chuyển hướng về trang chủ nếu đường dẫn là main của module (Chọn nếu module được chọn làm trang chủ)';
+$lang_module['cfgStructureData'] = 'Cấu hình dữ liệu có cấu trúc (SEO)';
+$lang_module['cfgsysFbAppID'] = 'Facebook APP ID';
 
 $lang_module['tagsMg'] = 'Quản lý tags';
 $lang_module['tagsDelete'] = 'Xóa tags';
