@@ -116,6 +116,7 @@ $sql_create_module[] = "CREATE TABLE `" . $db_config['prefix'] . "_" . $lang . "
 $sql_create_module[] = "CREATE TABLE `" . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_rows` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID bài viết',
   `postid` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Người đăng',
+  `postGoogleID` varchar(30) NOT NULL DEFAULT '' COMMENT 'Google Author',
   `siteTitle` varchar(255) NOT NULL DEFAULT '' COMMENT 'Tiêu đề của trang, mặc định là tiêu đề bài viết',
   `title` varchar(255) NOT NULL DEFAULT '' COMMENT 'Tên bài viết',
   `alias` varchar(255) NOT NULL DEFAULT '' COMMENT 'Liên kết tĩnh',
@@ -192,6 +193,7 @@ $sql_create_module[] = "INSERT INTO `" . $db_config['prefix'] . "_" . $lang . "_
 
 ('sysDismissAdminCache', '0'),
 ('sysHighlightTheme', 'default'),
+('sysGoogleAuthor', ''),
 
 ('folderStructure', 'Ym')
 ";

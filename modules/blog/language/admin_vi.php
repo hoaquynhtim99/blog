@@ -122,6 +122,7 @@ $lang_module['blogDelete'] = 'Xóa bài viết';
 $lang_module['blogOtherOption'] = 'Các tùy chọn khác';
 $lang_module['blogSendNewsletter'] = 'Gửi email đến các email đăng ký nhận tin';
 $lang_module['blogFullPage'] = 'Hiển thị toàn bộ bài viết tại trang danh sách nếu kiểu hiển thị là blog';
+$lang_module['blogGoogleAuthor'] = 'Google Author';
 
 $lang_module['categoriesManager'] = 'Quản lý danh mục bài viết';
 $lang_module['categoriesEmpty'] = 'Chưa có danh mục bài viết nào, hãy thêm danh mục từ trình đơn bên dưới';
@@ -204,6 +205,7 @@ $lang_module['cfgSys'] = 'Tùy chỉnh chuyên sâu';
 $lang_module['cfgsysDismissAdminCache'] = 'Không lưu cache đối với admin';
 $lang_module['cfgsysHighlightTheme'] = 'Giao diện định dạng code';
 $lang_module['cfgnumSearchResult'] = 'Số kết quả tìm kiếm trên một trang';
+$lang_module['cfgsysGoogleAuthor'] = 'Tác giả google + mặc định khi tạo bài đăng';
 
 $lang_module['tagsMg'] = 'Quản lý tags';
 $lang_module['tagsDelete'] = 'Xóa tags';

@@ -84,6 +84,12 @@
 				<ul class="bl-ul">
 					<li><label><input type="checkbox" name="newsletters" value="1"{NEWSLETTERS}/> {LANG.blogSendNewsletter}</label></li>
 					<li><label><input type="checkbox" name="fullPage" value="1"{FULLPAGE}/> {LANG.blogFullPage}</label></li>
+					<li>
+						<label>
+							{LANG.blogGoogleAuthor}: 
+							<input type="text" class="blog-input bl-col-day" name="postGoogleID" value="{DATA.postGoogleID}"/>
+						</label>
+					</li>
 				</ul>
 			</div>
 		</div>

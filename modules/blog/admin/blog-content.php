@@ -87,6 +87,7 @@ if( $id )
 	
 	$array_old = $array = array(
 		"postid" => ( int ) $row['postid'],
+		"postGoogleID" => $row['postGoogleID'],
 		"siteTitle" => $row['siteTitle'],
 		"title" => $row['title'],
 		"alias" => $row['alias'],
@@ -135,6 +136,7 @@ else
 	
 	$array = array(
 		"postid" => $admin_info['userid'],
+		"postGoogleID" => $BL->setting['sysGoogleAuthor'],
 		"siteTitle" => '',
 		"title" => '',
 		"alias" => '',
@@ -179,7 +181,8 @@ elseif( $nv_Request->isset_request( 'draft', 'post' ) )
 // Xu ly khi submit
 if( $prosessMode != 'none' )
 {
-	$array['siteTitle'] = filter_text_input( 'siteTitle', 'post', '', 1, 255 );
+	$array['postGoogleID'] = filter_text_input( 'postGoogleID', 'post', '', 1, 255 );
+	$array['siteTitle'] = filter_text_input( 'siteTitle', 'post', '', 1, 30 );
 	$array['title'] = filter_text_input( 'title', 'post', '', 1, 255 );
 	$array['alias'] = filter_text_input( 'alias', 'post', '', 1, 255 );
 	$array['keywords'] = filter_text_input( 'keywords', 'post', '', 1, 255 );
@@ -202,6 +205,12 @@ if( $prosessMode != 'none' )
 	$array['expMode'] = $nv_Request->get_int( 'expMode', 'post', 0 );
 	
 	$newsletters = $nv_Request->get_int( 'newsletters', 'post', 0 );
+	
+	// Chuẩn hóa google author
+	if( ! preg_match( "/^([0-9]{1,30})$/", $array['postGoogleID'] ) )
+	{
+		$array['postGoogleID'] = $BL->setting['sysGoogleAuthor'];
+	}
 	
 	// Chuan hoa tu khoa
 	$array['keywords'] = $array['keywords'] ? implode( ", ", array_filter( array_unique( array_map( "trim", explode( ",", $array['keywords'] ) ) ) ) ) : "";
@@ -427,6 +436,7 @@ if( $prosessMode != 'none' )
 			$sql = "INSERT INTO `" . $BL->table_prefix . "_rows` VALUES(
 				NULL,
 				" . $array['postid'] . ", 
+				" . $db->dbescape( $array['postGoogleID'] ) . ",
 				" . $db->dbescape( $array['siteTitle'] ) . ",
 				" . $db->dbescape( $array['title'] ) . ",
 				" . $db->dbescape( $array['alias'] ) . ",
@@ -512,6 +522,7 @@ if( $prosessMode != 'none' )
 		{
 			$sql = "UPDATE `" . $BL->table_prefix ."_rows` SET 
 				`postid`=" . $array['postid'] . ", 
+				`postGoogleID`=" . $db->dbescape( $array['postGoogleID'] ) . ",
 				`siteTitle`=" . $db->dbescape( $array['siteTitle'] ) . ",
 				`title`=" . $db->dbescape( $array['title'] ) . ",
 				`alias`=" . $db->dbescape( $array['alias'] ) . ",
