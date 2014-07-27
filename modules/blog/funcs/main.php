@@ -9,6 +9,13 @@
 
 if ( ! defined( 'NV_IS_MOD_BLOG' ) ) die( 'Stop!!!' );
 
+// Chuyển hướng đến trang chủ không có tên module nếu có cấu hình
+if( $BL->setting['sysRedirect2Home'] and empty( $home ) )
+{
+	header( 'Location:' . nv_url_rewrite( NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA, true ) );
+	die();
+}
+
 $page_title = $mod_title = $module_info['custom_title'];
 $key_words = $module_info['keywords'];
 $description = $module_info['description'];
