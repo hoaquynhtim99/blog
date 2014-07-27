@@ -60,7 +60,7 @@ $xtpl->assign( 'DATA', $BL->setting );
 
 $xtpl->assign( 'INITNEWSLETTERS', $BL->setting['initNewsletters'] ? " checked=\"checked\"" : "" );
 
-// Xu?t ng�n ng? v� qu?c gia
+// Xuất ngôn ngữ và quốc gia
 foreach( $array_locales as $k => $v )
 {
 	$xtpl->assign( 'SYSLOCALE', array(
