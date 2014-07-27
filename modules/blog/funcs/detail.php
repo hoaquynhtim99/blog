@@ -53,6 +53,9 @@ if( $db->sql_numrows( $result ) )
 	$blog_data['prevPost']['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $blog_data['prevPost']['alias'];
 }
 
+// Url chính xác của bài đăng
+$blog_data['href'] = NV_MY_DOMAIN . nv_url_rewrite( NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $blog_data['alias'], true );
+
 $contents = nv_detail_theme( $blog_data, $BL );
 
 include ( NV_ROOTDIR . "/includes/header.php" );

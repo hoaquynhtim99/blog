@@ -211,6 +211,7 @@ $lang_module['cfgsysGoogleAuthor'] = 'Tác giả google + mặc định khi tạ
 $lang_module['cfgsysRedirect2Home'] = 'Chuyển hướng về trang chủ nếu đường dẫn là main của module (Chọn nếu module được chọn làm trang chủ)';
 $lang_module['cfgStructureData'] = 'Cấu hình dữ liệu có cấu trúc (SEO)';
 $lang_module['cfgsysFbAppID'] = 'Facebook APP ID';
+$lang_module['cfgsysLocale'] = 'Ngôn ngữ và quốc gia';
 
 $lang_module['tagsMg'] = 'Quản lý tags';
 $lang_module['tagsDelete'] = 'Xóa tags';

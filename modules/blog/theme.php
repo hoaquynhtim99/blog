@@ -312,6 +312,7 @@ function nv_detail_theme( $blog_data, $BL )
 	$blog_data['postName'] = $blog_data['postName'] ? $blog_data['postName'] : 'N/A';
 
 	$xtpl->assign( 'DATA', $blog_data );
+	$xtpl->assign( 'NV_LANG_DATA', NV_LANG_DATA );
 	
 	// Gọi frameworks định dạng code
 	$BL->callFrameWorks( 'highlight' );
@@ -381,6 +382,14 @@ function nv_detail_theme( $blog_data, $BL )
 	else
 	{
 		$xtpl->parse( 'main.postName' );
+	}
+	
+	// Xuất facebook like nếu có cấu hình facebook App ID
+	if( ! empty( $BL->setting['sysFbAppID'] ) and ! empty( $BL->setting['sysLocale'] ) )
+	{
+		$xtpl->assign( 'LOCALE', $BL->setting['sysLocale'] );
+		$xtpl->assign( 'FB_APP_ID', $BL->setting['sysFbAppID'] );
+		$xtpl->parse( 'main.fbShare' );
 	}
 	
 	$xtpl->parse( 'main' );

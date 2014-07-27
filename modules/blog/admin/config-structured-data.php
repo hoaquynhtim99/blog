@@ -13,15 +13,30 @@ $page_title = $BL->lang('cfgStructureData');
 
 $array = array();
 
+$_array_locales = nv_object2array( simplexml_load_file( NV_ROOTDIR . '/modules/' . $module_file . '/locales/locales.xml' )->xpath('locale') );
+$array_locales = array();
+
+foreach( $_array_locales as $locale )
+{
+	$array_locales[$locale['codes']['code']['standard']['representation']] = $locale['englishName'];
+}
+
+unset( $_array_locales, $locale );
+
 // Lay thong tin submit
 if( $nv_Request->isset_request( 'submit', 'post' ) )
 {
-	$array['sysGoogleAuthor'] = filter_text_input( 'sysGoogleAuthor', 'post', '', 0, 255 );
-	$array['sysFbAppID'] = filter_text_input( 'sysFbAppID', 'post', '', 0, 255 );
+	$array['sysGoogleAuthor'] = filter_text_input( 'sysGoogleAuthor', 'post', '', 0, 30 );
+	$array['sysFbAppID'] = filter_text_input( 'sysFbAppID', 'post', '', 0, 30 );
+	$array['sysLocale'] = filter_text_input( 'sysLocale', 'post', '', 0, 255 );
 	
 	if( ! preg_match( "/^([0-9]+)$/", $array['sysGoogleAuthor'] ) )
 	{
 		$array['sysGoogleAuthor'] = '';
+	}
+	if( ! preg_match( "/^([0-9]+)$/", $array['sysFbAppID'] ) )
+	{
+		$array['sysFbAppID'] = '';
 	}
 	
 	foreach( $array as $config_name => $config_value )
@@ -44,6 +59,17 @@ $xtpl->assign( 'FORM_ACTION', NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE
 $xtpl->assign( 'DATA', $BL->setting );
 
 $xtpl->assign( 'INITNEWSLETTERS', $BL->setting['initNewsletters'] ? " checked=\"checked\"" : "" );
+
+// Xu?t ngôn ng? và qu?c gia
+foreach( $array_locales as $k => $v )
+{
+	$xtpl->assign( 'SYSLOCALE', array(
+		'key' => $k,
+		'title' => $v,
+		'selected' => $k == $BL->setting['sysLocale'] ? " selected=\"selected\"" : "",
+	) );
+	$xtpl->parse( 'main.sysLocale' );
+}
 
 $xtpl->parse( 'main' );
 $contents = $xtpl->text( 'main' );

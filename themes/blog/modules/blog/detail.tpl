@@ -33,6 +33,43 @@
 </div>
 <!-- END: media -->
 <h1 class="upper"><i class="{DATA.icon}">&nbsp;</i> {DATA.title}</h1>
+<div class="post-detail-share clearfix">
+	<div class="fr">
+		<div class="g-plusone" data-size="tall" data-annotation="inline" data-width="300" data-href="{DATA.href}"></div>
+		<script type="text/javascript">
+		  window.___gcfg = {lang: '{NV_LANG_DATA}'};
+		  (function() {
+		    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+		    po.src = 'https://apis.google.com/js/platform.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+		  })();
+		</script>
+	</div>
+	<!-- BEGIN: fbShare -->
+	<div class="fl">
+		<div id="fb-root"></div>
+		<script>(function(d, s, id) {
+		  var js, fjs = d.getElementsByTagName(s)[0];
+		  if (d.getElementById(id)) return;
+		  js = d.createElement(s); js.id = id;
+		  js.src = "//connect.facebook.net/{LOCALE}/sdk.js#xfbml=1&appId={FB_APP_ID}&version=v2.0";
+		  fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));</script>
+		<div class="fb-like" data-href="{DATA.href}" data-width="200" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true"></div>
+	</div>
+	<!-- END: fbShare -->
+</div>
+<div class="post-detail-content">
+	{DATA.bodyhtml}
+</div>
+<!-- BEGIN: tags -->
+<div class="post-detail-tags">
+	{LANG.tags}:
+	<!-- BEGIN: loop -->
+	<a href="{TAG.link}">{TAG.title}</a>
+	<!-- END: loop -->
+</div>
+<!-- END: tags -->
 <div class="clearfix">
 	<div class="post-detail-meta">
 	    <span><i class="icon-user mi">&nbsp;</i> <!-- BEGIN: postName -->{DATA.postName}<!-- END: postName --><!-- BEGIN: postGoogleID --><a href="https://plus.google.com/{DATA.postGoogleID}?rel=author">{DATA.postName}</a><!-- END: postGoogleID --> </span>
@@ -46,17 +83,6 @@
 	<div class="fr">{LANG.share}: </div>
 </div>
 <hr />
-<div class="post-detail-content">
-	{DATA.bodyhtml}
-</div>
-<!-- BEGIN: tags -->
-<div class="post-detail-tags">
-	{LANG.tags}:
-	<!-- BEGIN: loop -->
-	<a href="{TAG.link}">{TAG.title}</a>
-	<!-- END: loop -->
-</div>
-<!-- END: tags -->
 <!-- BEGIN: navPost -->
 <!-- BEGIN: nextPost -->
 <div class="post-detail-next-post">

@@ -22,6 +22,18 @@
 			</td>
 		</tr>
 	</tbody>
+	<tbody>
+		<tr>
+			<td>
+				<strong>{LANG.cfgsysLocale}</strong>
+			</td>
+			<td>
+				<select name="sysLocale" class="blog-input">
+					<!-- BEGIN: sysLocale --><option value="{SYSLOCALE.key}"{SYSLOCALE.selected}>{SYSLOCALE.title}</option><!-- END: sysLocale -->
+				</select>
+			</td>
+		</tr>
+	</tbody>
 </table>
 <table class="tab1">
 	<tbody>
