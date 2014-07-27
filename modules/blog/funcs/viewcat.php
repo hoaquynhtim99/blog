@@ -96,13 +96,13 @@ if( $page > 1 and empty( $array ) )
 // Lay thanh vien dang bai
 if( ! empty( $array_userids ) )
 {
-	$sql = "SELECT `userid`, `username` FROM `" . NV_USERS_GLOBALTABLE . "` WHERE `userid` IN(" . implode( ",", $array_userids ) . ")";
+	$sql = "SELECT `userid`, `username`, `full_name` FROM `" . NV_USERS_GLOBALTABLE . "` WHERE `userid` IN(" . implode( ",", $array_userids ) . ")";
 	$result = $db->sql_query( $sql );
 	
 	$array_userids = array();
 	while( $row = $db->sql_fetchrow( $result ) )
 	{
-		$array_userids[$row['userid']] = $row['username'];
+		$array_userids[$row['userid']] = $row['full_name'] ? $row['full_name'] : $row['username'];
 	}
 	
 	foreach( $array as $row )
