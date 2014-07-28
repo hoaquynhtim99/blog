@@ -195,6 +195,28 @@ if( isset( $array_op[1] ) )
 		$description .= ' ' . NV_TITLEBAR_DEFIS . ' ' . $BL->glang('page') . ' ' . $page;
 	}
 	
+	// Open Graph
+	$my_head .= "<meta property=\"og:title\" content=\"" . $page_title . ' ' . NV_TITLEBAR_DEFIS . ' ' . $global_config['site_name'] . "\" />\n";
+	$my_head .= "<meta property=\"og:type\" content=\"website\" />\n";
+	$my_head .= "<meta property=\"og:url\" content=\"" . NV_MY_DOMAIN . nv_url_rewrite( NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $op . '/' . $array_tags['alias'], true ) . "\" />\n";
+	$my_head .= "<meta property=\"og:description\" content=\"" . $description . "\" />\n";
+	
+	if( ! empty( $BL->setting['sysDefaultImage'] ) )
+	{
+		if( preg_match( "/^\//", $BL->setting['sysDefaultImage'] ) )
+		{
+			$my_head .= "<meta property=\"og:image\" content=\"" . NV_MY_DOMAIN . $BL->setting['sysDefaultImage'] . "\" />\n";
+		}
+		else
+		{
+			$my_head .= "<meta property=\"og:image\" content=\"" . $BL->setting['sysDefaultImage'] . "\" />\n";
+		}
+	}
+	else
+	{
+		$my_head .= "<meta property=\"og:image\" content=\"" . NV_MY_DOMAIN . NV_BASE_SITEURL . $global_config['site_logo'] . "\" />\n";
+	}
+	
 	$contents = nv_detail_tags_theme( $array, $generate_page, $BL->setting, $page, $total_pages, $BL );
 	
 	include ( NV_ROOTDIR . "/includes/header.php" );
@@ -217,6 +239,28 @@ else
 	{
 		$array[$row['id']] = $row;
 		$array[$row['id']]['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op . '/' . $row['alias'];
+	}
+		
+	// Open Graph
+	$my_head .= "<meta property=\"og:title\" content=\"" . $page_title . ' ' . NV_TITLEBAR_DEFIS . ' ' . $global_config['site_name'] . "\" />\n";
+	$my_head .= "<meta property=\"og:type\" content=\"website\" />\n";
+	$my_head .= "<meta property=\"og:url\" content=\"" . NV_MY_DOMAIN . nv_url_rewrite( NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . "&" . NV_OP_VARIABLE . "=tags", true ) . "\" />\n";
+	$my_head .= "<meta property=\"og:description\" content=\"" . $description . "\" />\n";
+	
+	if( ! empty( $BL->setting['sysDefaultImage'] ) )
+	{
+		if( preg_match( "/^\//", $BL->setting['sysDefaultImage'] ) )
+		{
+			$my_head .= "<meta property=\"og:image\" content=\"" . NV_MY_DOMAIN . $BL->setting['sysDefaultImage'] . "\" />\n";
+		}
+		else
+		{
+			$my_head .= "<meta property=\"og:image\" content=\"" . $BL->setting['sysDefaultImage'] . "\" />\n";
+		}
+	}
+	else
+	{
+		$my_head .= "<meta property=\"og:image\" content=\"" . NV_MY_DOMAIN . NV_BASE_SITEURL . $global_config['site_logo'] . "\" />\n";
 	}
 	
 	$contents = nv_all_tags_theme( $array, $BL );

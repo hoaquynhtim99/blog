@@ -134,6 +134,28 @@ if( $page > 1 )
 	$page_title .= ' ' . NV_TITLEBAR_DEFIS . ' ' . $BL->glang('page') . ' ' . $page;
 }
 
+// Open Graph
+$my_head .= "<meta property=\"og:title\" content=\"" . $page_title . ' ' . NV_TITLEBAR_DEFIS . ' ' . $global_config['site_name'] . "\" />\n";
+$my_head .= "<meta property=\"og:type\" content=\"website\" />\n";
+$my_head .= "<meta property=\"og:url\" content=\"" . $client_info['selfurl'] . "\" />\n";
+$my_head .= "<meta property=\"og:description\" content=\"" . $description . "\" />\n";
+
+if( ! empty( $BL->setting['sysDefaultImage'] ) )
+{
+	if( preg_match( "/^\//", $BL->setting['sysDefaultImage'] ) )
+	{
+		$my_head .= "<meta property=\"og:image\" content=\"" . NV_MY_DOMAIN . $BL->setting['sysDefaultImage'] . "\" />\n";
+	}
+	else
+	{
+		$my_head .= "<meta property=\"og:image\" content=\"" . $BL->setting['sysDefaultImage'] . "\" />\n";
+	}
+}
+else
+{
+	$my_head .= "<meta property=\"og:image\" content=\"" . NV_MY_DOMAIN . NV_BASE_SITEURL . $global_config['site_logo'] . "\" />\n";
+}
+
 $contents = nv_search_theme( $array, $page, $total_pages, $generate_page, $BL );
 
 include ( NV_ROOTDIR . "/includes/header.php" );
