@@ -443,6 +443,12 @@ function nv_all_tags_theme( $array, $BL )
 function nv_detail_tags_theme( $array, $generate_page, $cfg, $page, $total_pages, $BL )
 {
 	global $lang_global, $lang_module, $module_file, $module_info, $my_head;
+
+	// Nếu không có bài viết thì chỉ cần thông báo
+	if( empty( $array ) )
+	{
+		return nv_message_theme( $lang_module['noPost'], 3 );
+	}
 	
 	$my_head .= "<script type=\"text/javascript\" src=\"" . NV_BASE_SITEURL . "modules/" . $module_file . "/media/jwplayer.js\"></script>" . NV_EOL;
 	
