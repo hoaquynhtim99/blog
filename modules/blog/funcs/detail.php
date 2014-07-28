@@ -56,6 +56,95 @@ if( $db->sql_numrows( $result ) )
 // Url chính xác của bài đăng
 $blog_data['href'] = NV_MY_DOMAIN . nv_url_rewrite( NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $blog_data['alias'], true );
 
+// Open Graph
+$my_head .= "<meta property=\"og:title\" content=\"" . $page_title . ' ' . NV_TITLEBAR_DEFIS . ' ' . $global_config['site_name'] . "\" />\n";
+$my_head .= "<meta property=\"og:type\" content=\"article\" />\n";
+$my_head .= "<meta property=\"og:url\" content=\"" . $blog_data['href'] . "\" />\n";
+$my_head .= "<meta property=\"og:description\" content=\"" . $description . "\" />\n";
+$my_head .= "<meta property=\"article:published_time\" content=\"" . date( "Y-m-d", $blog_data['pubTime'] ) . "\" />\n";
+$my_head .= "<meta property=\"article:section\" content=\"" . $global_array_cat[$catid]['title'] . "\" />\n";
+
+// Khai báo thời gian cập nhật nếu bài đăng được cập nhật
+if( $blog_data['pubTime'] != $blog_data['updateTime'] )
+{
+	$my_head .= "<meta property=\"article:modified_time\" content=\"" . date( "Y-m-d", $blog_data['updateTime'] ) . "\" />\n";	
+}
+
+// Khai báo thời gian hết hạn nếu bài đăng hết hạn
+if( ! empty( $blog_data['expTime'] ) )
+{
+	$my_head .= "<meta property=\"article:expiration_time\" content=\"" . date( "Y-m-d", $blog_data['expTime'] ) . "\" />\n";
+}
+
+// Từ khóa bài đăng
+if( ! empty( $blog_data['keywords'] ) )
+{
+	$keywords = array_map( 'trim', array_map( 'nv_strtolower', array_unique( array_filter( explode( ',', $blog_data['keywords'] ) ) ) ) );
+	
+	if( ! empty( $keywords ) )
+	{
+		arsort( $keywords );
+		
+		foreach( $keywords as $keyword )
+		{
+			$my_head .= "<meta property=\"article:tag\" content=\"" . $keyword . "\" />\n";
+		}
+	}
+}
+
+if( ! empty( $blog_data['mediaValue'] ) )
+{
+	// Âm thanh
+	if( $blog_data['mediaType'] == 2 )
+	{
+		$my_head .= "<meta property=\"og:audio\" content=\"" . ( preg_match( "/^\//", $blog_data['mediaValue'] ) ? NV_MY_DOMAIN . $blog_data['mediaValue'] : $blog_data['mediaValue'] ) . "\" />\n";
+	}
+	// Video
+	elseif( $blog_data['mediaType'] == 3 )
+	{
+		$my_head .= "<meta property=\"og:video\" content=\"" . ( preg_match( "/^\//", $blog_data['mediaValue'] ) ? NV_MY_DOMAIN . $blog_data['mediaValue'] : $blog_data['mediaValue'] ) . "\" />\n";
+	}
+}
+
+// Hình ảnh bài đăng
+if( ! empty( $blog_data['mediaValue'] ) and $blog_data['mediaType'] == 1 )
+{
+	if( preg_match( "/^\//", $blog_data['mediaValue'] ) )
+	{
+		$my_head .= "<meta property=\"og:image\" content=\"" . NV_MY_DOMAIN . $blog_data['mediaValue'] . "\" />\n";
+	}
+	else
+	{
+		$my_head .= "<meta property=\"og:image\" content=\"" . $blog_data['mediaValue'] . "\" />\n";
+	}
+}
+elseif( ! empty( $blog_data['images'] ) )
+{
+	if( preg_match( "/^\//", $blog_data['images'] ) )
+	{
+		$my_head .= "<meta property=\"og:image\" content=\"" . NV_MY_DOMAIN . $blog_data['images'] . "\" />\n";
+	}
+	else
+	{
+		$my_head .= "<meta property=\"og:image\" content=\"" . $blog_data['images'] . "\" />\n";
+	}
+}
+elseif( ! empty( $BL->setting['sysDefaultImage'] ) )
+{
+	if( preg_match( "/^\//", $BL->setting['sysDefaultImage'] ) )
+	{
+		$my_head .= "<meta property=\"og:image\" content=\"" . NV_MY_DOMAIN . $BL->setting['sysDefaultImage'] . "\" />\n";
+	}
+	else
+	{
+		$my_head .= "<meta property=\"og:image\" content=\"" . $BL->setting['sysDefaultImage'] . "\" />\n";
+	}
+}
+else
+{
+	$my_head .= "<meta property=\"og:image\" content=\"" . NV_MY_DOMAIN . NV_BASE_SITEURL . $global_config['site_logo'] . "\" />\n";
+}
+
 $contents = nv_detail_theme( $blog_data, $BL );
 
 include ( NV_ROOTDIR . "/includes/header.php" );
