@@ -9,6 +9,8 @@
 
 if( ! defined( 'NV_BLOG_ADMIN' ) ) die( 'Stop!!!' );
 
+$BL->callFrameWorks( 'shadowbox' );
+
 $page_title = $BL->lang('cfgStructureData');
 
 $array = array();
@@ -29,6 +31,7 @@ if( $nv_Request->isset_request( 'submit', 'post' ) )
 	$array['sysGoogleAuthor'] = filter_text_input( 'sysGoogleAuthor', 'post', '', 0, 30 );
 	$array['sysFbAppID'] = filter_text_input( 'sysFbAppID', 'post', '', 0, 30 );
 	$array['sysLocale'] = filter_text_input( 'sysLocale', 'post', '', 0, 255 );
+	$array['sysDefaultImage'] = $nv_Request->get_string( 'sysDefaultImage', 'post', '' );
 	
 	if( ! preg_match( "/^([0-9]+)$/", $array['sysGoogleAuthor'] ) )
 	{
@@ -37,6 +40,22 @@ if( $nv_Request->isset_request( 'submit', 'post' ) )
 	if( ! preg_match( "/^([0-9]+)$/", $array['sysFbAppID'] ) )
 	{
 		$array['sysFbAppID'] = '';
+	}
+	if( ! empty( $array['sysDefaultImage'] ) )
+	{
+		if( preg_match( "/^\//i", $array['sysDefaultImage'] ) )
+		{
+			$array['sysDefaultImage'] = substr( $array['sysDefaultImage'], strlen( NV_BASE_SITEURL . NV_UPLOADS_DIR . "/" . $module_name ) );
+			
+			if( ! is_file( NV_UPLOADS_REAL_DIR . '/' . $module_name . $array['sysDefaultImage'] ) )
+			{
+				$array['sysDefaultImage'] = '';
+			}
+		}
+		elseif( ! nv_is_url( $array['sysDefaultImage'] ) )
+		{
+			$array['sysDefaultImage'] = '';
+		}
 	}
 	
 	foreach( $array as $config_name => $config_value )
@@ -54,6 +73,7 @@ if( $nv_Request->isset_request( 'submit', 'post' ) )
 $xtpl = new XTemplate( "config-structured-data.tpl", NV_ROOTDIR . "/themes/" . $global_config['module_theme'] . "/modules/" . $module_file );
 $xtpl->assign( 'LANG', $lang_module );
 $xtpl->assign( 'GLANG', $lang_global );
+$xtpl->assign( 'UPLOADS_PATH', NV_UPLOADS_DIR . '/' . $module_name );
 
 $xtpl->assign( 'FORM_ACTION', NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $op );
 $xtpl->assign( 'DATA', $BL->setting );

@@ -212,6 +212,7 @@ $lang_module['cfgsysRedirect2Home'] = 'Chuyển hướng về trang chủ nếu 
 $lang_module['cfgStructureData'] = 'Cấu hình dữ liệu có cấu trúc (SEO)';
 $lang_module['cfgsysFbAppID'] = 'Facebook APP ID';
 $lang_module['cfgsysLocale'] = 'Ngôn ngữ và quốc gia';
+$lang_module['cfgsysDefaultImage'] = 'Hình ảnh mặc định cho OpenGraph hoặc Rich Snippets. Nếu không chọn hệ thống sẽ sử dụng logo của website';
 
 $lang_module['tagsMg'] = 'Quản lý tags';
 $lang_module['tagsDelete'] = 'Xóa tags';

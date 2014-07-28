@@ -197,6 +197,7 @@ $sql_create_module[] = "INSERT INTO `" . $db_config['prefix'] . "_" . $lang . "_
 ('sysFbAppID', ''),
 ('sysRedirect2Home', '0'),
 ('sysLocale', 'vi_VN'),
+('sysDefaultImage', ''),
 
 ('folderStructure', 'Ym')
 ";

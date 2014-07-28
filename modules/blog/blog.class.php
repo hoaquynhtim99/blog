@@ -88,13 +88,35 @@ class nv_mod_blog
 		$this->db = $db;
 		
 		$this->setting = $this->get_setting();
-		
+			
 		$this->base_site_url = NV_BASE_SITEURL;
 		$this->root_dir = NV_ROOTDIR;
 		$this->upload_dir = NV_UPLOADS_DIR;
 		$this->language = $lang_module;
 		$this->glanguage = $lang_global;
 		$this->currenttime = NV_CURRENTTIME;
+		
+		// Chuẩn hóa cấu hình
+		if( ! empty( $this->setting['sysDefaultImage'] ) )
+		{
+			if( preg_match( "/^\//i", $this->setting['sysDefaultImage'] ) )
+			{
+				$this->setting['sysDefaultImage'] = $this->upload_dir . "/" . $this->mod_name . $this->setting['sysDefaultImage'];
+				
+				if( is_file( $this->root_dir . '/' . $this->setting['sysDefaultImage'] ) )
+				{
+					$this->setting['sysDefaultImage'] = $this->base_site_url . $this->setting['sysDefaultImage'];
+				}
+				else
+				{
+					$this->setting['sysDefaultImage'] = '';
+				}
+			}
+			elseif( ! nv_is_url( $this->setting['sysDefaultImage'] ) )
+			{
+				$this->setting['sysDefaultImage'] = '';
+			}
+		}
 		
 		// Check Execute Data
 		if( ! empty( $this->setting['nextExecuteTime'] ) and $this->setting['nextExecuteTime'] <= $this->currenttime )
