@@ -1,12 +1,12 @@
 <!-- BEGIN: main -->
 <div class="news-list">
 	<!-- BEGIN: loop -->
-	<div class="news-item">
+	<div class="news-item" itemscope itemtype="http://schema.org/Article">
 		<div class="news-image">
 			<a href="{ROW.link}"><img src="{ROW.images}" alt="{ROW.title}"/></a>
 		</div>
 		<div class="news-content">
-			<h3 class="news-title"><i class="{ROW.icon}">&nbsp;</i><a href="{ROW.link}">{ROW.title}</a> </h3>
+			<h3 class="news-title"><i class="{ROW.icon}">&nbsp;</i><a href="{ROW.link}"><span itemprop="name">{ROW.title}</span></a> </h3>
 			<p>
 				{ROW.hometext}
 			</p>

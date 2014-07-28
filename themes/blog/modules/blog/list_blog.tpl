@@ -1,7 +1,7 @@
 <!-- BEGIN: main -->
 <div class="post-list">
 	<!-- BEGIN: loop -->
-	<div class="post-item">
+	<div class="post-item" itemscope itemtype="http://schema.org/Article">
 		<!-- BEGIN: media -->
 		<!-- BEGIN: image -->
 		<img class="media-image" src="{ROW.mediaValue}" alt="{ROW.title}"/>
@@ -34,7 +34,7 @@
 		<iframe class="media-iframe" src="{ROW.mediaValue}" height="{ROW.mediaHeight}"></iframe>
 		<!-- END: iframe -->
 		<!-- END: media -->
-		<h3 class="post-title"><i class="{ROW.icon}">&nbsp;</i><a href="{ROW.link}">{ROW.title}</a> </h3>
+		<h3 class="post-title"><i class="{ROW.icon}">&nbsp;</i><a href="{ROW.link}"><span itemprop="name">{ROW.title}</span></a> </h3>
 		<!-- BEGIN: hometext -->
 		<p>
 			{ROW.hometext}
@@ -46,7 +46,7 @@
 		</div>
 		<!-- END: bodyhtml -->
 		<div class="meta">
-		    <span><i class="icon-user mi">&nbsp;</i> {ROW.postName} </span>
+		    <span><i class="icon-user mi">&nbsp;</i> <span itemprop="author">{ROW.postName}</span> </span>
 		    <span><i class="icon-time mi">&nbsp;</i>{ROW.pubTime} </span>
 		    <span><a href="{ROW.linkComment}"><i class="icon-comments-alt"></i> {ROW.numComments} {LANG.blNumComments}</a> </span>
 		</div>
