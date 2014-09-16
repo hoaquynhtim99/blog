@@ -9,6 +9,18 @@
 
 if ( ! defined( 'NV_IS_MOD_BLOG' ) ) die( 'Stop!!!' );
 
+// Thêm vào meta tag
+if( ! empty( $BL->setting['sysFbAppID'] ) )
+{
+	$my_head .= "<meta property=\"fb:app_id\" content=\"" . $BL->setting['sysFbAppID'] . "\"/>" . NV_EOL;
+}
+
+// Thêm id admin vào meta tag
+if( ! empty( $BL->setting['sysFbAdminID'] ) )
+{
+	$my_head .= "<meta property=\"fb:admins\" content=\"" . $BL->setting['sysFbAdminID'] . "\"/>" . NV_EOL;
+}
+
 /**
  * nv_main_theme()
  * 
@@ -390,6 +402,27 @@ function nv_detail_theme( $blog_data, $BL )
 		$xtpl->assign( 'LOCALE', $BL->setting['sysLocale'] );
 		$xtpl->assign( 'FB_APP_ID', $BL->setting['sysFbAppID'] );
 		$xtpl->parse( 'main.fbShare' );
+	}
+	
+	// Xuất bình luận
+	if( $BL->setting['commentType'] != 'none' )
+	{
+		$xtpl->assign( 'COMMENT_PER_PAGE', $BL->setting['commentPerPage'] );
+		
+		if( ! empty( $BL->setting['sysFbAppID'] ) and ! empty( $BL->setting['sysLocale'] ) and $BL->setting['commentType'] == 'facebook' )
+		{
+			$xtpl->assign( 'COLORSCHEME', $BL->setting['commentFacebookColorscheme'] );
+			
+			$xtpl->parse( 'main.comment.facebook' );
+		}
+		elseif( $BL->setting['commentType'] == 'disqus' and ! empty( $BL->setting['commentDisqusShortname'] ) )
+		{
+			$xtpl->assign( 'DISQUS_SHORTNAME', $BL->setting['commentDisqusShortname'] );
+			
+			$xtpl->parse( 'main.comment.disqus' );
+		}
+		
+		$xtpl->parse( 'main.comment' );
 	}
 	
 	$xtpl->parse( 'main' );

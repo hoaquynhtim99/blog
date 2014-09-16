@@ -16,6 +16,8 @@ $lang_translator['copyright'] = '@Copyright (C) 2011 VINADES.,JSC. All rights re
 $lang_translator['info'] = '';
 $lang_translator['langtype'] = 'lang_module';
 
+$lang_module['isDevelop'] = 'Chức năng đang trong quá trình phát triển';
+
 $lang_module['title'] = 'Tiêu đề';
 $lang_module['alias'] = 'Liên kết tĩnh';
 $lang_module['aliasAutoGet'] = 'Tạo LKT';
@@ -211,8 +213,19 @@ $lang_module['cfgsysGoogleAuthor'] = 'Tác giả google + mặc định khi tạ
 $lang_module['cfgsysRedirect2Home'] = 'Chuyển hướng về trang chủ nếu đường dẫn là main của module (Chọn nếu module được chọn làm trang chủ)';
 $lang_module['cfgStructureData'] = 'Cấu hình dữ liệu có cấu trúc (SEO)';
 $lang_module['cfgsysFbAppID'] = 'Facebook APP ID';
+$lang_module['cfgsysFbAdminID'] = 'Facebook Admin ID';
 $lang_module['cfgsysLocale'] = 'Ngôn ngữ và quốc gia';
 $lang_module['cfgsysDefaultImage'] = 'Hình ảnh mặc định cho OpenGraph hoặc Rich Snippets. Nếu không chọn hệ thống sẽ sử dụng logo của website';
+$lang_module['cfgComment'] = 'Thiết lập bình luận';
+$lang_module['cfgCommentNote'] = 'Chỉ có bình luận của hệ thống là được lưu trữ, các bình luận kiểu khác không được lưu trữ trên máy chủ website. Các kiểu bình luận là độc lập với nhau và tại mỗi một thời điểm sẽ chỉ hiển thị được một loại bình luận nhất định';
+$lang_module['cfgCommentType'] = 'Chọn loại bình luận';
+$lang_module['cfgCommentType_none'] = 'Không sử dụng bình luận';
+$lang_module['cfgCommentType_sys'] = 'Bình luận của hệ thống';
+$lang_module['cfgCommentType_facebook'] = 'Facebook Comment';
+$lang_module['cfgCommentType_disqus'] = 'Disqus Comment';
+$lang_module['cfgCommentPerPage'] = 'Số bình luận trên một trang';
+$lang_module['cfgcommentDisqusShortname'] = 'Tài khoản bình luận Disqus';
+$lang_module['cfgcommentFacebookColorscheme'] = 'Giao diện bình luận';
 
 $lang_module['tagsMg'] = 'Quản lý tags';
 $lang_module['tagsDelete'] = 'Xóa tags';

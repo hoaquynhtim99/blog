@@ -185,6 +185,11 @@ $sql_create_module[] = "INSERT INTO `" . $db_config['prefix'] . "_" . $lang . "_
 ('blockTagsCacheIfRandom', '1'),
 ('blockTagsCacheLive', '5'),
 
+('commentType', 'sys'),
+('commentPerPage', '8'),
+('commentDisqusShortname', ''),
+('commentFacebookColorscheme', 'light'),
+
 ('initPostExp', '0'),
 ('initPostType', '0'),
 ('initMediaType', '4'),
@@ -195,6 +200,7 @@ $sql_create_module[] = "INSERT INTO `" . $db_config['prefix'] . "_" . $lang . "_
 ('sysHighlightTheme', 'default'),
 ('sysGoogleAuthor', ''),
 ('sysFbAppID', ''),
+('sysFbAdminID', ''),
 ('sysRedirect2Home', '0'),
 ('sysLocale', 'vi_VN'),
 ('sysDefaultImage', ''),

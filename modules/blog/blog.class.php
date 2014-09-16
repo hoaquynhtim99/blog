@@ -42,6 +42,7 @@ class nv_mod_blog
 	public $blogMediaType = array( 0, 1, 2, 3, 4 );
 	public $blogExpMode = array( 0, 1, 2 );
 	public $blogStatus = array( -2, -1, 0, 1, 2 );
+	public $commentType = array( "none", "sys", "facebook", "disqus" );
 	
 	private $base_site_url = null;
 	private $root_dir = null;

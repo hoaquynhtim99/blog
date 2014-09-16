@@ -9,7 +9,27 @@
 $(document).ready(function(){
 	$('a[href^="#"]').click(function(e){
 		e.preventDefault();
-		
-		console.log(e);
 	});	
 });
+
+var BL = {
+	siteroot: nv_siteroot,
+	sitelang: nv_sitelang,
+	name_variable: nv_name_variable,
+	module_name: nv_module_name,
+	op_variable: nv_fc_variable,
+	callApi: function(q){
+		$.ajax({
+			type: 'POST',
+			url: BL.siteroot + 'index.php',
+			data: BL.lang_variable + '=' + BL.sitelang + '&' + BL.name_variable + '=' + BL.module_name + '&' + BL.op_variable + '=api&' + q,
+			success: function(e){}
+		});
+	},
+	addCommentOnly: function(blog_id){
+		BL.callApi('addCommentOnly=1&id=' + blog_id)
+	},
+	delCommentOnly: function(blog_id){
+		BL.callApi('delCommentOnly=1&id=' + blog_id);
+	},
+};

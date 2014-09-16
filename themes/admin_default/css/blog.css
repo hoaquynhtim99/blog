@@ -481,3 +481,9 @@ select.blog-input{
 
 /* DONATE */
 .bl-donate form{display:inline-block}
+
+
+/* COMMENT */
+.comment-table{
+	display: none;
+}

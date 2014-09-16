@@ -30,6 +30,7 @@ if( $nv_Request->isset_request( 'submit', 'post' ) )
 {
 	$array['sysGoogleAuthor'] = filter_text_input( 'sysGoogleAuthor', 'post', '', 0, 30 );
 	$array['sysFbAppID'] = filter_text_input( 'sysFbAppID', 'post', '', 0, 30 );
+	$array['sysFbAdminID'] = filter_text_input( 'sysFbAdminID', 'post', '', 0, 30 );
 	$array['sysLocale'] = filter_text_input( 'sysLocale', 'post', '', 0, 255 );
 	$array['sysDefaultImage'] = $nv_Request->get_string( 'sysDefaultImage', 'post', '' );
 	
@@ -40,6 +41,10 @@ if( $nv_Request->isset_request( 'submit', 'post' ) )
 	if( ! preg_match( "/^([0-9]+)$/", $array['sysFbAppID'] ) )
 	{
 		$array['sysFbAppID'] = '';
+	}
+	if( ! preg_match( "/^([0-9]+)$/", $array['sysFbAdminID'] ) )
+	{
+		$array['sysFbAdminID'] = '';
 	}
 	if( ! empty( $array['sysDefaultImage'] ) )
 	{

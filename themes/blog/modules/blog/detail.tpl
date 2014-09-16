@@ -49,13 +49,26 @@
 		<!-- BEGIN: fbShare -->
 		<div class="fl">
 			<div id="fb-root"></div>
-			<script>(function(d, s, id) {
-			  var js, fjs = d.getElementsByTagName(s)[0];
-			  if (d.getElementById(id)) return;
-			  js = d.createElement(s); js.id = id;
-			  js.src = "//connect.facebook.net/{LOCALE}/sdk.js#xfbml=1&appId={FB_APP_ID}&version=v2.0";
-			  fjs.parentNode.insertBefore(js, fjs);
-			}(document, 'script', 'facebook-jssdk'));</script>
+			<script type="text/javascript">
+			$(document).ready(function() {
+			    $.ajaxSetup({
+			        cache: true
+			    });
+			    $.getScript('//connect.facebook.net/{LOCALE}/all.js', function() {
+			        FB.init({
+			            appId: '{FB_APP_ID}',
+			            version: 'v2.0',
+			            xfbml: 1
+			        });
+					FB.Event.subscribe('comment.create', function(e) {
+						BL.addCommentOnly({DATA.id});
+					});
+					FB.Event.subscribe('comment.remove', function(e) {
+						BL.delCommentOnly({DATA.id});
+					});
+			    });
+			});
+			</script>
 			<div class="fb-like" data-href="{DATA.href}" data-width="200" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true"></div>
 		</div>
 		<!-- END: fbShare -->
@@ -98,5 +111,23 @@
 	<div class="clearfix"></div>
 	<hr />
 	<!-- END: navPost -->
+	<!-- BEGIN: comment -->
+	<a id="comment" name="comment"></a>
+	<!-- BEGIN: facebook -->
+	<div class="fb-comments" data-href="{DATA.href}" data-numposts="{COMMENT_PER_PAGE}" data-colorscheme="{COLORSCHEME}" data-width="100%"></div>
+	<!-- END: facebook -->
+	<!-- BEGIN: disqus -->
+	<div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = '{DISQUS_SHORTNAME}';
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+	<!-- END: disqus -->
+	<!-- END: comment -->
 </div>
 <!-- END: main -->

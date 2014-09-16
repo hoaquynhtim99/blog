@@ -25,6 +25,16 @@
 	<tbody>
 		<tr>
 			<td>
+				<strong>{LANG.cfgsysFbAdminID}</strong>
+			</td>
+			<td>
+				<input type="text" class="blog-input bl-txt-h" name="sysFbAdminID" value="{DATA.sysFbAdminID}"/>
+			</td>
+		</tr>
+	</tbody>
+	<tbody class="second">
+		<tr>
+			<td>
 				<strong>{LANG.cfgsysLocale}</strong>
 			</td>
 			<td>

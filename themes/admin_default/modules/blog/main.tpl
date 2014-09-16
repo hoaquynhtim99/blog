@@ -19,6 +19,7 @@
 					<li><a href="{BASE_ADMIN_LINK}config-block-tags">{LANG.cfgBlockTags}</a></li>
 					<li><a href="{BASE_ADMIN_LINK}config-sys">{LANG.cfgSys}</a></li>
 					<li><a href="{BASE_ADMIN_LINK}config-structured-data">{LANG.cfgStructureData}</a></li>
+					<li><a href="{BASE_ADMIN_LINK}config-comment">{LANG.cfgComment}</a></li>
 				</ul>
 			</div>
 		</div>
