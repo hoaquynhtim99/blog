@@ -318,6 +318,7 @@ function nv_detail_theme( $blog_data, $BL )
 	$xtpl->assign( 'LANG', $lang_module );
 	$xtpl->assign( 'GLANG', $lang_global );
 
+	$blog_data['pubTimeGoogle'] = nv_date( 'Y-m-d', $blog_data['pubTime'] );
 	$blog_data['pubTime'] = str_replace( array( ' AM ', ' PM ' ), array( ' SA ', ' CH ' ), nv_date( 'g:i A d/m/Y', $blog_data['pubTime'] ) );
 	$blog_data['numComments'] = number_format( $blog_data['numComments'], 0, ',', '.' );
 	$blog_data['icon'] = empty( $BL->setting['iconClass' . $blog_data['postType']] ) ? 'icon-pencil' : $BL->setting['iconClass' . $blog_data['postType']];
