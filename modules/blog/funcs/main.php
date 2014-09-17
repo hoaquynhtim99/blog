@@ -10,7 +10,7 @@
 if ( ! defined( 'NV_IS_MOD_BLOG' ) ) die( 'Stop!!!' );
 
 // Chuyển hướng đến trang chủ không có tên module nếu có cấu hình
-if( $BL->setting['sysRedirect2Home'] and empty( $home ) )
+if( $BL->setting['sysRedirect2Home'] and empty( $home ) and $page <= 1 )
 {
 	header( 'Location:' . nv_url_rewrite( NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA, true ) );
 	die();
