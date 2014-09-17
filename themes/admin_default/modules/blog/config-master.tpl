@@ -169,6 +169,16 @@
 			</td>
 		</tr>
 	</tbody>
+	<tbody>
+		<tr>
+			<td>
+				<strong>{LANG.cfginitAutoKeywords}</strong>
+			</td>
+			<td>
+				<input type="checkbox" name="initAutoKeywords"{INITAUTOKEYWORDS} value="1"/>
+			</td>
+		</tr>
+	</tbody>
 </table>
 <table class="tab1">
 	<caption>{LANG.cfgNewsletter}</caption>

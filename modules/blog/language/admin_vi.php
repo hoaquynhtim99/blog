@@ -227,6 +227,7 @@ $lang_module['cfgCommentType_disqus'] = 'Disqus Comment';
 $lang_module['cfgCommentPerPage'] = 'Số bình luận trên một trang';
 $lang_module['cfgcommentDisqusShortname'] = 'Tài khoản bình luận Disqus';
 $lang_module['cfgcommentFacebookColorscheme'] = 'Giao diện bình luận';
+$lang_module['cfginitAutoKeywords'] = 'Tự động tạo từ khóa lúc đăng bài nếu không nhập';
 
 $lang_module['tagsMg'] = 'Quản lý tags';
 $lang_module['tagsDelete'] = 'Xóa tags';

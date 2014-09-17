@@ -47,6 +47,7 @@ if( $nv_Request->isset_request( 'submit', 'post' ) )
 	$array['initMediaType'] = $nv_Request->get_int( 'initMediaType', 'post', 0 );
 	$array['initMediaHeight'] = $nv_Request->get_int( 'initMediaHeight', 'post', 250 );
 	$array['initNewsletters'] = $nv_Request->get_int( 'initNewsletters', 'post', 0 );
+	$array['initAutoKeywords'] = $nv_Request->get_int( 'initAutoKeywords', 'post', 0 );
 	$array['folderStructure'] = filter_text_input( 'folderStructure', 'post', '', 0, 255 );
 	$array['numberResendNewsletter'] = $nv_Request->get_int( 'numberResendNewsletter', 'post', 0 );
 	$array['strCutHomeText'] = $nv_Request->get_int( 'strCutHomeText', 'post', 0 );
@@ -94,6 +95,7 @@ if( $nv_Request->isset_request( 'submit', 'post' ) )
 	}
 	
 	$array['initNewsletters'] = $array['initNewsletters'] ? 1 : 0;
+	$array['initAutoKeywords'] = $array['initAutoKeywords'] ? 1 : 0;
 	
 	if( $array['numberResendNewsletter'] > $numberResendNewsletterMax or $array['numberResendNewsletter'] < 0 )
 	{
@@ -138,6 +140,7 @@ $xtpl->assign( 'FORM_ACTION', NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE
 $xtpl->assign( 'DATA', $BL->setting );
 
 $xtpl->assign( 'INITNEWSLETTERS', $BL->setting['initNewsletters'] ? " checked=\"checked\"" : "" );
+$xtpl->assign( 'INITAUTOKEYWORDS', $BL->setting['initAutoKeywords'] ? " checked=\"checked\"" : "" );
 
 // Xuat cac kieu hien thi
 foreach( $BL->indexViewType as $type )
