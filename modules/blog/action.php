@@ -195,6 +195,7 @@ $sql_create_module[] = "INSERT INTO `" . $db_config['prefix'] . "_" . $lang . "_
 ('initMediaType', '4'),
 ('initMediaHeight', '250'),
 ('initNewsletters', '1'),
+('initAutoKeywords', '1'),
 
 ('sysDismissAdminCache', '0'),
 ('sysHighlightTheme', 'default'),

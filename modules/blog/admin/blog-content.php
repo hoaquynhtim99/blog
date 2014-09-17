@@ -128,6 +128,7 @@ if( $id )
 	
 	// Gui email den cac email dang ky nhan tin
 	$newsletters = 0;
+	$isAutoKeywords = 0;
 }
 else
 {
@@ -165,6 +166,9 @@ else
 	
 	// Gui email den cac email dang ky nhan tin
 	$newsletters = $BL->setting['initNewsletters'];
+	
+	// Tự động xác định từ khóa
+	$isAutoKeywords = $BL->setting['initAutoKeywords'];
 }
 
 // Thao tac xu ly
@@ -205,11 +209,18 @@ if( $prosessMode != 'none' )
 	$array['expMode'] = $nv_Request->get_int( 'expMode', 'post', 0 );
 	
 	$newsletters = $nv_Request->get_int( 'newsletters', 'post', 0 );
+	$isAutoKeywords = $nv_Request->get_int( 'isAutoKeywords', 'post', 0 );
 	
 	// Chuẩn hóa google author
 	if( ! preg_match( "/^([0-9]{1,30})$/", $array['postGoogleID'] ) )
 	{
 		$array['postGoogleID'] = $BL->setting['sysGoogleAuthor'];
+	}
+	
+	// Tự động lấy từ khóa
+	if( ! empty( $isAutoKeywords ) and empty( $array['keywords'] ) )
+	{
+		$array['keywords'] = nv_get_keywords( $array['bodyhtml'] );
 	}
 	
 	// Chuan hoa tu khoa
@@ -789,6 +800,7 @@ $xtpl->assign( 'CURRENT_PATH', $currentpath );
 
 // Cac checkbox
 $xtpl->assign( 'NEWSLETTERS', $newsletters ? " checked=\"checked\"" : "" );
+$xtpl->assign( 'ISAUTOKEYWORDS', $isAutoKeywords ? " checked=\"checked\"" : "" );
 $xtpl->assign( 'FULLPAGE', $array['fullPage'] ? " checked=\"checked\"" : "" );
 
 $xtpl->parse( 'main' );

@@ -90,6 +90,7 @@
 							<input type="text" class="blog-input bl-col-day" name="postGoogleID" value="{DATA.postGoogleID}"/>
 						</label>
 					</li>
+					<li><label><input type="checkbox" name="isAutoKeywords" value="1"{ISAUTOKEYWORDS}/> {LANG.blogIsAutoKeywords}</label></li>
 				</ul>
 			</div>
 		</div>
