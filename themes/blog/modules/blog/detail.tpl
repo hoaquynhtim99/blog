@@ -86,7 +86,7 @@
 	<!-- END: tags -->
 	<div class="clearfix">
 		<div class="post-detail-meta">
-		    <span><i class="icon-user mi">&nbsp;</i> <!-- BEGIN: postName --><span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">{DATA.postName}</span></span><!-- END: postName --><!-- BEGIN: postGoogleID --><span itemprop="author" itemscope itemtype="http://schema.org/Person"><a href="https://plus.google.com/{DATA.postGoogleID}?rel=author" itemprop="author"><span itemprop="name">{DATA.postName}</span></a></span><!-- END: postGoogleID --> </span>
+		    <span><i class="icon-user mi">&nbsp;</i> <!-- BEGIN: postName --><span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">{DATA.postName}</span></span><!-- END: postName --><!-- BEGIN: postGoogleID --><a href="https://plus.google.com/{DATA.postGoogleID}?rel=author" itemprop="author"><span itemprop="name">{DATA.postName}</span></a><!-- END: postGoogleID --> </span>
 		    <span><i class="icon-time mi">&nbsp;</i><span itemprop="datePublished" content="{DATA.pubTimeGoogle}">{DATA.pubTime} </span></span>
 		    <span><a href="#comment"><i class="icon-comments-alt mi">&nbsp;</i> {DATA.numComments} {LANG.blNumComments}</a> </span>
 		</div>
