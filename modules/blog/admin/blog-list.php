@@ -260,8 +260,19 @@ while( $row = $db->sql_fetch_assoc( $result ) )
 	$row['postTime'] = nv_date( "H:i d/m/Y", $row['postTime'] );
 	$row['class'] = ( $i ++ % 2 == 0 ) ? " class=\"second\"" : "";
 	$row['statusText'] = $BL->lang('blogStatus' . $row['status']);
+	$row['link'] = nv_url_rewrite( NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $row['alias'], true );
 	
 	$xtpl->assign( 'ROW', $row );
+	
+	if( $row['status'] == 1 )
+	{
+		$xtpl->parse( 'main.row.titleLink' );
+	}
+	else
+	{
+		$xtpl->parse( 'main.row.titleText' );
+	}
+	
 	$xtpl->parse( 'main.row' );
 }
 

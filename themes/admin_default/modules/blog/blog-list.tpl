@@ -82,7 +82,10 @@ $(document).ready(function(){
 					<input type="checkbox" onclick="nv_UncheckAll(this.form, 'idcheck[]', 'check_all[]', this.checked);" value="{ROW.id}" name="idcheck[]" />
 				</td>
 				<td class="center">{ROW.id}</td>
-				<td>{ROW.title}</td>
+				<td>
+					<!-- BEGIN: titleLink --><a href="{ROW.link}" target="_blank">{ROW.title}</a><!-- END: titleLink -->
+					<!-- BEGIN: titleText -->{ROW.title}<!-- END: titleText -->
+				</td>
 				<td class="center"><strong>{ROW.postTime}</strong></td>
 				<td class="center"><strong>{ROW.updateTime}</strong></td>
 				<td class="center">{ROW.statusText}</td>
