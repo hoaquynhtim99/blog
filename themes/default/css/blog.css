@@ -63,17 +63,11 @@ h1, h2, h3, h4, h5, h6{
 h1.upper, h2.upper, h3.upper, h4.upper, h5.upper, h6.upper{
 	text-transform: uppercase;
 }
-h1{
+.post-detail h1{
 	margin: 0 0 20px 0;
 	padding: 0;
 	font-size: 18px;
 	line-height: 26px;
-}
-h3{
-	margin: 0 0 15px 0;
-	padding: 0;
-	font-size: 16px;
-	line-height: 24px;
 }
 .text-right{
 	text-align: right;
@@ -247,7 +241,7 @@ h3{
 }
 
 /* 
- * NOTIFICATION BOXES
+ * Notification boxes
  */
 .notification-box {
 	position: relative;
@@ -301,7 +295,7 @@ a.notification-close {
 }
 
 /* 
- * DETAIL BLOG
+ * Detail blog
  */
 .post-detail-media-data{
 	padding-bottom: 20px;
@@ -372,7 +366,7 @@ a.notification-close {
 }
 
 /* 
- * LIST ALL TAGS
+ * List all tags
  */
 .all-tags{
 	list-style: none;
@@ -387,7 +381,7 @@ a.notification-close {
 }
 
 /* 
- * BLOCK TAGS
+ * Block tags
  */
 .block-tags-list a{
 	border: 1px solid #A3A3A3;
@@ -417,7 +411,9 @@ a.notification-close {
 	transition: all .2s ease;
 }
 
-/* ICON PACK */
+/**
+ * Icon pack
+ */
 [class^="icon-"],
 [class*=" icon-"] {
 	font-family: 'FontAwesome';
@@ -438,6 +434,15 @@ a.notification-close {
 [class*=" icon-"].mi{
 	margin-right:5px;
 }
+.action [class^="icon-"],
+.action [class*=" icon-"]{
+	font-family: inherit
+}
+.action [class^="icon-"]:before,
+.action [class*=" icon-"]:before {
+	display: none;
+}
+
 .icon-ok:before {
   content: "\f00c";
 }
@@ -512,4 +517,44 @@ a.notification-close {
 }
 .icon-long-arrow-right:before {
 	content: "\f178";
+}
+
+/**
+ * Newsletters
+ */
+#newsletters input {
+	margin: 0;
+	padding: 0 12px;
+	line-height: 24px;
+	height: 34px;
+	border: 1px solid #C5C5C5;
+	background: #F7F7F7;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	font-size: 11px;
+	color: #5A5A5A;
+	cursor: text;
+	width: 100%;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	-webkit-transition: all 0.2s ease;
+	transition: all 0.2s ease;
+	outline:0;
+}
+#newsletters button {
+	position: absolute;
+	top: 7px;
+	right: 8px;
+	background: none;
+	border: 0;
+	color: #DDD;
+	font-size: 11px;
+	cursor: pointer;
+	-webkit-transition: all 0.2s ease;
+	transition: all 0.2s ease;
+	outline:0;
+}
+#newsletters form{
+	position:relative;
 }
