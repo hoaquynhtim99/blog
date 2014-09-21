@@ -128,6 +128,7 @@ $lang_module['blogSendNewsletter'] = 'Gửi email đến các email đăng ký n
 $lang_module['blogFullPage'] = 'Hiển thị toàn bộ bài viết tại trang danh sách nếu kiểu hiển thị là blog';
 $lang_module['blogGoogleAuthor'] = 'Google Author';
 $lang_module['blogIsAutoKeywords'] = 'Tự động xác định từ khóa nếu không nhập';
+$lang_module['bloginHome'] = 'Hiển thị tại trang chủ';
 
 $lang_module['categoriesManager'] = 'Quản lý danh mục bài viết';
 $lang_module['categoriesEmpty'] = 'Chưa có danh mục bài viết nào, hãy thêm danh mục từ trình đơn bên dưới';

@@ -129,6 +129,7 @@ $sql_create_module[] = "CREATE TABLE `" . $db_config['prefix'] . "_" . $lang . "
   `bodytext` mediumtext NOT NULL COMMENT 'Nội dung bài viết dạng text',
   `postType` smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT '0: Bình thường, 1: Ảnh, 2: Video, 3: Audio, 4: Ghi chú, 5: Liên kết, 6: Thư viện',
   `fullPage` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Nếu là 1, đối với kiểu hiển thị dạng blog, sẽ show toàn bộ nội dung bài viết',
+  `inHome` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Hiển thị bài viết trên trang chủ',
   `catids` varchar(255) NOT NULL DEFAULT '' COMMENT 'Chuyên mục',
   `tagids` varchar(255) NOT NULL DEFAULT '' COMMENT 'Tags',
   `numWords` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Số từ',

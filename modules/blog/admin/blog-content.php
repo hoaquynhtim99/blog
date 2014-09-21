@@ -101,6 +101,7 @@ if( $id )
 		"bodyhtml" => '',
 		"postType" => ( int ) $row['postType'],
 		"fullPage" => ( int ) $row['fullPage'],
+		"inHome" => ( int ) $row['inHome'],
 		"catids" => $BL->string2array( $row['catids'] ),
 		"tagids" => $BL->string2array( $row['tagids'] ),
 		"numWords" => ( int ) $row['numWords'],
@@ -151,6 +152,7 @@ else
 		"bodyhtml" => '',
 		"postType" => $BL->setting['initPostType'],
 		"fullPage" => 0,
+		"inHome" => 1,
 		"catids" => array(),
 		"tagids" => array(),
 		"numWords" => 0,
@@ -198,6 +200,7 @@ if( $prosessMode != 'none' )
 	$array['bodyhtml'] = nv_editor_filter_textarea( 'bodyhtml', '', NV_ALLOWED_HTML_TAGS );
 	$array['postType'] = $nv_Request->get_int( 'postType', 'post', 0 );
 	$array['fullPage'] = $nv_Request->get_int( 'fullPage', 'post', 0 );
+	$array['inHome'] = $nv_Request->get_int( 'inHome', 'post', 0 );
 	$array['catids'] = $nv_Request->get_typed_array( 'catids', 'post', 'int' );
 	$array['tagids'] = filter_text_input( 'tagids', 'post', '', 1, 255 );
 	$array['pubTime'] = $nv_Request->get_string( 'pubTime', 'post', '' );
@@ -322,6 +325,7 @@ if( $prosessMode != 'none' )
 	
 	// Chuẩn hóa giá trị 0, 1
 	$array['fullPage'] = $array['fullPage'] ? 1 : 0;
+	$array['inHome'] = $array['inHome'] ? 1 : 0;
 	
 	// Kiem tra loi, khong kiem tra neu luu ban nhap
 	if( $prosessMode == "public" )
@@ -460,6 +464,7 @@ if( $prosessMode != 'none' )
 				" . $db->dbescape( $array['bodytext'] ) . ",
 				" . $array['postType'] . ", 
 				" . $array['fullPage'] . ", 
+				" . $array['inHome'] . ", 
 				" . $db->dbescape( $array['catids'] ? "0," . implode( ",", $array['catids'] ) . ",0" : "" ) . ",
 				" . $db->dbescape( $array['tagids'] ? "0," . implode( ",", $array['tagids'] ) . ",0" : "" ) . ",
 				" . $array['numWords'] . ", 
@@ -546,6 +551,7 @@ if( $prosessMode != 'none' )
 				`bodytext`=" . $db->dbescape( $array['bodytext'] ) . ",
 				`postType`=" . $array['postType'] . ", 
 				`fullPage`=" . $array['fullPage'] . ", 
+				`inHome`=" . $array['inHome'] . ", 
 				`catids`=" . $db->dbescape( $array['catids'] ? "0," . implode( ",", $array['catids'] ) . ",0" : "" ) . ",
 				`tagids`=" . $db->dbescape( $array['tagids'] ? "0," . implode( ",", $array['tagids'] ) . ",0" : "" ) . ",
 				`numWords`=" . $array['numWords'] . ", 
@@ -802,6 +808,7 @@ $xtpl->assign( 'CURRENT_PATH', $currentpath );
 $xtpl->assign( 'NEWSLETTERS', $newsletters ? " checked=\"checked\"" : "" );
 $xtpl->assign( 'ISAUTOKEYWORDS', $isAutoKeywords ? " checked=\"checked\"" : "" );
 $xtpl->assign( 'FULLPAGE', $array['fullPage'] ? " checked=\"checked\"" : "" );
+$xtpl->assign( 'INHOME', $array['inHome'] ? " checked=\"checked\"" : "" );
 
 $xtpl->parse( 'main' );
 $contents = $xtpl->text( 'main' );

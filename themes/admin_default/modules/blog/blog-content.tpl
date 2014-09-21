@@ -91,6 +91,7 @@
 						</label>
 					</li>
 					<li><label><input type="checkbox" name="isAutoKeywords" value="1"{ISAUTOKEYWORDS}/> {LANG.blogIsAutoKeywords}</label></li>
+					<li><label><input type="checkbox" name="inHome" value="1"{INHOME}/> {LANG.bloginHome}</label></li>
 				</ul>
 			</div>
 		</div>
