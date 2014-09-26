@@ -188,7 +188,7 @@ elseif( $nv_Request->isset_request( 'draft', 'post' ) )
 if( $prosessMode != 'none' )
 {
 	$array['postGoogleID'] = filter_text_input( 'postGoogleID', 'post', '', 1, 255 );
-	$array['siteTitle'] = filter_text_input( 'siteTitle', 'post', '', 1, 30 );
+	$array['siteTitle'] = filter_text_input( 'siteTitle', 'post', '', 1, 255 );
 	$array['title'] = filter_text_input( 'title', 'post', '', 1, 255 );
 	$array['alias'] = filter_text_input( 'alias', 'post', '', 1, 255 );
 	$array['keywords'] = filter_text_input( 'keywords', 'post', '', 1, 255 );
