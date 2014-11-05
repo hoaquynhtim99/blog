@@ -1,9 +1,10 @@
 <?php
 
 /**
- * @Project NUKEVIET BLOG 3.x
+ * @Project NUKEVIET BLOG 4.x
  * @Author PHAN TAN DUNG (phantandung92@gmail.com)
- * @Copyright (C) 2013 PHAN TAN DUNG. All rights reserved
+ * @Copyright (C) 2014 PHAN TAN DUNG. All rights reserved
+ * @License GNU/GPL version 2 or any later version
  * @Createdate Dec 11, 2013, 09:50:11 PM
  */
 
@@ -45,19 +46,19 @@ if ( ! nv_function_exists( 'nv_blog_listTags' ) )
 
 		$xtpl = new XTemplate( "block.tags.tpl", NV_ROOTDIR . "/themes/" . $block_theme . "/modules/" . $module_file );
 		
-		$sql = "SELECT `title`, `alias` FROM `" . $BLL->table_prefix . "_tags`";
+		$sql = "SELECT title, alias FROM " . $BLL->table_prefix . "_tags";
 		
 		switch( $BLL->setting['blockTagsShowType'] )
 		{
 			case 'random': $sql .= " ORDER BY RAND()"; break;
-			case 'latest': $sql .= " ORDER BY `id` DESC"; break;
-			default: $sql .= " ORDER BY `numPosts` DESC";
+			case 'latest': $sql .= " ORDER BY id DESC"; break;
+			default: $sql .= " ORDER BY numposts DESC";
 		}
 		
 		$sql .= " LIMIT 0," . $BLL->setting['blockTagsNums'];
-		$result = $db->sql_query( $sql );
+		$result = $db->query( $sql );
 		
-		while( $row = $db->sql_fetch_assoc( $result ) )
+		while( $row = $result->fetch() )
 		{
 			$row['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module . '&amp;' . NV_OP_VARIABLE . '=tags/' . $row['alias'];
 			
@@ -74,5 +75,3 @@ if ( defined( 'NV_SYSTEM' ) )
 {
 	$content = nv_blog_listTags( $block_config );
 }
-
-?>

@@ -1,9 +1,10 @@
 <?php
 
 /**
- * @Project NUKEVIET BLOG 3.x
+ * @Project NUKEVIET BLOG 4.x
  * @Author PHAN TAN DUNG (phantandung92@gmail.com)
- * @Copyright (C) 2013 PHAN TAN DUNG. All rights reserved
+ * @Copyright (C) 2014 PHAN TAN DUNG. All rights reserved
+ * @License GNU/GPL version 2 or any later version
  * @Createdate Dec 11, 2013, 09:50:11 PM
  */
 
@@ -28,10 +29,10 @@ unset( $_array_locales, $locale );
 // Lay thong tin submit
 if( $nv_Request->isset_request( 'submit', 'post' ) )
 {
-	$array['sysGoogleAuthor'] = filter_text_input( 'sysGoogleAuthor', 'post', '', 0, 30 );
-	$array['sysFbAppID'] = filter_text_input( 'sysFbAppID', 'post', '', 0, 30 );
-	$array['sysFbAdminID'] = filter_text_input( 'sysFbAdminID', 'post', '', 0, 30 );
-	$array['sysLocale'] = filter_text_input( 'sysLocale', 'post', '', 0, 255 );
+	$array['sysGoogleAuthor'] = nv_substr( $nv_Request->get_title( 'sysGoogleAuthor', 'post', '', 0 ), 0, 30);
+	$array['sysFbAppID'] = nv_substr( $nv_Request->get_title( 'sysFbAppID', 'post', '', 0 ), 0, 30);
+	$array['sysFbAdminID'] = nv_substr( $nv_Request->get_title( 'sysFbAdminID', 'post', '', 0 ), 0, 30);
+	$array['sysLocale'] = nv_substr( $nv_Request->get_title( 'sysLocale', 'post', '', 0 ), 0, 255 );
 	$array['sysDefaultImage'] = $nv_Request->get_string( 'sysDefaultImage', 'post', '' );
 	
 	if( ! preg_match( "/^([0-9]+)$/", $array['sysGoogleAuthor'] ) )
@@ -65,13 +66,13 @@ if( $nv_Request->isset_request( 'submit', 'post' ) )
 	
 	foreach( $array as $config_name => $config_value )
 	{
-		$sql = "REPLACE INTO `" . $BL->table_prefix . "_config` VALUES (" . $db->dbescape( $config_name ) . "," . $db->dbescape( $config_value ) . ")";
-		$db->sql_query( $sql );
+		$sql = "REPLACE INTO " . $BL->table_prefix . "_config VALUES (" . $db->quote( $config_name ) . "," . $db->quote( $config_value ) . ")";
+		$db->query( $sql );
 	}
 
 	nv_del_moduleCache( $module_name );
 
-	Header( "Location: " . NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . "&" . NV_OP_VARIABLE . "=" . $op );
+	Header( "Location: " . NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . "&" . NV_OP_VARIABLE . "=" . $op );
 	die();
 }
 
@@ -80,7 +81,7 @@ $xtpl->assign( 'LANG', $lang_module );
 $xtpl->assign( 'GLANG', $lang_global );
 $xtpl->assign( 'UPLOADS_PATH', NV_UPLOADS_DIR . '/' . $module_name );
 
-$xtpl->assign( 'FORM_ACTION', NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $op );
+$xtpl->assign( 'FORM_ACTION', NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $op );
 $xtpl->assign( 'DATA', $BL->setting );
 
 $xtpl->assign( 'INITNEWSLETTERS', $BL->setting['initNewsletters'] ? " checked=\"checked\"" : "" );
@@ -99,8 +100,6 @@ foreach( $array_locales as $k => $v )
 $xtpl->parse( 'main' );
 $contents = $xtpl->text( 'main' );
 
-include ( NV_ROOTDIR . "/includes/header.php" );
+include NV_ROOTDIR . '/includes/header.php';
 echo nv_admin_theme( $contents );
-include ( NV_ROOTDIR . "/includes/footer.php" );
-
-?>
+include NV_ROOTDIR . '/includes/footer.php';

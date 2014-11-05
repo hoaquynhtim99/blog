@@ -1,29 +1,29 @@
 <!-- BEGIN: main -->
-<table class="tab1">
+<table class="table table-striped table-bordered table-hover">
 	<tbody>
 		<tr>
 			<td>
-				<form id="filter-form" method="get" action="" onsubmit="return false;">
-					<input class="blog-input text" type="text" name="q" value="{DATA_SEARCH.q}" placeholder="{LANG.searchPost}"/>
+				<form class="form-inline" id="filter-form" method="get" action="" onsubmit="return false;">
+					<input class="form-control text" type="text" name="q" value="{DATA_SEARCH.q}" placeholder="{LANG.searchPost}"/>
 					{LANG.filter_from}
-					<input class="blog-input text bl-col-time" value="{DATA_SEARCH.from}" type="text" id="from" name="from" readonly="readonly"/>
+					<input class="form-control text bl-col-time" value="{DATA_SEARCH.from}" type="text" id="from" name="from" readonly="readonly"/>
 					{LANG.filter_to}
-					<input class="blog-input text bl-col-time" value="{DATA_SEARCH.to}" type="text" id="to" name="to" readonly="readonly"/>
-					<select class="blog-input text" name="catid">
+					<input class="form-control text bl-col-time" value="{DATA_SEARCH.to}" type="text" id="to" name="to" readonly="readonly"/>
+					<select class="form-control text" name="catid">
 						<option value="0">{LANG.filter_all_cat}</option>
 						<!-- BEGIN: cat -->
 						<option value="{CAT.id}"{CAT.selected}>{CAT.name}</option>
 						<!-- END: cat -->
 					</select>
-					<select class="blog-input text" name="status">
+					<select class="form-control text" name="status">
 						<option value="10">{LANG.filter_all_status}</option>
 						<!-- BEGIN: status -->
 						<option value="{STATUS.key}"{STATUS.selected}>{STATUS.title}</option>
 						<!-- END: status -->
 					</select>
-					<input class="blog-button" type="button" name="do" value="{LANG.filter_action}"/>
-					<input class="blog-button" type="button" name="cancel" value="{LANG.filter_cancel}" onclick="window.location='{URL_CANCEL}';"{DATA_SEARCH.disabled}/>
-					<input class="blog-button" type="button" name="clear" value="{LANG.filter_clear}"/>
+					<input class="btn btn-primary" type="button" name="do" value="{LANG.filter_action}"/>
+					<input class="btn btn-primary" type="button" name="cancel" value="{LANG.filter_cancel}" onclick="window.location='{URL_CANCEL}';"{DATA_SEARCH.disabled}/>
+					<input class="btn btn-primary" type="button" name="clear" value="{LANG.filter_clear}"/>
 				</form>
 			</td>
 		</tr>
@@ -60,8 +60,8 @@ $(document).ready(function(){
 	});
 });
 </script>
-<form action="{FORM_ACTION}" method="post" name="levelnone" id="levelnone">
-	<table class="tab1">
+<form class="form-inline" action="{FORM_ACTION}" method="post" name="levelnone" id="levelnone">
+	<table class="table table-striped table-bordered table-hover">
 		<thead>
 			<tr>
 				<td class="center bl-col-id">
@@ -69,33 +69,33 @@ $(document).ready(function(){
 				</td>
 				<td class="bl-col-id">ID</td>
 				<td><a href="{DATA_ORDER.title.data.url}" title="{DATA_ORDER.title.data.title}" class="{DATA_ORDER.title.data.class}">{LANG.title}</a></td>
-				<td class="bl-col-number"><a href="{DATA_ORDER.postTime.data.url}" title="{DATA_ORDER.postTime.data.title}" class="{DATA_ORDER.postTime.data.class}">{LANG.blogpostTime}</a></td>
-				<td class="bl-col-number"><a href="{DATA_ORDER.updateTime.data.url}" title="{DATA_ORDER.updateTime.data.title}" class="{DATA_ORDER.updateTime.data.class}">{LANG.blogupdateTime}</a></td>
+				<td class="bl-col-number"><a href="{DATA_ORDER.posttime.data.url}" title="{DATA_ORDER.posttime.data.title}" class="{DATA_ORDER.posttime.data.class}">{LANG.blogposttime}</a></td>
+				<td class="bl-col-number"><a href="{DATA_ORDER.updatetime.data.url}" title="{DATA_ORDER.updatetime.data.title}" class="{DATA_ORDER.updatetime.data.class}">{LANG.blogupdatetime}</a></td>
 				<td class="bl-col-feature">{LANG.status1}</td>
 				<td class="bl-col-feature">{LANG.feature}</td>
 			</tr>
 		</thead>
+		<tbody>
 		<!-- BEGIN: row -->
-		<tbody{ROW.class}>
 			<tr class="topalign">
-				<td class="center">
+				<td class="text-center">
 					<input type="checkbox" onclick="nv_UncheckAll(this.form, 'idcheck[]', 'check_all[]', this.checked);" value="{ROW.id}" name="idcheck[]" />
 				</td>
-				<td class="center">{ROW.id}</td>
+				<td class="text-center">{ROW.id}</td>
 				<td>
 					<!-- BEGIN: titleLink --><a href="{ROW.link}" target="_blank">{ROW.title}</a><!-- END: titleLink -->
 					<!-- BEGIN: titleText -->{ROW.title}<!-- END: titleText -->
 				</td>
-				<td class="center"><strong>{ROW.postTime}</strong></td>
-				<td class="center"><strong>{ROW.updateTime}</strong></td>
-				<td class="center">{ROW.statusText}</td>
-				<td class="center">
+				<td class="text-center"><strong>{ROW.posttime}</strong></td>
+				<td class="text-center"><strong>{ROW.updatetime}</strong></td>
+				<td class="text-center">{ROW.statusText}</td>
+				<td class="text-center">
 					<span class="edit-icon"><a href="{ROW.urlEdit}">{GLANG.edit}</a></span>
 					<span class="delete-icon"><a href="javascript:void(0);" onclick="nv_delete_post({ROW.id});">{GLANG.delete}</a></span>
 				</td>
 			</tr>
-		</tbody>
 		<!-- END: row -->
+		</tbody>
 		<!-- BEGIN: generate_page -->
 		<tbody>
 			<tr>
@@ -103,8 +103,8 @@ $(document).ready(function(){
 					{GENERATE_PAGE}
 				</td>
 			</tr>
-		</tbody>
 		<!-- END: generate_page -->
+		<tbody>
 		<tfoot>
 			<tr>
 				<td colspan="8">

@@ -3,14 +3,14 @@
 	<!-- BEGIN: media -->
 	<div class="post-detail-media-data">
 		<!-- BEGIN: image -->
-		<img itemprop="image" class="media-image" src="{DATA.mediaValue}" alt="{DATA.title}"/>
+		<img itemprop="image" class="media-image" src="{DATA.mediavalue}" alt="{DATA.title}"/>
 		<!-- END: image -->
 		<!-- BEGIN: audio -->
 		<div id="media-audio-{DATA.id}"></div>
 		<script type="text/javascript">
 		jwplayer("media-audio-{DATA.id}").setup({
-			file: "{DATA.mediaValue}",
-			height: {DATA.mediaHeight},
+			file: "{DATA.mediavalue}",
+			height: {DATA.mediaheight},
 			image: "{DATA.images}",
 			width: '100%'
 		});		
@@ -20,8 +20,8 @@
 		<div id="media-video-{DATA.id}"></div>
 		<script type="text/javascript">
 		jwplayer("media-video-{DATA.id}").setup({
-			file: "{DATA.mediaValue}",
-			height: {DATA.mediaHeight},
+			file: "{DATA.mediavalue}",
+			height: {DATA.mediaheight},
 			image: "{DATA.images}",
 			width: '100%',
 			stretching: 'fill'
@@ -29,7 +29,7 @@
 		</script>
 		<!-- END: video -->
 		<!-- BEGIN: iframe -->
-		<iframe class="media-iframe" src="{DATA.mediaValue}" height="{DATA.mediaHeight}"></iframe>
+		<iframe class="media-iframe" src="{DATA.mediavalue}" height="{DATA.mediaheight}"></iframe>
 		<!-- END: iframe -->
 	</div>
 	<!-- END: media -->
@@ -86,9 +86,9 @@
 	<!-- END: tags -->
 	<div class="clearfix">
 		<div class="post-detail-meta">
-		    <span><i class="icon-user mi">&nbsp;</i> <!-- BEGIN: postName --><span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">{DATA.postName}</span></span><!-- END: postName --><!-- BEGIN: postGoogleID --><a href="https://plus.google.com/{DATA.postGoogleID}?rel=author" itemprop="author"><span itemprop="name">{DATA.postName}</span></a><!-- END: postGoogleID --> </span>
-		    <span><i class="icon-time mi">&nbsp;</i><span itemprop="datePublished" content="{DATA.pubTimeGoogle}">{DATA.pubTime} </span></span>
-		    <span><a href="#comment"><i class="icon-comments-alt mi">&nbsp;</i> {DATA.numComments} {LANG.blNumComments}</a> </span>
+		    <span><i class="icon-user mi">&nbsp;</i> <!-- BEGIN: postName --><span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">{DATA.postName}</span></span><!-- END: postName --><!-- BEGIN: postgoogleid --><a href="https://plus.google.com/{DATA.postgoogleid}?rel=author" itemprop="author"><span itemprop="name">{DATA.postName}</span></a><!-- END: postgoogleid --> </span>
+		    <span><i class="icon-time mi">&nbsp;</i><span itemprop="datePublished" content="{DATA.pubtimeGoogle}">{DATA.pubtime} </span></span>
+		    <span><a href="#comment"><i class="icon-comments-alt mi">&nbsp;</i> {DATA.numcomments} {LANG.blNumComments}</a> </span>
 		</div>
 		<div class="fr">
 			<div class="addthis_sharing_toolbox"></div>

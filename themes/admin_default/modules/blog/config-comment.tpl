@@ -1,7 +1,7 @@
 <!-- BEGIN: main -->
-<div class="infoalert">{LANG.cfgCommentNote}</div>
-<form method="post" action="{FORM_ACTION}">
-<table class="tab1">
+<div class="alert alert-warning">{LANG.cfgCommentNote}</div>
+<form class="form-inline" method="post" action="{FORM_ACTION}">
+<table class="table table-striped table-bordered table-hover">
 	<col class="bl-col-left-largest"/>
 	<tbody>
 		<tr>
@@ -10,25 +10,23 @@
 				<span class="require">ӿ</span>
 			</td>
 			<td>
-				<input type="text" class="blog-input" name="commentPerPage" value="{DATA.commentPerPage}"/>
+				<input type="text" class="form-control" name="commentPerPage" value="{DATA.commentPerPage}"/>
 			</td>
 		</tr>
-	</tbody>
-	<tbody class="second">
 		<tr>
 			<td>
 				<strong>{LANG.cfgCommentType}</strong>
 				<span class="require">ӿ</span>
 			</td>
 			<td>
-				<select name="commentType" class="blog-input">
+				<select name="commentType" class="form-control">
 					<!-- BEGIN: commentType --><option value="{COMMENTTYPE.key}"{COMMENTTYPE.selected}>{COMMENTTYPE.title}</option><!-- END: commentType -->
 				</select>
 			</td>
 		</tr>
 	</tbody>
 </table>
-<table class="tab1 comment-table" id="comment-facebook">
+<table class="table table-striped table-bordered table-hover comment-table" id="comment-facebook">
 	<col class="bl-col-left-largest"/>
 	<tbody>
 		<tr>
@@ -37,14 +35,14 @@
 				<span class="require">ӿ</span>
 			</td>
 			<td>
-				<select name="commentFacebookColorscheme" class="blog-input">
+				<select name="commentFacebookColorscheme" class="form-control">
 					<!-- BEGIN: commentFacebookColorscheme --><option value="{COMMENTFACEBOOKCOLORSCHEME.key}"{COMMENTFACEBOOKCOLORSCHEME.selected}>{COMMENTFACEBOOKCOLORSCHEME.title}</option><!-- END: commentFacebookColorscheme -->
 				</select>
 			</td>
 		</tr>
 	</tbody>
 </table>
-<table class="tab1 comment-table" id="comment-disqus">
+<table class="table table-striped table-bordered table-hover comment-table" id="comment-disqus">
 	<col class="bl-col-left-largest"/>
 	<tbody>
 		<tr>
@@ -52,23 +50,23 @@
 				<strong>{LANG.cfgcommentDisqusShortname}</strong>
 				<span class="require">ӿ</span>
 			</td>
-			<td><input type="text" class="blog-input bl-txt-h" name="commentDisqusShortname" value="{DATA.commentDisqusShortname}"/></td>
+			<td><input type="text" class="form-control bl-txt-h" name="commentDisqusShortname" value="{DATA.commentDisqusShortname}"/></td>
 		</tr>
 	</tbody>
 </table>
-<table class="tab1 comment-table" id="comment-sys">
+<table class="table table-striped table-bordered table-hover comment-table" id="comment-sys">
 	<tbody>
 		<tr>
 			<td>
-				<div class="infoerror">{LANG.isDevelop}</div>
+				<div class="alert alert-danger bl-inline-box">{LANG.isDevelop}</div>
 			</td>
 		</tr>
 	</tbody>
 </table>
-<table class="tab1">
+<table class="table table-striped table-bordered table-hover">
 	<tbody>
 		<tr>
-			<td class="center"><input class="blog-button" type="submit" name="submit" value="{LANG.save}"/></td>
+			<td class="text-center"><input class="btn btn-primary" type="submit" name="submit" value="{LANG.save}"/></td>
 		</tr>
 	</tbody>
 </table>

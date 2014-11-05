@@ -7,7 +7,7 @@
 <!-- BEGIN: main -->
 <ul class="all-tags clearfix">
 	<!-- BEGIN: loop -->
-	<li><a href="{ROW.link}">{ROW.title}</a> <span>({ROW.numPosts})</span></li>
+	<li><a href="{ROW.link}">{ROW.title}</a> <span>({ROW.numposts})</span></li>
 	<!-- END: loop -->
 </ul>
 <div class="notification-box notification-box-info">

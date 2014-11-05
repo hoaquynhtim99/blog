@@ -1,9 +1,10 @@
 <?php
 
 /**
- * @Project NUKEVIET BLOG 3.x
+ * @Project NUKEVIET BLOG 4.x
  * @Author PHAN TAN DUNG (phantandung92@gmail.com)
- * @Copyright (C) 2013 PHAN TAN DUNG. All rights reserved
+ * @Copyright (C) 2014 PHAN TAN DUNG. All rights reserved
+ * @License GNU/GPL version 2 or any later version
  * @Createdate Dec 11, 2013, 09:50:11 PM
  */
 
@@ -94,12 +95,12 @@ if( $op == 'main' )
 					die();
 				}
 				
-				$sql = "SELECT a.*, b.username AS `postName`, b.full_name FROM `" . $BL->table_prefix . "_rows` AS a LEFT JOIN `" . NV_USERS_GLOBALTABLE . "` AS b ON a.postid=b.userid WHERE a.status=1 AND a.alias=" . $db->dbescape( $array_op[0] );
-				$result = $db->sql_query( $sql );
+				$sql = "SELECT a.*, b.username AS postName, b.full_name FROM " . $BL->table_prefix . "_rows AS a LEFT JOIN " . NV_USERS_GLOBALTABLE . " AS b ON a.postid=b.userid WHERE a.status=1 AND a.alias=" . $db->quote( $array_op[0] );
+				$result = $db->query( $sql );
 				
-				if( $db->sql_numrows( $result ) )
+				if( $result->rowCount() )
 				{
-					$blog_data = $db->sql_fetch_assoc( $result );
+					$blog_data = $result->fetch();
 					$op = $blog_op = 'detail';
 					
 					// Chinh mot so thong tin
@@ -107,29 +108,29 @@ if( $op == 'main' )
 					$blog_data['catids'] = $BL->string2array( $blog_data['catids'] );
 					$blog_data['tagids'] = $BL->string2array( $blog_data['tagids'] );
 					
-					if( empty( $blog_data['siteTitle'] ) )
+					if( empty( $blog_data['sitetitle'] ) )
 					{
-						$blog_data['siteTitle'] = $blog_data['title'];
+						$blog_data['sitetitle'] = $blog_data['title'];
 					}
 					
 					$blog_data['bodyhtml'] = $blog_data['bodytext'];
 					$blog_data['postName'] = $blog_data['full_name'] ? $blog_data['full_name'] : $blog_data['postName'];
 					
 					// Xac dinh media
-					if( $blog_data['mediaType'] == 0 )
+					if( $blog_data['mediatype'] == 0 )
 					{
-						$blog_data['mediaValue'] = $blog_data['images'];
+						$blog_data['mediavalue'] = $blog_data['images'];
 					}
 					
-					if( ! empty( $blog_data['mediaValue'] ) )
+					if( ! empty( $blog_data['mediavalue'] ) )
 					{
-						if( is_file( NV_UPLOADS_REAL_DIR . '/' . $module_name . $blog_data['mediaValue'] ) )
+						if( is_file( NV_UPLOADS_REAL_DIR . '/' . $module_name . $blog_data['mediavalue'] ) )
 						{
-							$blog_data['mediaValue'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_name . $blog_data['mediaValue'];
+							$blog_data['mediavalue'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_name . $blog_data['mediavalue'];
 						}
-						elseif( ! nv_is_url( $blog_data['mediaValue'] ) )
+						elseif( ! nv_is_url( $blog_data['mediavalue'] ) )
 						{
-							$blog_data['mediaValue'] = '';
+							$blog_data['mediavalue'] = '';
 						}
 					}
 				
@@ -162,7 +163,7 @@ if( $op == 'main' )
 				    $array_mod_title[] = array(
 						'catid' => $blog_data['id'],
 						'title' => $blog_data['title'],
-						'link' => NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $blog_data['alias'],
+						'link' => NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $blog_data['alias'] . $global_config['rewrite_exturl'],
 					);
 				}
 				else
@@ -232,4 +233,9 @@ if( ! empty( $catid ) )
 // Loai bo cac bien tam
 unset( $_cat, $sub_menu, $act, $catid_i, $subcats, $defis, $catlev, $parentid, $result, $sql );
 
-?>
+// Chỉ có phần xem chi tiết bài viết mới có thể .html
+if( $op != 'detail' and preg_match( "/" . preg_quote( $global_config['rewrite_exturl'] ) . "$/", $_SERVER['REQUEST_URI'] ) )
+{
+	$redirect = '<meta http-equiv="Refresh" content="3;URL=' . nv_url_rewrite( NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name, true ) . '" />';
+	nv_info_die( $lang_global['error_404_title'], $lang_global['error_404_title'], $lang_global['error_404_content'] . $redirect );
+}

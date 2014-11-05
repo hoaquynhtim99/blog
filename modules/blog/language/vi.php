@@ -1,9 +1,10 @@
 <?php
 
 /**
- * @Project NUKEVIET BLOG 3.x
+ * @Project NUKEVIET BLOG 4.x
  * @Author PHAN TAN DUNG (phantandung92@gmail.com)
- * @Copyright (C) 2013 PHAN TAN DUNG. All rights reserved
+ * @Copyright (C) 2014 PHAN TAN DUNG. All rights reserved
+ * @License GNU/GPL version 2 or any later version
  * @Language Tiếng Việt
  * @Createdate Dec 11, 2013, 09:50:11 PM
  */
@@ -56,5 +57,3 @@ $lang_module['searchAbout'] = 'Bài viết về';
 $lang_module['searchAllCat'] = 'tất cả các danh mục';
 $lang_module['searchNoResult'] = 'Không có kết quả nào phù hợp với từ khóa &quot;%s&quot;';
 $lang_module['searchResultInfo'] = 'Tìm thấy <strong>%s</strong> kết quả phù hợp với từ khóa &quot;%s&quot;';
-
-?>

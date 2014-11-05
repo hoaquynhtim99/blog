@@ -11,8 +11,8 @@
 				{ROW.hometext}
 			</p>
 			<div class="meta">
-			    <span><i class="icon-time mi">&nbsp;</i>{ROW.pubTime} </span>
-			    <span><a href="{ROW.linkComment}"><i class="icon-comments-alt"></i> {ROW.numComments} {LANG.blNumComments}</a> </span>
+			    <span><i class="icon-time mi">&nbsp;</i>{ROW.pubtime} </span>
+			    <span><a href="{ROW.linkComment}"><i class="icon-comments-alt"></i> {ROW.numcomments} {LANG.blNumComments}</a> </span>
 			</div>
 			<a class="tbutton small readmore" href="{ROW.link}"><span> {LANG.blDetail} </span></a>
 		</div>

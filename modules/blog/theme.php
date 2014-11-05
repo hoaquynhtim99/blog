@@ -1,9 +1,10 @@
 <?php
 
 /**
- * @Project NUKEVIET BLOG 3.x
+ * @Project NUKEVIET BLOG 4.x
  * @Author PHAN TAN DUNG (phantandung92@gmail.com)
- * @Copyright (C) 2013 PHAN TAN DUNG. All rights reserved
+ * @Copyright (C) 2014 PHAN TAN DUNG. All rights reserved
+ * @License GNU/GPL version 2 or any later version
  * @Createdate Dec 11, 2013, 09:50:11 PM
  */
 
@@ -66,10 +67,10 @@ function nv_main_theme( $array, $generate_page, $cfg, $page, $total_pages, $BL )
 	
 	foreach( $array as $row )
 	{
-		$row['pubTime'] = str_replace( array( ' AM ', ' PM ' ), array( ' SA ', ' CH ' ), nv_date( 'g:i A d/m/Y', $row['pubTime'] ) );
-		$row['numComments'] = number_format( $row['numComments'], 0, ',', '.' );
+		$row['pubtime'] = str_replace( array( ' AM ', ' PM ' ), array( ' SA ', ' CH ' ), nv_date( 'g:i A d/m/Y', $row['pubtime'] ) );
+		$row['numcomments'] = number_format( $row['numcomments'], 0, ',', '.' );
 		$row['linkComment'] = nv_url_rewrite( $row['link'], true ) . '#comment';
-		$row['icon'] = empty( $BL->setting['iconClass' . $row['postType']] ) ? 'icon-pencil' : $BL->setting['iconClass' . $row['postType']];
+		$row['icon'] = empty( $BL->setting['iconClass' . $row['posttype']] ) ? 'icon-pencil' : $BL->setting['iconClass' . $row['posttype']];
 		
 		// Cat phan gioi thieu ngan gon
 		if( $BL->setting['strCutHomeText'] )
@@ -93,24 +94,24 @@ function nv_main_theme( $array, $generate_page, $cfg, $page, $total_pages, $BL )
 		$xtpl->assign( 'ROW', $row );
 		
 		// Chi xuat media neu nhu kieu hien thi la danh sach dang blog
-		if( ! empty( $row['mediaValue'] ) and $BL->setting['indexViewType'] == 'type_blog' )
+		if( ! empty( $row['mediavalue'] ) and $BL->setting['indexViewType'] == 'type_blog' )
 		{		
-			if( in_array( $row['mediaType'], array( 0, 1 ) ) )
+			if( in_array( $row['mediatype'], array( 0, 1 ) ) )
 			{
 				// Kieu hinh anh
 				$xtpl->parse( 'main.loop.media.image' );
 			}
-			elseif( $row['mediaType'] == 2 )
+			elseif( $row['mediatype'] == 2 )
 			{
 				// Kieu am thanh
 				$xtpl->parse( 'main.loop.media.audio' );
 			}
-			elseif( $row['mediaType'] == 3 )
+			elseif( $row['mediatype'] == 3 )
 			{
 				// Kieu video
 				$xtpl->parse( 'main.loop.media.video' );
 			}
-			elseif( $row['mediaType'] == 4 )
+			elseif( $row['mediatype'] == 4 )
 			{
 				// Kieu iframe
 				$xtpl->parse( 'main.loop.media.iframe' );
@@ -120,7 +121,7 @@ function nv_main_theme( $array, $generate_page, $cfg, $page, $total_pages, $BL )
 		}
 		
 		// Xuất html, text
-		if( ! empty( $row['fullPage'] ) )
+		if( ! empty( $row['fullpage'] ) )
 		{
 			$call_highlight = true;
 			
@@ -195,10 +196,10 @@ function nv_viewcat_theme( $array, $generate_page, $cfg, $page, $total_pages, $B
 	
 	foreach( $array as $row )
 	{
-		$row['pubTime'] = str_replace( array( ' AM ', ' PM ' ), array( ' SA ', ' CH ' ), nv_date( 'g:i A d/m/Y', $row['pubTime'] ) );
-		$row['numComments'] = number_format( $row['numComments'], 0, ',', '.' );
+		$row['pubtime'] = str_replace( array( ' AM ', ' PM ' ), array( ' SA ', ' CH ' ), nv_date( 'g:i A d/m/Y', $row['pubtime'] ) );
+		$row['numcomments'] = number_format( $row['numcomments'], 0, ',', '.' );
 		$row['linkComment'] = nv_url_rewrite( $row['link'], true ) . '#comment';
-		$row['icon'] = empty( $BL->setting['iconClass' . $row['postType']] ) ? 'icon-pencil' : $BL->setting['iconClass' . $row['postType']];
+		$row['icon'] = empty( $BL->setting['iconClass' . $row['posttype']] ) ? 'icon-pencil' : $BL->setting['iconClass' . $row['posttype']];
 		
 		// Cat phan gioi thieu ngan gon
 		if( $BL->setting['strCutHomeText'] )
@@ -222,24 +223,24 @@ function nv_viewcat_theme( $array, $generate_page, $cfg, $page, $total_pages, $B
 		$xtpl->assign( 'ROW', $row );
 		
 		// Chi xuat media neu nhu kieu hien thi la danh sach dang blog
-		if( ! empty( $row['mediaValue'] ) and $BL->setting['indexViewType'] == 'type_blog' )
+		if( ! empty( $row['mediavalue'] ) and $BL->setting['indexViewType'] == 'type_blog' )
 		{		
-			if( in_array( $row['mediaType'], array( 0, 1 ) ) )
+			if( in_array( $row['mediatype'], array( 0, 1 ) ) )
 			{
 				// Kieu hinh anh
 				$xtpl->parse( 'main.loop.media.image' );
 			}
-			elseif( $row['mediaType'] == 2 )
+			elseif( $row['mediatype'] == 2 )
 			{
 				// Kieu am thanh
 				$xtpl->parse( 'main.loop.media.audio' );
 			}
-			elseif( $row['mediaType'] == 3 )
+			elseif( $row['mediatype'] == 3 )
 			{
 				// Kieu video
 				$xtpl->parse( 'main.loop.media.video' );
 			}
-			elseif( $row['mediaType'] == 4 )
+			elseif( $row['mediatype'] == 4 )
 			{
 				// Kieu iframe
 				$xtpl->parse( 'main.loop.media.iframe' );
@@ -249,7 +250,7 @@ function nv_viewcat_theme( $array, $generate_page, $cfg, $page, $total_pages, $B
 		}
 		
 		// Xuất html, text
-		if( ! empty( $row['fullPage'] ) )
+		if( ! empty( $row['fullpage'] ) )
 		{
 			$call_highlight = true;
 			
@@ -318,10 +319,10 @@ function nv_detail_theme( $blog_data, $BL )
 	$xtpl->assign( 'LANG', $lang_module );
 	$xtpl->assign( 'GLANG', $lang_global );
 
-	$blog_data['pubTimeGoogle'] = nv_date( 'Y-m-d', $blog_data['pubTime'] );
-	$blog_data['pubTime'] = str_replace( array( ' AM ', ' PM ' ), array( ' SA ', ' CH ' ), nv_date( 'g:i A d/m/Y', $blog_data['pubTime'] ) );
-	$blog_data['numComments'] = number_format( $blog_data['numComments'], 0, ',', '.' );
-	$blog_data['icon'] = empty( $BL->setting['iconClass' . $blog_data['postType']] ) ? 'icon-pencil' : $BL->setting['iconClass' . $blog_data['postType']];
+	$blog_data['pubtimeGoogle'] = nv_date( 'Y-m-d', $blog_data['pubtime'] );
+	$blog_data['pubtime'] = str_replace( array( ' AM ', ' PM ' ), array( ' SA ', ' CH ' ), nv_date( 'g:i A d/m/Y', $blog_data['pubtime'] ) );
+	$blog_data['numcomments'] = number_format( $blog_data['numcomments'], 0, ',', '.' );
+	$blog_data['icon'] = empty( $BL->setting['iconClass' . $blog_data['posttype']] ) ? 'icon-pencil' : $BL->setting['iconClass' . $blog_data['posttype']];
 	$blog_data['postName'] = $blog_data['postName'] ? $blog_data['postName'] : 'N/A';
 
 	$xtpl->assign( 'DATA', $blog_data );
@@ -331,24 +332,24 @@ function nv_detail_theme( $blog_data, $BL )
 	$BL->callFrameWorks( 'highlight' );
 	
 	// Xuất media - ảnh minh họa
-	if( ! empty( $blog_data['mediaValue'] ) )
+	if( ! empty( $blog_data['mediavalue'] ) )
 	{		
-		if( in_array( $blog_data['mediaType'], array( 0, 1 ) ) )
+		if( in_array( $blog_data['mediatype'], array( 0, 1 ) ) )
 		{
 			// Kieu hinh anh
 			$xtpl->parse( 'main.media.image' );
 		}
-		elseif( $blog_data['mediaType'] == 2 )
+		elseif( $blog_data['mediatype'] == 2 )
 		{
 			// Kieu am thanh
 			$xtpl->parse( 'main.media.audio' );
 		}
-		elseif( $blog_data['mediaType'] == 3 )
+		elseif( $blog_data['mediatype'] == 3 )
 		{
 			// Kieu video
 			$xtpl->parse( 'main.media.video' );
 		}
-		elseif( $blog_data['mediaType'] == 4 )
+		elseif( $blog_data['mediatype'] == 4 )
 		{
 			// Kieu iframe
 			$xtpl->parse( 'main.media.iframe' );
@@ -388,9 +389,9 @@ function nv_detail_theme( $blog_data, $BL )
 	}
 	
 	// Xuất google authorship
-	if( ! empty( $blog_data['postGoogleID'] ) )
+	if( ! empty( $blog_data['postgoogleid'] ) )
 	{
-		$xtpl->parse( 'main.postGoogleID' );
+		$xtpl->parse( 'main.postgoogleid' );
 	}
 	else
 	{
@@ -508,10 +509,10 @@ function nv_detail_tags_theme( $array, $generate_page, $cfg, $page, $total_pages
 	
 	foreach( $array as $row )
 	{
-		$row['pubTime'] = str_replace( array( ' AM ', ' PM ' ), array( ' SA ', ' CH ' ), nv_date( 'g:i A d/m/Y', $row['pubTime'] ) );
-		$row['numComments'] = number_format( $row['numComments'], 0, ',', '.' );
+		$row['pubtime'] = str_replace( array( ' AM ', ' PM ' ), array( ' SA ', ' CH ' ), nv_date( 'g:i A d/m/Y', $row['pubtime'] ) );
+		$row['numcomments'] = number_format( $row['numcomments'], 0, ',', '.' );
 		$row['linkComment'] = nv_url_rewrite( $row['link'], true ) . '#comment';
-		$row['icon'] = empty( $BL->setting['iconClass' . $row['postType']] ) ? 'icon-pencil' : $BL->setting['iconClass' . $row['postType']];
+		$row['icon'] = empty( $BL->setting['iconClass' . $row['posttype']] ) ? 'icon-pencil' : $BL->setting['iconClass' . $row['posttype']];
 		
 		// Cat phan gioi thieu ngan gon
 		if( $BL->setting['strCutHomeText'] )
@@ -535,24 +536,24 @@ function nv_detail_tags_theme( $array, $generate_page, $cfg, $page, $total_pages
 		$xtpl->assign( 'ROW', $row );
 		
 		// Chi xuat media neu nhu kieu hien thi la danh sach dang blog
-		if( ! empty( $row['mediaValue'] ) and $BL->setting['indexViewType'] == 'type_blog' )
+		if( ! empty( $row['mediavalue'] ) and $BL->setting['indexViewType'] == 'type_blog' )
 		{		
-			if( in_array( $row['mediaType'], array( 0, 1 ) ) )
+			if( in_array( $row['mediatype'], array( 0, 1 ) ) )
 			{
 				// Kieu hinh anh
 				$xtpl->parse( 'main.loop.media.image' );
 			}
-			elseif( $row['mediaType'] == 2 )
+			elseif( $row['mediatype'] == 2 )
 			{
 				// Kieu am thanh
 				$xtpl->parse( 'main.loop.media.audio' );
 			}
-			elseif( $row['mediaType'] == 3 )
+			elseif( $row['mediatype'] == 3 )
 			{
 				// Kieu video
 				$xtpl->parse( 'main.loop.media.video' );
 			}
-			elseif( $row['mediaType'] == 4 )
+			elseif( $row['mediatype'] == 4 )
 			{
 				// Kieu iframe
 				$xtpl->parse( 'main.loop.media.iframe' );
@@ -562,7 +563,7 @@ function nv_detail_tags_theme( $array, $generate_page, $cfg, $page, $total_pages
 		}
 		
 		// Xuất html, text
-		if( ! empty( $row['fullPage'] ) )
+		if( ! empty( $row['fullpage'] ) )
 		{
 			$call_highlight = true;
 			
@@ -617,11 +618,12 @@ function nv_message_theme( $message, $lev = 0 )
  * @param mixed $array
  * @param mixed $page
  * @param mixed $total_pages
+ * @param mixed $all_page
  * @param mixed $generate_page
  * @param mixed $BL
  * @return
  */
-function nv_search_theme( $array, $page, $total_pages, $generate_page, $BL )
+function nv_search_theme( $array, $page, $total_pages, $all_page, $generate_page, $BL )
 {
 	global $lang_global, $lang_module, $module_file, $module_info;
 	
@@ -637,7 +639,7 @@ function nv_search_theme( $array, $page, $total_pages, $generate_page, $BL )
 	
 	if( ! empty( $array['contents'] ) )
 	{
-		$xtpl->assign( 'RESULT_INFO', sprintf( $BL->lang('searchResultInfo'), $total_pages, $array['q'] ) );
+		$xtpl->assign( 'RESULT_INFO', sprintf( $BL->lang('searchResultInfo'), $all_page, $array['q'] ) );
 		$xtpl->assign( 'PAGE_TOTAL', $total_pages );
 		$xtpl->assign( 'PAGE_CURRENT', $page );
 		
@@ -645,10 +647,10 @@ function nv_search_theme( $array, $page, $total_pages, $generate_page, $BL )
 		{
 			$row['title'] = $BL->BoldKeywordInStr( $row['title'], $array['q'] );
 			$row['hometext'] = $BL->BoldKeywordInStr( $row['hometext'], $array['q'] );
-			$row['pubTime'] = str_replace( array( ' AM ', ' PM ' ), array( ' SA ', ' CH ' ), nv_date( 'g:i A d/m/Y', $row['pubTime'] ) );
-			$row['numComments'] = number_format( $row['numComments'], 0, ',', '.' );
+			$row['pubtime'] = str_replace( array( ' AM ', ' PM ' ), array( ' SA ', ' CH ' ), nv_date( 'g:i A d/m/Y', $row['pubtime'] ) );
+			$row['numcomments'] = number_format( $row['numcomments'], 0, ',', '.' );
 			$row['linkComment'] = nv_url_rewrite( $row['link'], true ) . '#comment';
-			$row['icon'] = empty( $BL->setting['iconClass' . $row['postType']] ) ? 'icon-pencil' : $BL->setting['iconClass' . $row['postType']];
+			$row['icon'] = empty( $BL->setting['iconClass' . $row['posttype']] ) ? 'icon-pencil' : $BL->setting['iconClass' . $row['posttype']];
 			
 			$xtpl->assign( 'ROW', $row );
 			$xtpl->parse( 'main.result.loop' );
@@ -666,5 +668,3 @@ function nv_search_theme( $array, $page, $total_pages, $generate_page, $BL )
 	$xtpl->parse( 'main' );
 	return $xtpl->text( 'main' );
 }
-
-?>

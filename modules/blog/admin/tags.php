@@ -1,9 +1,10 @@
 <?php
 
 /**
- * @Project NUKEVIET BLOG 3.x
+ * @Project NUKEVIET BLOG 4.x
  * @Author PHAN TAN DUNG (phantandung92@gmail.com)
- * @Copyright (C) 2013 PHAN TAN DUNG. All rights reserved
+ * @Copyright (C) 2014 PHAN TAN DUNG. All rights reserved
+ * @License GNU/GPL version 2 or any later version
  * @Createdate Dec 11, 2013, 09:50:11 PM
  */
 
@@ -13,14 +14,14 @@ if( ! defined( 'NV_BLOG_ADMIN' ) ) die( 'Stop!!!' );
 if( $nv_Request->isset_request( 'ajaxTags', 'post' ) )
 {
 	$contents = array();
-	$q = filter_text_input( "ajaxTags", "post", "", 1, 255 );
+	$q = nv_substr( $nv_Request->get_title( "ajaxTags", "post", "", 1 ), 0, 255 );
 	
 	if( ! empty( $q ) )
 	{
-		$sql = "SELECT * FROM `" . $BL->table_prefix . "_tags` WHERE `title` LIKE '%" . $db->dblikeescape( $q ) . "%' ORDER BY `title` ASC LIMIT 0, 20";
-		$result = $db->sql_query( $sql );
+		$sql = "SELECT * FROM " . $BL->table_prefix . "_tags WHERE title LIKE '%" . $db->dblikeescape( $q ) . "%' ORDER BY title ASC LIMIT 0, 20";
+		$result = $db->query( $sql );
 		
-		while( $row = $db->sql_fetchrow( $result ) )
+		while( $row = $result->fetch() )
 		{
 			$contents[] = array(
 				"value" => $row['id'],
@@ -29,9 +30,9 @@ if( $nv_Request->isset_request( 'ajaxTags', 'post' ) )
 		}
 	}
 
-	include ( NV_ROOTDIR . "/includes/header.php" );
+	include NV_ROOTDIR . '/includes/header.php';
 	echo json_encode( $contents );
-	include ( NV_ROOTDIR . "/includes/footer.php" );
+	include NV_ROOTDIR . '/includes/footer.php';
 	die();
 }
 
@@ -43,25 +44,25 @@ if( $nv_Request->isset_request( 'searchTags', 'post' ) )
 		"title" => ""
 	);
 	
-	$tags = filter_text_input( "searchTags", "post", "", 1, 255 );
+	$tags = nv_substr( $nv_Request->get_title( "searchTags", "post", "", 1 ), 0, 255 );
 	
 	if( ! empty( $tags ) )
 	{
-		$sql = "SELECT * FROM `" . $BL->table_prefix . "_tags` WHERE `title`=" . $db->dbescape( $tags ) . " LIMIT 0,1";
-		$result = $db->sql_query( $sql );
+		$sql = "SELECT * FROM " . $BL->table_prefix . "_tags WHERE title=" . $db->quote( $tags ) . " LIMIT 0,1";
+		$result = $db->query( $sql );
 		
-		if( $db->sql_numrows( $result ) )
+		if( $result->rowCount() )
 		{
-			$row = $db->sql_fetch_assoc( $result );
+			$row = $result->fetch();
 			
 			$contents['id'] = $row['id'];
 			$contents['title'] = $row['title'];
 		}
 	}
 	
-	include ( NV_ROOTDIR . "/includes/header.php" );
+	include NV_ROOTDIR . '/includes/header.php';
 	echo json_encode( $contents );
-	include ( NV_ROOTDIR . "/includes/footer.php" );
+	include NV_ROOTDIR . '/includes/footer.php';
 	die();
 }
 
@@ -71,9 +72,9 @@ if( $nv_Request->isset_request( 'del', 'post' ) )
 	if( ! defined( 'NV_IS_AJAX' ) ) die( 'Wrong URL' );
 	
 	$id = $nv_Request->get_int( 'id', 'post', 0 );
-	$list_levelid = filter_text_input( 'listid', 'post', '' );
+	$list_levelid = $nv_Request->get_title( 'listid', 'post', '' );
 	
-	if( empty( $id ) and empty( $list_levelid ) ) die( "NO" );
+	if( empty( $id ) and empty( $list_levelid ) ) die( 'NO' );
 	
 	$listid = array();
 	if( $id )
@@ -93,14 +94,14 @@ if( $nv_Request->isset_request( 'del', 'post' ) )
 	
 	foreach( $listid as $id )
 	{
-		$sql = "DELETE FROM `" . $BL->table_prefix . "_tags` WHERE `id`=" . $id;
-		$db->sql_query( $sql );
+		$sql = "DELETE FROM " . $BL->table_prefix . "_tags WHERE id=" . $id;
+		$db->query( $sql );
 	}	
 	
 	nv_del_moduleCache( $module_name );
 	nv_insert_logs( NV_LANG_DATA, $module_name, $BL->lang('tagsDelete'), implode( ", ", $listid ), $admin_info['userid'] );
 	
-	die( "OK" );
+	die( 'OK' );
 }
 
 $page_title = $BL->lang('tagsMg');
@@ -115,11 +116,11 @@ $error = "";
 
 if( $id )
 {
-	$sql = "SELECT `title`, `alias`, `keywords`, `description` FROM `" . $BL->table_prefix . "_tags` WHERE `id`=" . $id;
-	$result = $db->sql_query( $sql );
-	if( $db->sql_numrows( $result ) != 1 ) nv_info_die( $BL->glang('error_404_title'), $BL->glang('error_404_title'), $BL->glang('error_404_content') );
+	$sql = "SELECT title, alias, keywords, description FROM " . $BL->table_prefix . "_tags WHERE id=" . $id;
+	$result = $db->query( $sql );
+	if( $result->rowCount() != 1 ) nv_info_die( $BL->glang('error_404_title'), $BL->glang('error_404_title'), $BL->glang('error_404_content') );
 	
-	$row = $db->sql_fetch_assoc( $result );
+	$row = $result->fetch();
 	$data = $row;
 }
 else
@@ -137,10 +138,10 @@ $quickCreat = $nv_Request->get_int( "quick", 'post', 0 );
 
 if( $nv_Request->isset_request( "submit", "post" ) )
 {
-	$data['title'] = filter_text_input( 'title', 'post', '', 1, 255 );
-	$data['alias'] = filter_text_input( 'alias', 'post', '', 1, 255 );
-	$data['keywords'] = filter_text_input( 'keywords', 'post', '', 1, 255 );
-	$data['description'] = filter_text_input( 'description', 'post', '', 1, 255 );
+	$data['title'] = nv_substr( $nv_Request->get_title( 'title', 'post', '', 1 ), 0, 255 );
+	$data['alias'] = nv_substr( $nv_Request->get_title( 'alias', 'post', '', 1 ), 0, 255 );
+	$data['keywords'] = nv_substr( $nv_Request->get_title( 'keywords', 'post', '', 1 ), 0, 255 );
+	$data['description'] = nv_substr( $nv_Request->get_title( 'description', 'post', '', 1 ), 0, 255 );
 	
 	// Tao lien ket tinh + chuan hoa lien ket tin
 	if( empty( $data['alias'] ) )
@@ -182,16 +183,16 @@ if( $nv_Request->isset_request( "submit", "post" ) )
 	{
 		if( empty( $id ) )
 		{
-			$sql = "INSERT INTO `" . $BL->table_prefix . "_tags` VALUES (
+			$sql = "INSERT INTO " . $BL->table_prefix . "_tags VALUES (
 				NULL, 
-				" . $db->dbescape( $data['title'] ) . ", 
-				" . $db->dbescape( $data['alias'] ) . ", 
-				" . $db->dbescape( $data['keywords'] ) . ", 
-				" . $db->dbescape( $data['description'] ) . ", 
+				" . $db->quote( $data['title'] ) . ", 
+				" . $db->quote( $data['alias'] ) . ", 
+				" . $db->quote( $data['keywords'] ) . ", 
+				" . $db->quote( $data['description'] ) . ", 
 				0
 			)";
 			
-			$newid = $db->sql_query_insert_id( $sql );
+			$newid = $db->insert_id( $sql );
 			
 			if( $newid )
 			{
@@ -208,13 +209,13 @@ if( $nv_Request->isset_request( "submit", "post" ) )
 						"message" => "",
 					);
 				
-					include ( NV_ROOTDIR . "/includes/header.php" );
+					include NV_ROOTDIR . '/includes/header.php';
 					echo json_encode( $contents );
-					include ( NV_ROOTDIR . "/includes/footer.php" );
+					include NV_ROOTDIR . '/includes/footer.php';
 					die();
 				}
 				
-				Header( "Location: " . NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . "&" . NV_OP_VARIABLE . "=tags" );
+				Header( "Location: " . NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . "&" . NV_OP_VARIABLE . "=tags" );
 				exit();
 			}
 			else
@@ -224,21 +225,21 @@ if( $nv_Request->isset_request( "submit", "post" ) )
 		}
 		elseif( empty( $quickCreat ) )
 		{
-			$sql = "UPDATE `" . $BL->table_prefix . "_tags` SET 
-				`title`=" . $db->dbescape( $data['title'] ) . ", 
-				`alias`=" . $db->dbescape( $data['alias'] ) . ", 
-				`keywords`=" . $db->dbescape( $data['keywords'] ) . ", 
-				`description`=" . $db->dbescape( $data['description'] ) . "
-			WHERE `id`=" . $id;
+			$sql = "UPDATE " . $BL->table_prefix . "_tags SET 
+				title=" . $db->quote( $data['title'] ) . ", 
+				alias=" . $db->quote( $data['alias'] ) . ", 
+				keywords=" . $db->quote( $data['keywords'] ) . ", 
+				description=" . $db->quote( $data['description'] ) . "
+			WHERE id=" . $id;
 			
-			if( $db->sql_query( $sql ) )
+			if( $db->query( $sql ) )
 			{
 				$BL->fixTags( $id );
 				
 				nv_insert_logs( NV_LANG_DATA, $module_name, $BL->lang('tagsEditLog'), $row['title'], $admin_info['userid'] );
 				nv_del_moduleCache( $module_name );
 				
-				Header( "Location: " . NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . "&" . NV_OP_VARIABLE . "=tags" );
+				Header( "Location: " . NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . "&" . NV_OP_VARIABLE . "=tags" );
 				exit();
 			}
 			else
@@ -257,9 +258,9 @@ if( $quickCreat and ! empty( $error ) )
 		"message" => $error,
 	);
 
-	include ( NV_ROOTDIR . "/includes/header.php" );
+	include NV_ROOTDIR . '/includes/header.php';
 	echo json_encode( $contents );
-	include ( NV_ROOTDIR . "/includes/footer.php" );
+	include NV_ROOTDIR . '/includes/footer.php';
 	die();
 }
 
@@ -268,16 +269,16 @@ $xtpl->assign( 'TABLE_CONTENT_CAPTION', ! $id ? $BL->lang('tagsAdd') : sprintf( 
 $xtpl->assign( 'DATA', $data );
 
 // Phan trang
-$page = $nv_Request->get_int( 'page', 'get', 0 );
+$page = $nv_Request->get_int( 'page', 'get', 1 );
 $per_page = 60;
 
 // Base data
-$sql = "FROM `" . $BL->table_prefix . "_tags` WHERE `id`!=0";
-$base_url = NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $op;
+$sql = "FROM " . $BL->table_prefix . "_tags WHERE id!=0";
+$base_url = NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $op;
 
 // Du lieu tim kiem
 $data_search = array(
-	"q" => filter_text_input( 'q', 'get', '', 1, 100 ),
+	"q" => nv_substr( $nv_Request->get_title( 'q', 'get', '', 1 ), 0, 100),
 	"noComplete" => $nv_Request->get_int( 'noComplete', 'get', 0 ),
 	"disabled" => " disabled=\"disabled\""
 );
@@ -292,12 +293,12 @@ if( ! empty( $data_search['q'] ) or ! empty( $data_search['noComplete'] ) )
 if( ! empty( $data_search['q'] ) )
 {
 	$base_url .= "&amp;q=" . urlencode( $data_search['q'] );
-	$sql .= " AND `title` LIKE '%" . $db->dblikeescape( $data_search['q'] ) . "%'";
+	$sql .= " AND title LIKE '%" . $db->dblikeescape( $data_search['q'] ) . "%'";
 }
 if( ! empty( $data_search['noComplete'] ) )
 {
 	$base_url .= "&amp;noComplete=1";
-	$sql .= " AND ( `keywords`='' OR `description`='' )";
+	$sql .= " AND ( keywords='' OR description='' )";
 }
 
 // Du lieu sap xep
@@ -315,11 +316,11 @@ $lang_order_1 = array(
 );
 $lang_order_2 = array(
 	"title" => $BL->lang('title'),
-	"numPosts" => $BL->lang('numPosts'),
+	"numposts" => $BL->lang('numposts'),
 );
 
-$order['title']['order'] = filter_text_input( 'order_title', 'get', 'NO' );
-$order['numPosts']['order'] = filter_text_input( 'order_numPosts', 'get', 'NO' );
+$order['title']['order'] = $nv_Request->get_title( 'order_title', 'get', 'NO' );
+$order['numposts']['order'] = $nv_Request->get_title( 'order_numposts', 'get', 'NO' );
 
 foreach ( $order as $key => $check )
 {
@@ -341,29 +342,29 @@ foreach ( $order as $key => $check )
 
 if( $order['title']['order'] != "NO" )
 {
-	$sql .= " ORDER BY `title` " . $order['title']['order'];
+	$sql .= " ORDER BY title " . $order['title']['order'];
 }
-elseif( $order['numPosts']['order'] != "NO" )
+elseif( $order['numposts']['order'] != "NO" )
 {
-	$sql .= " ORDER BY `numPosts` " . $order['numPosts']['order'];
+	$sql .= " ORDER BY numposts " . $order['numposts']['order'];
 }
 else
 {
-	$sql .= " ORDER BY `id` DESC";
+	$sql .= " ORDER BY id DESC";
 }
 
 // Lay so row
 $sql1 = "SELECT COUNT(*) " . $sql;
-$result1 = $db->sql_query( $sql1 );
-list( $all_page ) = $db->sql_fetchrow( $result1 );
+$result1 = $db->query( $sql1 );
+$all_page = $result1->fetchColumn();
 
 // Xay dung du lieu
 $i = 1;
-$sql = "SELECT * " . $sql . " LIMIT " . $page . ", " . $per_page;
-$result = $db->sql_query( $sql );
+$sql = "SELECT * " . $sql . " LIMIT " . ( ( $page - 1 ) * $per_page ) . ", " . $per_page;
+$result = $db->query( $sql );
 
 // Xuat tags
-while( $row = $db->sql_fetch_assoc( $result ) )
+while( $row = $result->fetch() )
 {
 	$row['urlEdit'] = $base_url . "&amp;page=" . $page . "&amp;id=" . $row['id'] . "#edit";
 	$row['class'] = ( $i ++ % 2 == 0 ) ? " class=\"second\"" : "";
@@ -396,7 +397,7 @@ $xtpl->assign( 'MODULE_NAME', $module_name );
 $xtpl->assign( 'OP', $op );
 $xtpl->assign( 'DATA_SEARCH', $data_search );
 $xtpl->assign( 'DATA_ORDER', $order );
-$xtpl->assign( 'URL_CANCEL', NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name  . "&" . NV_OP_VARIABLE . "=" . $op );
+$xtpl->assign( 'URL_CANCEL', NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name  . "&" . NV_OP_VARIABLE . "=" . $op );
 
 // Phan trang
 $generate_page = nv_generate_page( $base_url, $all_page, $per_page, $page );
@@ -417,8 +418,6 @@ if( ! empty( $error ) )
 $xtpl->parse( 'main' );
 $contents = $xtpl->text( 'main' );
 
-include ( NV_ROOTDIR . "/includes/header.php" );
+include NV_ROOTDIR . '/includes/header.php';
 echo nv_admin_theme( $contents );
-include ( NV_ROOTDIR . "/includes/footer.php" );
-
-?>
+include NV_ROOTDIR . '/includes/footer.php';

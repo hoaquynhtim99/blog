@@ -1,9 +1,10 @@
 <?php
 
 /**
- * @Project NUKEVIET BLOG 3.x
+ * @Project NUKEVIET BLOG 4.x
  * @Author PHAN TAN DUNG (phantandung92@gmail.com)
- * @Copyright (C) 2013 PHAN TAN DUNG. All rights reserved
+ * @Copyright (C) 2014 PHAN TAN DUNG. All rights reserved
+ * @License GNU/GPL version 2 or any later version
  * @Createdate Dec 11, 2013, 09:50:11 PM
  */
 
@@ -62,8 +63,8 @@ $sql_create_module[] = "CREATE TABLE `" . $db_config['prefix'] . "_" . $lang . "
   `alias` varchar(255) NOT NULL DEFAULT '',
   `keywords` varchar(255) NOT NULL DEFAULT '' COMMENT 'Từ khóa cho máy chủ tìm kiếm',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT 'Mô tả cho máy chủ tìm kiếm',
-  `numSubs` smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT 'Số danh mục con',
-  `numPosts` smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT 'Số bài viết',
+  `numsubs` smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT 'Số danh mục con',
+  `numposts` smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT 'Số bài viết',
   `weight` smallint(4) unsigned NOT NULL DEFAULT '0',
   `status` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '0: Vô hiệu, 1: Hiệu lực',
   PRIMARY KEY (`id`),
@@ -74,12 +75,12 @@ $sql_create_module[] = "CREATE TABLE `" . $db_config['prefix'] . "_" . $lang . "
 $sql_create_module[] = "CREATE TABLE `" . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_newsletters` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `email` varchar(255) NOT NULL DEFAULT '' COMMENT 'Email đăng ký',
-  `regIP` varchar(20) NOT NULL DEFAULT '' COMMENT 'IP đã đăng ký',
-  `regTime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Thời gian đăng ký',
-  `confirmTime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Thời gian xác nhận',
-  `lastSendTime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Lần gửi cuối',
-  `tokenKey` varchar(255) NOT NULL DEFAULT '' COMMENT 'Khóa xác nhận',
-  `numEmail` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Số email đã gửi',
+  `regip` varchar(20) NOT NULL DEFAULT '' COMMENT 'IP đã đăng ký',
+  `regtime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Thời gian đăng ký',
+  `confirmtime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Thời gian xác nhận',
+  `lastsendtime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Lần gửi cuối',
+  `tokenkey` varchar(255) NOT NULL DEFAULT '' COMMENT 'Khóa xác nhận',
+  `numemail` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Số email đã gửi',
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '-1: Chưa xác nhận, 0: Vô hiệu, 1: Hiệu lực',
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)  
@@ -89,13 +90,13 @@ $sql_create_module[] = "CREATE TABLE `" . $db_config['prefix'] . "_" . $lang . "
 $sql_create_module[] = "CREATE TABLE `" . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_send` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `pid` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'ID bài viết',
-  `startTime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Thời gian bắt đầu gửi',
-  `endTime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Thời gian kết thúc gửi',
+  `starttime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Thời gian bắt đầu gửi',
+  `endtime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Thời gian kết thúc gửi',
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0: Chờ gửi, 1: Đang gửi, 2: Đã gửi',
   `round` smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT 'Gửi lần mấy 1, 2, 3, 4...',
-  `lastID` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'ID email đăng ký nhận tin lần cuối cùng gửi',
-  `resendData` mediumtext NOT NULL COMMENT 'Danh sách ID đăng ký nhận tin chờ gửi lại',
-  `errorData` mediumtext NOT NULL COMMENT 'Danh sách ID đăng ký nhận tin gửi bị lỗi cho đến thời điểm hiện tại',
+  `lastid` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'ID email đăng ký nhận tin lần cuối cùng gửi',
+  `resenddata` mediumtext NOT NULL COMMENT 'Danh sách ID đăng ký nhận tin chờ gửi lại',
+  `errordata` mediumtext NOT NULL COMMENT 'Danh sách ID đăng ký nhận tin gửi bị lỗi cho đến thời điểm hiện tại',
   PRIMARY KEY (`id`),
   KEY `pid` (`pid`)  
 )ENGINE=MyISAM";
@@ -107,7 +108,7 @@ $sql_create_module[] = "CREATE TABLE `" . $db_config['prefix'] . "_" . $lang . "
   `alias` varchar(255) NOT NULL DEFAULT '',
   `keywords` varchar(255) NOT NULL DEFAULT '' COMMENT 'Từ khóa cho máy chủ tìm kiếm',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT 'Mô tả cho máy chủ tìm kiếm',
-  `numPosts` smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT 'Số bài viết',
+  `numposts` smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT 'Số bài viết',
   PRIMARY KEY (`id`),
   UNIQUE KEY `alias` (`alias`)
 )ENGINE=MyISAM";
@@ -116,33 +117,33 @@ $sql_create_module[] = "CREATE TABLE `" . $db_config['prefix'] . "_" . $lang . "
 $sql_create_module[] = "CREATE TABLE `" . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_rows` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID bài viết',
   `postid` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Người đăng',
-  `postGoogleID` varchar(30) NOT NULL DEFAULT '' COMMENT 'Google Author',
-  `siteTitle` varchar(255) NOT NULL DEFAULT '' COMMENT 'Tiêu đề của trang, mặc định là tiêu đề bài viết',
+  `postgoogleid` varchar(30) NOT NULL DEFAULT '' COMMENT 'Google Author',
+  `sitetitle` varchar(255) NOT NULL DEFAULT '' COMMENT 'Tiêu đề của trang, mặc định là tiêu đề bài viết',
   `title` varchar(255) NOT NULL DEFAULT '' COMMENT 'Tên bài viết',
   `alias` varchar(255) NOT NULL DEFAULT '' COMMENT 'Liên kết tĩnh',
   `keywords` varchar(255) NOT NULL DEFAULT '' COMMENT 'Từ khóa cho máy chủ tìm kiếm',
   `images` varchar(255) NOT NULL DEFAULT '' COMMENT 'Hình ảnh bài viết',
-  `mediaType` smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT '0: Dùng ảnh đại diện, 1: Dùng hình ảnh tùy chọn, 2: File âm thanh, 3: File video, 4: Iframe',
-  `mediaHeight` smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT 'Chiều cao media',
-  `mediaValue` mediumtext NOT NULL COMMENT 'Nội dung media',
+  `mediatype` smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT '0: Dùng ảnh đại diện, 1: Dùng hình ảnh tùy chọn, 2: File âm thanh, 3: File video, 4: Iframe',
+  `mediaheight` smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT 'Chiều cao media',
+  `mediavalue` mediumtext NOT NULL COMMENT 'Nội dung media',
   `hometext` mediumtext NOT NULL COMMENT 'Mô tả ngắn gọn',
   `bodytext` mediumtext NOT NULL COMMENT 'Nội dung bài viết dạng text',
-  `postType` smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT '0: Bình thường, 1: Ảnh, 2: Video, 3: Audio, 4: Ghi chú, 5: Liên kết, 6: Thư viện',
-  `fullPage` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Nếu là 1, đối với kiểu hiển thị dạng blog, sẽ show toàn bộ nội dung bài viết',
-  `inHome` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Hiển thị bài viết trên trang chủ',
+  `posttype` smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT '0: Bình thường, 1: Ảnh, 2: Video, 3: Audio, 4: Ghi chú, 5: Liên kết, 6: Thư viện',
+  `fullpage` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Nếu là 1, đối với kiểu hiển thị dạng blog, sẽ show toàn bộ nội dung bài viết',
+  `inhome` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Hiển thị bài viết trên trang chủ',
   `catids` varchar(255) NOT NULL DEFAULT '' COMMENT 'Chuyên mục',
   `tagids` varchar(255) NOT NULL DEFAULT '' COMMENT 'Tags',
-  `numWords` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Số từ',
-  `numViews` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Lượt xem',
-  `numComments` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Số bình luận',
-  `numVotes` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Số lượt đánh giá',
-  `voteTotal` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Tổng số điểm',
-  `voteDetail` varchar(255) NOT NULL DEFAULT '' COMMENT 'Chi tiết đánh giá',
-  `postTime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Thời gian viết',
-  `updateTime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Thời gian sửa gần nhất',
-  `pubTime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Thời gian xuất bản',
-  `expTime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Thời gian hết hạn',
-  `expMode` smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT 'Kiểu xử lý tự động khi hết hạn: 0: Ngưng hoạt động, 1: Cho thành hết hạn, 2: Xóa',
+  `numwords` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Số từ',
+  `numviews` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Lượt xem',
+  `numcomments` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Số bình luận',
+  `numvotes` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Số lượt đánh giá',
+  `votetotal` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Tổng số điểm',
+  `votedetail` varchar(255) NOT NULL DEFAULT '' COMMENT 'Chi tiết đánh giá',
+  `posttime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Thời gian viết',
+  `updatetime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Thời gian sửa gần nhất',
+  `pubtime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Thời gian xuất bản',
+  `exptime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Thời gian hết hạn',
+  `expmode` smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT 'Kiểu xử lý tự động khi hết hạn: 0: Ngưng hoạt động, 1: Cho thành hết hạn, 2: Xóa',
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '-2: Nháp, -1: Chờ đăng, 0: Tạm ngưng, 1: Hoạt động, 2: Hết hạn',
   PRIMARY KEY (`id`),
   UNIQUE KEY `alias` (`alias`),

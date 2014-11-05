@@ -1,6 +1,6 @@
 <!-- BEGIN: main -->
-<form method="post" action="{FORM_ACTION}">
-<table class="tab1">
+<form class="form-inline" method="post" action="{FORM_ACTION}">
+<table class="table table-striped table-bordered table-hover">
 	<col class="bl-col-left-largest"/>
 	<tbody>
 		<tr>
@@ -8,25 +8,23 @@
 				<strong>{LANG.cfgsysDismissAdminCache}</strong>
 			</td>
 			<td>
-				<input type="checkbox" class="blog-input" name="sysDismissAdminCache" value="1"{SYSDISMISSADMINCACHE}/>
+				<input type="checkbox" class="" name="sysDismissAdminCache" value="1"{SYSDISMISSADMINCACHE}/>
 			</td>
 		</tr>
-	</tbody>
-	<tbody class="second">
 		<tr>
 			<td>
 				<strong>{LANG.cfgsysRedirect2Home}</strong>
 			</td>
 			<td>
-				<input type="checkbox" class="blog-input" name="sysRedirect2Home" value="1"{SYSREDIRECT2HOME}/>
+				<input type="checkbox" class="" name="sysRedirect2Home" value="1"{SYSREDIRECT2HOME}/>
 			</td>
 		</tr>
 	</tbody>
 </table>
-<table class="tab1">
+<table class="table table-striped table-bordered table-hover">
 	<tbody>
 		<tr>
-			<td class="center"><input class="blog-button" type="submit" name="submit" value="{LANG.save}"/></td>
+			<td class="text-center"><input class="btn btn-primary" type="submit" name="submit" value="{LANG.save}"/></td>
 		</tr>
 	</tbody>
 </table>

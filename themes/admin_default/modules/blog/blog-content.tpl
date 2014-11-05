@@ -1,41 +1,41 @@
 <!-- BEGIN: main -->
 <h3 class="bl-post-caption">{TABLE_CAPTION}</h3>
-<!-- BEGIN: error --><div class="infoerror">{ERROR}</div><!-- END: error -->
-<form method="post" action="{FORM_ACTION}" id="post-form">
+<!-- BEGIN: error --><div class="alert alert-danger">{ERROR}</div><!-- END: error -->
+<form class="form-inline" method="post" action="{FORM_ACTION}" id="post-form">
 	<input type="hidden" name="id" id="post-id" value="{ID}"/>
 	<div class="bl-post-col-right clearfix">
 		<div class="bl-post-panel decollapse">
 			<div class="tl">{LANG.blogTools}</div>
 			<div class="ct">
-				<p class="center">
-					<input type="submit" name="submit" value="{LANG.blogPublic}" class="blog-button bl-button-min" id="button-public"/>
-					<input type="submit" name="draft" value="{LANG.blogSaveDraft}" class="blog-button-2 bl-button-min" id="button-draft"/>
-					<p id="post-message" class="center">&nbsp;</p>
+				<p class="text-center">
+					<input type="submit" name="submit" value="{LANG.blogPublic}" class="btn btn-primary bl-button-min" id="button-public"/>
+					<input type="submit" name="draft" value="{LANG.blogSaveDraft}" class="btn btn-default bl-button-min" id="button-draft"/>
+					<p id="post-message" class="text-center">&nbsp;</p>
 				</p>
 				<p>{LANG.blogPubtime1}:</p>
 				<p>
-					<select name="pubTime_h" class="blog-input">
-						<!-- BEGIN: pubTime_h --><option value="{HOUR.key}"{HOUR.pub}>{HOUR.title}</option><!-- END: pubTime_h -->
+					<select name="pubtime_h" class="form-control">
+						<!-- BEGIN: pubtime_h --><option value="{HOUR.key}"{HOUR.pub}>{HOUR.title}</option><!-- END: pubtime_h -->
 					</select> : 
-					<select name="pubTime_m" class="blog-input">
-						<!-- BEGIN: pubTime_m --><option value="{MIN.key}"{MIN.pub}>{MIN.title}</option><!-- END: pubTime_m -->
+					<select name="pubtime_m" class="form-control">
+						<!-- BEGIN: pubtime_m --><option value="{MIN.key}"{MIN.pub}>{MIN.title}</option><!-- END: pubtime_m -->
 					</select> {GLANG.day}
-					<input type="text" class="blog-input bl-col-day" value="{DATA.pubTime}" name="pubTime" id="pubTime"/>
+					<input type="text" class="form-control bl-col-left-small" value="{DATA.pubtime}" name="pubtime" id="pubtime"/>
 				</p>
 				<p>{LANG.blogExptime1}:</p>
 				<p>
-					<select name="expTime_h" class="blog-input">
-						<!-- BEGIN: expTime_h --><option value="{HOUR.key}"{HOUR.exp}>{HOUR.title}</option><!-- END: expTime_h -->
+					<select name="exptime_h" class="form-control">
+						<!-- BEGIN: exptime_h --><option value="{HOUR.key}"{HOUR.exp}>{HOUR.title}</option><!-- END: exptime_h -->
 					</select> : 
-					<select name="expTime_m" class="blog-input">
-						<!-- BEGIN: expTime_m --><option value="{MIN.key}"{MIN.exp}>{MIN.title}</option><!-- END: expTime_m -->
+					<select name="exptime_m" class="form-control">
+						<!-- BEGIN: exptime_m --><option value="{MIN.key}"{MIN.exp}>{MIN.title}</option><!-- END: exptime_m -->
 					</select> {GLANG.day}
-					<input type="text" class="blog-input bl-col-day" value="{DATA.expTime}" name="expTime" id="expTime"/>
+					<input type="text" class="form-control bl-col-left-small" value="{DATA.exptime}" name="exptime" id="exptime"/>
 				</p>
 				<p>{LANG.blogExpMode1}:</p>
 				<p>
-					<select name="expMode" class="blog-input bl-txt-f">
-						<!-- BEGIN: expMode --><option value="{EXPMODE.key}"{EXPMODE.selected}>{EXPMODE.title}</option><!-- END: expMode -->
+					<select name="expmode" class="form-control bl-txt-f">
+						<!-- BEGIN: expmode --><option value="{EXPMODE.key}"{EXPMODE.selected}>{EXPMODE.title}</option><!-- END: expmode -->
 					</select>
 				</p>
 			</div>
@@ -64,17 +64,17 @@
 				<!-- END: mostTags -->
 				<div class="bl-hr">&nbsp;</div>
 				<p>{LANG.tagsSearch}:</p>
-				<input type="text" class="blog-input bl-col-day" id="post-tags-type"/>
-				<input type="button" class="blog-button-2" value="{LANG.add}" id="post-tags-button"/>
+				<input type="text" class="form-control bl-col-day" id="post-tags-type"/>
+				<input type="button" class="btn btn-default" value="{LANG.add}" id="post-tags-button"/>
 			</div>
 		</div>
 		<div class="bl-post-panel decollapse">
-			<div class="tl">{LANG.blogpostType}</div>
+			<div class="tl">{LANG.blogposttype}</div>
 			<div class="ct bl-post-fix-height large">
 				<ul class="bl-list-item">
-					<!-- BEGIN: postType -->
-					<li><label><input type="radio" name="postType" value="{POSTTYPE.key}"{POSTTYPE.checked}/> {POSTTYPE.title}</label></li>
-					<!-- END: postType -->
+					<!-- BEGIN: posttype -->
+					<li><label><input type="radio" name="posttype" value="{POSTTYPE.key}"{POSTTYPE.checked}/> {POSTTYPE.title}</label></li>
+					<!-- END: posttype -->
 				</ul>
 			</div>
 		</div>
@@ -83,15 +83,15 @@
 			<div class="ct bl-post-fix-height large">
 				<ul class="bl-ul">
 					<li><label><input type="checkbox" name="newsletters" value="1"{NEWSLETTERS}/> {LANG.blogSendNewsletter}</label></li>
-					<li><label><input type="checkbox" name="fullPage" value="1"{FULLPAGE}/> {LANG.blogFullPage}</label></li>
+					<li><label><input type="checkbox" name="fullpage" value="1"{FULLPAGE}/> {LANG.blogFullPage}</label></li>
 					<li>
 						<label>
 							{LANG.blogGoogleAuthor}: 
-							<input type="text" class="blog-input bl-col-day" name="postGoogleID" value="{DATA.postGoogleID}"/>
+							<input type="text" class="form-control bl-col-day" name="postgoogleid" value="{DATA.postgoogleid}"/>
 						</label>
 					</li>
 					<li><label><input type="checkbox" name="isAutoKeywords" value="1"{ISAUTOKEYWORDS}/> {LANG.blogIsAutoKeywords}</label></li>
-					<li><label><input type="checkbox" name="inHome" value="1"{INHOME}/> {LANG.bloginHome}</label></li>
+					<li><label><input type="checkbox" name="inhome" value="1"{INHOME}/> {LANG.bloginhome}</label></li>
 				</ul>
 			</div>
 		</div>
@@ -100,25 +100,25 @@
 		<dl class="bl-post-dl">
 			<dt class="aright"><label for="title">{LANG.blogTitle}:</label></dt>
 			<dd>
-				<input type="text" class="blog-input bl-txt-fh" id="title" name="title" value="{DATA.title}" onchange="if(document.getElementById('alias').value == '') get_alias('title','alias','post');"/>
-				<input type="button" class="blog-button-2" name="title" value="{LANG.aliasAutoGet}" onclick="get_alias('title','alias','post');"/>
+				<input type="text" class="form-control bl-txt-fh" id="title" name="title" value="{DATA.title}" onchange="if(document.getElementById('alias').value == '') get_alias('title','alias','post');"/>
+				<input type="button" class="btn btn-default" name="title" value="{LANG.aliasAutoGet}" onclick="get_alias('title','alias','post');"/>
 			</dd>
 		</dl>
 		<dl class="bl-post-dl">
 			<dt class="aright"><label for="alias">{LANG.alias}:</label></dt>
-			<dd><input type="text" class="blog-input bl-txt-f" id="alias" name="alias" value="{DATA.alias}"/></dd>
+			<dd><input type="text" class="form-control bl-txt-f" id="alias" name="alias" value="{DATA.alias}"/></dd>
 		</dl>
 		<dl class="bl-post-dl">
-			<dt class="aright"><label for="siteTitle">{LANG.blogSiteTitle}:</label></dt>
-			<dd><input type="text" class="blog-input bl-txt-f" id="siteTitle" name="siteTitle" value="{DATA.siteTitle}"/></dd>
+			<dt class="aright"><label for="sitetitle">{LANG.blogSiteTitle}:</label></dt>
+			<dd><input type="text" class="form-control bl-txt-f" id="sitetitle" name="sitetitle" value="{DATA.sitetitle}"/></dd>
 		</dl>
 		<dl class="bl-post-dl">
 			<dt class="aright"><label for="keywords">{LANG.keywords}:</label></dt>
-			<dd><input type="text" class="blog-input bl-txt-f" id="keywords" name="keywords" value="{DATA.keywords}"/></dd>
+			<dd><input type="text" class="form-control bl-txt-f" id="keywords" name="keywords" value="{DATA.keywords}"/></dd>
 		</dl>
 		<dl class="bl-post-dl">
 			<dt class="aright"><label for="hometext">{LANG.blogHometext}:</label></dt>
-			<dd><textarea type="text" class="blog-input bl-txt-f autoresize textarea-animated" id="hometext" name="hometext" rows="1">{DATA.hometext}</textarea></dd>
+			<dd><textarea type="text" class="bl-txt-f autoresize textarea-animated form-control" id="hometext" name="hometext" rows="1">{DATA.hometext}</textarea></dd>
 		</dl>
 		<p><strong>{LANG.blogBodyhtml}:</strong></p>
 		<div class="bl-editor">
@@ -127,54 +127,54 @@
 		<dl class="bl-post-dl">
 			<dt class="aright"><label for="images">{LANG.blogImages}:</label></dt>
 			<dd>
-				<input type="text" class="blog-input bl-txt-q" name="images" id="images" value="{DATA.images}"/>
-				<input type="button" class="blog-button-2" name="imagesBrowser" id="imagesBrowser" value="{LANG.browser}" onclick="nv_open_browse_file(script_name + '?' + nv_name_variable + '=upload&popup=1&area=images&path={UPLOADS_PATH}&type=image&currentpath={CURRENT_PATH}', 'NVImg', '850', '420', 'resizable=no,scrollbars=no,toolbar=no,location=no,status=no');"/>
-				<input type="button" class="blog-button-2" name="imagesView" id="imagesView" value="{LANG.view}" onclick="viewImages();"/>
+				<input type="text" class="form-control bl-txt-q" name="images" id="images" value="{DATA.images}"/>
+				<input type="button" class="btn btn-default" name="imagesBrowser" id="imagesBrowser" value="{LANG.browser}" onclick="nv_open_browse(script_name + '?' + nv_name_variable + '=upload&popup=1&area=images&path={UPLOADS_PATH}&type=image&currentpath={CURRENT_PATH}', 'NVImg', '850', '420', 'resizable=no,scrollbars=no,toolbar=no,location=no,status=no');"/>
+				<input type="button" class="btn btn-default" name="imagesView" id="imagesView" value="{LANG.view}" onclick="viewImages();"/>
 			</dd>
 		</dl>
 		<dl class="bl-post-dl">
-			<dt class="aright"><label for="mediaType">{LANG.blogmediaType}:</label></dt>
+			<dt class="aright"><label for="mediatype">{LANG.blogmediatype}:</label></dt>
 			<dd>
-				<select name="mediaType" id="mediaType" class="blog-input">
-					<!-- BEGIN: mediaType --><option value="{MEDIATYPE.key}"{MEDIATYPE.selected}>{MEDIATYPE.title}</option><!-- END: mediaType -->
+				<select name="mediatype" id="mediatype" class="form-control">
+					<!-- BEGIN: mediatype --><option value="{MEDIATYPE.key}"{MEDIATYPE.selected}>{MEDIATYPE.title}</option><!-- END: mediatype -->
 				</select>
 			</dd>
 		</dl>
-		<dl class="bl-post-dl" id="mediaHeight-wrap">
-			<dt class="aright"><label for="mediaHeight">{LANG.blogMediaHeight}:</label></dt>
-			<dd><input type="text" class="blog-input bl-txt-q" name="mediaHeight" id="mediaHeight" value="{DATA.mediaHeight}"/></dd>
+		<dl class="bl-post-dl" id="mediaheight-wrap">
+			<dt class="aright"><label for="mediaheight">{LANG.blogMediaHeight}:</label></dt>
+			<dd><input type="text" class="form-control bl-txt-q" name="mediaheight" id="mediaheight" value="{DATA.mediaheight}"/></dd>
 		</dl>
-		<dl class="bl-post-dl" id="mediaValue-wrap">
-			<dt class="aright"><label for="mediaValue">{LANG.blogMediaValue}:</label></dt>
+		<dl class="bl-post-dl" id="mediavalue-wrap">
+			<dt class="aright"><label for="mediavalue">{LANG.blogMediaValue}:</label></dt>
 			<dd>
-				<input type="text" class="blog-input bl-txt-q" name="mediaValue" id="mediaValue" value="{DATA.mediaValue}"/>
-				<input type="button" class="blog-button-2" name="mediaBrowser" id="mediaBrowser" value="{LANG.browser}" onclick="nv_open_browse_file(script_name + '?' + nv_name_variable + '=upload&popup=1&area=mediaValue&path={UPLOADS_PATH}&type=file&currentpath={CURRENT_PATH}', 'NVImg', '850', '420', 'resizable=no,scrollbars=no,toolbar=no,location=no,status=no');"/>
+				<input type="text" class="form-control bl-txt-q" name="mediavalue" id="mediavalue" value="{DATA.mediavalue}"/>
+				<input type="button" class="btn btn-default" name="mediaBrowser" id="mediaBrowser" value="{LANG.browser}" onclick="nv_open_browse(script_name + '?' + nv_name_variable + '=upload&popup=1&area=mediavalue&path={UPLOADS_PATH}&type=file&currentpath={CURRENT_PATH}', 'NVImg', '850', '420', 'resizable=no,scrollbars=no,toolbar=no,location=no,status=no');"/>
 			</dd>
 		</dl>
 	</div>
 </form>
 <script type="text/javascript">
 function mediaHandle(){
-	var mediaType = $('#mediaType').val();
-	if( mediaType != '2' && mediaType != '3' &&  mediaType != 4 ){
-		$('#mediaHeight').attr('disabled','disabled');
-		$('#mediaHeight-wrap').hide();
+	var mediatype = $('#mediatype').val();
+	if( mediatype != '2' && mediatype != '3' &&  mediatype != 4 ){
+		$('#mediaheight').attr('disabled','disabled');
+		$('#mediaheight-wrap').hide();
 	}
 	else
 	{
-		$('#mediaHeight').removeAttr('disabled');
-		$('#mediaHeight-wrap').show();
+		$('#mediaheight').removeAttr('disabled');
+		$('#mediaheight-wrap').show();
 	}
-	if( mediaType == '0' ){
-		$('#mediaValue').attr('disabled','disabled');
-		$('#mediaValue-wrap').hide();
+	if( mediatype == '0' ){
+		$('#mediavalue').attr('disabled','disabled');
+		$('#mediavalue-wrap').hide();
 	}
 	else
 	{
-		$('#mediaValue').removeAttr('disabled');
-		$('#mediaValue-wrap').show();
+		$('#mediavalue').removeAttr('disabled');
+		$('#mediavalue-wrap').show();
 	}
-	if( mediaType == '0' || mediaType == '4' ){
+	if( mediatype == '0' || mediatype == '4' ){
 		$('#mediaBrowser').hide();
 	}else{
 		$('#mediaBrowser').show();
@@ -207,7 +207,7 @@ $(document).ready(function(){
 	});
 	
 	// Chon ngay thang
-	$("#pubTime, #expTime").datepicker({
+	$("#pubtime, #exptime").datepicker({
 		dateFormat: "dd/mm/yy",
 		changeMonth: true,
 		changeYear: true,
@@ -217,7 +217,7 @@ $(document).ready(function(){
 	});
 	
 	// Xu ly media
-	$('#mediaType').change(function(){
+	$('#mediatype').change(function(){
 		mediaHandle();
 	});
 });
@@ -225,7 +225,7 @@ $(document).ready(function(){
 <!-- END: main -->
 
 <!-- BEGIN: complete -->
-<div class="infook center">
+<div class="alert alert-success center">
 	<p>{MESSAGE}</p>
 	<p><img src="{NV_BASE_SITEURL}images/load_bar.gif" alt="Loading..." height="8"/></p>
 </div>

@@ -1,9 +1,10 @@
 <?php
 
 /**
- * @Project NUKEVIET BLOG 3.x
+ * @Project NUKEVIET BLOG 4.x
  * @Author PHAN TAN DUNG (phantandung92@gmail.com)
- * @Copyright (C) 2013 PHAN TAN DUNG. All rights reserved
+ * @Copyright (C) 2014 PHAN TAN DUNG. All rights reserved
+ * @License GNU/GPL version 2 or any later version
  * @Createdate Dec 11, 2013, 09:50:11 PM
  */
 
@@ -38,9 +39,9 @@ $numberResendNewsletterMax = 5;
 // Lay thong tin submit
 if( $nv_Request->isset_request( 'submit', 'post' ) )
 {
-	$array['indexViewType'] = filter_text_input( 'indexViewType', 'post', 'type_blog', 1, 255 );
-	$array['catViewType'] = filter_text_input( 'catViewType', 'post', 'type_blog', 1, 255 );
-	$array['tagsViewType'] = filter_text_input( 'tagsViewType', 'post', 'type_blog', 1, 255 );
+	$array['indexViewType'] = nv_substr( $nv_Request->get_title( 'indexViewType', 'post', 'type_blog', 1 ), 0, 255 );
+	$array['catViewType'] = nv_substr( $nv_Request->get_title( 'catViewType', 'post', 'type_blog', 1 ), 0, 255 );
+	$array['tagsViewType'] = nv_substr( $nv_Request->get_title( 'tagsViewType', 'post', 'type_blog', 1 ), 0, 255 );
 	$array['numPostPerPage'] = $nv_Request->get_int( 'numPostPerPage', 'post', 0 );
 	$array['initPostExp'] = $nv_Request->get_int( 'initPostExp', 'post', 0 );
 	$array['initPostType'] = $nv_Request->get_int( 'initPostType', 'post', 0 );
@@ -48,16 +49,16 @@ if( $nv_Request->isset_request( 'submit', 'post' ) )
 	$array['initMediaHeight'] = $nv_Request->get_int( 'initMediaHeight', 'post', 250 );
 	$array['initNewsletters'] = $nv_Request->get_int( 'initNewsletters', 'post', 0 );
 	$array['initAutoKeywords'] = $nv_Request->get_int( 'initAutoKeywords', 'post', 0 );
-	$array['folderStructure'] = filter_text_input( 'folderStructure', 'post', '', 0, 255 );
+	$array['folderStructure'] = nv_substr( $nv_Request->get_title( 'folderStructure', 'post', '', 0 ), 0, 255 );
 	$array['numberResendNewsletter'] = $nv_Request->get_int( 'numberResendNewsletter', 'post', 0 );
 	$array['strCutHomeText'] = $nv_Request->get_int( 'strCutHomeText', 'post', 0 );
-	$array['sysHighlightTheme'] = filter_text_input( 'sysHighlightTheme', 'post', '', 0, 255 );
+	$array['sysHighlightTheme'] = nv_substr( $nv_Request->get_title( 'sysHighlightTheme', 'post', '', 0 ), 0, 255 );
 	$array['numSearchResult'] = $nv_Request->get_int( 'numSearchResult', 'post', 20 );
 	
 	// Lấy cấu hình lớp của icon loại bài viết
-	foreach( $BL->blogpostType as $type )
+	foreach( $BL->blogposttype as $type )
 	{
-		$array['iconClass' . $type] = filter_text_input( 'iconClass' . $type, 'post', 'icon-pencil', 1, 255 );
+		$array['iconClass' . $type] = nv_substr( $nv_Request->get_title( 'iconClass' . $type, 'post', 'icon-pencil', 1 ), 0, 255 );
 	}
 	
 	// Kiem tra xac nhan
@@ -77,9 +78,9 @@ if( $nv_Request->isset_request( 'submit', 'post' ) )
 	{
 		$array['initPostExp'] = $BL->blogExpMode[0];
 	}
-	if( ! in_array( $array['initPostType'], $BL->blogpostType ) )
+	if( ! in_array( $array['initPostType'], $BL->blogposttype ) )
 	{
-		$array['initPostType'] = $BL->blogpostType[0];
+		$array['initPostType'] = $BL->blogposttype[0];
 	}
 	if( ! in_array( $array['initMediaType'], $BL->blogMediaType ) )
 	{
@@ -122,13 +123,13 @@ if( $nv_Request->isset_request( 'submit', 'post' ) )
 	
 	foreach( $array as $config_name => $config_value )
 	{
-		$sql = "REPLACE INTO `" . $BL->table_prefix . "_config` VALUES (" . $db->dbescape( $config_name ) . "," . $db->dbescape( $config_value ) . ")";
-		$db->sql_query( $sql );
+		$sql = "REPLACE INTO " . $BL->table_prefix . "_config VALUES (" . $db->quote( $config_name ) . "," . $db->quote( $config_value ) . ")";
+		$db->query( $sql );
 	}
 
 	nv_del_moduleCache( $module_name );
 
-	Header( "Location: " . NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . "&" . NV_OP_VARIABLE . "=" . $op );
+	Header( "Location: " . NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . "&" . NV_OP_VARIABLE . "=" . $op );
 	die();
 }
 
@@ -136,7 +137,7 @@ $xtpl = new XTemplate( "config-master.tpl", NV_ROOTDIR . "/themes/" . $global_co
 $xtpl->assign( 'LANG', $lang_module );
 $xtpl->assign( 'GLANG', $lang_global );
 
-$xtpl->assign( 'FORM_ACTION', NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $op );
+$xtpl->assign( 'FORM_ACTION', NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $op );
 $xtpl->assign( 'DATA', $BL->setting );
 
 $xtpl->assign( 'INITNEWSLETTERS', $BL->setting['initNewsletters'] ? " checked=\"checked\"" : "" );
@@ -175,11 +176,11 @@ foreach( $BL->blogExpMode as $initPostExp )
 }
 
 // Loai bai viet mac dinh
-foreach( $BL->blogpostType as $initPostType )
+foreach( $BL->blogposttype as $initPostType )
 {
 	$initPostType = array(
 		"key" => $initPostType,
-		"title" => $BL->lang('blogpostType' . $initPostType),
+		"title" => $BL->lang('blogposttype' . $initPostType),
 		"selected" => $initPostType == $BL->setting['initPostType'] ? " selected=\"selected\"" : "",
 	);
 
@@ -192,7 +193,7 @@ foreach( $BL->blogMediaType as $initMediaType )
 {
 	$initMediaType = array(
 		"key" => $initMediaType,
-		"title" => $BL->lang('blogmediaType' . $initMediaType),
+		"title" => $BL->lang('blogmediatype' . $initMediaType),
 		"selected" => $initMediaType == $BL->setting['initMediaType'] ? " selected=\"selected\"" : "",
 	);
 
@@ -228,12 +229,12 @@ for( $i = 0; $i <= $numberResendNewsletterMax; $i ++ )
 
 // Xuất các loại bài đăng để chọn icon
 $i = 0;
-foreach( $BL->blogpostType as $type )
+foreach( $BL->blogposttype as $type )
 {
 	$iconClass = array(
 		'class' => $i ++ % 2 ? " class=\"second\"" : "",
 		'key' => $type,
-		'title' => sprintf( $BL->lang('cfgIconPost'), $BL->lang('blogpostType' . $type) ),
+		'title' => sprintf( $BL->lang('cfgIconPost'), $BL->lang('blogposttype' . $type) ),
 		'value' => $BL->setting['iconClass' . $type],
 	);
 	
@@ -259,8 +260,6 @@ foreach( $array_highlight_themes as $_highlightTheme )
 $xtpl->parse( 'main' );
 $contents = $xtpl->text( 'main' );
 
-include ( NV_ROOTDIR . "/includes/header.php" );
+include NV_ROOTDIR . '/includes/header.php';
 echo nv_admin_theme( $contents );
-include ( NV_ROOTDIR . "/includes/footer.php" );
-
-?>
+include NV_ROOTDIR . '/includes/footer.php';

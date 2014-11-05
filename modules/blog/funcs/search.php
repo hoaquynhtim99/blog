@@ -1,9 +1,10 @@
 <?php
 
 /**
- * @Project NUKEVIET BLOG 3.x
+ * @Project NUKEVIET BLOG 4.x
  * @Author PHAN TAN DUNG (phantandung92@gmail.com)
- * @Copyright (C) 2013 PHAN TAN DUNG. All rights reserved
+ * @Copyright (C) 2014 PHAN TAN DUNG. All rights reserved
+ * @License GNU/GPL version 2 or any later version
  * @Createdate Dec 11, 2013, 09:50:11 PM
  */
 
@@ -19,13 +20,16 @@ $array_mod_title[] = array(
 );
 
 $array = array(
-	'q' => filter_text_input( 'q', 'get', '', NV_MIN_SEARCH_LENGTH, NV_MAX_SEARCH_LENGTH ),
+	'q' => nv_substr( $nv_Request->get_title( 'q', 'get', '', NV_MIN_SEARCH_LENGTH ), 0, NV_MAX_SEARCH_LENGTH ),
 	'catid' => $nv_Request->get_int( 'catid', 'get', 0 ),
 	'contents' => array(),
 );
 
 // Phân trang
 $page = $nv_Request->get_int( 'page', 'get', 1 );
+$generate_page = '';
+$total_pages = 0;
+$all_page = 0;
 
 // Chuyển đến trang xem theo theo mục nếu để trống từ khóa mà tìm theo danh mục
 if( empty( $array['q'] ) and isset( $global_array_cat[$array['catid']] ) )
@@ -72,28 +76,32 @@ if( ! empty( $array['q'] ) )
 	$sql_like = "LIKE '%" . $db->dblikeescape( $array['q'] ) . "%'";
 	
 	// SQL co ban
-	$sql = "FROM `" . $BL->table_prefix . "_rows` WHERE `status`=1 AND ( `title` " . $sql_like . " OR `keywords` " . $sql_like . " OR `hometext` " . $sql_like . " OR `bodytext` " . $sql_like . " )" . ( $array['catid'] ? " AND ( " . $BL->build_query_search_id( $array['catid'], 'catids' ) . " )" : "" );
+	$sql = "FROM " . $BL->table_prefix . "_rows WHERE status=1 AND ( title " . $sql_like . " OR keywords " . $sql_like . " OR hometext " . $sql_like . " OR bodytext " . $sql_like . " )" . ( $array['catid'] ? " AND ( " . $BL->build_query_search_id( $array['catid'], 'catids' ) . " )" : "" );
 	$base_url = NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $op . "&amp;q=" . urlencode( $array['q'] ) . "&amp;catid=" . $array['catid'];
 	
 	// Lay so row
 	$sql1 = "SELECT COUNT(*) " . $sql;
-	$result1 = $db->sql_query( $sql1 );
-	list( $all_page ) = $db->sql_fetchrow( $result1 );
+	$result1 = $db->query( $sql1 );
+	$all_page = $result1->fetchColumn();
 	
 	// Lay du lieu
-	$sql = "SELECT * " . $sql . " ORDER BY `pubTime` DESC LIMIT " . ( ( $page - 1 ) * $per_page ) . ", " . $per_page;
-	$result = $db->sql_query( $sql );
+	$sql = "SELECT * " . $sql . " ORDER BY pubtime DESC LIMIT " . ( ( $page - 1 ) * $per_page ) . ", " . $per_page;
+	$result = $db->query( $sql );
 	
 	
-	while( $row = $db->sql_fetch_assoc( $result ) )
+	while( $row = $result->fetch() )
 	{
-		$row['mediaType'] = intval( $row['mediaType'] );
-		$row['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $row['alias'];
+		$row['mediatype'] = intval( $row['mediatype'] );
+		$row['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $row['alias'] . $global_config['rewrite_exturl'];
 		$row['postName'] = '';
 		
 		$array['contents'][$row['id']] = $row;
 		$array_userids[$row['postid']] = $row['postid'];
 	}
+
+	// Du lieu phan trang
+	$generate_page = $BL->pagination( $page_title, $base_url, $all_page, $per_page, $page, true, '&amp;' );
+	$total_pages = ceil( $all_page / $per_page );
 }
 
 // Khong cho dat $page tuy y
@@ -106,11 +114,11 @@ if( $page > 1 and empty( $array['contents'] ) )
 // Lay thanh vien dang bai
 if( ! empty( $array_userids ) )
 {
-	$sql = "SELECT `userid`, `username`, `full_name` FROM `" . NV_USERS_GLOBALTABLE . "` WHERE `userid` IN(" . implode( ",", $array_userids ) . ")";
-	$result = $db->sql_query( $sql );
+	$sql = "SELECT userid, username, full_name FROM " . NV_USERS_GLOBALTABLE . " WHERE userid IN(" . implode( ",", $array_userids ) . ")";
+	$result = $db->query( $sql );
 	
 	$array_userids = array();
-	while( $row = $db->sql_fetchrow( $result ) )
+	while( $row = $result->fetch() )
 	{
 		$array_userids[$row['userid']] = $row['full_name'] ? $row['full_name'] : $row['username'];
 	}
@@ -123,10 +131,6 @@ if( ! empty( $array_userids ) )
 		}
 	}
 }
-
-// Du lieu phan trang
-$generate_page = $BL->pagination( $page_title, $base_url, $all_page, $per_page, $page, true, '&amp;' );
-$total_pages = ceil( $all_page / $per_page );
 
 // Them vao tieu de neu phan trang
 if( $page > 1 )
@@ -156,10 +160,8 @@ else
 	$my_head .= "<meta property=\"og:image\" content=\"" . NV_MY_DOMAIN . NV_BASE_SITEURL . $global_config['site_logo'] . "\" />\n";
 }
 
-$contents = nv_search_theme( $array, $page, $total_pages, $generate_page, $BL );
+$contents = nv_search_theme( $array, $page, $total_pages, $all_page, $generate_page, $BL );
 
-include ( NV_ROOTDIR . "/includes/header.php" );
+include NV_ROOTDIR . '/includes/header.php';
 echo nv_site_theme( $contents );
-include ( NV_ROOTDIR . "/includes/footer.php" );
-
-?>
+include NV_ROOTDIR . '/includes/footer.php';

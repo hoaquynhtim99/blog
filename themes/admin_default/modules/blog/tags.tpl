@@ -1,13 +1,13 @@
 <!-- BEGIN: main -->
-<table class="tab1">
+<table class="table table-striped table-bordered table-hover">
 	<tbody>
 		<tr>
 			<td>
-				<form id="filter-form" method="get" action="" onsubmit="return false;">
-					<input class="blog-input text" type="text" name="q" value="{DATA_SEARCH.q}" placeholder="{LANG.searchTags}"/>
-					<input class="blog-button" type="button" name="do" value="{LANG.filter_action}"/>
-					<input class="blog-button" type="button" name="cancel" value="{LANG.filter_cancel}" onclick="window.location='{URL_CANCEL}';"{DATA_SEARCH.disabled}/>
-					<input class="blog-button" type="button" name="clear" value="{LANG.filter_clear}"/>
+				<form class="form-inline" id="filter-form" method="get" action="" onsubmit="return false;">
+					<input class="form-control text" type="text" name="q" value="{DATA_SEARCH.q}" placeholder="{LANG.searchTags}"/>
+					<input class="btn btn-primary" type="button" name="do" value="{LANG.filter_action}"/>
+					<input class="btn btn-primary" type="button" name="cancel" value="{LANG.filter_cancel}" onclick="window.location='{URL_CANCEL}';"{DATA_SEARCH.disabled}/>
+					<input class="btn btn-primary" type="button" name="clear" value="{LANG.filter_clear}"/>
 				</form>
 			</td>
 		</tr>
@@ -30,8 +30,8 @@ $(document).ready(function(){
 	});
 });
 </script>
-<form action="{FORM_ACTION}" method="post" name="levelnone" id="levelnone">
-	<table class="tab1">
+<form class="form-inline" action="{FORM_ACTION}" method="post" name="levelnone" id="levelnone">
+	<table class="table table-striped table-bordered table-hover">
 		<thead>
 			<tr>
 				<td class="center bl-col-id">
@@ -42,29 +42,29 @@ $(document).ready(function(){
 				<td>{LANG.alias}</td>
 				<td>{LANG.keywords}</td>
 				<td>{LANG.description}</td>
-				<td class="bl-col-number"><a href="{DATA_ORDER.numPosts.data.url}" title="{DATA_ORDER.numPosts.data.title}" class="{DATA_ORDER.numPosts.data.class}">{LANG.categoriesnumPost}</a></td>
+				<td class="bl-col-number"><a href="{DATA_ORDER.numposts.data.url}" title="{DATA_ORDER.numposts.data.title}" class="{DATA_ORDER.numposts.data.class}">{LANG.categoriesnumPost}</a></td>
 				<td class="bl-col-feature">{LANG.feature}</td>
 			</tr>
 		</thead>
+		<tbody>
 		<!-- BEGIN: row -->
-		<tbody{ROW.class}>
 			<tr class="topalign">
-				<td class="center">
+				<td class="text-center">
 					<input type="checkbox" onclick="nv_UncheckAll(this.form, 'idcheck[]', 'check_all[]', this.checked);" value="{ROW.id}" name="idcheck[]" />
 				</td>
-				<td class="center">{ROW.id}</td>
+				<td class="text-center">{ROW.id}</td>
 				<td>{ROW.title}</td>
 				<td>{ROW.alias}</td>
 				<td>{ROW.keywords}</td>
 				<td>{ROW.description}</td>
-				<td class="center"><strong>{ROW.numPosts}</strong></td>
-				<td class="center">
+				<td class="text-center"><strong>{ROW.numposts}</strong></td>
+				<td class="text-center">
 					<span class="edit-icon"><a href="{ROW.urlEdit}">{GLANG.edit}</a></span>
 					<span class="delete-icon"><a href="javascript:void(0);" onclick="nv_delete_tags({ROW.id});">{GLANG.delete}</a></span>
 				</td>
 			</tr>
-		</tbody>
 		<!-- END: row -->
+		<tbody>
 		<!-- BEGIN: generate_page -->
 		<tbody>
 			<tr>
@@ -72,8 +72,8 @@ $(document).ready(function(){
 					{GENERATE_PAGE}
 				</td>
 			</tr>
-		</tbody>
 		<!-- END: generate_page -->
+		<tbody>
 		<tfoot>
 			<tr>
 				<td colspan="8">
@@ -85,10 +85,10 @@ $(document).ready(function(){
 		</tfoot>
 	</table>
 </form>
-<!-- BEGIN: error --><div class="infoerror">{ERROR}</div><!-- END: error -->
-<form method="post" action="">
+<!-- BEGIN: error --><div class="alert alert-danger">{ERROR}</div><!-- END: error -->
+<form class="form-inline" method="post" action="">
 <a name="edit"></a>
-<table class="tab1">
+<table class="table table-striped table-bordered table-hover">
 	<caption>{TABLE_CONTENT_CAPTION}</caption>
 	<col class="bl-col-left-medium"/>
 	<tbody>
@@ -98,43 +98,35 @@ $(document).ready(function(){
 				<span class="require">ӿ</span>
 			</td>
 			<td>
-				<input type="text" required="required" class="txt-half blog-input" name="title" id="title" value="{DATA.title}" maxlength="255" onchange="if(document.getElementById('alias').value == '') get_alias('title','alias','tags');"/>
-				<input type="button" class="blog-button-2" name="title" value="{LANG.aliasAutoGet}" onclick="get_alias('title','alias','tags');"/>
+				<input type="text" required="required" class="form-control bl-txt-h" name="title" id="title" value="{DATA.title}" maxlength="255" onchange="if(document.getElementById('alias').value == '') get_alias('title','alias','tags');"/>
+				<input type="button" class="btn btn-default" name="title" value="{LANG.aliasAutoGet}" onclick="get_alias('title','alias','tags');"/>
 			</td>
 		</tr>
-	</tbody>
-	<tbody class="second">
 		<tr>
 			<td>
 				<strong>{LANG.alias}</strong>
 				<span class="require">ӿ</span>
 			</td>
-			<td><input type="text" required="required" class="txt-half blog-input" name="alias" id="alias" value="{DATA.alias}" maxlength="255"/></td>
+			<td><input type="text" required="required" class="form-control bl-txt-h" name="alias" id="alias" value="{DATA.alias}" maxlength="255"/></td>
 		</tr>
-	</tbody>
-	<tbody>
 		<tr>
 			<td>
 				<strong>{LANG.keywords}</strong>
 				<span class="require">ӿ</span>
 				<span class="note">({LANG.keywordsNote})</span>
 			</td>
-			<td><input type="text" required="required" class="txt-half blog-input" name="keywords" value="{DATA.keywords}" maxlength="255"/></td>
+			<td><input type="text" required="required" class="form-control bl-txt-h" name="keywords" value="{DATA.keywords}" maxlength="255"/></td>
 		</tr>
-	</tbody>
-	<tbody class="second">
 		<tr>
 			<td>
 				<strong>{LANG.description}</strong>
 				<span class="require">ӿ</span>
 				<span class="note">({LANG.descriptionNote})</span>
 			</td>
-			<td><input type="text" required="required" class="txt-half blog-input" name="description" value="{DATA.description}" maxlength="255"/></td>
+			<td><input type="text" required="required" class="form-control bl-txt-h" name="description" value="{DATA.description}" maxlength="255"/></td>
 		</tr>
-	</tbody>
-	<tbody class="second">
 		<tr>
-			<td colspan="2" class="center"><input class="blog-button" type="submit" name="submit" value="{LANG.save}"/></td>
+			<td colspan="2" class="text-center"><input class="btn btn-primary" type="submit" name="submit" value="{LANG.save}"/></td>
 		</tr>
 	</tbody>
 </table>

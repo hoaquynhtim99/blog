@@ -1,7 +1,7 @@
 <!-- BEGIN: main -->
 <div id="newsletters">
 	<p>{LANG.newsletterNote}.</p>
-	<form method="post">
+	<form class="form-inline" method="post">
 		<input type="email" placeholder="{LANG.newsletterEmailType}" required="required">
 		<button type="submit"><i class="icon-ok">&nbsp;</i></button>
 	</form>

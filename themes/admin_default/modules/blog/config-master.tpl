@@ -1,6 +1,6 @@
 <!-- BEGIN: main -->
-<form method="post" action="{FORM_ACTION}">
-<table class="tab1">
+<form class="form-inline" method="post" action="{FORM_ACTION}">
+<table class="table table-striped table-bordered table-hover">
 	<caption>{LANG.cfgView}</caption>
 	<col class="bl-col-left-largest"/>
 	<tbody>
@@ -9,68 +9,58 @@
 				<strong>{LANG.cfgindexViewType}</strong>
 			</td>
 			<td>
-				<select name="indexViewType" class="blog-input">
+				<select name="indexViewType" class="form-control">
 					<!-- BEGIN: indexViewType --><option value="{INDEXVIEWTYPE.key}"{INDEXVIEWTYPE.selected}>{INDEXVIEWTYPE.title}</option><!-- END: indexViewType -->
 				</select>
 			</td>
 		</tr>
-	</tbody>
-	<tbody class="second">
 		<tr>
 			<td>
 				<strong>{LANG.cfgcatViewType}</strong>
 			</td>
 			<td>
-				<select name="catViewType" class="blog-input">
+				<select name="catViewType" class="form-control">
 					<!-- BEGIN: catViewType --><option value="{CATVIEWTYPE.key}"{CATVIEWTYPE.selected}>{CATVIEWTYPE.title}</option><!-- END: catViewType -->
 				</select>
 			</td>
 		</tr>
-	</tbody>
-	<tbody>
 		<tr>
 			<td>
 				<strong>{LANG.cfgtagsViewType}</strong>
 			</td>
 			<td>
-				<select name="tagsViewType" class="blog-input">
+				<select name="tagsViewType" class="form-control">
 					<!-- BEGIN: tagsViewType --><option value="{TAGSVIEWTYPE.key}"{TAGSVIEWTYPE.selected}>{TAGSVIEWTYPE.title}</option><!-- END: tagsViewType -->
 				</select>
 			</td>
 		</tr>
-	</tbody>
-	<tbody class="second">
 		<tr>
 			<td>
 				<strong>{LANG.cfgnumPostPerPage}</strong>
 			</td>
 			<td>
-				<input type="text" class="blog-input" name="numPostPerPage" value="{DATA.numPostPerPage}"/>
+				<input type="text" class="form-control" name="numPostPerPage" value="{DATA.numPostPerPage}"/>
 			</td>
 		</tr>
-	</tbody>
-	<tbody>
 		<tr>
 			<td>
 				<strong>{LANG.cfgstrCutHomeText}</strong>
 			</td>
 			<td>
-				<input type="text" class="blog-input" name="strCutHomeText" value="{DATA.strCutHomeText}"/>
+				<input type="text" class="form-control" name="strCutHomeText" value="{DATA.strCutHomeText}"/>
 			</td>
 		</tr>
-	</tbody>
-	<tbody class="second">
 		<tr>
 			<td>
 				<strong>{LANG.cfgnumSearchResult}</strong>
 			</td>
 			<td>
-				<input type="text" class="blog-input" name="numSearchResult" value="{DATA.numSearchResult}"/>
+				<input type="text" class="form-control" name="numSearchResult" value="{DATA.numSearchResult}"/>
 			</td>
 		</tr>
 	</tbody>
 </table>
-<table class="tab1">
+<table class="table table-striped table-bordered table-hover">
 	<caption>{LANG.cfgTheme}</caption>
 	<col class="bl-col-left-largest"/>
 	<tbody>
@@ -79,26 +69,24 @@
 				<strong>{LANG.cfgsysHighlightTheme}</strong>
 			</td>
 			<td>
-				<select name="sysHighlightTheme" class="blog-input">
+				<select name="sysHighlightTheme" class="form-control">
 					<!-- BEGIN: highlightTheme --><option value="{HIGHLIGHTTHEME.key}"{HIGHLIGHTTHEME.selected}>{HIGHLIGHTTHEME.title}</option><!-- END: highlightTheme -->
 				</select>
 			</td>
 		</tr>
-	</tbody>
 	<!-- BEGIN: iconClass -->
-	<tbody{ICONCLASS.class}>
 		<tr>
 			<td>
 				<strong>{ICONCLASS.title}</strong>
 			</td>
 			<td>
-				<input type="text" class="blog-input" name="iconClass{ICONCLASS.key}" value="{ICONCLASS.value}"/>
+				<input type="text" class="form-control" name="iconClass{ICONCLASS.key}" value="{ICONCLASS.value}"/>
 			</td>
 		</tr>
-	</tbody>
 	<!-- END: iconClass -->
+	<tbody>
 </table>
-<table class="tab1">
+<table class="table table-striped table-bordered table-hover">
 	<caption>{LANG.cfgPost}</caption>
 	<col class="bl-col-left-largest"/>
 	<tbody>
@@ -107,59 +95,49 @@
 				<strong>{LANG.cfginitPostExp}</strong>
 			</td>
 			<td>
-				<select name="initPostExp" class="blog-input">
+				<select name="initPostExp" class="form-control">
 					<!-- BEGIN: initPostExp --><option value="{INITPOSTEXP.key}"{INITPOSTEXP.selected}>{INITPOSTEXP.title}</option><!-- END: initPostExp -->
 				</select>
 			</td>
 		</tr>
-	</tbody>
-	<tbody class="second">
 		<tr>
 			<td>
 				<strong>{LANG.cfginitPostType}</strong>
 			</td>
 			<td>
-				<select name="initPostType" class="blog-input">
+				<select name="initPostType" class="form-control">
 					<!-- BEGIN: initPostType --><option value="{INITPOSTTYPE.key}"{INITPOSTTYPE.selected}>{INITPOSTTYPE.title}</option><!-- END: initPostType -->
 				</select>
 			</td>
 		</tr>
-	</tbody>
-	<tbody>
 		<tr>
 			<td>
 				<strong>{LANG.cfginitMediaType}</strong>
 			</td>
 			<td>
-				<select name="initMediaType" class="blog-input">
+				<select name="initMediaType" class="form-control">
 					<!-- BEGIN: initMediaType --><option value="{INITMEDIATYPE.key}"{INITMEDIATYPE.selected}>{INITMEDIATYPE.title}</option><!-- END: initMediaType -->
 				</select>
 			</td>
 		</tr>
-	</tbody>
-	<tbody class="second">
 		<tr>
 			<td>
 				<strong>{LANG.cfginitMediaHeight}</strong>
 			</td>
 			<td>
-				<input type="text" class="blog-input bl-txt-h" name="initMediaHeight" value="{DATA.initMediaHeight}"/>
+				<input type="text" class="form-control bl-txt-h" name="initMediaHeight" value="{DATA.initMediaHeight}"/>
 			</td>
 		</tr>
-	</tbody>
-	<tbody>
 		<tr>
 			<td>
 				<strong>{LANG.cfgfolderStructure}</strong>
 			</td>
 			<td>
-				<select name="folderStructure" class="blog-input">
+				<select name="folderStructure" class="form-control">
 					<!-- BEGIN: folderStructure --><option value="{FOLDERSTRUCTURE.key}"{FOLDERSTRUCTURE.selected}>{FOLDERSTRUCTURE.title}</option><!-- END: folderStructure -->
 				</select>
 			</td>
 		</tr>
-	</tbody>
-	<tbody class="second">
 		<tr>
 			<td>
 				<strong>{LANG.cfginitNewsletters}</strong>
@@ -168,8 +146,6 @@
 				<input type="checkbox" name="initNewsletters"{INITNEWSLETTERS} value="1"/>
 			</td>
 		</tr>
-	</tbody>
-	<tbody>
 		<tr>
 			<td>
 				<strong>{LANG.cfginitAutoKeywords}</strong>
@@ -180,7 +156,7 @@
 		</tr>
 	</tbody>
 </table>
-<table class="tab1">
+<table class="table table-striped table-bordered table-hover">
 	<caption>{LANG.cfgNewsletter}</caption>
 	<col class="bl-col-left-largest"/>
 	<tbody>
@@ -189,17 +165,17 @@
 				<strong>{LANG.cfgnumberResendNewsletter}</strong>
 			</td>
 			<td>
-				<select name="numberResendNewsletter" class="blog-input">
+				<select name="numberResendNewsletter" class="form-control">
 					<!-- BEGIN: numberResendNewsletter --><option value="{NUMBERRESENDNEWSLETTER.key}"{NUMBERRESENDNEWSLETTER.selected}>{NUMBERRESENDNEWSLETTER.title}</option><!-- END: numberResendNewsletter -->
 				</select>
 			</td>
 		</tr>
 	</tbody>
 </table>
-<table class="tab1">
+<table class="table table-striped table-bordered table-hover">
 	<tbody>
 		<tr>
-			<td class="center"><input class="blog-button" type="submit" name="submit" value="{LANG.save}"/></td>
+			<td class="text-center"><input class="btn btn-primary" type="submit" name="submit" value="{LANG.save}"/></td>
 		</tr>
 	</tbody>
 </table>

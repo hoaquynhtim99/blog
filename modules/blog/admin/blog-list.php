@@ -1,9 +1,10 @@
 <?php
 
 /**
- * @Project NUKEVIET BLOG 3.x
+ * @Project NUKEVIET BLOG 4.x
  * @Author PHAN TAN DUNG (phantandung92@gmail.com)
- * @Copyright (C) 2013 PHAN TAN DUNG. All rights reserved
+ * @Copyright (C) 2014 PHAN TAN DUNG. All rights reserved
+ * @License GNU/GPL version 2 or any later version
  * @Createdate Dec 11, 2013, 09:50:11 PM
  */
 
@@ -15,9 +16,9 @@ if( $nv_Request->isset_request( 'del', 'post' ) )
 	if( ! defined( 'NV_IS_AJAX' ) ) die( 'Wrong URL' );
 	
 	$id = $nv_Request->get_int( 'id', 'post', 0 );
-	$list_levelid = filter_text_input( 'listid', 'post', '' );
+	$list_levelid = $nv_Request->get_title( 'listid', 'post', '' );
 	
-	if( empty( $id ) and empty( $list_levelid ) ) die( "NO" );
+	if( empty( $id ) and empty( $list_levelid ) ) die( 'NO' );
 	
 	$listid = array();
 	if( $id )
@@ -44,7 +45,7 @@ if( $nv_Request->isset_request( 'del', 'post' ) )
 	// Xoa cache
 	nv_del_moduleCache( $module_name );
 	
-	die( "OK" );
+	die( 'OK' );
 }
 
 // Thay doi hoat dong bai viet
@@ -54,9 +55,9 @@ if( $nv_Request->isset_request( 'changestatus', 'post' ) )
 	
 	$id = $nv_Request->get_int( 'id', 'post', 0 );
 	$controlstatus = $nv_Request->get_int( 'status', 'post', 0 );
-	$array_id = filter_text_input( 'listid', 'post', '' );
+	$array_id = $nv_Request->get_title( 'listid', 'post', '' );
 	
-	if( ( empty( $id ) and empty( $array_id ) ) or empty( $controlstatus ) ) die( "NO" );
+	if( ( empty( $id ) and empty( $array_id ) ) or empty( $controlstatus ) ) die( 'NO' );
 	
 	$listid = array();
 	if( $id )
@@ -78,7 +79,7 @@ if( $nv_Request->isset_request( 'changestatus', 'post' ) )
 	$posts = $BL->getPostByID( $listid );
 	
 	// Kiem tra du lieu
-	if( sizeof( $posts ) != $num ) die( "NO" );
+	if( sizeof( $posts ) != $num ) die( 'NO' );
 	
 	$array_status = array();
 	foreach( $posts as $row )
@@ -89,7 +90,7 @@ if( $nv_Request->isset_request( 'changestatus', 'post' ) )
 		}
 		else
 		{
-			if( ! empty( $row['title'] ) and ! empty( $row['alias'] ) and ! empty( $row['keywords'] ) and ! empty( $row['hometext'] ) and ! empty( $row['bodytext'] ) and ! empty( $row['catids'] ) and ( empty( $row['expTime'] ) or $row['expTime'] > NV_CURRENTTIME ) and $row['pubTime'] > 0 and $row['pubTime'] <= NV_CURRENTTIME )
+			if( ! empty( $row['title'] ) and ! empty( $row['alias'] ) and ! empty( $row['keywords'] ) and ! empty( $row['hometext'] ) and ! empty( $row['bodytext'] ) and ! empty( $row['catids'] ) and ( empty( $row['exptime'] ) or $row['exptime'] > NV_CURRENTTIME ) and $row['pubtime'] > 0 and $row['pubtime'] <= NV_CURRENTTIME )
 			{
 				$array_status[$row['id']] = 1;
 			}
@@ -102,14 +103,14 @@ if( $nv_Request->isset_request( 'changestatus', 'post' ) )
 	
 	foreach( $array_status as $id => $status )
 	{
-		$sql = "UPDATE `" . $BL->table_prefix . "_rows` SET `status`=" . $status . " WHERE `id`=" . $id;
-		$db->sql_query( $sql );	
+		$sql = "UPDATE " . $BL->table_prefix . "_rows SET status=" . $status . " WHERE id=" . $id;
+		$db->query( $sql );	
 	}
 	
 	// Xoa cache
 	nv_del_moduleCache( $module_name );
 	
-	die( "OK" );
+	die( 'OK' );
 }
 
 $page_title = $BL->lang('blogList');
@@ -120,17 +121,17 @@ $BL->callFrameWorks( 'tipsy', 'ui.datepicker' );
 // Khoi tao bien, phan trang
 $array = array();
 $per_page = 30;
-$page = $nv_Request->get_int( 'page', 'get', 0 );
+$page = $nv_Request->get_int( 'page', 'get', 1 );
 
 // SQL co ban
-$sql = "FROM `" . $BL->table_prefix . "_rows` WHERE `id`!=0";
-$base_url = NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $op;
+$sql = "FROM " . $BL->table_prefix . "_rows WHERE id!=0";
+$base_url = NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $op;
 
 // Bien tim kiem
 $data_search = array(
-	"q" => filter_text_input( 'q', 'get', '', 1, 100 ),
-	"from" => filter_text_input( 'from', 'get', '', 1, 100 ),
-	"to" => filter_text_input( 'to', 'get', '', 1, 100 ),
+	"q" => nv_substr( $nv_Request->get_title( 'q', 'get', '', 1 ), 0, 100 ),
+	"from" => nv_substr( $nv_Request->get_title( 'from', 'get', '', 1 ), 0, 100 ),
+	"to" => nv_substr( $nv_Request->get_title( 'to', 'get', '', 1 ), 0, 100 ),
 	"catid" => $nv_Request->get_int( 'catid', 'get', 0 ),
 	"status" => $nv_Request->get_int( 'status', 'get', 10 ),
 	"disabled" => " disabled=\"disabled\""
@@ -146,7 +147,7 @@ if( ! empty( $data_search['q'] ) or ! empty( $data_search['from'] ) or ! empty( 
 if( ! empty( $data_search['q'] ) )
 {
 	$base_url .= "&amp;q=" . urlencode( $data_search['q'] );
-	$sql .= " AND ( `title` LIKE '%" . $db->dblikeescape( $data_search['q'] ) . "%' OR `hometext` LIKE '%" . $db->dblikeescape( $data_search['q'] ) . "%' OR `bodytext` LIKE '%" . $db->dblikeescape( $data_search['q'] ) . "%' )";
+	$sql .= " AND ( title LIKE '%" . $db->dblikeescape( $data_search['q'] ) . "%' OR hometext LIKE '%" . $db->dblikeescape( $data_search['q'] ) . "%' OR bodytext LIKE '%" . $db->dblikeescape( $data_search['q'] ) . "%' )";
 }
 if( ! empty( $data_search['from'] ) )
 {
@@ -154,7 +155,7 @@ if( ! empty( $data_search['from'] ) )
 	if( preg_match( "/^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{4})$/", $data_search['from'], $match ) )
 	{
 		$from = mktime( 0, 0, 0, $match[2], $match[1], $match[3] );
-		$sql .= " AND `postTime` >= " . $from;
+		$sql .= " AND posttime >= " . $from;
 		$base_url .= "&amp;from=" . $data_search['from'];
 	}
 }
@@ -164,7 +165,7 @@ if( ! empty( $data_search['to'] ) )
 	if( preg_match( "/^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{4})$/", $data_search['to'], $match ) )
 	{
 		$to = mktime( 0, 0, 0, $match[2], $match[1], $match[3] );
-		$sql .= " AND `postTime` <= " . $to;
+		$sql .= " AND posttime <= " . $to;
 		$base_url .= "&amp;to=" . $data_search['to'];
 	}
 }
@@ -176,7 +177,7 @@ if( ! empty( $data_search['catid'] ) )
 if( in_array( $data_search['status'], $BL->blogStatus ) )
 {
 	$base_url .= "&amp;status=" . $data_search['status'];
-	$sql .= " AND `status`=" . $data_search['status'];
+	$sql .= " AND status=" . $data_search['status'];
 }
 
 // Du lieu sap xep
@@ -194,13 +195,13 @@ $lang_order_1 = array(
 );
 $lang_order_2 = array(
 	"title" => $BL->lang('title'),
-	"postTime" => $BL->lang('blogpostTime'),
-	"updateTime" => $BL->lang('blogupdateTime'),
+	"posttime" => $BL->lang('blogposttime'),
+	"updatetime" => $BL->lang('blogupdatetime'),
 );
 
-$order['title']['order'] = filter_text_input( 'order_title', 'get', 'NO' );
-$order['postTime']['order'] = filter_text_input( 'order_postTime', 'get', 'NO' );
-$order['updateTime']['order'] = filter_text_input( 'order_updateTime', 'get', 'NO' );
+$order['title']['order'] = $nv_Request->get_title( 'order_title', 'get', 'NO' );
+$order['posttime']['order'] = $nv_Request->get_title( 'order_posttime', 'get', 'NO' );
+$order['updatetime']['order'] = $nv_Request->get_title( 'order_updatetime', 'get', 'NO' );
 
 foreach ( $order as $key => $check )
 {
@@ -222,30 +223,30 @@ foreach ( $order as $key => $check )
 
 if( $order['title']['order'] != "NO" )
 {
-	$sql .= " ORDER BY `title` " . $order['title']['order'];
+	$sql .= " ORDER BY title " . $order['title']['order'];
 }
-elseif( $order['postTime']['order'] != "NO" )
+elseif( $order['posttime']['order'] != "NO" )
 {
-	$sql .= " ORDER BY `postTime` " . $order['postTime']['order'];
+	$sql .= " ORDER BY posttime " . $order['posttime']['order'];
 }
-elseif( $order['updateTime']['order'] != "NO" )
+elseif( $order['updatetime']['order'] != "NO" )
 {
-	$sql .= " ORDER BY `updateTime` " . $order['updateTime']['order'];
+	$sql .= " ORDER BY updatetime " . $order['updatetime']['order'];
 }
 else
 {
-	$sql .= " ORDER BY `id` DESC";
+	$sql .= " ORDER BY id DESC";
 }
 
 // Lay so row
 $sql1 = "SELECT COUNT(*) " . $sql;
-$result1 = $db->sql_query( $sql1 );
-list( $all_page ) = $db->sql_fetchrow( $result1 );
+$result1 = $db->query( $sql1 );
+$all_page = $result1->fetchColumn();
 
 // Xay dung du lieu
 $i = 1;
-$sql = "SELECT * " . $sql . " LIMIT " . $page . ", " . $per_page;
-$result = $db->sql_query( $sql );
+$sql = "SELECT * " . $sql . " LIMIT " . ( ( $page - 1 ) * $per_page ) . ", " . $per_page;
+$result = $db->query( $sql );
 
 // Goi xtemplate
 $xtpl = new XTemplate( "blog-list.tpl", NV_ROOTDIR . "/themes/" . $global_config['module_theme'] . "/modules/" . $module_file );
@@ -253,11 +254,11 @@ $xtpl->assign( 'LANG', $lang_module );
 $xtpl->assign( 'GLANG', $lang_global );
 
 // Xuat bai viet
-while( $row = $db->sql_fetch_assoc( $result ) )
+while( $row = $result->fetch() )
 {
-	$row['urlEdit'] = NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name  . "&" . NV_OP_VARIABLE . "=blog-content&amp;id=" . $row['id'];
-	$row['updateTime'] = nv_date( "H:i d/m/Y", $row['updateTime'] );
-	$row['postTime'] = nv_date( "H:i d/m/Y", $row['postTime'] );
+	$row['urlEdit'] = NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name  . "&" . NV_OP_VARIABLE . "=blog-content&amp;id=" . $row['id'];
+	$row['updatetime'] = nv_date( "H:i d/m/Y", $row['updatetime'] );
+	$row['posttime'] = nv_date( "H:i d/m/Y", $row['posttime'] );
 	$row['class'] = ( $i ++ % 2 == 0 ) ? " class=\"second\"" : "";
 	$row['statusText'] = $BL->lang('blogStatus' . $row['status']);
 	$row['link'] = nv_url_rewrite( NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $row['alias'], true );
@@ -310,7 +311,7 @@ $xtpl->assign( 'MODULE_NAME', $module_name );
 $xtpl->assign( 'OP', $op );
 $xtpl->assign( 'DATA_SEARCH', $data_search );
 $xtpl->assign( 'DATA_ORDER', $order );
-$xtpl->assign( 'URL_CANCEL', NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name  . "&" . NV_OP_VARIABLE . "=" . $op );
+$xtpl->assign( 'URL_CANCEL', NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name  . "&" . NV_OP_VARIABLE . "=" . $op );
 
 // Phan trang
 $generate_page = nv_generate_page( $base_url, $all_page, $per_page, $page );
@@ -346,8 +347,6 @@ foreach( $BL->blogStatus as $status )
 $xtpl->parse( 'main' );
 $contents = $xtpl->text( 'main' );
 
-include ( NV_ROOTDIR . "/includes/header.php" );
+include NV_ROOTDIR . '/includes/header.php';
 echo nv_admin_theme( $contents );
-include ( NV_ROOTDIR . "/includes/footer.php" );
-
-?>
+include NV_ROOTDIR . '/includes/footer.php';

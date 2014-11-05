@@ -1,9 +1,10 @@
 <?php
 
 /**
- * @Project NUKEVIET BLOG 3.x
+ * @Project NUKEVIET BLOG 4.x
  * @Author PHAN TAN DUNG (phantandung92@gmail.com)
- * @Copyright (C) 2013 PHAN TAN DUNG. All rights reserved
+ * @Copyright (C) 2014 PHAN TAN DUNG. All rights reserved
+ * @License GNU/GPL version 2 or any later version
  * @Createdate Dec 11, 2013, 09:50:11 PM
  */
 
@@ -15,9 +16,9 @@ if( $nv_Request->isset_request( 'del', 'post' ) )
     if( ! defined( 'NV_IS_AJAX' ) ) die( 'Wrong URL' );
     
     $id = $nv_Request->get_int( 'id', 'post', 0 );
-    $list_levelid = filter_text_input( 'listid', 'post', '' );
+    $list_levelid = $nv_Request->get_title( 'listid', 'post', '' );
     
-    if( empty( $id ) and empty ( $list_levelid ) ) die( "NO" );
+    if( empty( $id ) and empty ( $list_levelid ) ) die( 'NO' );
     
 	$listid = array();
 	if( $id )
@@ -37,13 +38,13 @@ if( $nv_Request->isset_request( 'del', 'post' ) )
 	
 	foreach( $listid as $id )
 	{
-		$sql = "DELETE FROM `" . $BL->table_prefix . "_newsletters` WHERE `id`=" . $id;
-		$db->sql_query( $sql );
+		$sql = "DELETE FROM " . $BL->table_prefix . "_newsletters WHERE id=" . $id;
+		$db->query( $sql );
 	}	
     
 	nv_insert_logs( NV_LANG_DATA, $module_name, $BL->lang('nltDelete'), implode( ", ", $listid ), $admin_info['userid'] );
 	
-    die( "OK" );
+    die( 'OK' );
 }
 
 // Thay doi hoat dong email nhan tin
@@ -53,9 +54,9 @@ if( $nv_Request->isset_request( 'changestatus', 'post' ) )
     
     $id = $nv_Request->get_int( 'id', 'post', 0 );
     $controlstatus = $nv_Request->get_int( 'status', 'post', 0 );
-    $array_id = filter_text_input( 'listid', 'post', '' );
+    $array_id = $nv_Request->get_title( 'listid', 'post', '' );
     
-    if( empty( $id ) and empty ( $array_id ) ) die( "NO" );
+    if( empty( $id ) and empty ( $array_id ) ) die( 'NO' );
     
 	$listid = array();
 	if( $id )
@@ -74,15 +75,15 @@ if( $nv_Request->isset_request( 'changestatus', 'post' ) )
 	}
 	
 	// Lay thong tin
-	$sql = "SELECT `id`, `status` FROM `" . $BL->table_prefix . "_newsletters` WHERE `id` IN (" . implode ( ",", $listid ) . ")";
-	$result = $db->sql_query( $sql );
-	$check = $db->sql_numrows( $result );
+	$sql = "SELECT id, status FROM " . $BL->table_prefix . "_newsletters WHERE id IN (" . implode ( ",", $listid ) . ")";
+	$result = $db->query( $sql );
+	$check = $result->rowCount();
 	
-	if( $check != $num ) die( "NO" );
+	if( $check != $num ) die( 'NO' );
 	
 	$array_status = array();
 	$array_title = array();
-	while ( list( $id, $status ) = $db->sql_fetchrow( $result ) )
+	while ( list( $id, $status ) = $result->fetch( 3 ) )
 	{		
 		if( empty ( $controlstatus ) )
 		{
@@ -96,27 +97,27 @@ if( $nv_Request->isset_request( 'changestatus', 'post' ) )
 	
 	foreach( $array_status as $id => $status )
 	{
-		$sql = "UPDATE `" . $BL->table_prefix . "_newsletters` SET `status`=" . $status . " WHERE `id`=" . $id;
-		$db->sql_query( $sql );	
+		$sql = "UPDATE " . $BL->table_prefix . "_newsletters SET status=" . $status . " WHERE id=" . $id;
+		$db->query( $sql );	
 	}	
 	
-    die( "OK" );
+    die( 'OK' );
 }
 
 // Tieu de trang
 $page_title = $BL->lang('nltList');
 
 // Thong tin phan trang
-$page = $nv_Request->get_int( 'page', 'get', 0 );
+$page = $nv_Request->get_int( 'page', 'get', 1 );
 $per_page = 50;
 
 // Query, url co so
-$sql = "FROM `" . $BL->table_prefix . "_newsletters` WHERE `id`!=0";
-$base_url = NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $op;
+$sql = "FROM " . $BL->table_prefix . "_newsletters WHERE id!=0";
+$base_url = NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $op;
 
 // Du lieu tim kiem
 $data_search = array(
-	"q" => filter_text_input( 'q', 'get', '', 1, 100 ),
+	"q" => nv_substr( $nv_Request->get_title( 'q', 'get', '', 1 ), 0, 100),
 	"disabled" => " disabled=\"disabled\""
 );
 
@@ -130,7 +131,7 @@ if( ! empty ( $data_search['q'] ) or ! empty ( $data_search['singer'] ) )
 if( ! empty ( $data_search['q'] ) )
 {
 	$base_url .= "&amp;q=" . urlencode( $data_search['q'] );
-	$sql .= " AND `email` LIKE '%" . $db->dblikeescape( $data_search['q'] ) . "%'";
+	$sql .= " AND email LIKE '%" . $db->dblikeescape( $data_search['q'] ) . "%'";
 }
 
 // Du lieu sap xep
@@ -148,15 +149,15 @@ $lang_order_1 = array(
 );
 $lang_order_2 = array(
 	"email" => $BL->lang('nltEmail'),
-	"regTime" => $BL->lang('nltregTime'),
-	"lastSendTime" => $BL->lang('nltlastSendTime'),
-	"numEmail" => $BL->lang('nltnumEmail'),
+	"regtime" => $BL->lang('nltregtime'),
+	"lastsendtime" => $BL->lang('nltlastsendtime'),
+	"numemail" => $BL->lang('nltnumemail'),
 );
 
-$order['email']['order'] = filter_text_input( 'order_email', 'get', 'NO' );
-$order['regTime']['order'] = filter_text_input( 'order_regTime', 'get', 'NO' );
-$order['lastSendTime']['order'] = filter_text_input( 'order_lastSendTime', 'get', 'NO' );
-$order['numEmail']['order'] = filter_text_input( 'order_numEmail', 'get', 'NO' );
+$order['email']['order'] = $nv_Request->get_title( 'order_email', 'get', 'NO' );
+$order['regtime']['order'] = $nv_Request->get_title( 'order_regtime', 'get', 'NO' );
+$order['lastsendtime']['order'] = $nv_Request->get_title( 'order_lastsendtime', 'get', 'NO' );
+$order['numemail']['order'] = $nv_Request->get_title( 'order_numemail', 'get', 'NO' );
 
 foreach ( $order as $key => $check )
 {
@@ -178,46 +179,46 @@ foreach ( $order as $key => $check )
 
 if( $order['email']['order'] != "NO" )
 {
-	$sql .= " ORDER BY `email` " . $order['email']['order'];
+	$sql .= " ORDER BY email " . $order['email']['order'];
 }
-elseif( $order['regTime']['order'] != "NO" )
+elseif( $order['regtime']['order'] != "NO" )
 {
-	$sql .= " ORDER BY `regTime` " . $order['regTime']['order'];
+	$sql .= " ORDER BY regtime " . $order['regtime']['order'];
 }
-elseif( $order['lastSendTime']['order'] != "NO" )
+elseif( $order['lastsendtime']['order'] != "NO" )
 {
-	$sql .= " ORDER BY `lastSendTime` " . $order['lastSendTime']['order'];
+	$sql .= " ORDER BY lastsendtime " . $order['lastsendtime']['order'];
 }
-elseif( $order['numEmail']['order'] != "NO" )
+elseif( $order['numemail']['order'] != "NO" )
 {
-	$sql .= " ORDER BY `numEmail` " . $order['numEmail']['order'];
+	$sql .= " ORDER BY numemail " . $order['numemail']['order'];
 }
 else
 {
-	$sql .= " ORDER BY `status` ASC, `regTime` DESC";
+	$sql .= " ORDER BY status ASC, regtime DESC";
 }
 
 // Lay so row
 $sql1 = "SELECT COUNT(*) " . $sql;
-$result1 = $db->sql_query( $sql1 );
-list( $all_page ) = $db->sql_fetchrow( $result1 );
+$result1 = $db->query( $sql1 );
+$all_page = $result1->fetchColumn();
 
 // Xay dung du lieu
 $i = 1;
-$sql = "SELECT * " . $sql . " LIMIT " . $page . ", " . $per_page;
-$result = $db->sql_query( $sql );
+$sql = "SELECT * " . $sql . " LIMIT " . ( ( $page - 1 ) * $per_page ) . ", " . $per_page;
+$result = $db->query( $sql );
 
 $array = array();
-while( $row = $db->sql_fetchrow( $result ) )
+while( $row = $result->fetch() )
 {
 	$array[] = array(
 		"id" => $row['id'],
 		"email" => $row['email'],
-		"regIP" => $row['regIP'],
-		"numEmail" => number_format( $row['numEmail'], 0, '.', '.' ),
-		"regTime" => nv_date( "H:i d/m/Y", $row['regTime'] ),
-		"confirmTime" => nv_date( "H:i d/m/Y", $row['confirmTime'] ),
-		"lastSendTime" => nv_date( "H:i d/m/Y", $row['lastSendTime'] ),
+		"regip" => $row['regip'],
+		"numemail" => number_format( $row['numemail'], 0, '.', '.' ),
+		"regtime" => nv_date( "H:i d/m/Y", $row['regtime'] ),
+		"confirmtime" => nv_date( "H:i d/m/Y", $row['confirmtime'] ),
+		"lastsendtime" => nv_date( "H:i d/m/Y", $row['lastsendtime'] ),
 		"status" => $BL->lang('nltstatus' . $row['status']),
 		"class" => ( $i % 2 == 0 ) ? " class=\"second\"" : ""
 	);
@@ -257,7 +258,7 @@ $xtpl->assign( 'MODULE_NAME', $module_name );
 $xtpl->assign( 'OP', $op );
 $xtpl->assign( 'DATA_SEARCH', $data_search );
 $xtpl->assign( 'DATA_ORDER', $order );
-$xtpl->assign( 'URL_CANCEL', NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name  . "&" . NV_OP_VARIABLE . "=" . $op );
+$xtpl->assign( 'URL_CANCEL', NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name  . "&" . NV_OP_VARIABLE . "=" . $op );
 
 foreach( $list_action as $action )
 {
@@ -280,8 +281,6 @@ if( ! empty( $generate_page ) )
 $xtpl->parse( 'main' );
 $contents = $xtpl->text( 'main' );
 
-include ( NV_ROOTDIR . "/includes/header.php" );
+include NV_ROOTDIR . '/includes/header.php';
 echo nv_admin_theme( $contents );
-include ( NV_ROOTDIR . "/includes/footer.php" );
-
-?>
+include NV_ROOTDIR . '/includes/footer.php';

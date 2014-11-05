@@ -1,9 +1,10 @@
 <?php
 
 /**
- * @Project NUKEVIET BLOG 3.x
+ * @Project NUKEVIET BLOG 4.x
  * @Author PHAN TAN DUNG (phantandung92@gmail.com)
- * @Copyright (C) 2013 PHAN TAN DUNG. All rights reserved
+ * @Copyright (C) 2014 PHAN TAN DUNG. All rights reserved
+ * @License GNU/GPL version 2 or any later version
  * @Createdate Dec 11, 2013, 09:50:11 PM
  */
 
@@ -75,56 +76,56 @@ $id = $nv_Request->get_int( 'id', 'get, post', 0 );
 // Xu ly
 if( $id )
 {
-	$sql = "SELECT * FROM `" . $BL->table_prefix . "_rows` WHERE `id`=" . $id;
-	$result = $db->sql_query( $sql );
+	$sql = "SELECT * FROM " . $BL->table_prefix . "_rows WHERE id=" . $id;
+	$result = $db->query( $sql );
 	
-	if( $db->sql_numrows( $result ) != 1 )
+	if( $result->rowCount() != 1 )
 	{
 		nv_info_die( $BL->glang('error_404_title'), $BL->glang('error_404_title'), $BL->glang('error_404_content') );
 	}
 	
-	$row = $db->sql_fetchrow( $result );
+	$row = $result->fetch();
 	
 	$array_old = $array = array(
 		"postid" => ( int ) $row['postid'],
-		"postGoogleID" => $row['postGoogleID'],
-		"siteTitle" => $row['siteTitle'],
+		"postgoogleid" => $row['postgoogleid'],
+		"sitetitle" => $row['sitetitle'],
 		"title" => $row['title'],
 		"alias" => $row['alias'],
 		"keywords" => $row['keywords'],
 		"images" => $row['images'],
-		"mediaType" => ( int ) $row['mediaType'],
-		"mediaHeight" => ( int ) $row['mediaHeight'],
-		"mediaValue" => $row['mediaValue'],
+		"mediatype" => ( int ) $row['mediatype'],
+		"mediaheight" => ( int ) $row['mediaheight'],
+		"mediavalue" => $row['mediavalue'],
 		"hometext" => nv_br2nl( $row['hometext'] ),
 		"bodytext" => $row['bodytext'],
 		"bodyhtml" => '',
-		"postType" => ( int ) $row['postType'],
-		"fullPage" => ( int ) $row['fullPage'],
-		"inHome" => ( int ) $row['inHome'],
+		"posttype" => ( int ) $row['posttype'],
+		"fullpage" => ( int ) $row['fullpage'],
+		"inhome" => ( int ) $row['inhome'],
 		"catids" => $BL->string2array( $row['catids'] ),
 		"tagids" => $BL->string2array( $row['tagids'] ),
-		"numWords" => ( int ) $row['numWords'],
-		"pubTime" => ( int ) $row['pubTime'],
-		"pubTime_h" => date( "G", $row['pubTime'] ),
-		"pubTime_m" => ( int ) date( "i", $row['pubTime'] ),
-		"expTime" => ( int ) $row['expTime'],
-		"expTime_h" => $row['expTime'] ? date( "G", $row['expTime'] ) : 0,
-		"expTime_m" => $row['expTime'] ? ( int ) date( "i", $row['expTime'] ) : 0,
-		"expMode" => ( int ) $row['expMode'],
+		"numwords" => ( int ) $row['numwords'],
+		"pubtime" => ( int ) $row['pubtime'],
+		"pubtime_h" => date( "G", $row['pubtime'] ),
+		"pubtime_m" => ( int ) date( "i", $row['pubtime'] ),
+		"exptime" => ( int ) $row['exptime'],
+		"exptime_h" => $row['exptime'] ? date( "G", $row['exptime'] ) : 0,
+		"exptime_m" => $row['exptime'] ? ( int ) date( "i", $row['exptime'] ) : 0,
+		"expmode" => ( int ) $row['expmode'],
 		"status" => ( int ) $row['status'],
 	);
 	
-	$sql = "SELECT * FROM `" . $BL->table_prefix . "_data_" . ceil( $id / 4000 ) . "` WHERE `id`=" . $id;
-	$result = $db->sql_query( $sql );
+	$sql = "SELECT * FROM " . $BL->table_prefix . "_data_" . ceil( $id / 4000 ) . " WHERE id=" . $id;
+	$result = $db->query( $sql );
 	
-	if( $db->sql_numrows( $result ) )
+	if( $result->rowCount() )
 	{
-		$row = $db->sql_fetchrow( $result );
+		$row = $result->fetch();
 		$array_old['bodyhtml'] = $array['bodyhtml'] = $row['bodyhtml'];
 	}
 	
-	$form_action = NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $op . "&amp;id=" . $id;
+	$form_action = NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $op . "&amp;id=" . $id;
 	$table_caption = $BL->lang('blogEdit');
 	
 	// Gui email den cac email dang ky nhan tin
@@ -133,36 +134,36 @@ if( $id )
 }
 else
 {
-	$form_action = NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $op;
+	$form_action = NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $op;
 	$table_caption = $BL->lang('blogAdd');
 	
 	$array = array(
 		"postid" => $admin_info['userid'],
-		"postGoogleID" => $BL->setting['sysGoogleAuthor'],
-		"siteTitle" => '',
+		"postgoogleid" => $BL->setting['sysGoogleAuthor'],
+		"sitetitle" => '',
 		"title" => '',
 		"alias" => '',
 		"keywords" => '',
 		"images" => '',
-		"mediaType" => $BL->setting['initMediaType'],
-		"mediaHeight" => $BL->setting['initMediaHeight'],
-		"mediaValue" => '',
+		"mediatype" => $BL->setting['initMediaType'],
+		"mediaheight" => $BL->setting['initMediaHeight'],
+		"mediavalue" => '',
 		"hometext" => '',
 		"bodytext" => '',
 		"bodyhtml" => '',
-		"postType" => $BL->setting['initPostType'],
-		"fullPage" => 0,
-		"inHome" => 1,
+		"posttype" => $BL->setting['initPostType'],
+		"fullpage" => 0,
+		"inhome" => 1,
 		"catids" => array(),
 		"tagids" => array(),
-		"numWords" => 0,
-		"pubTime" => NV_CURRENTTIME,
-		"pubTime_h" => date( "G", NV_CURRENTTIME ),
-		"pubTime_m" => ( int ) date( "i", NV_CURRENTTIME ),
-		"expTime" => 0,
-		"expTime_h" => 0,
-		"expTime_m" => 0,
-		"expMode" => $BL->setting['initPostExp'],
+		"numwords" => 0,
+		"pubtime" => NV_CURRENTTIME,
+		"pubtime_h" => date( "G", NV_CURRENTTIME ),
+		"pubtime_m" => ( int ) date( "i", NV_CURRENTTIME ),
+		"exptime" => 0,
+		"exptime_h" => 0,
+		"exptime_m" => 0,
+		"expmode" => $BL->setting['initPostExp'],
 		"status" => -2,
 	);
 	
@@ -187,37 +188,37 @@ elseif( $nv_Request->isset_request( 'draft', 'post' ) )
 // Xu ly khi submit
 if( $prosessMode != 'none' )
 {
-	$array['postGoogleID'] = filter_text_input( 'postGoogleID', 'post', '', 1, 255 );
-	$array['siteTitle'] = filter_text_input( 'siteTitle', 'post', '', 1, 255 );
-	$array['title'] = filter_text_input( 'title', 'post', '', 1, 255 );
-	$array['alias'] = filter_text_input( 'alias', 'post', '', 1, 255 );
-	$array['keywords'] = filter_text_input( 'keywords', 'post', '', 1, 255 );
+	$array['postgoogleid'] = nv_substr( $nv_Request->get_title( 'postgoogleid', 'post', '', 1 ), 0, 255 );
+	$array['sitetitle'] = nv_substr( $nv_Request->get_title( 'sitetitle', 'post', '', 1 ), 0, 255 );
+	$array['title'] = nv_substr( $nv_Request->get_title( 'title', 'post', '', 1 ), 0, 255 );
+	$array['alias'] = nv_substr( $nv_Request->get_title( 'alias', 'post', '', 1 ), 0, 255 );
+	$array['keywords'] = nv_substr( $nv_Request->get_title( 'keywords', 'post', '', 1 ), 0, 255 );
 	$array['images'] = $nv_Request->get_string( 'images', 'post', '' );
-	$array['mediaType'] = $nv_Request->get_int( 'mediaType', 'post', 0 );
-	$array['mediaHeight'] = $nv_Request->get_int( 'mediaHeight', 'post', 0 );
-	$array['mediaValue'] = $nv_Request->get_string( 'mediaValue', 'post', '' );
-	$array['hometext'] = filter_text_textarea( 'hometext', '', NV_ALLOWED_HTML_TAGS );
-	$array['bodyhtml'] = nv_editor_filter_textarea( 'bodyhtml', '', NV_ALLOWED_HTML_TAGS );
-	$array['postType'] = $nv_Request->get_int( 'postType', 'post', 0 );
-	$array['fullPage'] = $nv_Request->get_int( 'fullPage', 'post', 0 );
-	$array['inHome'] = $nv_Request->get_int( 'inHome', 'post', 0 );
+	$array['mediatype'] = $nv_Request->get_int( 'mediatype', 'post', 0 );
+	$array['mediaheight'] = $nv_Request->get_int( 'mediaheight', 'post', 0 );
+	$array['mediavalue'] = $nv_Request->get_string( 'mediavalue', 'post', '' );
+	$array['hometext'] = $nv_Request->get_textarea( 'hometext', '', NV_ALLOWED_HTML_TAGS );
+	$array['bodyhtml'] = $nv_Request->get_editor( 'bodyhtml', '', NV_ALLOWED_HTML_TAGS );
+	$array['posttype'] = $nv_Request->get_int( 'posttype', 'post', 0 );
+	$array['fullpage'] = $nv_Request->get_int( 'fullpage', 'post', 0 );
+	$array['inhome'] = $nv_Request->get_int( 'inhome', 'post', 0 );
 	$array['catids'] = $nv_Request->get_typed_array( 'catids', 'post', 'int' );
-	$array['tagids'] = filter_text_input( 'tagids', 'post', '', 1, 255 );
-	$array['pubTime'] = $nv_Request->get_string( 'pubTime', 'post', '' );
-	$array['pubTime_h'] = $nv_Request->get_int( 'pubTime_h', 'post', 0 );
-	$array['pubTime_m'] = $nv_Request->get_int( 'pubTime_m', 'post', 0 );
-	$array['expTime'] = $nv_Request->get_string( 'expTime', 'post', '' );
-	$array['expTime_h'] = $nv_Request->get_int( 'expTime_h', 'post', 0 );
-	$array['expTime_m'] = $nv_Request->get_int( 'expTime_m', 'post', 0 );
-	$array['expMode'] = $nv_Request->get_int( 'expMode', 'post', 0 );
+	$array['tagids'] = nv_substr( $nv_Request->get_title( 'tagids', 'post', '', 1 ), 0, 255 );
+	$array['pubtime'] = $nv_Request->get_string( 'pubtime', 'post', '' );
+	$array['pubtime_h'] = $nv_Request->get_int( 'pubtime_h', 'post', 0 );
+	$array['pubtime_m'] = $nv_Request->get_int( 'pubtime_m', 'post', 0 );
+	$array['exptime'] = $nv_Request->get_string( 'exptime', 'post', '' );
+	$array['exptime_h'] = $nv_Request->get_int( 'exptime_h', 'post', 0 );
+	$array['exptime_m'] = $nv_Request->get_int( 'exptime_m', 'post', 0 );
+	$array['expmode'] = $nv_Request->get_int( 'expmode', 'post', 0 );
 	
 	$newsletters = $nv_Request->get_int( 'newsletters', 'post', 0 );
 	$isAutoKeywords = $nv_Request->get_int( 'isAutoKeywords', 'post', 0 );
 	
 	// Chuẩn hóa google author
-	if( ! preg_match( "/^([0-9]{1,30})$/", $array['postGoogleID'] ) )
+	if( ! preg_match( "/^([0-9]{1,30})$/", $array['postgoogleid'] ) )
 	{
-		$array['postGoogleID'] = $BL->setting['sysGoogleAuthor'];
+		$array['postgoogleid'] = $BL->setting['sysGoogleAuthor'];
 	}
 	
 	// Tự động lấy từ khóa
@@ -239,11 +240,11 @@ if( $prosessMode != 'none' )
 	}
 	
 	// Chinh duong dan media
-	if( ! empty( $array['mediaValue'] ) )
+	if( ! empty( $array['mediavalue'] ) )
 	{
-		if( preg_match( "/^\//i", $array['mediaValue'] ) )
+		if( preg_match( "/^\//i", $array['mediavalue'] ) )
 		{
-			$array['mediaValue'] = substr( $array['mediaValue'], strlen( NV_BASE_SITEURL . NV_UPLOADS_DIR . "/" . $module_name ) );
+			$array['mediavalue'] = substr( $array['mediavalue'], strlen( NV_BASE_SITEURL . NV_UPLOADS_DIR . "/" . $module_name ) );
 		}
 	}
 	
@@ -268,64 +269,64 @@ if( $prosessMode != 'none' )
 	$array['bodytext'] = trim( nv_nl2br( strip_tags( $array['bodyhtml'] ), " " ) );
 	
 	// Chuan hoa loai bai viet
-	if( ! in_array( $array['postType'], $BL->blogpostType ) )
+	if( ! in_array( $array['posttype'], $BL->blogposttype ) )
 	{
-		$array['postType'] = 0;
+		$array['posttype'] = 0;
 	}
 	
 	// Chuan hoa loai media
-	if( ! in_array( $array['mediaType'], $BL->blogMediaType ) )
+	if( ! in_array( $array['mediatype'], $BL->blogMediaType ) )
 	{
-		$array['mediaType'] = 0;
+		$array['mediatype'] = 0;
 	}
 	
 	// Thay doi danh muc, tags string => array
 	$array['tagids'] = $BL->string2array( $array['tagids'] );
 	
 	// Chuan hoa va xu ly thoi gian
-	if( $array['pubTime_h'] > 23 or $array['pubTime_h'] < 0 )
+	if( $array['pubtime_h'] > 23 or $array['pubtime_h'] < 0 )
 	{
-		$array['pubTime_h'] = 0;
+		$array['pubtime_h'] = 0;
 	}
-	if( $array['pubTime_m'] > 59 or $array['pubTime_m'] < 0 )
+	if( $array['pubtime_m'] > 59 or $array['pubtime_m'] < 0 )
 	{
-		$array['pubTime_m'] = 0;
+		$array['pubtime_m'] = 0;
 	}
-	if( $array['expTime_h'] > 23 or $array['expTime_h'] < 0 )
+	if( $array['exptime_h'] > 23 or $array['exptime_h'] < 0 )
 	{
-		$array['expTime_h'] = 0;
+		$array['exptime_h'] = 0;
 	}
-	if( $array['expTime_m'] > 59 or $array['expTime_m'] < 0 )
+	if( $array['exptime_m'] > 59 or $array['exptime_m'] < 0 )
 	{
-		$array['expTime_m'] = 0;
+		$array['exptime_m'] = 0;
 	}
 	
-	if( preg_match( "/^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$/", $array['pubTime'], $m ) )
+	if( preg_match( "/^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$/", $array['pubtime'], $m ) )
 	{
-		$array['pubTime'] = mktime( $array['pubTime_h'], $array['pubTime_m'], 0, $m[2], $m[1], $m[3] );
+		$array['pubtime'] = mktime( $array['pubtime_h'], $array['pubtime_m'], 0, $m[2], $m[1], $m[3] );
 	}
 	else
 	{
-		$array['pubTime'] = NV_CURRENTTIME;
+		$array['pubtime'] = NV_CURRENTTIME;
 	}
-	if( preg_match( "/^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$/", $array['expTime'], $m ) )
+	if( preg_match( "/^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$/", $array['exptime'], $m ) )
 	{
-		$array['expTime'] = mktime( $array['expTime_h'], $array['expTime_m'], 0, $m[2], $m[1], $m[3] );
+		$array['exptime'] = mktime( $array['exptime_h'], $array['exptime_m'], 0, $m[2], $m[1], $m[3] );
 	}
 	else
 	{
-		$array['expTime'] = 0;
+		$array['exptime'] = 0;
 	}
 	
 	// Chuan hoa kieu xu ly khi het han
-	if( ! in_array( $array['expMode'], $BL->blogExpMode ) )
+	if( ! in_array( $array['expmode'], $BL->blogExpMode ) )
 	{
-		$array['expMode'] = 0;
+		$array['expmode'] = 0;
 	}
 	
 	// Chuẩn hóa giá trị 0, 1
-	$array['fullPage'] = $array['fullPage'] ? 1 : 0;
-	$array['inHome'] = $array['inHome'] ? 1 : 0;
+	$array['fullpage'] = $array['fullpage'] ? 1 : 0;
+	$array['inhome'] = $array['inhome'] ? 1 : 0;
 	
 	// Kiem tra loi, khong kiem tra neu luu ban nhap
 	if( $prosessMode == "public" )
@@ -350,29 +351,29 @@ if( $prosessMode != 'none' )
 		{
 			$error = $BL->lang('blogErrorCategories');
 		}
-		elseif( ! empty( $array['expTime'] ) and $array['expTime'] <= $array['pubTime'] )
+		elseif( ! empty( $array['exptime'] ) and $array['exptime'] <= $array['pubtime'] )
 		{
 			$error = $BL->lang('blogErrorExpThanPub');
 		}
-		elseif( ! empty( $array['expTime'] ) and $array['expTime'] <= NV_CURRENTTIME and $array['expMode'] == 2 )
+		elseif( ! empty( $array['exptime'] ) and $array['exptime'] <= NV_CURRENTTIME and $array['expmode'] == 2 )
 		{
 			$error = $BL->lang('blogErrorExp');
 		}
-		elseif( ! empty( $array['mediaType'] ) and empty( $array['mediaValue'] ) )
+		elseif( ! empty( $array['mediatype'] ) and empty( $array['mediavalue'] ) )
 		{
 			$error = $BL->lang('blogErrorMediaValue');
 		}
-		elseif( $array['mediaType'] > 1 and empty( $array['mediaHeight'] ) )
+		elseif( $array['mediatype'] > 1 and empty( $array['mediaheight'] ) )
 		{
 			$error = $BL->lang('blogErrorMediaHeight');
 		}
 	}
 	
 	// Kiem tra lien ket tinh ton tai va tao lien ket tinh khac neu la luu ban nhap
-	$sql = "SELECT * FROM `" . $BL->table_prefix . "_rows` WHERE `alias`=" . $db->dbescape( $array['alias'] ) . ( ! empty( $id ) ? " AND `id`!=" . $id : "" );
-	$result = $db->sql_query( $sql );
+	$sql = "SELECT * FROM " . $BL->table_prefix . "_rows WHERE alias=" . $db->quote( $array['alias'] ) . ( ! empty( $id ) ? " AND id!=" . $id : "" );
+	$result = $db->query( $sql );
 	
-	if( $db->sql_numrows( $result ) )
+	if( $result->rowCount() )
 	{
 		// Neu la xuat ban thi bao loi ton tai
 		if( $prosessMode == "public" )
@@ -392,12 +393,12 @@ if( $prosessMode != 'none' )
 		$array['status'] = -2;
 	}
 	// Bai viet het han
-	elseif( $array['expTime'] <= NV_CURRENTTIME and ! empty( $array['expTime'] ) )
+	elseif( $array['exptime'] <= NV_CURRENTTIME and ! empty( $array['exptime'] ) )
 	{
-		$array['status'] = $array['expMode'] == 0 ? 0 : 2;
+		$array['status'] = $array['expmode'] == 0 ? 0 : 2;
 	}
 	// Bai viet cho dang
-	elseif( $array['pubTime'] > NV_CURRENTTIME )
+	elseif( $array['pubtime'] > NV_CURRENTTIME )
 	{
 		// Tao bai viet thi -1
 		if( empty( $id ) )
@@ -448,56 +449,56 @@ if( $prosessMode != 'none' )
 		
 		if( empty( $id ) )
 		{
-			$sql = "INSERT INTO `" . $BL->table_prefix . "_rows` VALUES(
+			$sql = "INSERT INTO " . $BL->table_prefix . "_rows VALUES(
 				NULL,
 				" . $array['postid'] . ", 
-				" . $db->dbescape( $array['postGoogleID'] ) . ",
-				" . $db->dbescape( $array['siteTitle'] ) . ",
-				" . $db->dbescape( $array['title'] ) . ",
-				" . $db->dbescape( $array['alias'] ) . ",
-				" . $db->dbescape( $array['keywords'] ) . ",
-				" . $db->dbescape( $array['images'] ) . ",
-				" . $array['mediaType'] . ", 
-				" . $array['mediaHeight'] . ", 
-				" . $db->dbescape( $array['mediaValue'] ) . ",
-				" . $db->dbescape( $array['hometext'] ) . ",
-				" . $db->dbescape( $array['bodytext'] ) . ",
-				" . $array['postType'] . ", 
-				" . $array['fullPage'] . ", 
-				" . $array['inHome'] . ", 
-				" . $db->dbescape( $array['catids'] ? "0," . implode( ",", $array['catids'] ) . ",0" : "" ) . ",
-				" . $db->dbescape( $array['tagids'] ? "0," . implode( ",", $array['tagids'] ) . ",0" : "" ) . ",
-				" . $array['numWords'] . ", 
+				" . $db->quote( $array['postgoogleid'] ) . ",
+				" . $db->quote( $array['sitetitle'] ) . ",
+				" . $db->quote( $array['title'] ) . ",
+				" . $db->quote( $array['alias'] ) . ",
+				" . $db->quote( $array['keywords'] ) . ",
+				" . $db->quote( $array['images'] ) . ",
+				" . $array['mediatype'] . ", 
+				" . $array['mediaheight'] . ", 
+				" . $db->quote( $array['mediavalue'] ) . ",
+				" . $db->quote( $array['hometext'] ) . ",
+				" . $db->quote( $array['bodytext'] ) . ",
+				" . $array['posttype'] . ", 
+				" . $array['fullpage'] . ", 
+				" . $array['inhome'] . ", 
+				" . $db->quote( $array['catids'] ? "0," . implode( ",", $array['catids'] ) . ",0" : "" ) . ",
+				" . $db->quote( $array['tagids'] ? "0," . implode( ",", $array['tagids'] ) . ",0" : "" ) . ",
+				" . $array['numwords'] . ", 
 				0, 0, 0, 0, '', 
 				" . NV_CURRENTTIME . ", 
 				" . NV_CURRENTTIME . ", 
-				" . $array['pubTime'] . ", 
-				" . $array['expTime'] . ", 
-				" . $array['expMode'] . ", 
+				" . $array['pubtime'] . ", 
+				" . $array['exptime'] . ", 
+				" . $array['expmode'] . ", 
 				" . $array['status'] . "
 			)";
 			
-			$id = $db->sql_query_insert_id( $sql );
+			$id = $db->insert_id( $sql );
 			
 			if( $id )
 			{
 				// Tao bang HTML
 				$html_table = $BL->table_prefix . "_data_" . ceil( $id / 4000 );
 				
-				$sql = "CREATE TABLE IF NOT EXISTS `" . $html_table . "` (
-					`id` mediumint(8) unsigned NOT NULL, 
-					`bodyhtml` longtext NOT NULL,
-					PRIMARY KEY  (`id`) 
+				$sql = "CREATE TABLE IF NOT EXISTS " . $html_table . " (
+					id mediumint(8) unsigned NOT NULL, 
+					bodyhtml longtext NOT NULL,
+					PRIMARY KEY  (id) 
 				) ENGINE=MyISAM";
 				
-				if( ! $db->sql_query( $sql ) and $prosessMode != "draft" )
+				if( ! $db->query( $sql ) and $prosessMode != "draft" )
 				{
 					$error = $BL->lang('blogErrorCreatTable');
 				}
 				
 				// Luu noi dung bodyhtml vao
-				$sql = "INSERT INTO `" . $html_table . "` VALUES( " . $id . ", " . $db->dbescape( $array['bodyhtml'] ) . " )";
-				if( ! $db->sql_query( $sql ) and $prosessMode != "draft" )
+				$sql = "INSERT INTO " . $html_table . " VALUES( " . $id . ", " . $db->quote( $array['bodyhtml'] ) . " )";
+				if( ! $db->query( $sql ) and $prosessMode != "draft" )
 				{
 					$error = $BL->lang('blogErrorSaveHtml');
 				}
@@ -517,8 +518,8 @@ if( $prosessMode != 'none' )
 						// Gui newsletters
 						if( ! empty( $newsletters ) )
 						{
-							$sql = "INSERT INTO `" . $BL->table_prefix . "_send` VALUES( NULL, " . $id . ", 0, 0, 0, 1, 0, '', '' )";
-							$db->sql_query( $sql );
+							$sql = "INSERT INTO " . $BL->table_prefix . "_send VALUES( NULL, " . $id . ", 0, 0, 0, 1, 0, '', '' )";
+							$db->query( $sql );
 						}
 						
 						// Xoa cache
@@ -536,40 +537,40 @@ if( $prosessMode != 'none' )
 		}
 		else
 		{
-			$sql = "UPDATE `" . $BL->table_prefix ."_rows` SET 
-				`postid`=" . $array['postid'] . ", 
-				`postGoogleID`=" . $db->dbescape( $array['postGoogleID'] ) . ",
-				`siteTitle`=" . $db->dbescape( $array['siteTitle'] ) . ",
-				`title`=" . $db->dbescape( $array['title'] ) . ",
-				`alias`=" . $db->dbescape( $array['alias'] ) . ",
-				`keywords`=" . $db->dbescape( $array['keywords'] ) . ",
-				`images`=" . $db->dbescape( $array['images'] ) . ",
-				`mediaType`=" . $array['mediaType'] . ", 
-				`mediaHeight`=" . $array['mediaHeight'] . ", 
-				`mediaValue`=" . $db->dbescape( $array['mediaValue'] ) . ",
-				`hometext`=" . $db->dbescape( $array['hometext'] ) . ",
-				`bodytext`=" . $db->dbescape( $array['bodytext'] ) . ",
-				`postType`=" . $array['postType'] . ", 
-				`fullPage`=" . $array['fullPage'] . ", 
-				`inHome`=" . $array['inHome'] . ", 
-				`catids`=" . $db->dbescape( $array['catids'] ? "0," . implode( ",", $array['catids'] ) . ",0" : "" ) . ",
-				`tagids`=" . $db->dbescape( $array['tagids'] ? "0," . implode( ",", $array['tagids'] ) . ",0" : "" ) . ",
-				`numWords`=" . $array['numWords'] . ", 
-				`updateTime`=" . NV_CURRENTTIME . ", 
-				`pubTime`=" . $array['pubTime'] . ", 
-				`expTime`=" . $array['expTime'] . ", 
-				`expMode`=" . $array['expMode'] . ", 
-				`status`=" . $array['status'] . "
-			WHERE `id`=" . $id;
+			$sql = "UPDATE " . $BL->table_prefix ."_rows SET 
+				postid=" . $array['postid'] . ", 
+				postgoogleid=" . $db->quote( $array['postgoogleid'] ) . ",
+				sitetitle=" . $db->quote( $array['sitetitle'] ) . ",
+				title=" . $db->quote( $array['title'] ) . ",
+				alias=" . $db->quote( $array['alias'] ) . ",
+				keywords=" . $db->quote( $array['keywords'] ) . ",
+				images=" . $db->quote( $array['images'] ) . ",
+				mediatype=" . $array['mediatype'] . ", 
+				mediaheight=" . $array['mediaheight'] . ", 
+				mediavalue=" . $db->quote( $array['mediavalue'] ) . ",
+				hometext=" . $db->quote( $array['hometext'] ) . ",
+				bodytext=" . $db->quote( $array['bodytext'] ) . ",
+				posttype=" . $array['posttype'] . ", 
+				fullpage=" . $array['fullpage'] . ", 
+				inhome=" . $array['inhome'] . ", 
+				catids=" . $db->quote( $array['catids'] ? "0," . implode( ",", $array['catids'] ) . ",0" : "" ) . ",
+				tagids=" . $db->quote( $array['tagids'] ? "0," . implode( ",", $array['tagids'] ) . ",0" : "" ) . ",
+				numwords=" . $array['numwords'] . ", 
+				updatetime=" . NV_CURRENTTIME . ", 
+				pubtime=" . $array['pubtime'] . ", 
+				exptime=" . $array['exptime'] . ", 
+				expmode=" . $array['expmode'] . ", 
+				status=" . $array['status'] . "
+			WHERE id=" . $id;
 			
-			if( $db->sql_query( $sql ) )
+			if( $db->query( $sql ) )
 			{
 				$html_table = $BL->table_prefix . "_data_" . ceil( $id / 4000 );
 				
 				// Luu noi dung bodyhtml vao
-				$sql = "UPDATE `" . $html_table . "` SET `bodyhtml`=" . $db->dbescape( $array['bodyhtml'] ) . " WHERE `id`=" . $id;
+				$sql = "UPDATE " . $html_table . " SET bodyhtml=" . $db->quote( $array['bodyhtml'] ) . " WHERE id=" . $id;
 				
-				if( ! $db->sql_query( $sql ) and $prosessMode != "draft" )
+				if( ! $db->query( $sql ) and $prosessMode != "draft" )
 				{
 					$error = $BL->lang('blogErrorUpdateHtml');
 				}
@@ -621,13 +622,13 @@ else
 }
 
 // Sua lai gio tu so thanh text
-$array['pubTime'] = $array['pubTime'] ? date( "d/m/Y", $array['pubTime'] ) : "";
-$array['expTime'] = $array['expTime'] ? date( "d/m/Y", $array['expTime'] ) : "";
+$array['pubtime'] = $array['pubtime'] ? date( "d/m/Y", $array['pubtime'] ) : "";
+$array['exptime'] = $array['exptime'] ? date( "d/m/Y", $array['exptime'] ) : "";
 
 // Chuyen so thanh chuoi
-if( empty( $array['mediaHeight'] ) )
+if( empty( $array['mediaheight'] ) )
 {
-	$array['mediaHeight'] = "";
+	$array['mediaheight'] = "";
 }
 
 // Chinh duong dan anh
@@ -637,9 +638,9 @@ if( ! empty( $array['images'] ) and preg_match( "/^\//i", $array['images'] ) )
 }
 
 // Chinh duong dan media
-if( ! empty( $array['mediaValue'] ) and preg_match( "/^\//i", $array['mediaValue'] ) )
+if( ! empty( $array['mediavalue'] ) and preg_match( "/^\//i", $array['mediavalue'] ) )
 {
-	$array['mediaValue'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . "/" . $module_name . $array['mediaValue'];
+	$array['mediavalue'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . "/" . $module_name . $array['mediavalue'];
 }
 
 $xtpl = new XTemplate( "blog-content.tpl", NV_ROOTDIR . "/themes/" . $global_config['module_theme'] . "/modules/" . $module_file );
@@ -663,25 +664,25 @@ if( $prosessMode == "draft" )
 		"id" => $id,
 	);
 	
-	include ( NV_ROOTDIR . "/includes/header.php" );
+	include NV_ROOTDIR . '/includes/header.php';
 	echo json_encode( $contents );
-	include ( NV_ROOTDIR . "/includes/footer.php" );
+	include NV_ROOTDIR . '/includes/footer.php';
 	die();
 }
 
 // Neu la xuat ban thanh cong
 if( $complete )
 {
-	$my_head = "<meta http-equiv=\"refresh\" content=\"3;url=" . NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name  . "&" . NV_OP_VARIABLE . "=blog-list\" />";
+	$my_head = "<meta http-equiv=\"refresh\" content=\"3;url=" . NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name  . "&" . NV_OP_VARIABLE . "=blog-list\" />";
 	
 	$xtpl->assign( 'MESSAGE', $BL->lang('blogSaveOk') );
 
 	$xtpl->parse( 'complete' );
 	$contents = $xtpl->text( 'complete' );
 
-	include ( NV_ROOTDIR . "/includes/header.php" );
+	include NV_ROOTDIR . '/includes/header.php';
 	echo nv_admin_theme( $contents );
-	include ( NV_ROOTDIR . "/includes/footer.php" );
+	include NV_ROOTDIR . '/includes/footer.php';
 	die();
 }
 
@@ -697,16 +698,16 @@ foreach( $list_cats as $cat )
 }
 
 // Xuat loai bai viet
-foreach( $BL->blogpostType as $postType )
+foreach( $BL->blogposttype as $posttype )
 {
-	$postType = array(
-		"key" => $postType,
-		"title" => $BL->lang('blogpostType' . $postType),
-		"checked" => $postType == $array['postType'] ? " checked=\"checked\"" : "",
+	$posttype = array(
+		"key" => $posttype,
+		"title" => $BL->lang('blogposttype' . $posttype),
+		"checked" => $posttype == $array['posttype'] ? " checked=\"checked\"" : "",
 	);
 
-	$xtpl->assign( 'POSTTYPE', $postType );
-	$xtpl->parse( 'main.postType' );
+	$xtpl->assign( 'POSTTYPE', $posttype );
+	$xtpl->parse( 'main.posttype' );
 }
 
 // Xuat gio
@@ -715,14 +716,14 @@ for( $i = 0; $i <= 23; $i ++ )
 	$hour = array(
 		"key" => $i,
 		"title" => str_pad( $i, 2, "0", STR_PAD_LEFT ),
-		"pub" => $i == $array['pubTime_h'] ? " selected=\"selected\"" : "",
-		"exp" => $i == $array['expTime_h'] ? " selected=\"selected\"" : "",
+		"pub" => $i == $array['pubtime_h'] ? " selected=\"selected\"" : "",
+		"exp" => $i == $array['exptime_h'] ? " selected=\"selected\"" : "",
 	);
 
 	$xtpl->assign( 'HOUR', $hour );
 	
-	$xtpl->parse( 'main.pubTime_h' );
-	$xtpl->parse( 'main.expTime_h' );
+	$xtpl->parse( 'main.pubtime_h' );
+	$xtpl->parse( 'main.exptime_h' );
 }
 
 // Xuat phut
@@ -731,36 +732,36 @@ for( $i = 0; $i <= 59; $i ++ )
 	$min = array(
 		"key" => $i,
 		"title" => str_pad( $i, 2, "0", STR_PAD_LEFT ),
-		"pub" => $i == $array['pubTime_m'] ? " selected=\"selected\"" : "",
-		"exp" => $i == $array['expTime_m'] ? " selected=\"selected\"" : "",
+		"pub" => $i == $array['pubtime_m'] ? " selected=\"selected\"" : "",
+		"exp" => $i == $array['exptime_m'] ? " selected=\"selected\"" : "",
 	);
 
 	$xtpl->assign( 'MIN', $min );
 	
-	$xtpl->parse( 'main.pubTime_m' );
-	$xtpl->parse( 'main.expTime_m' );
+	$xtpl->parse( 'main.pubtime_m' );
+	$xtpl->parse( 'main.exptime_m' );
 }
 
 // Xuat thao tac sau khi het han
-foreach( $BL->blogExpMode as $expMode )
+foreach( $BL->blogExpMode as $expmode )
 {
-	$expMode = array(
-		"key" => $expMode,
-		"title" => $BL->lang('blogExpMode_' . $expMode),
-		"selected" => $expMode == $array['expMode'] ? " selected=\"selected\"" : "",
+	$expmode = array(
+		"key" => $expmode,
+		"title" => $BL->lang('blogExpMode_' . $expmode),
+		"selected" => $expmode == $array['expmode'] ? " selected=\"selected\"" : "",
 	);
 
-	$xtpl->assign( 'EXPMODE', $expMode );
-	$xtpl->parse( 'main.expMode' );
+	$xtpl->assign( 'EXPMODE', $expmode );
+	$xtpl->parse( 'main.expmode' );
 }
 
 // Lay mot so tag co so bai viet nhieu
-$sql = "SELECT * FROM `" . $BL->table_prefix . "_tags` ORDER BY `numPosts` DESC LIMIT 0, 10";
-$result = $db->sql_query( $sql );
+$sql = "SELECT * FROM " . $BL->table_prefix . "_tags ORDER BY numposts DESC LIMIT 0, 10";
+$result = $db->query( $sql );
 
-if( $db->sql_numrows( $result ) )
+if( $result->rowCount() )
 {
-	while( $row = $db->sql_fetch_assoc( $result ) )
+	while( $row = $result->fetch() )
 	{
 		$xtpl->assign( 'MOSTTAGS', $row );
 		$xtpl->parse( 'main.mostTags.loop' );
@@ -788,16 +789,16 @@ if( ! empty( $error ) )
 }
 
 // Xuat kieu media
-foreach( $BL->blogMediaType as $mediaType )
+foreach( $BL->blogMediaType as $mediatype )
 {
-	$mediaType = array(
-		"key" => $mediaType,
-		"title" => $BL->lang('blogmediaType' . $mediaType),
-		"selected" => $mediaType == $array['mediaType'] ? " selected=\"selected\"" : "",
+	$mediatype = array(
+		"key" => $mediatype,
+		"title" => $BL->lang('blogmediatype' . $mediatype),
+		"selected" => $mediatype == $array['mediatype'] ? " selected=\"selected\"" : "",
 	);
 
-	$xtpl->assign( 'MEDIATYPE', $mediaType );
-	$xtpl->parse( 'main.mediaType' );
+	$xtpl->assign( 'MEDIATYPE', $mediatype );
+	$xtpl->parse( 'main.mediatype' );
 }
 
 // Bien chon media
@@ -807,14 +808,12 @@ $xtpl->assign( 'CURRENT_PATH', $currentpath );
 // Cac checkbox
 $xtpl->assign( 'NEWSLETTERS', $newsletters ? " checked=\"checked\"" : "" );
 $xtpl->assign( 'ISAUTOKEYWORDS', $isAutoKeywords ? " checked=\"checked\"" : "" );
-$xtpl->assign( 'FULLPAGE', $array['fullPage'] ? " checked=\"checked\"" : "" );
-$xtpl->assign( 'INHOME', $array['inHome'] ? " checked=\"checked\"" : "" );
+$xtpl->assign( 'FULLPAGE', $array['fullpage'] ? " checked=\"checked\"" : "" );
+$xtpl->assign( 'INHOME', $array['inhome'] ? " checked=\"checked\"" : "" );
 
 $xtpl->parse( 'main' );
 $contents = $xtpl->text( 'main' );
 
-include ( NV_ROOTDIR . "/includes/header.php" );
+include NV_ROOTDIR . '/includes/header.php';
 echo nv_admin_theme( $contents );
-include ( NV_ROOTDIR . "/includes/footer.php" );
-
-?>
+include NV_ROOTDIR . '/includes/footer.php';

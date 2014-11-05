@@ -4,7 +4,7 @@
 		<div class="bl-post-panel decollapse">
 			<div class="tl">{LANG.mainNotice}</div>
 			<div class="ct">
-				<!-- BEGIN: NoNotice --><div class="infook">{LANG.mainNoticeEmpty}</div><!-- END: NoNotice -->
+				<!-- BEGIN: NoNotice --><div class="alert alert-success bl-inline-box">{LANG.mainNoticeEmpty}</div><!-- END: NoNotice -->
 				<!-- BEGIN: notice -->
 				<ul class="bl-ul">
 					<!-- BEGIN: loop --><li class="warning-icon"><a href="{NOTICE.link}" class="bl-warning">{NOTICE.title}</a></li><!-- END: loop -->
@@ -59,7 +59,7 @@
 			<div class="ct center">
 				<div class="bl-donate">
 					<a target="_blank" href="https://www.nganluong.vn/button_payment.php?receiver={DONATE_EMAIL}&product_name={DONATE_ORDERID}&price={DONATE_AMOUNT}&return_url={DONATE_RETURN}&comments={LANG.donateComment}" ><img src="{NV_BASE_SITEURL}themes/{TEMPLATE}/images/{MODULE_FILE}/nganluong.gif"  border="0" /></a>
-					<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+					<form class="form-inline" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
 						<input type="hidden" name="cmd" value="_s-xclick"/>
 						<input type="hidden" name="hosted_button_id" value="5C3MM5P45Z72L"/>
 						<input type="image" src="{NV_BASE_SITEURL}themes/{TEMPLATE}/images/{MODULE_FILE}/paypal.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!"/>

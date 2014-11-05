@@ -1,9 +1,10 @@
 <?php
 
 /**
- * @Project NUKEVIET BLOG 3.x
+ * @Project NUKEVIET BLOG 4.x
  * @Author PHAN TAN DUNG (phantandung92@gmail.com)
- * @Copyright (C) 2013 PHAN TAN DUNG. All rights reserved
+ * @Copyright (C) 2014 PHAN TAN DUNG. All rights reserved
+ * @License GNU/GPL version 2 or any later version
  * @Language Tiếng Việt
  * @Createdate Dec 11, 2013, 09:50:11 PM
  */
@@ -36,7 +37,7 @@ $lang_module['feature'] = 'Chức năng';
 $lang_module['status'] = 'Hoạt động';
 $lang_module['status1'] = 'Trạng thái';
 $lang_module['alert_check'] = 'Bạn phải chọn ít nhất một dòng để thao tác';
-$lang_module['numPosts'] = 'Số bài viết';
+$lang_module['numposts'] = 'Số bài viết';
 $lang_module['add'] = 'Thêm';
 $lang_module['browser'] = 'Duyệt';
 $lang_module['view'] = 'Xem';
@@ -76,22 +77,22 @@ $lang_module['blogTools'] = 'Công cụ';
 $lang_module['blogInCats'] = 'Danh mục bài viết';
 $lang_module['blogTags'] = 'Tags';
 $lang_module['blogImages'] = 'Ảnh bài viết';
-$lang_module['blogpostTime'] = 'Thời gian đăng';
-$lang_module['blogupdateTime'] = 'Thời gian cập nhật';
-$lang_module['blogpostType'] = 'Loại bài viết';
-$lang_module['blogpostType0'] = 'Bài viết bình thường';
-$lang_module['blogpostType1'] = 'Bài viết có hình ảnh';
-$lang_module['blogpostType2'] = 'Bài viết có video';
-$lang_module['blogpostType3'] = 'Bài viết có âm thanh';
-$lang_module['blogpostType4'] = 'Bài ghi chú';
-$lang_module['blogpostType5'] = 'Bài viết với liên kết';
-$lang_module['blogpostType6'] = 'Thư viện';
-$lang_module['blogmediaType'] = 'Loại Media';
-$lang_module['blogmediaType0'] = 'Ảnh đại diện';
-$lang_module['blogmediaType1'] = 'Ảnh tùy chọn';
-$lang_module['blogmediaType2'] = 'Âm thanh';
-$lang_module['blogmediaType3'] = 'Video';
-$lang_module['blogmediaType4'] = 'Iframe';
+$lang_module['blogposttime'] = 'Thời gian đăng';
+$lang_module['blogupdatetime'] = 'Thời gian cập nhật';
+$lang_module['blogposttype'] = 'Loại bài viết';
+$lang_module['blogposttype0'] = 'Bài viết bình thường';
+$lang_module['blogposttype1'] = 'Bài viết có hình ảnh';
+$lang_module['blogposttype2'] = 'Bài viết có video';
+$lang_module['blogposttype3'] = 'Bài viết có âm thanh';
+$lang_module['blogposttype4'] = 'Bài ghi chú';
+$lang_module['blogposttype5'] = 'Bài viết với liên kết';
+$lang_module['blogposttype6'] = 'Thư viện';
+$lang_module['blogmediatype'] = 'Loại Media';
+$lang_module['blogmediatype0'] = 'Ảnh đại diện';
+$lang_module['blogmediatype1'] = 'Ảnh tùy chọn';
+$lang_module['blogmediatype2'] = 'Âm thanh';
+$lang_module['blogmediatype3'] = 'Video';
+$lang_module['blogmediatype4'] = 'Iframe';
 $lang_module['blogMediaHeight'] = 'Chiều cao của media';
 $lang_module['blogMediaValue'] = 'Giá trị của media';
 $lang_module['blogHometext'] = 'Nội dung tóm tắt';
@@ -128,7 +129,7 @@ $lang_module['blogSendNewsletter'] = 'Gửi email đến các email đăng ký n
 $lang_module['blogFullPage'] = 'Hiển thị toàn bộ bài viết tại trang danh sách nếu kiểu hiển thị là blog';
 $lang_module['blogGoogleAuthor'] = 'Google Author';
 $lang_module['blogIsAutoKeywords'] = 'Tự động xác định từ khóa nếu không nhập';
-$lang_module['bloginHome'] = 'Hiển thị tại trang chủ';
+$lang_module['bloginhome'] = 'Hiển thị tại trang chủ';
 
 $lang_module['categoriesManager'] = 'Quản lý danh mục bài viết';
 $lang_module['categoriesEmpty'] = 'Chưa có danh mục bài viết nào, hãy thêm danh mục từ trình đơn bên dưới';
@@ -145,11 +146,11 @@ $lang_module['categoriesDelete'] = 'Xóa danh mục';
 
 $lang_module['nltList'] = 'Danh sách đăng ký nhận tin';
 $lang_module['nltEmail'] = 'Email nhận tin';
-$lang_module['nltregTime'] = 'Thời gian đăng ký';
-$lang_module['nltconfirmTime'] = 'Thời gian kích hoạt';
-$lang_module['nltlastSendTime'] = 'Lần gửi cuối';
-$lang_module['nltnumEmail'] = 'Số email đã gửi';
-$lang_module['nltregIP'] = 'IP đăng ký';
+$lang_module['nltregtime'] = 'Thời gian đăng ký';
+$lang_module['nltconfirmtime'] = 'Thời gian kích hoạt';
+$lang_module['nltlastsendtime'] = 'Lần gửi cuối';
+$lang_module['nltnumemail'] = 'Số email đã gửi';
+$lang_module['nltregip'] = 'IP đăng ký';
 $lang_module['nltstatus-1'] = 'Chưa xác nhận';
 $lang_module['nltstatus0'] = 'Ngừng nhận email';
 $lang_module['nltstatus1'] = 'Đang nhận email';
@@ -241,5 +242,3 @@ $lang_module['tagsMost'] = 'Chọn từ tags nổi bật';
 $lang_module['tagsSearch'] = 'Tìm hoặc thêm tags';
 
 $lang_module['donateComment'] = 'Quyên góp xây dựng module blog';
-
-?>

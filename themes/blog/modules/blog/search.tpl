@@ -9,8 +9,8 @@
 <div class="post-list clearfix">
 	<div class="meta">
 	    <span><i class="icon-user mi">&nbsp;</i> {ROW.postName} </span>
-	    <span><i class="icon-time mi">&nbsp;</i>{ROW.pubTime} </span>
-	    <span><a href="{ROW.linkComment}"><i class="icon-comments-alt"></i> {ROW.numComments} {LANG.blNumComments}</a> </span>
+	    <span><i class="icon-time mi">&nbsp;</i>{ROW.pubtime} </span>
+	    <span><a href="{ROW.linkComment}"><i class="icon-comments-alt"></i> {ROW.numcomments} {LANG.blNumComments}</a> </span>
 	</div>
 </div>
 <hr />

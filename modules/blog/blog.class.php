@@ -1,9 +1,10 @@
 <?php
 
 /**
- * @Project NUKEVIET BLOG 3.x
+ * @Project NUKEVIET BLOG 4.x
  * @Author PHAN TAN DUNG (phantandung92@gmail.com)
- * @Copyright (C) 2013 PHAN TAN DUNG. All rights reserved
+ * @Copyright (C) 2014 PHAN TAN DUNG. All rights reserved
+ * @License GNU/GPL version 2 or any later version
  * @Createdate Dec 11, 2013, 09:50:11 PM
  */
 
@@ -38,7 +39,7 @@ class nv_mod_blog
 	public $catViewType = array( "type_blog", "type_news" );
 	public $tagsViewType = array( "type_blog", "type_news" );
 	public $blockTagsShowType = array( "random", "latest", "popular" );
-	public $blogpostType = array( 0, 1, 2, 3, 4, 5, 6 );
+	public $blogposttype = array( 0, 1, 2, 3, 4, 5, 6 );
 	public $blogMediaType = array( 0, 1, 2, 3, 4 );
 	public $blogExpMode = array( 0, 1, 2 );
 	public $blogStatus = array( -2, -1, 0, 1, 2 );
@@ -200,13 +201,13 @@ class nv_mod_blog
 	 */
 	private function get_setting()
 	{
-		$sql = "SELECT `config_name`, `config_value` FROM `" . $this->table_prefix . "_config`";
+		$sql = "SELECT config_name, config_value FROM " . $this->table_prefix . "_config";
 		$result = $this->db_cache( $sql );
 		
 		$array = array();
 		foreach ( $result as $values )
 		{
-			$array[$this->db->unfixdb( $values['config_name'] )] = $this->db->unfixdb( $values['config_value'] );
+			$array[$values['config_name']] = $values['config_value'];
 		}
 
 		return $array;
@@ -269,6 +270,8 @@ class nv_mod_blog
 					{
 						$this->frameworks_called[md5( $list_args[$i] )] = $list_args[$i];
 						
+						$frameWorks .= $this->getFrameWorks( 'ui.core' );
+						$frameWorks .= $this->getFrameWorks( 'ui.menu' );
 						$frameWorks .= "<script type=\"text/javascript\" src=\"" . $this->base_site_url . "modules/" . $this->mod_file . "/frameworks/ui/jquery.ui.autocomplete.js\"></script>\n";
 					}
 					elseif( $list_args[$i] == 'ui.core' )
@@ -294,6 +297,14 @@ class nv_mod_blog
 						$frameWorks .= "<link type=\"text/css\" href=\"" . $this->base_site_url . "js/ui/jquery.ui.datepicker.css\" rel=\"stylesheet\" />\n";
 						$frameWorks .= "<script type=\"text/javascript\" src=\"" . $this->base_site_url . "js/ui/jquery.ui.datepicker.min.js\"></script>\n";
 						$frameWorks .= "<script type=\"text/javascript\" src=\"" . $this->base_site_url . "js/language/jquery.ui.datepicker-" . NV_LANG_INTERFACE . ".js\"></script>\n";
+					}
+					elseif( $list_args[$i] == 'ui.menu' )
+					{
+						$this->frameworks_called[md5( $list_args[$i] )] = $list_args[$i];
+						
+						$frameWorks .= $this->getFrameWorks( 'ui.core' );
+						$frameWorks .= "<link type=\"text/css\" href=\"" . $this->base_site_url . "js/ui/jquery.ui.menu.css\" rel=\"stylesheet\" />\n";
+						$frameWorks .= "<script type=\"text/javascript\" src=\"" . $this->base_site_url . "js/ui/jquery.ui.menu.min.js\"></script>\n";
 					}
 				}
 				// Các frameworks của hệ thống khác
@@ -371,21 +382,21 @@ class nv_mod_blog
 	public function executeData( $rmCache = false )
 	{
 		// Cho dang nhung bai dang cho duyet
-		$sql = "UPDATE `" . $this->table_prefix . "_rows` SET `status`=1 WHERE `status`=-1 AND `pubTime`<=" . $this->currenttime;
-		$this->db->sql_query( $sql );
+		$sql = "UPDATE " . $this->table_prefix . "_rows SET status=1 WHERE status=-1 AND pubtime<=" . $this->currenttime;
+		$this->db->query( $sql );
 		
 		// Xu ly cac bai viet het han
-		$sql = "SELECT `id`, `expMode` FROM `" . $this->table_prefix . "_rows` WHERE `status`=1 AND `expTime`!=0 AND `expTime`<=" . $this->currenttime;
-		$result = $this->db->sql_query( $sql );
+		$sql = "SELECT id, expmode FROM " . $this->table_prefix . "_rows WHERE status=1 AND exptime!=0 AND exptime<=" . $this->currenttime;
+		$result = $this->db->query( $sql );
 		
-		while( $row = $this->db->sql_fetchrow( $result ) )
+		while( $row = $result->fetch() )
 		{
-			if( $row['expMode'] != 2 )
+			if( $row['expmode'] != 2 )
 			{
-				$status = $row['expMode'] == 0 ? 0 : 2;
+				$status = $row['expmode'] == 0 ? 0 : 2;
 
-				$sql = "UPDATE `" . $this->table_prefix . "_rows` SET `status`=" . $status . " WHERE `id`=" . $row['id'];
-				$result = $this->db->sql_query( $sql );
+				$sql = "UPDATE " . $this->table_prefix . "_rows SET status=" . $status . " WHERE id=" . $row['id'];
+				$result = $this->db->query( $sql );
 			}
 			else
 			{
@@ -394,13 +405,13 @@ class nv_mod_blog
 		}
 		
 		// Xac dinh lan thuc hien tiep theo
-		$sql = "SELECT MIN(`pubTime`) AS `nextpublic` FROM `" . $this->table_prefix . "_rows` WHERE `status`=-1 AND `pubTime`>" . $this->currenttime;
-		$result = $this->db->sql_query( $sql );
-		list( $nextpublic ) = $this->db->sql_fetchrow( $result );
+		$sql = "SELECT MIN(pubtime) AS nextpublic FROM " . $this->table_prefix . "_rows WHERE status=-1 AND pubtime>" . $this->currenttime;
+		$result = $this->db->query( $sql );
+		list( $nextpublic ) = $result->fetch(3);
 		
-		$sql = "SELECT MIN(`expTime`) AS `nextexpire` FROM `" . $this->table_prefix . "_rows` WHERE `status`=1 AND `expTime`>" . $this->currenttime;
-		$result = $this->db->sql_query( $sql );
-		list( $nextexpire ) = $this->db->sql_fetchrow( $result );
+		$sql = "SELECT MIN(exptime) AS nextexpire FROM " . $this->table_prefix . "_rows WHERE status=1 AND exptime>" . $this->currenttime;
+		$result = $this->db->query( $sql );
+		list( $nextexpire ) = $result->fetch(3);
 		
 		if( ! empty( $nextpublic ) or ! empty( $nextexpire ) )
 		{
@@ -426,8 +437,8 @@ class nv_mod_blog
 			$nextime = 0;
 		}
 		
-		$sql = "UPDATE `" . $this->table_prefix . "_config` SET `config_value`='" . $nextime . "' WHERE `config_name`='nextExecuteTime'";
-		$this->db->sql_query( $sql );
+		$sql = "UPDATE " . $this->table_prefix . "_config SET config_value='" . $nextime . "' WHERE config_name='nextExecuteTime'";
+		$this->db->query( $sql );
 		
 		// Xoa cache neu co
 		if( $rmCache )
@@ -517,11 +528,11 @@ class nv_mod_blog
 		
 		foreach( $array_table_check as $table_check )
 		{
-			$sql = "SELECT * FROM `" . $this->table_prefix . $table_check . "` WHERE `alias`=" . $this->db->dbescape( $alias ) . ( $mode == $table_check and ! empty( $id ) ? " AND `id`!=" . $id : "" );
-			$result = $this->db->sql_query( $sql );
-			if( $this->db->sql_numrows( $result ) ) return true;
+			$sql = "SELECT * FROM " . $this->table_prefix . $table_check . " WHERE alias=" . $this->db->quote( $alias ) . ( ( $mode == $table_check and ! empty( $id ) ) ? " AND id!=" . $id : "" );
+			$result = $this->db->query( $sql );
+			if( $result->rowCount() ) return true;
 		}
-		
+
 		return false;
 	}
 	
@@ -552,7 +563,7 @@ class nv_mod_blog
 		{
 			while( 1 )
 			{
-				list( $count ) = $this->db->sql_fetchrow( $this->db->sql_query( "SELECT COUNT(*) FROM `" . $this->table_prefix . $table . "` WHERE `alias`=" . $this->db->dbescape( $alias ) ) );
+				$count = $this->db->query( "SELECT COUNT(*) FROM " . $this->table_prefix . $table . " WHERE alias=" . $this->db->quote( $alias ) )->fetchColumn();
 				if( empty( $count ) ) break;
 				
 				if( preg_match( "/^(.*)\-(\d+)$/", $alias, $m ) )
@@ -621,11 +632,11 @@ class nv_mod_blog
 	{
 		if( defined('NV_ADMIN') )
 		{
-			$sql = "SELECT * FROM `" . $this->table_prefix . "_categories` ORDER BY `parentid`, `weight` ASC";
-			$result = $this->db->sql_query( $sql );
+			$sql = "SELECT * FROM " . $this->table_prefix . "_categories ORDER BY parentid, weight ASC";
+			$result = $this->db->query( $sql );
 			
 			$list = array();
-			while( $row = $this->db->sql_fetchrow( $result ) )
+			while( $row = $result->fetch() )
 			{
 				$list[$row['parentid']][] = array(
 					'id' => ( int ) $row['id'],
@@ -634,9 +645,9 @@ class nv_mod_blog
 					'alias' => $row['alias'],
 					'keywords' => $row['keywords'],
 					'description' => $row['description'],
-					'numSubs' => ( int ) $row['numSubs'],
-					'numPosts' => ( int ) $row['numPosts'],
-					'numPostsFormat' => number_format( $row['numPosts'], 0, '.', '.' ),
+					'numsubs' => ( int ) $row['numsubs'],
+					'numposts' => ( int ) $row['numposts'],
+					'numpostsFormat' => number_format( $row['numposts'], 0, '.', '.' ),
 					'weight' => ( int ) $row['weight'],
 					'status' => ( int ) $row['status'],
 					'name' => $row['title'],
@@ -648,7 +659,7 @@ class nv_mod_blog
 		}
 		else
 		{
-			$sql = "SELECT * FROM `" . $this->table_prefix . "_categories` WHERE `status`=1 ORDER BY `parentid`, `weight` ASC";
+			$sql = "SELECT * FROM " . $this->table_prefix . "_categories WHERE status=1 ORDER BY parentid, weight ASC";
 			$result = $this->db_cache( $sql, 'id', $this->mod_name );
 			
 			$list = $list1 = array();
@@ -666,9 +677,9 @@ class nv_mod_blog
 						'alias' => $row['alias'],
 						'keywords' => $row['keywords'],
 						'description' => $row['description'],
-						'numSubs' => ( int ) $row['numSubs'],
-						'numPosts' => ( int ) $row['numPosts'],
-						'numPostsFormat' => number_format( $row['numPosts'], 0, '.', '.' ),
+						'numsubs' => ( int ) $row['numsubs'],
+						'numposts' => ( int ) $row['numposts'],
+						'numpostsFormat' => number_format( $row['numposts'], 0, '.', '.' ),
 						'weight' => ( int ) $row['weight'],
 						'status' => ( int ) $row['status'],
 						'name' => $row['title'],
@@ -715,19 +726,20 @@ class nv_mod_blog
 		foreach( $ids as $id )
 		{
 			// Lay thong tin cua danh muc
-			$sql = "SELECT * FROM `" . $this->table_prefix . "_categories` WHERE `id`=" . $id;
-			$result = $this->db->sql_query( $sql );
+			$sql = "SELECT * FROM " . $this->table_prefix . "_categories WHERE id=" . $id;
+			$result = $this->db->query( $sql );
 			
-			if( ! $this->db->sql_numrows( $result ) ) return;
+			if( ! $result->rowCount() ) return;
 			
-			$row = $this->db->sql_fetch_assoc( $result );
+			$row = $result->fetch( PDO::FETCH_ASSOC );
 			
 			// Cap nhat so bai viet
-			$this->db->sql_query( "UPDATE `" . $this->table_prefix . "_categories` SET `numPosts`=(SELECT COUNT(*) FROM `" . $this->table_prefix . "_rows` WHERE " . $this->build_query_search_id( $id, 'catids' ) . "AND `status`=1) WHERE `id`=" . $id );
+			$numposts = $this->db->query( "SELECT COUNT(*) FROM " . $this->table_prefix . "_rows WHERE " . $this->build_query_search_id( $id, 'catids' ) . "AND status=1" )->fetchColumn();
+			$this->db->query( "UPDATE " . $this->table_prefix . "_categories SET numposts=" . $numposts . " WHERE id=" . $id );
 			
 			// Cap nhat so danh muc con
-			list( $numPosts ) = $this->db->sql_fetchrow( $this->db->sql_query( "SELECT COUNT(*) FROM `" . $this->table_prefix . "_categories` WHERE `parentid`=" . $id ) );
-			$this->db->sql_query( "UPDATE `" . $this->table_prefix . "_categories` SET `numSubs`=" . $numPosts . " WHERE `id`=" . $id );
+			$numsubs = $this->db->query( "SELECT COUNT(*) FROM " . $this->table_prefix . "_categories WHERE parentid=" . $id )->fetchColumn();
+			$this->db->query( "UPDATE " . $this->table_prefix . "_categories SET numsubs=" . $numsubs . " WHERE id=" . $id );
 			
 			$this->fixCat( $row['parentid'] );
 		}
@@ -743,14 +755,14 @@ class nv_mod_blog
 	 */
 	public function fixWeightCat( $parentid = 0 )
 	{
-		$sql = "SELECT `id` FROM `" . $this->table_prefix . "_categories` WHERE `parentid`=" . $parentid . " ORDER BY `weight` ASC";
-		$result = $this->db->sql_query( $sql );
+		$sql = "SELECT id FROM " . $this->table_prefix . "_categories WHERE parentid=" . $parentid . " ORDER BY weight ASC";
+		$result = $this->db->query( $sql );
 		
 		$weight = 0;
-		while( $row = $this->db->sql_fetchrow( $result ) )
+		while( $row = $result->fetch() )
 		{
 			$weight ++;
-			$this->db->sql_query( "UPDATE `" . $this->table_prefix . "_categories` SET `weight`=" . $weight . " WHERE `id`=" . $row['id'] );
+			$this->db->query( "UPDATE " . $this->table_prefix . "_categories SET weight=" . $weight . " WHERE id=" . $row['id'] );
 		}
 		
 		return;
@@ -771,13 +783,14 @@ class nv_mod_blog
 		foreach( $ids as $id )
 		{
 			// Lay thong tin cua tags
-			$sql = "SELECT * FROM `" . $this->table_prefix . "_tags` WHERE `id`=" . $id;
-			$result = $this->db->sql_query( $sql );
+			$sql = "SELECT * FROM " . $this->table_prefix . "_tags WHERE id=" . $id;
+			$result = $this->db->query( $sql );
 			
-			if( ! $this->db->sql_numrows( $result ) ) return;
+			if( ! $result->rowCount() ) return;
 			
 			// Cap nhat so bai viet
-			$this->db->sql_query( "UPDATE `" . $this->table_prefix . "_tags` SET `numPosts`=(SELECT COUNT(*) FROM `" . $this->table_prefix . "_rows` WHERE " . $this->build_query_search_id( $id, 'tagids' ) . " AND `status`=1) WHERE `id`=" . $id );
+			$numposts = $this->db->query( "SELECT COUNT(*) FROM " . $this->table_prefix . "_rows WHERE " . $this->build_query_search_id( $id, 'tagids' ) . " AND status=1" )->fetchColumn();
+			$this->db->query( "UPDATE " . $this->table_prefix . "_tags SET numposts=" . $numposts . " WHERE id=" . $id );
 		}
 		
 		return;
@@ -802,9 +815,9 @@ class nv_mod_blog
 		
 		// Lay du lieu
 		$tags = array();
-		$result = $this->db->sql_query( "SELECT * FROM `" . $this->table_prefix . "_tags` WHERE `id` IN(" . implode( ",", $id ) . ")" );
+		$result = $this->db->query( "SELECT * FROM " . $this->table_prefix . "_tags WHERE id IN(" . implode( ",", $id ) . ")" );
 		
-		while( $row = $this->db->sql_fetch_assoc( $result ) )
+		while( $row = $result->fetch( PDO::FETCH_ASSOC ) )
 		{
 			$tags[$row['id']] = $row;
 		}
@@ -837,9 +850,9 @@ class nv_mod_blog
 		
 		// Lay du lieu
 		$posts = array();
-		$result = $this->db->sql_query( "SELECT * FROM `" . $this->table_prefix . "_rows` WHERE `id` IN(" . implode( ",", $id ) . ")" );
+		$result = $this->db->query( "SELECT * FROM " . $this->table_prefix . "_rows WHERE id IN(" . implode( ",", $id ) . ")" );
 		
-		while( $row = $this->db->sql_fetch_assoc( $result ) )
+		while( $row = $result->fetch( PDO::FETCH_ASSOC ) )
 		{
 			$posts[$row['id']] = $row;
 		}
@@ -897,13 +910,13 @@ class nv_mod_blog
 		foreach( $posts as $row )
 		{
 			// Xoa bang chinh
-			$sql = "DELETE FROM `" . $this->table_prefix . "_rows` WHERE `id`=" . $row['id'];
-			$this->db->sql_query( $sql );
+			$sql = "DELETE FROM " . $this->table_prefix . "_rows WHERE id=" . $row['id'];
+			$this->db->query( $sql );
 			
 			// Xoa bang data
 			$html_table = $this->table_prefix . "_data_" . ceil( $row['id'] / 4000 );
-			$sql = "DELETE FROM `" . $html_table . "` WHERE `id`=" . $row['id'];
-			$this->db->sql_query( $sql );
+			$sql = "DELETE FROM " . $html_table . " WHERE id=" . $row['id'];
+			$this->db->query( $sql );
 			
 			// Them cac danh muc can fix
 			$row['catids'] = $this->string2array( $row['catids'] );
@@ -920,19 +933,19 @@ class nv_mod_blog
 			}
 			
 			// Xoa bang data neu khong con bai viet nao
-			$sql = "SELECT COUNT(*) FROM `" . $html_table . "`";
-			$result = $this->db->sql_query( $sql );
-			list( $numPosts ) = $this->db->sql_fetchrow( $result );
+			$sql = "SELECT COUNT(*) FROM " . $html_table;
+			$result = $this->db->query( $sql );
+			list( $numposts ) = $result->fetch( PDO::FETCH_BOTH );
 			
-			if( ! $numPosts )
+			if( ! $numposts )
 			{
-				$sql = "DROP TABLE `" . $html_table . "`";
-				$this->db->sql_query( $sql );
+				$sql = "DROP TABLE " . $html_table;
+				$this->db->query( $sql );
 			}
 			
 			// Xoa tien trinh gui email
-			$sql = "DELETE FROM `" . $this->table_prefix . "_send` WHERE `pid`=" . $row['id'];
-			$this->db->sql_query( $sql );
+			$sql = "DELETE FROM " . $this->table_prefix . "_send WHERE pid=" . $row['id'];
+			$this->db->query( $sql );
 		}
 		
 		// Cap nhat tags
@@ -1079,5 +1092,3 @@ class nv_mod_blog
 		return $str;
 	}
 }
-
-?>

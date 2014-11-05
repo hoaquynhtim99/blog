@@ -1,9 +1,10 @@
 <?php
 
 /**
- * @Project NUKEVIET BLOG 3.x
+ * @Project NUKEVIET BLOG 4.x
  * @Author PHAN TAN DUNG (phantandung92@gmail.com)
- * @Copyright (C) 2013 PHAN TAN DUNG. All rights reserved
+ * @Copyright (C) 2014 PHAN TAN DUNG. All rights reserved
+ * @License GNU/GPL version 2 or any later version
  * @Createdate Dec 11, 2013, 09:50:11 PM
  */
 
@@ -36,15 +37,15 @@ if( isset( $array_op[1] ) )
 	$per_page = intval( $BL->setting['numPostPerPage'] );
 	
 	// Lấy thông tin của tags
-	$sql = "SELECT * FROM `" . $BL->table_prefix . "_tags` WHERE `alias`=" . $db->dbescape( $array_op[1] );
-	$result = $db->sql_query( $sql );
+	$sql = "SELECT * FROM " . $BL->table_prefix . "_tags WHERE alias=" . $db->quote( $array_op[1] );
+	$result = $db->query( $sql );
 	
-	if( $db->sql_numrows( $result ) != 1 ){
+	if( $result->rowCount() != 1 ){
 		header( 'Location:' . nv_url_rewrite( NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name, true ) );
 		die();
 	}
 	
-	$array_tags = $db->sql_fetch_assoc( $result );
+	$array_tags = $result->fetch();
 	
 	// Xác định tiêu đề của trang
 	$page_title = $mod_title = $array_tags['title'];
@@ -69,44 +70,44 @@ if( isset( $array_op[1] ) )
 	);
 	
 	// SQL lấy các bài viết
-	$sql = "FROM `" . $BL->table_prefix . "_rows` WHERE `status`=1 AND (" . $BL->build_query_search_id( $array_tags['id'], 'tagids' ) . ")";
+	$sql = "FROM " . $BL->table_prefix . "_rows WHERE status=1 AND (" . $BL->build_query_search_id( $array_tags['id'], 'tagids' ) . ")";
 	$base_url = NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $op . '/' . $array_tags['alias'];
 	
 	// Lay so row
 	$sql1 = "SELECT COUNT(*) " . $sql;
-	$result1 = $db->sql_query( $sql1 );
-	list( $all_page ) = $db->sql_fetchrow( $result1 );
+	$result1 = $db->query( $sql1 );
+	$all_page = $result1->fetchColumn();
 	
 	// Lay du lieu
-	$sql = "SELECT * " . $sql . " ORDER BY `pubTime` DESC LIMIT " . ( ( $page - 1 ) * $per_page ) . ", " . $per_page;
-	$result = $db->sql_query( $sql );
+	$sql = "SELECT * " . $sql . " ORDER BY pubtime DESC LIMIT " . ( ( $page - 1 ) * $per_page ) . ", " . $per_page;
+	$result = $db->query( $sql );
 	
 	$array = $array_userids = array();
 	
 	// Danh sách các bảng data của bài viết sẽ cần duyệt qua để lấy nội dung hmtl
 	$array_table_pass = array();
 	
-	while( $row = $db->sql_fetch_assoc( $result ) )
+	while( $row = $result->fetch() )
 	{
-		$row['mediaType'] = intval( $row['mediaType'] );
-		$row['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $row['alias'];
+		$row['mediatype'] = intval( $row['mediatype'] );
+		$row['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $row['alias'] . $global_config['rewrite_exturl'];
 		$row['postName'] = '';
 		
 		// Xac dinh media
-		if( $row['mediaType'] == 0 )
+		if( $row['mediatype'] == 0 )
 		{
-			$row['mediaValue'] = $row['images'];
+			$row['mediavalue'] = $row['images'];
 		}
 		
-		if( ! empty( $row['mediaValue'] ) )
+		if( ! empty( $row['mediavalue'] ) )
 		{
-			if( is_file( NV_UPLOADS_REAL_DIR . '/' . $module_name . $row['mediaValue'] ) )
+			if( is_file( NV_UPLOADS_REAL_DIR . '/' . $module_name . $row['mediavalue'] ) )
 			{
-				$row['mediaValue'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_name . $row['mediaValue'];
+				$row['mediavalue'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_name . $row['mediavalue'];
 			}
-			elseif( ! nv_is_url( $row['mediaValue'] ) )
+			elseif( ! nv_is_url( $row['mediavalue'] ) )
 			{
-				$row['mediaValue'] = '';
+				$row['mediavalue'] = '';
 			}
 		}
 	
@@ -124,7 +125,7 @@ if( isset( $array_op[1] ) )
 		}
 		
 		// Đánh dấu fullpage
-		if( ! empty( $row['fullPage'] ) )
+		if( ! empty( $row['fullpage'] ) )
 		{
 			$table = ceil( $row['id'] / 4000 );
 			$array_table_pass[$table][$row['id']] = $row['id'];
@@ -145,11 +146,11 @@ if( isset( $array_op[1] ) )
 	// Lay thanh vien dang bai
 	if( ! empty( $array_userids ) )
 	{
-		$sql = "SELECT `userid`, `username`, `full_name` FROM `" . NV_USERS_GLOBALTABLE . "` WHERE `userid` IN(" . implode( ",", $array_userids ) . ")";
-		$result = $db->sql_query( $sql );
+		$sql = "SELECT userid, username, full_name FROM " . NV_USERS_GLOBALTABLE . " WHERE userid IN(" . implode( ",", $array_userids ) . ")";
+		$result = $db->query( $sql );
 		
 		$array_userids = array();
-		while( $row = $db->sql_fetchrow( $result ) )
+		while( $row = $result->fetch() )
 		{
 			$array_userids[$row['userid']] = $row['full_name'] ? $row['full_name'] : $row['username'];
 		}
@@ -168,10 +169,10 @@ if( isset( $array_op[1] ) )
 	{
 		foreach( $array_table_pass as $table => $postids )
 		{
-			$sql = "SELECT `id`, `bodyhtml` FROM `" . $BL->table_prefix . "_data_" . $table . "` WHERE `id` IN( " . implode( ",", $postids ) . " )";
-			$result = $db->sql_query( $sql );
+			$sql = "SELECT id, bodyhtml FROM " . $BL->table_prefix . "_data_" . $table . " WHERE id IN( " . implode( ",", $postids ) . " )";
+			$result = $db->query( $sql );
 			
-			while( $row = $db->sql_fetch_assoc( $result ) )
+			while( $row = $result->fetch() )
 			{
 				$array[$row['id']]['bodyhtml'] = $row['bodyhtml'];
 			}
@@ -219,9 +220,9 @@ if( isset( $array_op[1] ) )
 	
 	$contents = nv_detail_tags_theme( $array, $generate_page, $BL->setting, $page, $total_pages, $BL );
 	
-	include ( NV_ROOTDIR . "/includes/header.php" );
+	include NV_ROOTDIR . '/includes/header.php';
 	echo nv_site_theme( $contents );
-	include ( NV_ROOTDIR . "/includes/footer.php" );
+	include NV_ROOTDIR . '/includes/footer.php';
 	die();
 }
 // Tất cả các tags
@@ -231,11 +232,11 @@ else
 	$key_words = $module_info['keywords'] . ', tags';
 	$description = $module_info['description'] . ' tags';
 	
-	$sql = "SELECT `id`, `title`, `alias`, `numPosts` FROM `" . $BL->table_prefix . "_tags` ORDER BY `title` ASC";
-	$result = $db->sql_query( $sql );
+	$sql = "SELECT id, title, alias, numposts FROM " . $BL->table_prefix . "_tags ORDER BY title ASC";
+	$result = $db->query( $sql );
 	
 	$array = array();
-	while( $row = $db->sql_fetch_assoc( $result ) )
+	while( $row = $result->fetch() )
 	{
 		$array[$row['id']] = $row;
 		$array[$row['id']]['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op . '/' . $row['alias'];
@@ -265,10 +266,8 @@ else
 	
 	$contents = nv_all_tags_theme( $array, $BL );
 	
-	include ( NV_ROOTDIR . "/includes/header.php" );
+	include NV_ROOTDIR . '/includes/header.php';
 	echo nv_site_theme( $contents );
-	include ( NV_ROOTDIR . "/includes/footer.php" );
+	include NV_ROOTDIR . '/includes/footer.php';
 	die();
 }
-
-?>

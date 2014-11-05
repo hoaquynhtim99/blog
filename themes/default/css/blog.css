@@ -1,6 +1,10 @@
 /**
  * Global
  */
+ul.list-menu{
+	margin: 0;
+	padding: 0;
+}
 .ms4-clear{
 	clear: both;
 }

@@ -1,9 +1,10 @@
 <?php
 
 /**
- * @Project NUKEVIET BLOG 3.x
+ * @Project NUKEVIET BLOG 4.x
  * @Author PHAN TAN DUNG (phantandung92@gmail.com)
- * @Copyright (C) 2013 PHAN TAN DUNG. All rights reserved
+ * @Copyright (C) 2014 PHAN TAN DUNG. All rights reserved
+ * @License GNU/GPL version 2 or any later version
  * @Createdate Dec 11, 2013, 09:50:11 PM
  */
 
@@ -27,35 +28,35 @@ function cron_blog_newsletters( $table_data, $num_onesend )
 		$module_data = implode( "_", $table_data );
 		
 		// Lay module file, module name
-		$sql = "SELECT `title`, `module_file` FROM `" . NV_MODULES_TABLE . "` WHERE `module_data`=" . $db->dbescape( $module_data );
-		$result = $db->sql_query( $sql );
-		list( $module_name, $module_file ) = $db->sql_fetchrow( $result );
+		$sql = "SELECT title, module_file FROM " . NV_MODULES_TABLE . " WHERE module_data=" . $db->quote( $module_data );
+		$result = $db->query( $sql );
+		list( $module_name, $module_file ) = $result->fetch( 3 );
 		
 		$table_data = $db_config['prefix'] . "_" . $lang ."_" . $module_data;
 		
 		// Lay cau hinh gui mail
-		$sql = "SELECT `config_value` FROM `" . $table_data . "_config` WHERE `config_name`=" . $db->dbescape('numberResendNewsletter');
-		$result = $db->sql_query( $sql );
-		list( $numberResendNewsletter ) = $db->sql_fetchrow( $result );
+		$sql = "SELECT config_value FROM " . $table_data . "_config WHERE config_name=" . $db->quote('numberResendNewsletter');
+		$result = $db->query( $sql );
+		$numberResendNewsletter = $result->fetchColumn();
 		
 		// Lay tin can gui (uu tien cac tin round 1 hon)
-		$sql = "SELECT a.*, b.title, b.alias, b.hometext FROM `" . $table_data . "_send` AS a INNER JOIN `" . $table_data . "_rows` AS b ON a.pid=b.id WHERE a.status!=2 AND b.status=1 ORDER BY a.status DESC, a.id ASC LIMIT 0,1";
-		$result = $db->sql_query( $sql );
+		$sql = "SELECT a.*, b.title, b.alias, b.hometext FROM " . $table_data . "_send a INNER JOIN " . $table_data . "_rows b ON a.pid=b.id WHERE a.status!=2 AND b.status=1 ORDER BY a.status DESC, a.id ASC LIMIT 0,1";
+		$result = $db->query( $sql );
 		
-		if( $db->sql_numrows( $result ) )
+		if( $result->rowCount() )
 		{
 			// Du lieu gui
-			$data_send = $db->sql_fetch_assoc( $result );
+			$data_send = $result->fetch();
 			
-			$data_send['lastID'] = intval( $data_send['lastID'] );
+			$data_send['lastid'] = intval( $data_send['lastid'] );
 			$data_send['link'] = NV_MY_DOMAIN . NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . $lang . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $data_send['alias'];
-			$data_send['resendData'] = explode( ",", $data_send['resendData'] );
-			$data_send['errorData'] = explode( ",", $data_send['errorData'] );
+			$data_send['resenddata'] = explode( ",", $data_send['resenddata'] );
+			$data_send['errordata'] = explode( ",", $data_send['errordata'] );
 			
 			// Danh dau la dang gui
 			if( empty( $data_send['status'] ) )
 			{
-				$db->sql_query( "UPDATE `" . $table_data . "_send` SET `status`=1, `startTime`=" . NV_CURRENTTIME . ", `round`=1 WHERE `id`=" . $data_send['id'] );
+				$db->query( "UPDATE " . $table_data . "_send SET status=1, starttime=" . NV_CURRENTTIME . ", round=1 WHERE id=" . $data_send['id'] );
 			}
 		
 			// Goi ngon ngu
@@ -64,36 +65,36 @@ function cron_blog_newsletters( $table_data, $num_onesend )
 			// Lay nguoi gui lan gui 1
 			if( $data_send['round'] <= 1 )
 			{
-				$sql = "SELECT `id`, `email` FROM `" . $table_data . "_newsletters` WHERE `status`=1 AND `id`>" . $data_send['lastID'] . " ORDER BY `id` ASC LIMIT 0," . $num_onesend;
+				$sql = "SELECT id, email FROM " . $table_data . "_newsletters WHERE status=1 AND id>" . $data_send['lastid'] . " ORDER BY id ASC LIMIT 0," . $num_onesend;
 			}
 			// Nguoi gui o cac lan gui tiep theo
 			else
 			{
-				$sql = "SELECT `id`, `email` FROM `" . $table_data . "_newsletters` WHERE `status`=1 AND `id`>" . $data_send['lastID'] . " AND `id` IN(" . implode( ",", $data_send['resendData'] ) . ") ORDER BY `id` ASC LIMIT 0," . $num_onesend;
+				$sql = "SELECT id, email FROM " . $table_data . "_newsletters WHERE status=1 AND id>" . $data_send['lastid'] . " AND id IN(" . implode( ",", $data_send['resenddata'] ) . ") ORDER BY id ASC LIMIT 0," . $num_onesend;
 			}
-			$result = $db->sql_query( $sql );
-			$num = $db->sql_numrows( $result );
+			$result = $db->query( $sql );
+			$num = $result->rowCount();
 			
-			while( $row = $db->sql_fetchrow( $result ) )
+			while( $row = $result->fetch() )
 			{
 				if( nv_sendmail( array( $global_config['site_name'], $global_config['site_email'] ), $row['email'], nv_unhtmlspecialchars( $data_send['title'] ), $data_send['hometext'] . "<br /><br />" . $lang_module['newsletterMessage'] . ": <a href=\"" . $data_send['link'] . "\">" . $data_send['link'] . "</a>" ) )
 				{
 					// Cap nhat lan gui cuoi va so email da gui
-					$db->sql_query( "UPDATE `" . $table_data . "_newsletters` SET `numEmail`=`numEmail`+1, `lastSendTime`=" . NV_CURRENTTIME . " WHERE `id`=" . $row['id'] );
+					$db->query( "UPDATE " . $table_data . "_newsletters SET numemail=numemail+1, lastsendtime=" . NV_CURRENTTIME . " WHERE id=" . $row['id'] );
 				}
 				else
 				{
 					// Danh dau cac email bi loi trong lan gui nay
-					$data_send['errorData'][$row['id']] = $row['id'];
+					$data_send['errordata'][$row['id']] = $row['id'];
 				}
 				
-				$data_send['lastID'] = $row['id'];
+				$data_send['lastid'] = $row['id'];
 			}
 			
 			// Cap nhat lai thong tin
 			$sql = array();
 			
-			$sql[] = "`lastID`=" . $data_send['lastID'];
+			$sql[] = "lastid=" . $data_send['lastid'];
 			
 			if( $num < $num_onesend )
 			{
@@ -101,32 +102,30 @@ function cron_blog_newsletters( $table_data, $num_onesend )
 				$data_send['round'] = $data_send['round'] + 1;
 				
 				// Danh dau da gui xong neu qua so lan gui hoac khong co email loi
-				if( $data_send['round'] > $numberResendNewsletter or empty( $data_send['errorData'] ) )
+				if( $data_send['round'] > $numberResendNewsletter or empty( $data_send['errordata'] ) )
 				{
-					$sql[] = "`status`=2";
-					$sql[] = "`endTime`=" . NV_CURRENTTIME;
+					$sql[] = "status=2";
+					$sql[] = "endtime=" . NV_CURRENTTIME;
 				}
 				// Gui chua xong thi moi tang va ghi vào CSDL
 				else
 				{
-					$sql[] = "`round`=" . $data_send['round'];
+					$sql[] = "round=" . $data_send['round'];
 					
 					// Du lieu gui lan tiep theo la du lieu loi cua lan nay
-					$sql[] = "`resendData`=" . $db->dbescape( implode( ",", $data_send['errorData'] ) );
-					$sql[] = "`errorData`=''";
+					$sql[] = "resenddata=" . $db->quote( implode( ",", $data_send['errordata'] ) );
+					$sql[] = "errordata=''";
 				}
 			}
 			else
 			{
 				// Ghi lai du lieu loi
-				$sql[] = "`errorData`=" . $db->dbescape( $data_send['errorData'] ? implode( ",", $data_send['errorData'] ) : '' );
+				$sql[] = "errordata=" . $db->quote( $data_send['errordata'] ? implode( ",", $data_send['errordata'] ) : '' );
 			}
 			
-			$db->sql_query( "UPDATE `" . $table_data . "_send` SET " . implode( ", ", $sql ) . " WHERE `id`=" . $data_send['id'] );
+			$db->query( "UPDATE " . $table_data . "_send SET " . implode( ", ", $sql ) . " WHERE id=" . $data_send['id'] );
 		}
 	}
 	
 	return true;
 }
-
-?>
