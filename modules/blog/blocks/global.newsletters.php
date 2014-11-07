@@ -14,7 +14,7 @@ if ( ! nv_function_exists( 'nv_blog_newsletters' ) )
 {
 	function nv_blog_newsletters( $block_config )
 	{
-		global $module_info, $global_config, $site_mods, $client_info;
+		global $module_info, $global_config, $site_mods, $client_info, $module_name;
 		
 		$module = $block_config['module'];
 		$module_file = $site_mods[$module]['module_file'];
@@ -31,6 +31,21 @@ if ( ! nv_function_exists( 'nv_blog_newsletters' ) )
 		{
 			$block_theme = "default";
 		}
+
+		// Goi css
+		if( $module_name != $module and ! defined( 'NV_IS_BLOG_CSS' ) )
+		{
+			global $my_head;
+			
+			$css_file = 'themes/' . $block_theme . '/css/' . $module_file . '.css';
+			
+			if( file_exists( NV_ROOTDIR . '/' . $css_file ) )
+			{
+				define( 'NV_IS_BLOG_CSS', true );
+				
+				$my_head .= "<link rel=\"stylesheet\" href=\"" . NV_BASE_SITEURL . $css_file . "\"/>\n";
+			}
+		}
 		
 		// Goi ngon ngu module
 		include( NV_ROOTDIR . "/modules/" . $module_file . "/language/" . NV_LANG_DATA . ".php" );
@@ -38,6 +53,7 @@ if ( ! nv_function_exists( 'nv_blog_newsletters' ) )
 		$xtpl = new XTemplate( "block.newsletters.tpl", NV_ROOTDIR . "/themes/" . $block_theme . "/modules/" . $module_file );
 		$xtpl->assign( "LANG", $lang_module );
 		$xtpl->assign( "CHECKSESS", md5( $global_config['sitekey'] . $client_info['session_id'] ) );
+		$xtpl->assign( "MODULE_NAME", $module );
 		
 		$xtpl->parse( 'main' );
 		return $xtpl->text( 'main' );

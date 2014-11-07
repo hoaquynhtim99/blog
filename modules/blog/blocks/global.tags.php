@@ -44,6 +44,21 @@ if ( ! nv_function_exists( 'nv_blog_listTags' ) )
 			$BLL = new nv_mod_blog( $module_data, $module, $module_file );
 		}
 
+		// Goi css
+		if( $module_name != $module and ! defined( 'NV_IS_BLOG_CSS' ) )
+		{
+			global $my_head;
+			
+			$css_file = 'themes/' . $block_theme . '/css/' . $module_file . '.css';
+			
+			if( file_exists( NV_ROOTDIR . '/' . $css_file ) )
+			{
+				define( 'NV_IS_BLOG_CSS', true );
+				
+				$my_head .= "<link rel=\"stylesheet\" href=\"" . NV_BASE_SITEURL . $css_file . "\"/>\n";
+			}
+		}
+
 		$xtpl = new XTemplate( "block.tags.tpl", NV_ROOTDIR . "/themes/" . $block_theme . "/modules/" . $module_file );
 		
 		$sql = "SELECT title, alias FROM " . $BLL->table_prefix . "_tags";

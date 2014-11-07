@@ -44,6 +44,20 @@ if ( ! nv_function_exists( 'nv_blog_verticalCategories' ) )
 			$BL = new nv_mod_blog( $module_data, $module, $module_file );
 			
 			$list_cats = $BL->listCat( 0, 0 );
+			
+			if( ! defined( 'NV_IS_BLOG_CSS' ) )
+			{
+				global $my_head;
+				
+				$css_file = 'themes/' . $block_theme . '/css/' . $module_file . '.css';
+				
+				if( file_exists( NV_ROOTDIR . '/' . $css_file ) )
+				{
+					define( 'NV_IS_BLOG_CSS', true );
+					
+					$my_head .= "<link rel=\"stylesheet\" href=\"" . NV_BASE_SITEURL . $css_file . "\"/>\n";
+				}
+			}
 		}
 
 		$xtpl = new XTemplate( "block.verticalCategories.tpl", NV_ROOTDIR . "/themes/" . $block_theme . "/modules/" . $module_file );
