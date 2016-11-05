@@ -9,7 +9,8 @@
  * @Createdate Dec 11, 2013, 09:50:11 PM
  */
 
-if( ! defined( 'NV_MAINFILE' ) ) die( 'Stop!!!' );
+if (!defined('NV_MAINFILE'))
+    die('Stop!!!');
 
 $lang_translator['author'] = 'PHAN TAN DUNG (phantandung92@gmail.com)';
 $lang_translator['createdate'] = '26/3/2014, 22:19';

@@ -8,30 +8,28 @@
  * @Createdate Dec 11, 2013, 09:50:11 PM
  */
 
-if( ! defined( 'NV_IS_FILE_MODULES' ) ) die('Stop!!!');
+if (!defined('NV_IS_FILE_MODULES'))
+    die('Stop!!!');
 
 $sql_drop_module = array();
 
 // Xoa cac bang du lieu
-$result = $db->query( "SHOW TABLE STATUS LIKE '" . $db_config['prefix'] . "\_" . $lang . "\_" . $module_data . "\_categories'" );
-$num_table = sizeof( $result->fetchAll() );
-if( $num_table > 0 )
-{
-	// Xoa cac bang HTML
-	$maxid = $db->query( "SELECT MAX(id) FROM " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_rows" )->fetchColumn();
-	
-	if( $maxid == 0 )
-	{
-		$maxid = 1;
-	}
-	
-	$i1 = 1;
-	while( $i1 <= $maxid )
-	{
-		$tb = ceil( $i1 / 4000 );
-		$sql_drop_module[] = "DROP TABLE IF EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_data_" . $tb;	
-		$i1 = $i1 + 4000;
-	}
+$result = $db->query("SHOW TABLE STATUS LIKE '" . $db_config['prefix'] . "\_" . $lang . "\_" . $module_data . "\_categories'");
+$num_table = sizeof($result->fetchAll());
+if ($num_table > 0) {
+    // Xoa cac bang HTML
+    $maxid = $db->query("SELECT MAX(id) FROM " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_rows")->fetchColumn();
+
+    if ($maxid == 0) {
+        $maxid = 1;
+    }
+
+    $i1 = 1;
+    while ($i1 <= $maxid) {
+        $tb = ceil($i1 / 4000);
+        $sql_drop_module[] = "DROP TABLE IF EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_data_" . $tb;
+        $i1 = $i1 + 4000;
+    }
 }
 
 $sql_drop_module[] = "DROP TABLE IF EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_categories";
@@ -42,21 +40,18 @@ $sql_drop_module[] = "DROP TABLE IF EXISTS " . $db_config['prefix'] . "_" . $lan
 $sql_drop_module[] = "DROP TABLE IF EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_config";
 
 // Xoa cron cua module
-$result = $db->query( "SELECT id, params FROM " . NV_CRONJOBS_GLOBALTABLE . " ORDER BY id DESC" );
+$result = $db->query("SELECT id, params FROM " . NV_CRONJOBS_GLOBALTABLE . " ORDER BY id DESC");
 $is_auto = 0;
-while( list( $id, $params ) = $result->fetch( 3 ) )
-{
-    $params = ( ! empty( $params ) ) ? array_map( "trim", explode( ",", $params ) ) : array( "", 0 );
-    if( $params[0] == $lang . "_" . $module_data )
-    {
+while (list($id, $params) = $result->fetch(3)) {
+    $params = (!empty($params)) ? array_map("trim", explode(",", $params)) : array("", 0);
+    if ($params[0] == $lang . "_" . $module_data) {
         $is_auto = $id;
         break;
     }
 }
 
-if( $is_auto )
-{
-    $db->query( "DELETE FROM " . NV_CRONJOBS_GLOBALTABLE . " WHERE id=" . $is_auto );
+if ($is_auto) {
+    $db->query("DELETE FROM " . NV_CRONJOBS_GLOBALTABLE . " WHERE id=" . $is_auto);
 }
 
 $sql_create_module = $sql_drop_module;
@@ -218,22 +213,20 @@ $sql_create_module[] = "INSERT INTO " . $db_config['prefix'] . "_" . $lang . "_"
 ";
 
 // Them cron cua module
-$result = $db->query( "SHOW COLUMNS FROM " . NV_CRONJOBS_GLOBALTABLE );
+$result = $db->query("SHOW COLUMNS FROM " . NV_CRONJOBS_GLOBALTABLE);
 
 $list_field = array();
 $list_value = array();
 
-while( $row = $result->fetch() )
-{
-	if( preg_match( "/^([a-zA-Z0-9]{2})\_cron_name$/", $row['field'] ) )
-	{
-		$list_field[] = $row['field'];
-		$list_value[] = "'Cron Blog Newsletters'";
-	}
+while ($row = $result->fetch()) {
+    if (preg_match("/^([a-zA-Z0-9]{2})\_cron_name$/", $row['field'])) {
+        $list_field[] = $row['field'];
+        $list_value[] = "'Cron Blog Newsletters'";
+    }
 }
 
-$list_field = ", " . implode( ", ", $list_field );
-$list_value = ", " . implode( ", ", $list_value );
+$list_field = ", " . implode(", ", $list_field);
+$list_value = ", " . implode(", ", $list_value);
 
 $sql_create_module[] = "INSERT INTO " . NV_CRONJOBS_GLOBALTABLE . " (
 	id, 
