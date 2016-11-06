@@ -11,8 +11,6 @@
 if (!defined('NV_BLOG_ADMIN'))
     die('Stop!!!');
 
-$BL->callFrameWorks('shadowbox');
-
 $page_title = $BL->lang('cfgStructureData');
 
 $array = array();

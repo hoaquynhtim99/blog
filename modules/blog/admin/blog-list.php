@@ -106,7 +106,7 @@ if ($nv_Request->isset_request('changestatus', 'post')) {
 $page_title = $BL->lang('blogList');
 
 // Goi js
-$BL->callFrameWorks('tipsy', 'ui.datepicker');
+$BL->callFrameWorks('tipsy', 'jquery-ui');
 
 // Khoi tao bien, phan trang
 $array = array();

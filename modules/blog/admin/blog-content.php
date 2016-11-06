@@ -60,7 +60,7 @@ if (file_exists(NV_UPLOADS_REAL_DIR . '/' . $currentpath)) {
 $currentpath = str_replace(NV_ROOTDIR . "/", "", $upload_real_dir_page);
 
 // Goi js
-$BL->callFrameWorks('ui.sortable', 'tipsy', 'autosize', 'ui.autocomplete', 'ui.datepicker', 'shadowbox');
+$BL->callFrameWorks('jquery-ui', 'tipsy', 'autosize');
 
 $page_title = $BL->lang('blogManager');
 

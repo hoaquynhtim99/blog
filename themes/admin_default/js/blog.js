@@ -228,6 +228,7 @@ BL.data = {
     nv: nv_name_variable,
     op: nv_fc_variable,
     name: nv_module_name,
+    dbName: nv_module_name.toLowerCase().replace(/\-/g, '_')
 };
 
 BL.busy = false;
@@ -375,7 +376,7 @@ BL.post = {
     draft: function(editor) {
         if (!BL.busy) {
             if (editor) {
-                $("textarea[name=bodyhtml]").val(CKEDITOR.instances.bodyhtml.getData());
+                $("textarea[name=bodyhtml]").val(CKEDITOR.instances[BL.data.dbName + '_bodyhtml'].getData());
             }
 
             var data = BL.data.nv + '=' + BL.data.name + '&' + BL.data.op + '=blog-content&draft=1&' + $('#' + BL.post.IDform).serialize();

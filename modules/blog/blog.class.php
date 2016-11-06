@@ -59,6 +59,7 @@ class nv_mod_blog
     private $base_site_url = null;
     private $root_dir = null;
     private $upload_dir = null;
+    private $assets_dir = null;
     private $currenttime = null;
 
     private $language = array();
@@ -114,6 +115,7 @@ class nv_mod_blog
         $this->base_site_url = NV_BASE_SITEURL;
         $this->root_dir = NV_ROOTDIR;
         $this->upload_dir = NV_UPLOADS_DIR;
+        $this->assets_dir = NV_ASSETS_DIR;
         $this->language = $lang_module;
         $this->glanguage = $lang_global;
         $this->currenttime = NV_CURRENTTIME;
@@ -240,7 +242,7 @@ class nv_mod_blog
         if ($numargs > 0) {
             for ($i = 0; $i < $numargs; $i++) {
                 // Các frameworks trong thư mục frameworks của module
-                if ((is_dir($this->root_dir . '/modules/' . $this->mod_file . '/frameworks/' . $list_args[$i]) or preg_match("/^ui\./i", $list_args[$i])) and (!in_array($list_args[$i], $this->frameworks_called) or $allow_called === true)) {
+                if ((is_dir($this->root_dir . '/modules/' . $this->mod_file . '/frameworks/' . $list_args[$i]) or $list_args[$i] == 'jquery-ui') and (!in_array($list_args[$i], $this->frameworks_called) or $allow_called === true)) {
                     // Highlight js
                     if ($list_args[$i] == 'highlight') {
                         $this->frameworks_called[md5($list_args[$i])] = $list_args[$i];
@@ -266,45 +268,14 @@ class nv_mod_blog
                         $this->frameworks_called[md5($list_args[$i])] = $list_args[$i];
 
                         $frameWorks .= "<script type=\"text/javascript\" src=\"" . $this->base_site_url . "modules/" . $this->mod_file . "/frameworks/autosize/jquery.autosize.js\"></script>\n";
-                    } elseif ($list_args[$i] == 'ui.autocomplete') {
+                    } elseif ($list_args[$i] == 'jquery-ui') {
                         $this->frameworks_called[md5($list_args[$i])] = $list_args[$i];
 
-                        $frameWorks .= $this->getFrameWorks('ui.core');
-                        $frameWorks .= $this->getFrameWorks('ui.menu');
-                        $frameWorks .= "<script type=\"text/javascript\" src=\"" . $this->base_site_url . "modules/" . $this->mod_file . "/frameworks/ui/jquery.ui.autocomplete.js\"></script>\n";
-                    } elseif ($list_args[$i] == 'ui.core') {
-                        $this->frameworks_called[md5($list_args[$i])] = $list_args[$i];
-
-                        $frameWorks .= "<link type=\"text/css\" href=\"" . $this->base_site_url . "js/ui/jquery.ui.core.css\" rel=\"stylesheet\" />\n";
-                        $frameWorks .= "<link type=\"text/css\" href=\"" . $this->base_site_url . "js/ui/jquery.ui.theme.css\" rel=\"stylesheet\" />\n";
-                        $frameWorks .= "<script type=\"text/javascript\" src=\"" . $this->base_site_url . "js/ui/jquery.ui.core.min.js\"></script>\n";
-                    } elseif ($list_args[$i] == 'ui.sortable') {
-                        $this->frameworks_called[md5($list_args[$i])] = $list_args[$i];
-
-                        $frameWorks .= $this->getFrameWorks('ui.core');
-                        $frameWorks .= "<script type=\"text/javascript\" src=\"" . $this->base_site_url . "js/ui/jquery.ui.sortable.min.js\"></script>\n";
-                    } elseif ($list_args[$i] == 'ui.datepicker') {
-                        $this->frameworks_called[md5($list_args[$i])] = $list_args[$i];
-
-                        $frameWorks .= $this->getFrameWorks('ui.core');
-                        $frameWorks .= "<link type=\"text/css\" href=\"" . $this->base_site_url . "js/ui/jquery.ui.datepicker.css\" rel=\"stylesheet\" />\n";
-                        $frameWorks .= "<script type=\"text/javascript\" src=\"" . $this->base_site_url . "js/ui/jquery.ui.datepicker.min.js\"></script>\n";
-                        $frameWorks .= "<script type=\"text/javascript\" src=\"" . $this->base_site_url . "js/language/jquery.ui.datepicker-" . NV_LANG_INTERFACE . ".js\"></script>\n";
-                    } elseif ($list_args[$i] == 'ui.menu') {
-                        $this->frameworks_called[md5($list_args[$i])] = $list_args[$i];
-
-                        $frameWorks .= $this->getFrameWorks('ui.core');
-                        $frameWorks .= "<link type=\"text/css\" href=\"" . $this->base_site_url . "js/ui/jquery.ui.menu.css\" rel=\"stylesheet\" />\n";
-                        $frameWorks .= "<script type=\"text/javascript\" src=\"" . $this->base_site_url . "js/ui/jquery.ui.menu.min.js\"></script>\n";
+                        $frameWorks .= "<link type=\"text/css\" href=\"" . $this->base_site_url . $this->assets_dir . "/js/jquery-ui/jquery-ui.min.css\" rel=\"stylesheet\" />\n";
+                        $frameWorks .= "<script type=\"text/javascript\" src=\"" . $this->base_site_url . $this->assets_dir . "/js/jquery-ui/jquery-ui.min.js\"></script>\n";
                     }
                 } elseif (!in_array($list_args[$i], $this->frameworks_called) or $allow_called === true) { // Các frameworks của hệ thống khác
-                    if ($list_args[$i] == 'shadowbox') {
-                        $this->frameworks_called[md5($list_args[$i])] = $list_args[$i];
-
-                        $frameWorks .= "<script type=\"text/javascript\" src=\"" . $this->base_site_url . "js/shadowbox/shadowbox.js\"></script>\n";
-                        $frameWorks .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $this->base_site_url . "js/shadowbox/shadowbox.css\" />\n";
-                        $frameWorks .= "<script type=\"text/javascript\">Shadowbox.init();</script>\n";
-                    }
+                    // Nothing
                 }
             }
         }
