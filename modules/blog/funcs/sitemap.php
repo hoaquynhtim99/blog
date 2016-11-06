@@ -12,10 +12,10 @@ if (!defined('NV_IS_MOD_BLOG'))
     die('Stop!!!');
 
 $url = array();
-$cacheFile = NV_ROOTDIR . "/" . NV_CACHEDIR . "/" . NV_LANG_DATA . "_" . $module_name . "_Sitemap.cache";
-$pa = NV_CURRENTTIME - 7200;
+$cacheFile = NV_LANG_DATA . '_sitemap_' . NV_CACHE_PREFIX . '.cache';
+$cacheTTL = 7200;
 
-if (($cache = $nv_Cache->getItem($module_name, $cacheFile)) != false and filemtime($cacheFile) >= $pa) {
+if (($cache = $nv_Cache->getItem($module_name, $cacheFile, $cacheTTL)) != false) {
     $url = unserialize($cache);
 } else {
     $sql = "SELECT title, alias, posttime FROM " . $BL->table_prefix . "_rows WHERE status=1 ORDER BY posttime DESC LIMIT 1000";
@@ -26,7 +26,7 @@ if (($cache = $nv_Cache->getItem($module_name, $cacheFile)) != false and filemti
     }
 
     $cache = serialize($url);
-    $nv_Cache->setItem($module_name, $cacheFile, $cache);
+    $nv_Cache->setItem($module_name, $cacheFile, $cache, $cacheTTL);
 }
 
 nv_xmlSitemap_generate($url);
