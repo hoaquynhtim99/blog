@@ -12,8 +12,8 @@ $(document).ready(function(){
 		var email = $('#newsletters [type="email"]').val();
 		$.ajax({
 			type: 'POST',
-			url: nv_siteroot + 'index.php',
-			data: nv_lang_variable + '=' + nv_sitelang + '&' + nv_name_variable + '={MODULE_NAME}&' + nv_fc_variable + '=newsletters&newsletters=' + encodeURIComponent(email) + '&checksess={CHECKSESS}',
+			url: nv_base_siteurl + 'index.php',
+			data: nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '={MODULE_NAME}&' + nv_fc_variable + '=newsletters&newsletters=' + encodeURIComponent(email) + '&checksess={CHECKSESS}',
 			success: function(data){
 				alert(data);
 				$('#newsletters [type="email"]').val('');
