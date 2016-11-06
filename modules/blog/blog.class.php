@@ -29,6 +29,7 @@ class nv_mod_blog
     private $mod_name = '';
     private $mod_file = '';
     private $db = null;
+    private $cache = null;
 
     public $db_prefix = '';
     public $db_prefix_lang = "";
@@ -76,7 +77,7 @@ class nv_mod_blog
      */
     public function __construct($d = "", $n = "", $f = "", $lang = "")
     {
-        global $module_data, $module_name, $module_file, $db_config, $db, $lang_module, $lang_global;
+        global $module_data, $module_name, $module_file, $db_config, $db, $nv_Cache, $lang_module, $lang_global;
 
         // Ten CSDL
         if (!empty($d))
@@ -106,6 +107,7 @@ class nv_mod_blog
         $this->db_prefix_lang = $this->db_prefix . '_' . $this->lang_data;
         $this->table_prefix = $this->db_prefix_lang . '_' . $this->mod_data;
         $this->db = $db;
+        $this->cache = $nv_Cache;
 
         $this->setting = $this->get_setting();
 
@@ -180,7 +182,7 @@ class nv_mod_blog
      */
     private function db_cache($sql, $id = '', $module_name = '')
     {
-        return nv_db_cache($sql, $id, $module_name);
+        return $this->cache->db($sql, $id, $module_name);
     }
 
     /**
@@ -191,7 +193,7 @@ class nv_mod_blog
      */
     private function del_cache($module_name)
     {
-        return nv_del_moduleCache($module_name);
+        return $this->cache->delMod($module_name);
     }
 
     /**
@@ -295,9 +297,7 @@ class nv_mod_blog
                         $frameWorks .= "<link type=\"text/css\" href=\"" . $this->base_site_url . "js/ui/jquery.ui.menu.css\" rel=\"stylesheet\" />\n";
                         $frameWorks .= "<script type=\"text/javascript\" src=\"" . $this->base_site_url . "js/ui/jquery.ui.menu.min.js\"></script>\n";
                     }
-                }
-                // Các frameworks của hệ thống khác
-                elseif (!in_array($list_args[$i], $this->frameworks_called) or $allow_called === true) {
+                } elseif (!in_array($list_args[$i], $this->frameworks_called) or $allow_called === true) { // Các frameworks của hệ thống khác
                     if ($list_args[$i] == 'shadowbox') {
                         $this->frameworks_called[md5($list_args[$i])] = $list_args[$i];
 

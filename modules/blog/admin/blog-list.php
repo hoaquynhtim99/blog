@@ -42,7 +42,7 @@ if ($nv_Request->isset_request('del', 'post')) {
     nv_insert_logs(NV_LANG_DATA, $module_name, $BL->lang('blogDelete'), implode(", ", $listid), $admin_info['userid']);
 
     // Xoa cache
-    nv_del_moduleCache($module_name);
+    $nv_Cache->delMod($module_name);
 
     die('OK');
 }
@@ -98,7 +98,7 @@ if ($nv_Request->isset_request('changestatus', 'post')) {
     }
 
     // Xoa cache
-    nv_del_moduleCache($module_name);
+    $nv_Cache->delMod($module_name);
 
     die('OK');
 }

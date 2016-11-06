@@ -19,7 +19,7 @@ if ($nv_Request->isset_request('addCommentOnly', 'post')) {
         $sql = "UPDATE " . $BL->table_prefix . "_rows SET numcomments=numcomments+1 WHERE id=" . $id;
         $db->query($sql);
 
-        nv_del_moduleCache($module_name);
+        $nv_Cache->delMod($module_name);
     }
 
     die('OK');
@@ -32,7 +32,7 @@ if ($nv_Request->isset_request('delCommentOnly', 'post')) {
         $sql = "UPDATE " . $BL->table_prefix . "_rows SET numcomments=numcomments-1 WHERE id=" . $id;
         $db->query($sql);
 
-        nv_del_moduleCache($module_name);
+        $nv_Cache->delMod($module_name);
     }
 
     die('OK');

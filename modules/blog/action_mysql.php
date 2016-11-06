@@ -60,8 +60,8 @@ $sql_create_module = $sql_drop_module;
 $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_categories (
   id mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   parentid mediumint(8) unsigned NOT NULL DEFAULT '0',
-  title varchar(255) NOT NULL DEFAULT '',
-  alias varchar(255) NOT NULL DEFAULT '',
+  title varchar(250) NOT NULL DEFAULT '',
+  alias varchar(250) NOT NULL DEFAULT '',
   keywords varchar(255) NOT NULL DEFAULT '' COMMENT 'Từ khóa cho máy chủ tìm kiếm',
   description varchar(255) NOT NULL DEFAULT '' COMMENT 'Mô tả cho máy chủ tìm kiếm',
   numsubs smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT 'Số danh mục con',
@@ -75,7 +75,7 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 // Đăng ký nhận bản tin
 $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_newsletters (
   id mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  email varchar(255) NOT NULL DEFAULT '' COMMENT 'Email đăng ký',
+  email varchar(250) NOT NULL DEFAULT '' COMMENT 'Email đăng ký',
   regip varchar(20) NOT NULL DEFAULT '' COMMENT 'IP đã đăng ký',
   regtime int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Thời gian đăng ký',
   confirmtime int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Thời gian xác nhận',
@@ -105,8 +105,8 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 // Tags
 $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_tags (
   id mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID tags',
-  title varchar(255) NOT NULL DEFAULT '',
-  alias varchar(255) NOT NULL DEFAULT '',
+  title varchar(250) NOT NULL DEFAULT '',
+  alias varchar(250) NOT NULL DEFAULT '',
   keywords varchar(255) NOT NULL DEFAULT '' COMMENT 'Từ khóa cho máy chủ tìm kiếm',
   description varchar(255) NOT NULL DEFAULT '' COMMENT 'Mô tả cho máy chủ tìm kiếm',
   numposts smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT 'Số bài viết',
@@ -120,8 +120,8 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
   postid mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Người đăng',
   postgoogleid varchar(30) NOT NULL DEFAULT '' COMMENT 'Google Author',
   sitetitle varchar(255) NOT NULL DEFAULT '' COMMENT 'Tiêu đề của trang, mặc định là tiêu đề bài viết',
-  title varchar(255) NOT NULL DEFAULT '' COMMENT 'Tên bài viết',
-  alias varchar(255) NOT NULL DEFAULT '' COMMENT 'Liên kết tĩnh',
+  title varchar(250) NOT NULL DEFAULT '' COMMENT 'Tên bài viết',
+  alias varchar(250) NOT NULL DEFAULT '' COMMENT 'Liên kết tĩnh',
   keywords varchar(255) NOT NULL DEFAULT '' COMMENT 'Từ khóa cho máy chủ tìm kiếm',
   images varchar(255) NOT NULL DEFAULT '' COMMENT 'Hình ảnh bài viết',
   mediatype smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT '0: Dùng ảnh đại diện, 1: Dùng hình ảnh tùy chọn, 2: File âm thanh, 3: File video, 4: Iframe',

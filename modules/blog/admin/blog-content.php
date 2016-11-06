@@ -439,7 +439,7 @@ if ($prosessMode != 'none') {
                         }
 
                         // Xoa cache
-                        nv_del_moduleCache($module_name);
+                        $nv_Cache->delMod($module_name);
                     }
 
                     // Xu ly tin
@@ -496,7 +496,7 @@ if ($prosessMode != 'none') {
                         $BL->fixTags(array_unique(array_filter(array_merge_recursive($array_old['tagids'], $array['tagids']))));
 
                         // Xoa cache
-                        nv_del_moduleCache($module_name);
+                        $nv_Cache->delMod($module_name);
                     }
 
                     // Xu ly tin
