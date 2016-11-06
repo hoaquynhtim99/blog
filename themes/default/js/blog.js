@@ -14,8 +14,8 @@ $(document).ready(function() {
 });
 
 var BL = {
-    siteroot: nv_siteroot,
-    sitelang: nv_sitelang,
+    siteroot: nv_base_siteurl,
+    sitelang: nv_lang_data,
     name_variable: nv_name_variable,
     module_name: nv_module_name,
     op_variable: nv_fc_variable,

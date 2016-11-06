@@ -8,25 +8,6 @@ ul.list-menu{
 .ms4-clear{
 	clear: both;
 }
-@font-face {
-  font-family: 'FontAwesome';
-  src: url('../images/blog/fonts/fontawesome-webfont.eot?v=3.2.1');
-  src: url('../images/blog/fonts/fontawesome-webfont.eot?#iefix&v=3.2.1') format('embedded-opentype'), url('../images/blog/fonts/fontawesome-webfont.woff?v=3.2.1') format('woff'), url('../images/blog/fonts/fontawesome-webfont.ttf?v=3.2.1') format('truetype'), url('../images/blog/fonts/fontawesome-webfont.svg#fontawesomeregular?v=3.2.1') format('svg');
-  font-weight: normal;
-  font-style: normal;
-}
-@font-face {
-	font-family: 'Roboto';
-	font-style: normal;
-	font-weight: 400;
-	src: local('Roboto Regular'), local('Roboto-Regular'), url('../fonts/roboto-400.woff') format('woff');
-}
-@font-face {
-	font-family: 'Roboto';
-	font-style: normal;
-	font-weight: 700;
-	src: local('Roboto Bold'), local('Roboto-Bold'), url('../fonts/roboto-700.woff') format('woff');
-}
 
 .clearfix:before, .clearfix:after {
 	content: '\0020';
@@ -62,7 +43,6 @@ hr{
  * Heading
  */
 h1, h2, h3, h4, h5, h6{
-	font-family: 'Roboto', sans-serif;
 }
 h1.upper, h2.upper, h3.upper, h4.upper, h5.upper, h6.upper{
 	text-transform: uppercase;
@@ -85,7 +65,6 @@ h1.upper, h2.upper, h3.upper, h4.upper, h5.upper, h6.upper{
 	font-size: 16px;
 	line-height: 24px;
 	text-transform:uppercase;
-	font-family:'Roboto', Helvetica, sans-serif;
 }
 .post-list .post-title i{
 	color:#000;
@@ -130,7 +109,6 @@ h1.upper, h2.upper, h3.upper, h4.upper, h5.upper, h6.upper{
 	font-size: 16px;
 	line-height: 24px;
 	text-transform:uppercase;
-	font-family:'Roboto', Helvetica, sans-serif;
 }
 .news-list .news-title i{
 	color:#000;
@@ -177,7 +155,7 @@ h1.upper, h2.upper, h3.upper, h4.upper, h5.upper, h6.upper{
  * Button, form
  */
 .tbutton {
-	font-family: 'Roboto', Tahoma, Helvetica;
+	font-family: Tahoma, Helvetica;
 	display: inline-block;
 	cursor: pointer;
 	position: relative;
@@ -258,7 +236,6 @@ h1.upper, h2.upper, h3.upper, h4.upper, h5.upper, h6.upper{
 	font-size: 14px;
 	font-weight: normal;
 	text-transform: uppercase;
-	font-family: Roboto;
 }
 .notif-anim {
 	-webkit-animation: lightSpeedInLeft 1.3s 1;
