@@ -40,9 +40,13 @@ if (file_exists(NV_UPLOADS_REAL_DIR . '/' . $currentpath)) {
         foreach ($e as $p) {
             if (!empty($p) and !is_dir(NV_UPLOADS_REAL_DIR . '/' . $cp . $p)) {
                 $mk = nv_mkdir(NV_UPLOADS_REAL_DIR . '/' . $cp, $p);
-                nv_loadUploadDirList(false);
                 if ($mk[0] > 0) {
                     $upload_real_dir_page = $mk[2];
+                    try {
+                        $db->query("INSERT INTO " . NV_UPLOAD_GLOBALTABLE . "_dir (dirname, time) VALUES ('" . NV_UPLOADS_DIR . "/" . $cp . $p . "', 0)");
+                    } catch (PDOException $e) {
+                        trigger_error($e->getMessage());
+                    }
                 }
             } elseif (!empty($p)) {
                 $upload_real_dir_page = NV_UPLOADS_REAL_DIR . '/' . $cp . $p;

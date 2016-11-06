@@ -132,7 +132,7 @@ $lang_module['blogGoogleAuthor'] = 'Google Author';
 $lang_module['blogIsAutoKeywords'] = 'Tự động xác định từ khóa nếu không nhập';
 $lang_module['bloginhome'] = 'Hiển thị tại trang chủ';
 
-$lang_module['categoriesManager'] = 'Quản lý danh mục bài viết';
+$lang_module['categoriesManager'] = 'Quản lý danh mục';
 $lang_module['categoriesEmpty'] = 'Chưa có danh mục bài viết nào, hãy thêm danh mục từ trình đơn bên dưới';
 $lang_module['categoriesAdd'] = 'Thêm danh mục bài viết';
 $lang_module['categoriesEdit'] = 'Sửa danh mục &quot;%s&quot;';
@@ -145,7 +145,7 @@ $lang_module['categoriesListMainCat'] = 'Các danh mục chính';
 $lang_module['categoriesHasSub'] = '<strong>%d</strong> danh mục con';
 $lang_module['categoriesDelete'] = 'Xóa danh mục';
 
-$lang_module['nltList'] = 'Danh sách đăng ký nhận tin';
+$lang_module['nltList'] = 'Các email nhận tin';
 $lang_module['nltEmail'] = 'Email nhận tin';
 $lang_module['nltregtime'] = 'Thời gian đăng ký';
 $lang_module['nltconfirmtime'] = 'Thời gian kích hoạt';
