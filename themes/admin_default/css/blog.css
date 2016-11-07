@@ -19,7 +19,7 @@
 	width:400px!important;
 }
 .bl-col-id, .bl-col-status{
-	width:30px!important;
+	width:80px!important;
 	text-align:center;
 }
 .bl-col-order{
@@ -205,6 +205,7 @@
 	margin:0 2px 4px 0;
 	font-size:11px;
 	background:url('../images/blog/tag.png') no-repeat 3px center;
+    line-height: 14px;
 }
 .bl-list-tags li span{
 	display:inline-block;

@@ -42,6 +42,7 @@ $lang_module['numposts'] = 'Số bài viết';
 $lang_module['add'] = 'Thêm';
 $lang_module['browser'] = 'Duyệt';
 $lang_module['view'] = 'Xem';
+$lang_module['view_before_image'] = 'Xem trước ảnh';
 
 $lang_module['mainTitle'] = 'Hệ thống quản lý blog';
 $lang_module['mainNotice'] = 'Các cảnh báo cần giải quyết';

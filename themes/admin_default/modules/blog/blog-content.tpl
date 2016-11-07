@@ -185,11 +185,7 @@ function viewImages(){
 	if( images == '' ){
 		return;
 	}
-	Shadowbox.open({
-		content : images,
-		player : 'img',
-		hanleOversize: 'resize'
-	});
+	modalShow('{LANG.view_before_image}', '<div class="text-center"><img src="' + images + '" class="img-responsive"/></div>');
 }
 $(document).ready(function(){
 	BL.tags.init();
@@ -227,6 +223,6 @@ $(document).ready(function(){
 <!-- BEGIN: complete -->
 <div class="alert alert-success center">
 	<p>{MESSAGE}</p>
-	<p><img src="{NV_BASE_SITEURL}images/load_bar.gif" alt="Loading..." height="8"/></p>
+	<p><img src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/images/load_bar.gif" alt="Loading..." height="8"/></p>
 </div>
 <!-- END: complete -->

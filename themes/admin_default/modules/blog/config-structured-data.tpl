@@ -63,11 +63,7 @@ function viewImages(){
 	if( images == '' ){
 		return;
 	}
-	Shadowbox.open({
-		content : images,
-		player : 'img',
-		hanleOversize: 'resize'
-	});
+    modalShow('{LANG.view_before_image}', '<div class="text-center"><img src="' + images + '" class="img-responsive"/></div>');
 }
 </script>
 <!-- END: main -->
