@@ -68,9 +68,7 @@ if ($op == 'main') {
                         die();
                     }
                 }
-            }
-            // Xem bai viet
-            else {
+            } else { // Xem bai viet
                 // Khong cho array_op nao lon hon
                 if (sizeof($array_op) > 1) {
                     header('Location:' . nv_url_rewrite(NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . '&' . NV_OP_VARIABLE . '=' . $array_op[0], true));
@@ -181,7 +179,7 @@ if (!empty($catid)) {
             'catid' => $parentid,
             'title' => $global_array_cat[$parentid]['title'],
             'link' => NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $global_array_cat[$parentid]['alias'],
-            );
+        );
         $parentid = $global_array_cat[$parentid]['parentid'];
     }
     sort($array_mod_title, SORT_NUMERIC);
