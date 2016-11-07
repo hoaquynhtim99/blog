@@ -1,5 +1,5 @@
 <!-- BEGIN: main -->
-<h3 class="bl-post-caption">{TABLE_CAPTION}</h3>
+<h3 class="bl-post-caption clearfix">{TABLE_CAPTION}</h3>
 <!-- BEGIN: error --><div class="alert alert-danger">{ERROR}</div><!-- END: error -->
 <form class="form-inline" method="post" action="{FORM_ACTION}" id="post-form">
 	<input type="hidden" name="id" id="post-id" value="{ID}"/>
