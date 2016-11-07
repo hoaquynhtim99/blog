@@ -104,12 +104,12 @@ if ($page > 1 and empty($array['contents'])) {
 
 // Lay thanh vien dang bai
 if (!empty($array_userids)) {
-    $sql = "SELECT userid, username, full_name FROM " . NV_USERS_GLOBALTABLE . " WHERE userid IN(" . implode(",", $array_userids) . ")";
+    $sql = "SELECT userid, username, first_name, last_name FROM " . NV_USERS_GLOBALTABLE . " WHERE userid IN(" . implode(",", $array_userids) . ")";
     $result = $db->query($sql);
 
     $array_userids = array();
     while ($row = $result->fetch()) {
-        $array_userids[$row['userid']] = $row['full_name'] ? $row['full_name'] : $row['username'];
+        $array_userids[$row['userid']] = nv_show_name_user($row['first_name'], $row['last_name'], $row['username']);
     }
 
     foreach ($array['contents'] as $row) {

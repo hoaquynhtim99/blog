@@ -77,7 +77,7 @@ if ($op == 'main') {
                     die();
                 }
 
-                $sql = "SELECT a.*, b.username AS postName, b.full_name FROM " . $BL->table_prefix . "_rows AS a LEFT JOIN " . NV_USERS_GLOBALTABLE . " AS b ON a.postid=b.userid WHERE a.status=1 AND a.alias=" . $db->quote($array_op[0]);
+                $sql = "SELECT a.*, b.username AS postname, b.first_name, b.last_name FROM " . $BL->table_prefix . "_rows AS a LEFT JOIN " . NV_USERS_GLOBALTABLE . " AS b ON a.postid=b.userid WHERE a.status=1 AND a.alias=" . $db->quote($array_op[0]);
                 $result = $db->query($sql);
 
                 if ($result->rowCount()) {
@@ -94,7 +94,7 @@ if ($op == 'main') {
                     }
 
                     $blog_data['bodyhtml'] = $blog_data['bodytext'];
-                    $blog_data['postName'] = $blog_data['full_name'] ? $blog_data['full_name'] : $blog_data['postName'];
+                    $blog_data['postName'] = nv_show_name_user($blog_data['first_name'], $blog_data['last_name'], $blog_data['postname']);
 
                     // Xac dinh media
                     if ($blog_data['mediatype'] == 0) {
