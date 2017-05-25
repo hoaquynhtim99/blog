@@ -184,6 +184,9 @@ class nv_mod_blog
      */
     private function db_cache($sql, $id = '', $module_name = '')
     {
+        if (empty($module_name)) {
+            $module_name = $this->mod_name;
+        }
         return $this->cache->db($sql, $id, $module_name);
     }
 
