@@ -1,10 +1,26 @@
-# Hướng dẫn nâng cấp module blog từ bản 3.4.01, 4.0.01 lên 4.1.00
+# Hướng dẫn nâng cấp module blog từ bản 3.4.01 lên 4.1.02
 
 > Chú ý: Hệ thống phiên bản 3x lên 4x có rất nhiều thay đổi nên tại đây hướng dẫn các bạn nâng cấp module với hình thức thủ công. Hướng dẫn chỉ dành cho những bạn đã có kỹ năng cơ bản về MySQL, NukeViet. Các bạn mới sử dụng hoặc chưa am hiểu có thể nhờ bạn bè, tổ chức, các nhân khác giúp đỡ.
 
 ## Bước 1: Sao lưu dữ liệu cũ.
 
-## Ghi nhật ký câu lệnh chạy của CSDL
+### Sao lưu CSDL.
+
+Backup các bảng bắt đầu bằng `nv3_vi_blog`. Trong đó chú ý:
+
+- `nv3` là giá trị tiếp đầu tố của CSDL.
+- `vi` là ngôn ngữ mà module được cài đặt.
+- `blog` là tên module cần nâng cấp.
+
+Từ ba giá trị trên để xác định được các bảng CSDL đúng, có khoảng 7 bảng cho mỗi module.
+
+### Sao lưu file uploads.
+
+Backup thư mục `uploads/blog` lại. Nếu module bạn là module ảo thì thư mục blog thay bằng tên module ảo đó.
+
+## Bước 2: Nâng cấp CSDL.
+
+Tạo một DATABASE mới, sau đó import CSDL vừa backup được và chạy các câu lệnh sau:
 
 ```sql
 ALTER TABLE `nv3_vi_blog_categories` DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -15,21 +31,15 @@ CHANGE `keywords` `keywords` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_
 CHANGE `description` `description` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT 'Mô tả cho máy chủ tìm kiếm',
 CHANGE `numSubs` `numsubs` SMALLINT(4) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'Số danh mục con', 
 CHANGE `numPosts` `numposts` SMALLINT(4) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'Số bài viết';
-```
 
-```sql
 ALTER TABLE `nv3_vi_blog_config` DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `nv3_vi_blog_config` 
 CHANGE `config_name` `config_name` VARCHAR(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL, 
 CHANGE `config_value` `config_value` MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL;
-```
 
-```sql
 ALTER TABLE `nv3_vi_blog_data_1` DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `nv3_vi_blog_data_1` CHANGE `bodyhtml` `bodyhtml` LONGTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL;
-```
 
-```sql
 ALTER TABLE `nv3_vi_blog_newsletters` DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `nv3_vi_blog_newsletters` 
 CHANGE `email` `email` VARCHAR(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT 'Email đăng ký', 
@@ -39,9 +49,7 @@ CHANGE `confirmTime` `confirmtime` INT(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT
 CHANGE `lastSendTime` `lastsendtime` INT(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'Lần gửi cuối', 
 CHANGE `tokenKey` `tokenkey` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT 'Khóa xác nhận', 
 CHANGE `numEmail` `numemail` MEDIUMINT(8) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'Số email đã gửi';
-```
 
-```sql
 ALTER TABLE `nv3_vi_blog_rows` DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `nv3_vi_blog_rows` 
 CHANGE `postGoogleID` `postgoogleid` VARCHAR(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT 'Google Author', 
@@ -71,9 +79,7 @@ CHANGE `updateTime` `updatetime` INT(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT '
 CHANGE `pubTime` `pubtime` INT(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'Thời gian xuất bản', 
 CHANGE `expTime` `exptime` INT(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'Thời gian hết hạn', 
 CHANGE `expMode` `expmode` SMALLINT(4) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'Kiểu xử lý tự động khi hết hạn: 0: Ngưng hoạt động, 1: Cho thành hết hạn, 2: Xóa';
-```
 
-```sql
 ALTER TABLE `nv3_vi_blog_send` DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `nv3_vi_blog_send` 
 CHANGE `startTime` `starttime` INT(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'Thời gian bắt đầu gửi', 
@@ -81,9 +87,7 @@ CHANGE `endTime` `endtime` INT(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'Thời
 CHANGE `lastID` `lastid` MEDIUMINT(8) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'ID email đăng ký nhận tin lần cuối cùng gửi', 
 CHANGE `resendData` `resenddata` MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Danh sách ID đăng ký nhận tin chờ gửi lại', 
 CHANGE `errorData` `errordata` MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Danh sách ID đăng ký nhận tin gửi bị lỗi cho đến thời điểm hiện tại';
-```
 
-```sql
 ALTER TABLE `nv3_vi_blog_tags` DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `nv3_vi_blog_tags` 
 CHANGE `title` `title` VARCHAR(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '', 
@@ -91,4 +95,32 @@ CHANGE `alias` `alias` VARCHAR(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicod
 CHANGE `keywords` `keywords` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT 'Từ khóa cho máy chủ tìm kiếm', 
 CHANGE `description` `description` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT 'Mô tả cho máy chủ tìm kiếm', 
 CHANGE `numPosts` `numposts` SMALLINT(4) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'Số bài viết';
+
+RENAME TABLE nv3_vi_blog_categories TO nv4_vi_blog_categories;
+RENAME TABLE nv3_vi_blog_config TO nv4_vi_blog_config;
+RENAME TABLE nv3_vi_blog_data_1 TO nv4_vi_blog_data_1;
+RENAME TABLE nv3_vi_blog_newsletters TO nv4_vi_blog_newsletters;
+RENAME TABLE nv3_vi_blog_rows TO nv4_vi_blog_rows;
+RENAME TABLE nv3_vi_blog_send TO nv4_vi_blog_send;
+RENAME TABLE nv3_vi_blog_tags TO nv4_vi_blog_tags;
 ```
+
+> Chú ý: Các giá trị `nv3`, `vi`, `blog` thay lại thành giá trị đúng với site của bạn. `nv4` là tiếp đầu tố sẽ sử dụng ở site mới.
+
+Sau khi chạy lệnh trên tiến hành xuất các bảng CSDL đã nâng cấp. Lúc xuất ra, chú ý chọn option `Add DROP TABLE / VIEW / PROCEDURE / FUNCTION / EVENT / TRIGGER statement`.
+
+## Bước 3: Cài mới module 4.1.02.
+
+Tiến hành cài site mới, cài đặt mới module blog. 
+
+> Chú ý: Tên module, ngôn ngữ tiếp đầu tố phải tương ứng với bước 2.
+
+## Bước 4: Khôi phục CSDL và file upload cũ.
+
+- Tiến hành import CSDL đã xuất ở bước 2 vào CSDL mới. 
+- Xóa thư mục `uploads/blog` ở site mới copy thư mục đã backup ở bước 1 vào thay thế.
+
+## Bước 5: Hoàn tất cập nhật
+
+- Xóa cache hệ thống
+- Thiết lập lại các blocks trên site mới.
