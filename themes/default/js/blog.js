@@ -36,36 +36,36 @@ $(document).ready(function() {
     $('.bl-newsletters').each(function() {
         $('form', $(this)).submit(function(e) {
             e.preventDefault();
-    		
+
             var $this = $(this);
             var emailElement = $('[type="email"]', $this);
             var moduleName = $this.data('module');
             var checksess = $this.data('checksess');
             var submitBtn = $('[type="submit"] i', $this);
-            
+
             if ($this.data('busy')) {
                 return false;
             }
-            
+
             $this.data('busy', true);
-            
+
             submitBtn.removeClass('fa-check-circle');
             submitBtn.addClass('fa-spinner');
             submitBtn.addClass('fa-pulse');
 
-    		$.ajax({
-    			type: 'POST',
-    			url: nv_base_siteurl + 'index.php',
-    			data: nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + moduleName + '&' + nv_fc_variable + '=newsletters&newsletters=' + encodeURIComponent(emailElement.val()) + '&checksess=' + checksess,
-    			success: function(data){
-    				emailElement.val('');
-    				modalShow('', data);
+            $.ajax({
+                type: 'POST',
+                url: nv_base_siteurl + 'index.php',
+                data: nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + moduleName + '&' + nv_fc_variable + '=newsletters&newsletters=' + encodeURIComponent(emailElement.val()) + '&checksess=' + checksess,
+                success: function(data) {
+                    emailElement.val('');
+                    modalShow('', data);
                     $this.data('busy', false);
                     submitBtn.removeClass('fa-spinner');
                     submitBtn.removeClass('fa-pulse');
                     submitBtn.addClass('fa-check-circle');
-    			}
-    		});
-    	});
+                }
+            });
+        });
     });
 });
