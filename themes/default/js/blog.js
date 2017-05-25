@@ -6,13 +6,6 @@
  * @Createdate Dec 11, 2013, 09:50:11 PM
  */
 
-// Comment click
-$(document).ready(function() {
-    $('a[href^="#"]').click(function(e) {
-        e.preventDefault();
-    });
-});
-
 var BL = {
     siteroot: nv_base_siteurl,
     sitelang: nv_lang_data,
@@ -34,3 +27,45 @@ var BL = {
         BL.callApi('delCommentOnly=1&id=' + blog_id);
     },
 };
+
+$(document).ready(function() {
+    $('a[href^="#"]').click(function(e) {
+        e.preventDefault();
+    });
+    // Xử lý block newsletter
+    $('.bl-newsletters').each(function() {
+        $('form', $(this)).submit(function(e) {
+            e.preventDefault();
+    		
+            var $this = $(this);
+            var emailElement = $('[type="email"]', $this);
+            var moduleName = $this.data('module');
+            var checksess = $this.data('checksess');
+            var submitBtn = $('[type="submit"] i', $this);
+            
+            if ($this.data('busy')) {
+                return false;
+            }
+            
+            $this.data('busy', true);
+            
+            submitBtn.removeClass('fa-check-circle');
+            submitBtn.addClass('fa-spinner');
+            submitBtn.addClass('fa-pulse');
+
+    		$.ajax({
+    			type: 'POST',
+    			url: nv_base_siteurl + 'index.php',
+    			data: nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + moduleName + '&' + nv_fc_variable + '=newsletters&newsletters=' + encodeURIComponent(emailElement.val()) + '&checksess=' + checksess,
+    			success: function(data){
+    				emailElement.val('');
+    				modalShow('', data);
+                    $this.data('busy', false);
+                    submitBtn.removeClass('fa-spinner');
+                    submitBtn.removeClass('fa-pulse');
+                    submitBtn.addClass('fa-check-circle');
+    			}
+    		});
+    	});
+    });
+});

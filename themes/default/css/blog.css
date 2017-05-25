@@ -1,4 +1,10 @@
 /**
+ * Color
+ */
+
+
+
+/**
  * Global
  */
 ul.list-menu{
@@ -393,149 +399,22 @@ a.notification-close {
 }
 
 /**
- * Icon pack
- */
-[class^="icon-"],
-[class*=" icon-"] {
-	font-family: 'FontAwesome';
-	color:#666;
-	font-weight: normal;
-	font-style: normal;
-	text-decoration: inherit;
-	-webkit-font-smoothing: antialiased;
-	*margin-right: .3em;
-}
-[class^="icon-"]:before,
-[class*=" icon-"]:before {
-	text-decoration: inherit;
-	display: inline-block;
-	speak: none;
-}
-[class^="icon-"].mi,
-[class*=" icon-"].mi{
-	margin-right:5px;
-}
-.action [class^="icon-"],
-.action [class*=" icon-"]{
-	font-family: inherit
-}
-.action [class^="icon-"]:before,
-.action [class*=" icon-"]:before {
-	display: none;
-}
-
-.icon-ok:before {
-  content: "\f00c";
-}
-.icon-caret-right:before {
-  content: "\f0da";
-}
-.icon-tag:before {
-  content: "\f02b";
-}
-.icon-play:before {
-	content: "\f04b";
-}
-.icon-user:before {
-	content: "\f007";
-}
-.icon-time:before {
-	content: "\f017";
-}
-.icon-comments-alt:before {
-	content: "\f0e6";
-}
-.icon-sitemanager:before{
-	content: "\f085";
-}
-.icon-drag:before{
-	content: "\f047";
-}
-.icon-module:before{
-	content: "\f02d";
-}
-.icon-users:before{
-	content: "\f007";
-}
-.icon-logout:before{
-	content: "\f08b";
-}
-.icon-info-sign:before {
-	content: "\f05a";
-}
-.icon-remove-sign:before {
-	content: "\f057";
-}
-.icon-warning-sign:before {
-	content: "\f071";
-}
-.icon-remove:before {
-	content: "\f00d";
-}
-.icon-pencil:before {
-	content: "\f040";
-}
-.icon-picture:before {
-	content: "\f03e";
-}
-.icon-film:before {
-	content: "\f008";
-}
-.icon-music:before {
-	content: "\f001";
-}
-.icon-quote-left:before {
-	content: "\f10d";
-}
-.icon-link:before {
-	content: "\f0c1";
-}
-.icon-camera:before {
-	content: "\f030";
-}
-.icon-long-arrow-left:before {
-	content: "\f177";
-}
-.icon-long-arrow-right:before {
-	content: "\f178";
-}
-
-/**
  * Newsletters
  */
-#newsletters input {
-	margin: 0;
-	padding: 0 12px;
-	line-height: 24px;
-	height: 34px;
-	border: 1px solid #C5C5C5;
-	background: #F7F7F7;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
-	font-size: 11px;
-	color: #5A5A5A;
-	cursor: text;
-	width: 100%;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	-webkit-transition: all 0.2s ease;
-	transition: all 0.2s ease;
-	outline:0;
-}
-#newsletters button {
+.bl-newsletters button {
 	position: absolute;
-	top: 7px;
-	right: 8px;
-	background: none;
+    line-height: 20px;
+    padding: 0;
+    margin: -10px 0 0 0;
+	top: 50%;
+	right: 10px;
+	background: transparent;
 	border: 0;
-	color: #DDD;
-	font-size: 11px;
 	cursor: pointer;
 	-webkit-transition: all 0.2s ease;
 	transition: all 0.2s ease;
 	outline:0;
 }
-#newsletters form{
+.bl-newsletters form {
 	position:relative;
 }
