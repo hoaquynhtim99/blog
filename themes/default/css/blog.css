@@ -262,7 +262,8 @@ h1.upper, h2.upper, h3.upper, h4.upper, h5.upper, h6.upper{
 /**
  * Tags list
  */
-.bl-tags-list {
+.bl-tags-list-row {
+    padding: 3px 0;
 }
 .bl-tags-list-count {
     float: right;

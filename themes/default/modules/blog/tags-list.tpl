@@ -9,8 +9,10 @@
 <div class="row margin-bottom">
     <!-- BEGIN: loop -->
     <div class="col-xs-24 col-sm-12 col-md-8">
-        <span class="bl-tags-list-count">({ROW.numposts})</span>
-        <a class="bl-tags-list bl-ellipsis" href="{ROW.link}">{ROW.title}</a>
+        <div class="bl-tags-list-row">
+            <span class="bl-tags-list-count">({ROW.numposts})</span>
+            <a class="bl-tags-list bl-ellipsis" href="{ROW.link}">{ROW.title}</a>
+        </div>
     </div>
     <!-- END: loop -->
 </div>
