@@ -1,8 +1,25 @@
 /**
  * Color
  */
+/* BORDER */
+.block-tags-list a {
+    border-color: #dddddd;
+}
 
+/* BORDER HOVER */
+.block-tags-list a:hover {
+    border-color: #428bca;
+}
 
+/* COLOR GRAY */
+.block-tags-list a, .bl-newsletters button {
+    color: #695d69;
+}
+
+/* COLOR HOVER */
+.block-tags-list a:hover {
+    color: #428bca;
+}
 
 /**
  * Global
@@ -370,30 +387,28 @@ a.notification-close {
 /* 
  * Block tags
  */
-.block-tags-list a{
-	border: 1px solid #A3A3A3;
-	color: #A3A3A3;
+.block-tags-list a {
+	border-width: 1px;
+    border-style: solid;
 	font-size: 11px;
 	padding: 4px 10px;
 	margin: 0 0px 4px 0;
 	display: inline-block;
 	-webkit-border-radius: 2px;
 	border-radius: 2px;
+    white-space: nowrap;
 	-webkit-transition: all .2s ease;
 	transition: all .2s ease;
 }
-.block-tags-list a:hover{
-	border: 1px solid #FF0078;
-	color: #FF0078;
-	text-decoration: none !important;
+.block-tags-list a:hover {
+	text-decoration: none;
 	-webkit-transition: all .2s ease;
 	transition: all .2s ease;
 }
-.block-tags-list a i{
+.block-tags-list a i {
 	margin-right: 4px;
 }
-.block-tags-list a:hover i{
-	color: #FF0078;
+.block-tags-list a:hover i {
 	-webkit-transition: all .2s ease;
 	transition: all .2s ease;
 }
