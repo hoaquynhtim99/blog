@@ -513,7 +513,8 @@ function nv_message_theme($message, $lev = 0)
 
     $xtpl = new XTemplate("message.tpl", NV_ROOTDIR . "/themes/" . $module_info['template'] . "/modules/" . $module_file);
     $xtpl->assign('MESSAGE', $message);
-    $xtpl->assign('CLASS', $lev == 0 ? 'notification-box-error' : ($lev == 1 ? 'notification-box-warning' : ($lev == 2 ? 'notification-box-success' : 'notification-box-info')));
+    $xtpl->assign('CLASS', $lev == 0 ? 'alert-danger' : ($lev == 1 ? 'alert-warning' : ($lev == 2 ? 'alert-success' : 'alert-info')));
+    $xtpl->assign('ICON', $lev == 0 ? 'fa-times-circle' : ($lev == 1 ? 'fa-exclamation-triangle' : ($lev == 2 ? 'fa-check-circle' : 'fa-info-circle')));
 
     $xtpl->parse('main');
     return $xtpl->text('main');
