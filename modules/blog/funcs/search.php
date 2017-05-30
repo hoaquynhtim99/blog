@@ -92,7 +92,7 @@ if (!empty($array['q'])) {
     }
 
     // Du lieu phan trang
-    $generate_page = $BL->pagination($page_title, $base_url, $all_page, $per_page, $page, true, '&amp;');
+    $generate_page = nv_generate_page($base_url, $all_page, $per_page, $page, true, false, '', '', false);
     $total_pages = ceil($all_page / $per_page);
 }
 

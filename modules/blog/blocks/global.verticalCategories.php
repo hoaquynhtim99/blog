@@ -12,6 +12,12 @@ if (!defined('NV_MAINFILE'))
     die('Stop!!!');
 
 if (!nv_function_exists('nv_blog_verticalCategories')) {
+    /**
+     * nv_blog_verticalCategories()
+     * 
+     * @param mixed $block_config
+     * @return
+     */
     function nv_blog_verticalCategories($block_config)
     {
         global $module_info, $global_config, $site_mods, $client_info, $global_array_cat, $module_name;
@@ -67,6 +73,16 @@ if (!nv_function_exists('nv_blog_verticalCategories')) {
         return $xtpl->text('main');
     }
 
+    /**
+     * nv_blog_verticalCategoriesSubs()
+     * 
+     * @param mixed $list_cats
+     * @param mixed $cat
+     * @param mixed $block_theme
+     * @param mixed $module_file
+     * @param mixed $module
+     * @return
+     */
     function nv_blog_verticalCategoriesSubs($list_cats, $cat, $block_theme, $module_file, $module)
     {
         if (empty($cat['subcats'])) {

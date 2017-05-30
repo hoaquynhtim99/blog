@@ -20,10 +20,10 @@
 	</div>
 	<!-- END: loop -->
 </div>
-<div class="pagination-tt clearfix">
+<ul class="pagination bl-pagination clearfix">
 	<!-- BEGIN: generate_page -->
 	{GENERATE_PAGE}
     <!-- END: generate_page -->
-    <span class="pages">{GLANG.page} {PAGE_CURRENT} {LANG.paginationInfo} {PAGE_TOTAL}</span>
-</div>
+    <li class="pages"><span>{GLANG.page} {PAGE_CURRENT} {LANG.paginationInfo} {PAGE_TOTAL}</span></li>
+</ul>
 <!-- END: main -->
