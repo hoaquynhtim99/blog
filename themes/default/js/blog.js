@@ -72,4 +72,21 @@ $(document).ready(function() {
     $('.bl-tags-list').each(function() {
         $(this).html($(this).html() + '.................................................................................................................................................................................................................................');
     });
+    // Xử lý responsive iframe
+    var postiframescaleTimer = null;
+    $(window).on('resize', function() {
+        if (postiframescaleTimer) {
+            clearTimeout(postiframescaleTimer);
+        }
+        postiframescaleTimer = setTimeout(function() {
+            blog_scaleIframe();
+        }, 100);
+    });
+    blog_scaleIframe();
 });
+
+function blog_scaleIframe() {
+    $('[data-toggle="postiframescale"]').each(function() {
+        $(this).height($(this).width() * $(this).data('h') / $(this).data('w'));
+    });
+}

@@ -130,6 +130,22 @@
 		</tr>
 		<tr>
 			<td>
+				<strong>{LANG.cfginitMediaResponsive}</strong>
+			</td>
+			<td>
+                <input type="checkbox" value="1" name="initMediaResponsive"{INITMEDIARESPONSIVE}/>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<strong>{LANG.cfginitMediaWidth}</strong>
+			</td>
+			<td>
+				<input type="text" class="form-control bl-txt-h" name="initMediaWidth" value="{DATA.initMediaWidth}"/>
+			</td>
+		</tr>
+		<tr>
+			<td>
 				<strong>{LANG.cfgfolderStructure}</strong>
 			</td>
 			<td>

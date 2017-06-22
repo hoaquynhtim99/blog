@@ -47,6 +47,8 @@ if ($nv_Request->isset_request('submit', 'post')) {
     $array['initPostType'] = $nv_Request->get_int('initPostType', 'post', 0);
     $array['initMediaType'] = $nv_Request->get_int('initMediaType', 'post', 0);
     $array['initMediaHeight'] = $nv_Request->get_int('initMediaHeight', 'post', 250);
+    $array['initMediaWidth'] = $nv_Request->get_int('initMediaWidth', 'post', 960);
+    $array['initMediaResponsive'] = ($nv_Request->get_int('initMediaResponsive', 'post', 0) ? 1 : 0);
     $array['initNewsletters'] = $nv_Request->get_int('initNewsletters', 'post', 0);
     $array['initAutoKeywords'] = $nv_Request->get_int('initAutoKeywords', 'post', 0);
     $array['folderStructure'] = nv_substr($nv_Request->get_title('folderStructure', 'post', '', 0), 0, 255);
@@ -79,8 +81,11 @@ if ($nv_Request->isset_request('submit', 'post')) {
     if (!in_array($array['initMediaType'], $BL->blogMediaType)) {
         $array['initMediaType'] = $BL->blogMediaType[0];
     }
-    if ($array['initMediaHeight'] <= 0) {
+    if ($array['initMediaHeight'] <= 0 or $array['initMediaHeight'] > 9000) {
         $array['initMediaHeight'] = 250;
+    }
+    if ($array['initMediaWidth'] <= 0 or $array['initMediaWidth'] > 9000) {
+        $array['initMediaWidth'] = 960;
     }
     if (!isset($array_structure_image[$array['folderStructure']])) {
         $array['folderStructure'] = "Ym";
@@ -127,6 +132,7 @@ $xtpl->assign('DATA', $BL->setting);
 
 $xtpl->assign('INITNEWSLETTERS', $BL->setting['initNewsletters'] ? " checked=\"checked\"" : "");
 $xtpl->assign('INITAUTOKEYWORDS', $BL->setting['initAutoKeywords'] ? " checked=\"checked\"" : "");
+$xtpl->assign('INITMEDIARESPONSIVE', $BL->setting['initMediaResponsive'] ? " checked=\"checked\"" : "");
 
 // Xuat cac kieu hien thi
 foreach ($BL->indexViewType as $type) {

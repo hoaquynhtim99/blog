@@ -10,9 +10,11 @@
 		<script type="text/javascript">
 		jwplayer("media-audio-{DATA.id}").setup({
 			file: "{DATA.mediavalue}",
-			height: {DATA.mediaheight},
+			width: '100%',
+            <!-- BEGIN: height -->height: {DATA.mediaheight},<!-- END: height -->
+            <!-- BEGIN: aspectratio -->aspectratio: "{ASPECTRATIO}",<!-- END: aspectratio -->
 			image: "{DATA.images}",
-			width: '100%'
+            stretching: 'fill'
 		});		
 		</script>
 		<!-- END: audio -->
@@ -21,15 +23,16 @@
 		<script type="text/javascript">
 		jwplayer("media-video-{DATA.id}").setup({
 			file: "{DATA.mediavalue}",
-			height: {DATA.mediaheight},
-			image: "{DATA.images}",
 			width: '100%',
+            <!-- BEGIN: height -->height: {DATA.mediaheight},<!-- END: height -->
+            <!-- BEGIN: aspectratio -->aspectratio: "{ASPECTRATIO}",<!-- END: aspectratio -->
+			image: "{DATA.images}",
 			stretching: 'fill'
 		});		
 		</script>
 		<!-- END: video -->
 		<!-- BEGIN: iframe -->
-		<iframe class="media-iframe" src="{DATA.mediavalue}" height="{DATA.mediaheight}"></iframe>
+		<iframe class="media-iframe" src="{DATA.mediavalue}"<!-- BEGIN: height --> height="{DATA.mediaheight}"<!-- END: height --><!-- BEGIN: aspectratio --> data-toggle="postiframescale" data-w="{DATA.mediawidth}" data-h="{DATA.mediaheight}"<!-- END: aspectratio -->></iframe>
 		<!-- END: iframe -->
 	</div>
 	<!-- END: media -->

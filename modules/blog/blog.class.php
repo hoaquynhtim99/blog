@@ -910,4 +910,37 @@ class nv_mod_blog
 
         return $str;
     }
+    
+    /**
+     * nv_mod_blog::GetAspectRatio()
+     * 
+     * @param mixed $w
+     * @param mixed $h
+     * @return
+     */
+    public function GetAspectRatio($w, $h)
+    {
+        if (empty($w) or empty($h) or $h == $w) {
+            return '1:1';
+        }
+        $reverse = ($w < $h);
+        if ($reverse) {
+            $w1 = $w;
+            $w = $h;
+            $h = $w1;
+        }
+        if ($w % $h == 0) {
+            $w = $w / $h;
+            $h = 1;
+        } else {
+            $ratio = round($w / $h, 1) * 10;
+            $h = 10;
+            $w = $ratio;
+            while ($w % 2 == 0 and $h % 2 == 0) {
+                $w = floor($w / 2);
+                $h = floor($h / 2);
+            }
+        }
+        return $reverse ? ($h . ':' . $w) : ($w . ':' . $h);
+    }
 }

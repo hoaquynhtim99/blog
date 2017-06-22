@@ -22,6 +22,110 @@ if (!empty($BL->setting['sysFbAdminID'])) {
 }
 
 /**
+ * nv_blog_alias_page()
+ * 
+ * @param mixed $title
+ * @param mixed $base_url
+ * @param mixed $num_items
+ * @param mixed $per_page
+ * @param mixed $on_page
+ * @param bool $add_prevnext_text
+ * @param bool $full_theme
+ * @return
+ */
+function nv_blog_alias_page($title, $base_url, $num_items, $per_page, $on_page, $add_prevnext_text = true, $full_theme = true)
+{
+    global $lang_global;
+
+    $total_pages = ceil($num_items / $per_page);
+
+    if ($total_pages < 2) {
+        return '';
+    }
+
+    $title .= ' ' . NV_TITLEBAR_DEFIS . ' ' . $lang_global['page'];
+    $page_string = ($on_page == 1) ? '<li class="active"><a href="#">1</a></li>' : '<li><a rel="prev" title="' . $title . ' 1" href="' . $base_url . '">1</a></li>';
+
+    if ($total_pages > 7) {
+        if ($on_page < 4) {
+            $init_page_max = ($total_pages > 2) ? 2 : $total_pages;
+            for ($i = 2; $i <= $init_page_max; ++$i) {
+                if ($i == $on_page) {
+                    $page_string .= '<li class="active"><a href="#">' . $i . '</a></li>';
+                } else {
+                    $rel = ($i > $on_page) ? 'next' : 'prev';
+                    $page_string .= '<li><a rel="' . $rel . '" title="' . $title . ' ' . $i . '" href="' . $base_url . '/page-' . $i . '">' . $i . '</a></li>';
+                }
+            }
+        }
+
+        if ($on_page > 1 and $on_page < $total_pages) {
+            if ($on_page > 3) {
+                $page_string .= '<li class="disabled"><span>...</span></li>';
+            }
+
+            $init_page_min = ($on_page > 3) ? $on_page : 4;
+            $init_page_max = ($on_page < $total_pages - 3) ? $on_page : $total_pages - 3;
+
+            for ($i = $init_page_min - 1; $i < $init_page_max + 2; ++$i) {
+                if ($i == $on_page) {
+                    $page_string .= '<li class="active"><a href="#">' . $i . '</a></li>';
+                } else {
+                    $rel = ($i > $on_page) ? 'next' : 'prev';
+                    $page_string .= '<li><a rel="' . $rel . '" title="' . $title . ' ' . $i . '" href="' . $base_url . '/page-' . $i . '">' . $i . '</a></li>';
+                }
+            }
+
+            if ($on_page < $total_pages - 3) {
+                $page_string .= '<li class="disabled"><span>...</span></li>';
+            }
+        } else {
+            $page_string .= '<li class="disabled"><span>...</span></li>';
+        }
+
+        $init_page_min = ($total_pages - $on_page > 3) ? $total_pages : $total_pages - 1;
+        for ($i = $init_page_min; $i <= $total_pages; ++$i) {
+            if ($i == $on_page) {
+                $page_string .= '<li class="active"><a href="#">' . $i . '</a></li>';
+            } else {
+                $rel = ($i > $on_page) ? 'next' : 'prev';
+                $page_string .= '<li><a rel="' . $rel . '" title="' . $title . ' ' . $i . '" href="' . $base_url . '/page-' . $i . '">' . $i . '</a></li>';
+            }
+        }
+    } else {
+        for ($i = 2; $i < $total_pages + 1; ++$i) {
+            if ($i == $on_page) {
+                $page_string .= '<li class="active"><a href="#">' . $i . '</a><li>';
+            } else {
+                $rel = ($i > $on_page) ? 'next' : 'prev';
+                $page_string .= '<li><a rel="' . $rel . '" title="' . $title . ' ' . $i . '" href="' . $base_url . '/page-' . $i . '">' . $i . '</a></li>';
+            }
+        }
+    }
+
+    if ($add_prevnext_text) {
+        if ($on_page > 1) {
+            $href = ($on_page > 2) ? $base_url . '/page-' . ($on_page - 1) : $base_url;
+            $page_string = '<li><a rel="prev" title="' . $title . ' ' . ($on_page - 1) . '" href="' . $href . '">&laquo;</a></li>' . $page_string;
+        } else {
+            $page_string = '<li class="disabled"><a href="#">&laquo;</a></li>' . $page_string;
+        }
+
+        if ($on_page < $total_pages) {
+            $page_string .= '<li><a rel="next" title="' . $title . ' ' . ($on_page + 1) . '" href="' . $base_url . '/page-' . ($on_page + 1) . '">&raquo;</a></li>';
+        } else {
+            $page_string .= '<li class="disabled"><a href="#">&raquo;</a></li>';
+        }
+    }
+
+    if ($full_theme !== true) {
+        return $page_string;
+    }
+
+    return '<ul class="pagination">' . $page_string . '</ul>';
+}
+
+/**
  * nv_main_theme()
  * 
  * @param mixed $array
@@ -41,7 +145,12 @@ function nv_main_theme($array, $generate_page, $cfg, $page, $total_pages, $BL)
         return nv_message_theme($lang_module['noPost'], 3);
     }
 
-    $my_head .= "<script type=\"text/javascript\" src=\"" . NV_BASE_SITEURL . "modules/" . $module_file . "/media/jwplayer.js\"></script>" . NV_EOL;
+    if (file_exists(NV_ROOTDIR . '/themes/' . $module_info['template'] . '/images/' . $module_file . '/jwplayer/jwplayer.js')) {
+        $my_head .= "<script type=\"text/javascript\" src=\"" . NV_BASE_SITEURL . "themes/" . $module_info['template'] . "/images/" . $module_file . "/jwplayer/jwplayer.js\"></script>" . NV_EOL;
+    } else {
+        $my_head .= "<script type=\"text/javascript\" src=\"" . NV_BASE_SITEURL . "themes/default/images/" . $module_file . "/jwplayer/jwplayer.js\"></script>" . NV_EOL;
+    }
+    $my_head .= "<script type=\"text/javascript\">jwplayer.key=\"KzcW0VrDegOG/Vl8Wb9X3JLUql+72MdP1coaag==\";</script>" . NV_EOL;
 
     if ($BL->setting['indexViewType'] == 'type_blog') {
         // Kieu danh sach blog
@@ -89,12 +198,29 @@ function nv_main_theme($array, $generate_page, $cfg, $page, $total_pages, $BL)
                 $xtpl->parse('main.loop.media.image');
             } elseif ($row['mediatype'] == 2) {
                 // Kieu am thanh
+                if (empty($row['mediaresponsive'])) {
+                    $xtpl->parse('main.loop.media.audio.height');
+                } else {
+                    $xtpl->assign('ASPECTRATIO', $BL->GetAspectRatio($row['mediawidth'], $row['mediaheight']));
+                    $xtpl->parse('main.loop.media.audio.aspectratio');
+                }
                 $xtpl->parse('main.loop.media.audio');
             } elseif ($row['mediatype'] == 3) {
                 // Kieu video
+                if (empty($row['mediaresponsive'])) {
+                    $xtpl->parse('main.loop.media.video.height');
+                } else {
+                    $xtpl->assign('ASPECTRATIO', $BL->GetAspectRatio($row['mediawidth'], $row['mediaheight']));
+                    $xtpl->parse('main.loop.media.video.aspectratio');
+                }
                 $xtpl->parse('main.loop.media.video');
             } elseif ($row['mediatype'] == 4) {
                 // Kieu iframe
+                if (empty($row['mediaresponsive'])) {
+                    $xtpl->parse('main.loop.media.iframe.height');
+                } else {
+                    $xtpl->parse('main.loop.media.iframe.aspectratio');
+                }
                 $xtpl->parse('main.loop.media.iframe');
             }
 
@@ -147,7 +273,12 @@ function nv_viewcat_theme($array, $generate_page, $cfg, $page, $total_pages, $BL
         return nv_message_theme($lang_module['catNoPost'], 3);
     }
 
-    $my_head .= "<script type=\"text/javascript\" src=\"" . NV_BASE_SITEURL . "modules/" . $module_file . "/media/jwplayer.js\"></script>" . NV_EOL;
+    if (file_exists(NV_ROOTDIR . '/themes/' . $module_info['template'] . '/images/' . $module_file . '/jwplayer/jwplayer.js')) {
+        $my_head .= "<script type=\"text/javascript\" src=\"" . NV_BASE_SITEURL . "themes/" . $module_info['template'] . "/images/" . $module_file . "/jwplayer/jwplayer.js\"></script>" . NV_EOL;
+    } else {
+        $my_head .= "<script type=\"text/javascript\" src=\"" . NV_BASE_SITEURL . "themes/default/images/" . $module_file . "/jwplayer/jwplayer.js\"></script>" . NV_EOL;
+    }
+    $my_head .= "<script type=\"text/javascript\">jwplayer.key=\"KzcW0VrDegOG/Vl8Wb9X3JLUql+72MdP1coaag==\";</script>" . NV_EOL;
 
     if ($BL->setting['catViewType'] == 'type_blog') {
         // Kieu danh sach blog
@@ -195,12 +326,29 @@ function nv_viewcat_theme($array, $generate_page, $cfg, $page, $total_pages, $BL
                 $xtpl->parse('main.loop.media.image');
             } elseif ($row['mediatype'] == 2) {
                 // Kieu am thanh
+                if (empty($row['mediaresponsive'])) {
+                    $xtpl->parse('main.loop.media.audio.height');
+                } else {
+                    $xtpl->assign('ASPECTRATIO', $BL->GetAspectRatio($row['mediawidth'], $row['mediaheight']));
+                    $xtpl->parse('main.loop.media.audio.aspectratio');
+                }
                 $xtpl->parse('main.loop.media.audio');
             } elseif ($row['mediatype'] == 3) {
                 // Kieu video
+                if (empty($row['mediaresponsive'])) {
+                    $xtpl->parse('main.loop.media.video.height');
+                } else {
+                    $xtpl->assign('ASPECTRATIO', $BL->GetAspectRatio($row['mediawidth'], $row['mediaheight']));
+                    $xtpl->parse('main.loop.media.video.aspectratio');
+                }
                 $xtpl->parse('main.loop.media.video');
             } elseif ($row['mediatype'] == 4) {
                 // Kieu iframe
+                if (empty($row['mediaresponsive'])) {
+                    $xtpl->parse('main.loop.media.iframe.height');
+                } else {
+                    $xtpl->parse('main.loop.media.iframe.aspectratio');
+                }
                 $xtpl->parse('main.loop.media.iframe');
             }
 
@@ -266,7 +414,12 @@ function nv_detail_theme($blog_data, $BL)
 {
     global $lang_global, $lang_module, $module_file, $module_info, $my_head, $module_name;
 
-    $my_head .= "<script type=\"text/javascript\" src=\"" . NV_BASE_SITEURL . "modules/" . $module_file . "/media/jwplayer.js\"></script>" . NV_EOL;
+    if (file_exists(NV_ROOTDIR . '/themes/' . $module_info['template'] . '/images/' . $module_file . '/jwplayer/jwplayer.js')) {
+        $my_head .= "<script type=\"text/javascript\" src=\"" . NV_BASE_SITEURL . "themes/" . $module_info['template'] . "/images/" . $module_file . "/jwplayer/jwplayer.js\"></script>" . NV_EOL;
+    } else {
+        $my_head .= "<script type=\"text/javascript\" src=\"" . NV_BASE_SITEURL . "themes/default/images/" . $module_file . "/jwplayer/jwplayer.js\"></script>" . NV_EOL;
+    }
+    $my_head .= "<script type=\"text/javascript\">jwplayer.key=\"KzcW0VrDegOG/Vl8Wb9X3JLUql+72MdP1coaag==\";</script>" . NV_EOL;
 
     $xtpl = new XTemplate("detail.tpl", NV_ROOTDIR . "/themes/" . $module_info['template'] . "/modules/" . $module_file);
     $xtpl->assign('LANG', $lang_module);
@@ -291,12 +444,29 @@ function nv_detail_theme($blog_data, $BL)
             $xtpl->parse('main.media.image');
         } elseif ($blog_data['mediatype'] == 2) {
             // Kieu am thanh
+            if (empty($blog_data['mediaresponsive'])) {
+                $xtpl->parse('main.media.audio.height');
+            } else {
+                $xtpl->assign('ASPECTRATIO', $BL->GetAspectRatio($blog_data['mediawidth'], $blog_data['mediaheight']));
+                $xtpl->parse('main.media.audio.aspectratio');
+            }
             $xtpl->parse('main.media.audio');
         } elseif ($blog_data['mediatype'] == 3) {
             // Kieu video
+            if (empty($blog_data['mediaresponsive'])) {
+                $xtpl->parse('main.media.video.height');
+            } else {
+                $xtpl->assign('ASPECTRATIO', $BL->GetAspectRatio($blog_data['mediawidth'], $blog_data['mediaheight']));
+                $xtpl->parse('main.media.video.aspectratio');
+            }
             $xtpl->parse('main.media.video');
         } elseif ($blog_data['mediatype'] == 4) {
             // Kieu iframe
+            if (empty($blog_data['mediaresponsive'])) {
+                $xtpl->parse('main.media.iframe.height');
+            } else {
+                $xtpl->parse('main.media.iframe.aspectratio');
+            }
             $xtpl->parse('main.media.iframe');
         }
 
@@ -414,7 +584,12 @@ function nv_detail_tags_theme($array, $generate_page, $cfg, $page, $total_pages,
         return nv_message_theme($lang_module['noPost'], 3);
     }
 
-    $my_head .= "<script type=\"text/javascript\" src=\"" . NV_BASE_SITEURL . "modules/" . $module_file . "/media/jwplayer.js\"></script>" . NV_EOL;
+    if (file_exists(NV_ROOTDIR . '/themes/' . $module_info['template'] . '/images/' . $module_file . '/jwplayer/jwplayer.js')) {
+        $my_head .= "<script type=\"text/javascript\" src=\"" . NV_BASE_SITEURL . "themes/" . $module_info['template'] . "/images/" . $module_file . "/jwplayer/jwplayer.js\"></script>" . NV_EOL;
+    } else {
+        $my_head .= "<script type=\"text/javascript\" src=\"" . NV_BASE_SITEURL . "themes/default/images/" . $module_file . "/jwplayer/jwplayer.js\"></script>" . NV_EOL;
+    }
+    $my_head .= "<script type=\"text/javascript\">jwplayer.key=\"KzcW0VrDegOG/Vl8Wb9X3JLUql+72MdP1coaag==\";</script>" . NV_EOL;
 
     if ($BL->setting['catViewType'] == 'type_blog') {
         // Kieu danh sach blog
@@ -462,12 +637,29 @@ function nv_detail_tags_theme($array, $generate_page, $cfg, $page, $total_pages,
                 $xtpl->parse('main.loop.media.image');
             } elseif ($row['mediatype'] == 2) {
                 // Kieu am thanh
+                if (empty($row['mediaresponsive'])) {
+                    $xtpl->parse('main.loop.media.audio.height');
+                } else {
+                    $xtpl->assign('ASPECTRATIO', $BL->GetAspectRatio($row['mediawidth'], $row['mediaheight']));
+                    $xtpl->parse('main.loop.media.audio.aspectratio');
+                }
                 $xtpl->parse('main.loop.media.audio');
             } elseif ($row['mediatype'] == 3) {
                 // Kieu video
+                if (empty($row['mediaresponsive'])) {
+                    $xtpl->parse('main.loop.media.video.height');
+                } else {
+                    $xtpl->assign('ASPECTRATIO', $BL->GetAspectRatio($row['mediawidth'], $row['mediaheight']));
+                    $xtpl->parse('main.loop.media.video.aspectratio');
+                }
                 $xtpl->parse('main.loop.media.video');
             } elseif ($row['mediatype'] == 4) {
                 // Kieu iframe
+                if (empty($row['mediaresponsive'])) {
+                    $xtpl->parse('main.loop.media.iframe.height');
+                } else {
+                    $xtpl->parse('main.loop.media.iframe.aspectratio');
+                }
                 $xtpl->parse('main.loop.media.iframe');
             }
 

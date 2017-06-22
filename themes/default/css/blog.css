@@ -90,6 +90,7 @@ h1.upper, h2.upper, h3.upper, h4.upper, h5.upper, h6.upper{
 }
 .post-list .post-item .media-image{
     width: 100%;
+    height: auto;
 }
 .post-list .post-item .media-iframe{
     padding:0;

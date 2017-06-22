@@ -90,6 +90,8 @@ if ($id) {
         "images" => $row['images'],
         "mediatype" => (int)$row['mediatype'],
         "mediaheight" => (int)$row['mediaheight'],
+        "mediawidth" => (int)$row['mediawidth'],
+        "mediaresponsive" => (int)$row['mediaresponsive'],
         "mediavalue" => $row['mediavalue'],
         "hometext" => nv_br2nl($row['hometext']),
         "bodytext" => $row['bodytext'],
@@ -138,6 +140,8 @@ if ($id) {
         "images" => '',
         "mediatype" => $BL->setting['initMediaType'],
         "mediaheight" => $BL->setting['initMediaHeight'],
+        "mediawidth" => $BL->setting['initMediaWidth'],
+        "mediaresponsive" => $BL->setting['initMediaResponsive'],
         "mediavalue" => '',
         "hometext" => '',
         "bodytext" => '',
@@ -183,6 +187,8 @@ if ($prosessMode != 'none') {
     $array['images'] = $nv_Request->get_string('images', 'post', '');
     $array['mediatype'] = $nv_Request->get_int('mediatype', 'post', 0);
     $array['mediaheight'] = $nv_Request->get_int('mediaheight', 'post', 0);
+    $array['mediawidth'] = $nv_Request->get_int('mediawidth', 'post', 0);
+    $array['mediaresponsive'] = ($nv_Request->get_int('mediaresponsive', 'post', 0) ? 1 : 0);
     $array['mediavalue'] = $nv_Request->get_string('mediavalue', 'post', '');
     $array['hometext'] = $nv_Request->get_textarea('hometext', '', NV_ALLOWED_HTML_TAGS);
     $array['bodyhtml'] = $nv_Request->get_editor('bodyhtml', '', NV_ALLOWED_HTML_TAGS);
@@ -310,6 +316,8 @@ if ($prosessMode != 'none') {
             $error = $BL->lang('blogErrorMediaValue');
         } elseif ($array['mediatype'] > 1 and empty($array['mediaheight'])) {
             $error = $BL->lang('blogErrorMediaHeight');
+        } elseif ($array['mediaresponsive'] and empty($array['mediawidth'])) {
+            $error = $BL->lang('blogErrorMediaWidth');
         }
     }
 
@@ -386,6 +394,8 @@ if ($prosessMode != 'none') {
 				" . $db->quote($array['images']) . ",
 				" . $array['mediatype'] . ", 
 				" . $array['mediaheight'] . ", 
+				" . $array['mediawidth'] . ", 
+				" . $array['mediaresponsive'] . ", 
 				" . $db->quote($array['mediavalue']) . ",
 				" . $db->quote($array['hometext']) . ",
 				" . $db->quote($array['bodytext']) . ",
@@ -463,6 +473,8 @@ if ($prosessMode != 'none') {
 				images=" . $db->quote($array['images']) . ",
 				mediatype=" . $array['mediatype'] . ", 
 				mediaheight=" . $array['mediaheight'] . ", 
+				mediawidth=" . $array['mediawidth'] . ", 
+				mediaresponsive=" . $array['mediaresponsive'] . ", 
 				mediavalue=" . $db->quote($array['mediavalue']) . ",
 				hometext=" . $db->quote($array['hometext']) . ",
 				bodytext=" . $db->quote($array['bodytext']) . ",
@@ -536,6 +548,11 @@ $array['exptime'] = $array['exptime'] ? date("d/m/Y", $array['exptime']) : "";
 if (empty($array['mediaheight'])) {
     $array['mediaheight'] = "";
 }
+if (empty($array['mediawidth'])) {
+    $array['mediawidth'] = "";
+}
+
+$array['mediaresponsive'] = $array['mediaresponsive'] ? ' checked="checked"' : '';
 
 // Chinh duong dan anh
 if (!empty($array['images']) and preg_match("/^\//i", $array['images'])) {

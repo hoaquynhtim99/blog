@@ -11,9 +11,10 @@
         <script type="text/javascript">
         jwplayer("media-audio-{ROW.id}").setup({
             file: "{ROW.mediavalue}",
-            height: {ROW.mediaheight},
             image: "{ROW.images}",
             width: '100%',
+            <!-- BEGIN: height -->height: {ROW.mediaheight},<!-- END: height -->
+            <!-- BEGIN: aspectratio -->aspectratio: "{ASPECTRATIO}",<!-- END: aspectratio -->
             stretching: 'fill'
         });        
         </script>
@@ -23,15 +24,16 @@
         <script type="text/javascript">
         jwplayer("media-video-{ROW.id}").setup({
             file: "{ROW.mediavalue}",
-            height: {ROW.mediaheight},
             image: "{ROW.images}",
             width: '100%',
+            <!-- BEGIN: height -->height: {ROW.mediaheight},<!-- END: height -->
+            <!-- BEGIN: aspectratio -->aspectratio: "{ASPECTRATIO}",<!-- END: aspectratio -->
             stretching: 'fill'
         });        
         </script>
         <!-- END: video -->
         <!-- BEGIN: iframe -->
-        <iframe class="media-iframe" src="{ROW.mediavalue}" height="{ROW.mediaheight}"></iframe>
+        <iframe class="media-iframe" src="{ROW.mediavalue}"<!-- BEGIN: height --> height="{ROW.mediaheight}"<!-- END: height --><!-- BEGIN: aspectratio --> data-toggle="postiframescale" data-w="{ROW.mediawidth}" data-h="{ROW.mediaheight}"<!-- END: aspectratio -->></iframe>
         <!-- END: iframe -->
         <!-- END: media -->
         <h3 class="post-title"><i class="{ROW.icon}">&nbsp;</i><a href="{ROW.link}"><span itemprop="name">{ROW.title}</span></a> </h3>

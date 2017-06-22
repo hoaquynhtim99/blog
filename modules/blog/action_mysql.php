@@ -126,6 +126,8 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
   images varchar(255) NOT NULL DEFAULT '' COMMENT 'Hình ảnh bài viết',
   mediatype smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT '0: Dùng ảnh đại diện, 1: Dùng hình ảnh tùy chọn, 2: File âm thanh, 3: File video, 4: Iframe',
   mediaheight smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT 'Chiều cao media',
+  mediawidth smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT 'Chiều rộng media',
+  mediaresponsive tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT 'Responsive hay không',
   mediavalue mediumtext NOT NULL COMMENT 'Nội dung media',
   hometext mediumtext NOT NULL COMMENT 'Mô tả ngắn gọn',
   bodytext mediumtext NOT NULL COMMENT 'Nội dung bài viết dạng text',
@@ -197,6 +199,8 @@ $sql_create_module[] = "INSERT INTO " . $db_config['prefix'] . "_" . $lang . "_"
 ('initPostType', '0'),
 ('initMediaType', '4'),
 ('initMediaHeight', '250'),
+('initMediaWidth', '960'),
+('initMediaResponsive', '1'),
 ('initNewsletters', '1'),
 ('initAutoKeywords', '1'),
 

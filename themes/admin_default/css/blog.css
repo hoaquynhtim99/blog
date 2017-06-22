@@ -120,13 +120,6 @@
 .ul-icon{background: url('../images/blog/ul-icon.png') no-repeat left center;padding-left: 17px;text-decoration:none}
 
 /* POST */
-.bl-post-col-left{
-	padding-right:310px;
-}
-.bl-post-col-right{
-	float:right;
-	width:300px;
-}
 .bl-post-caption{
 	background:url('../images/blog/caption.gif') no-repeat left center;
 	text-transform:uppercase;
@@ -151,6 +144,9 @@
 .bl-post-dl dd{
 	padding:0 0 0 170px;
 	margin:0;
+}
+.bl-post-dl dd input[type="checkbox"] {
+    margin-top: 7px;
 }
 .bl-post-panel{
 	border:1px #dadada solid;
@@ -280,21 +276,6 @@
 	margin: -1px;
 	border:1px #dadada solid;
 	background:#f7f7f7;
-}
-
-/* MAIN */
-.bl-main-col{
-	float:left;
-	width:33.3333333333333333%;
-}
-.bl-main-col .col-1{
-	margin-right:6px;
-}
-.bl-main-col .col-2{
-	margin:0 3px;
-}
-.bl-main-col .col-3{
-	margin-left:6px;
 }
 
 /* DONATE */
