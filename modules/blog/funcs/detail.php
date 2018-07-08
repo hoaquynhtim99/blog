@@ -40,22 +40,53 @@ $blog_data['tags'] = $BL->getTagsByID($blog_data['tagids'], true);
 
 // Lấy bài viết tiếp theo
 $blog_data['nextPost'] = array();
-$sql = "SELECT title, alias FROM " . $BL->table_prefix . "_rows WHERE status=1 AND ( " . $BL->build_query_search_id($catid, 'catids') . " ) AND pubtime>" . $blog_data['pubtime'] . " ORDER BY pubtime ASC LIMIT 1";
+$sql = "SELECT title, alias, images FROM " . $BL->table_prefix . "_rows WHERE status=1 AND ( " . $BL->build_query_search_id($catid, 'catids') . " ) AND pubtime>" . $blog_data['pubtime'] . " ORDER BY pubtime ASC LIMIT 1";
 $result = $db->query($sql);
 
 if ($result->rowCount()) {
     $blog_data['nextPost'] = $result->fetch(PDO::FETCH_ASSOC);
     $blog_data['nextPost']['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $blog_data['nextPost']['alias'] . $global_config['rewrite_exturl'];
+    // Xac dinh images
+    if (!empty($blog_data['nextPost']['images'])) {
+        if (is_file(NV_ROOTDIR . '/' . NV_ASSETS_DIR . '/' . $module_name . $blog_data['nextPost']['images'])) {
+            $blog_data['nextPost']['thumb'] = NV_BASE_SITEURL . NV_ASSETS_DIR . '/' . $module_name . $blog_data['nextPost']['images'];
+        } elseif (is_file(NV_UPLOADS_REAL_DIR . '/' . $module_name . $blog_data['nextPost']['images'])) {
+            $blog_data['nextPost']['thumb'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_name . $blog_data['nextPost']['images'];
+        } elseif (!nv_is_url($blog_data['nextPost']['images'])) {
+            $blog_data['nextPost']['thumb'] = '';
+        }
+        if (is_file(NV_UPLOADS_REAL_DIR . '/' . $module_name . $blog_data['nextPost']['images'])) {
+            $blog_data['nextPost']['images'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_name . $blog_data['nextPost']['images'];
+        } elseif (!nv_is_url($blog_data['nextPost']['images'])) {
+            $blog_data['nextPost']['images'] = '';
+        }
+    }
 }
 
 // Lấy bài viết trước đó
 $blog_data['prevPost'] = array();
-$sql = "SELECT title, alias FROM " . $BL->table_prefix . "_rows WHERE status=1 AND ( " . $BL->build_query_search_id($catid, 'catids') . " ) AND pubtime<" . $blog_data['pubtime'] . " ORDER BY pubtime DESC LIMIT 1";
+$sql = "SELECT title, alias, images FROM " . $BL->table_prefix . "_rows WHERE status=1 AND ( " . $BL->build_query_search_id($catid, 'catids') . " ) AND pubtime<" . $blog_data['pubtime'] . " ORDER BY pubtime DESC LIMIT 1";
 $result = $db->query($sql);
 
 if ($result->rowCount()) {
     $blog_data['prevPost'] = $result->fetch(PDO::FETCH_ASSOC);
     $blog_data['prevPost']['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $blog_data['prevPost']['alias'] . $global_config['rewrite_exturl'];
+    $blog_data['prevPost']['thumb'] = '';
+    // Xac dinh images
+    if (!empty($blog_data['prevPost']['images'])) {
+        if (is_file(NV_ROOTDIR . '/' . NV_ASSETS_DIR . '/' . $module_name . $blog_data['prevPost']['images'])) {
+            $blog_data['prevPost']['thumb'] = NV_BASE_SITEURL . NV_ASSETS_DIR . '/' . $module_name . $blog_data['prevPost']['images'];
+        } elseif (is_file(NV_UPLOADS_REAL_DIR . '/' . $module_name . $blog_data['prevPost']['images'])) {
+            $blog_data['prevPost']['thumb'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_name . $blog_data['prevPost']['images'];
+        } elseif (!nv_is_url($blog_data['prevPost']['images'])) {
+            $blog_data['prevPost']['thumb'] = '';
+        }
+        if (is_file(NV_UPLOADS_REAL_DIR . '/' . $module_name . $blog_data['prevPost']['images'])) {
+            $blog_data['prevPost']['images'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_name . $blog_data['prevPost']['images'];
+        } elseif (!nv_is_url($blog_data['prevPost']['images'])) {
+            $blog_data['prevPost']['images'] = '';
+        }
+    }
 }
 
 // Url chính xác của bài đăng
