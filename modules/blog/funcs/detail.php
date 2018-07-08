@@ -12,15 +12,13 @@ if (!defined('NV_IS_MOD_BLOG'))
     die('Stop!!!');
 
 if (empty($blog_data)) {
-    header('Location:' . nv_url_rewrite(NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name, true));
-    die();
+    nv_redirect_location(NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name, true);
 }
 
 // Chỉ có phần xem chi tiết bài viết mới có thể .html
 $base_url_rewrite = nv_url_rewrite(NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $blog_data['alias'] . $global_config['rewrite_exturl'], true);
 if ($_SERVER['REQUEST_URI'] != $base_url_rewrite) {
-    Header('Location: ' . $base_url_rewrite);
-    die();
+    nv_redirect_location($base_url_rewrite);
 }
 
 $page_title = $mod_title = $blog_data['sitetitle'];

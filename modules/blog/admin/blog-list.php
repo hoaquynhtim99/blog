@@ -44,7 +44,7 @@ if ($nv_Request->isset_request('del', 'post')) {
     // Xoa cache
     $nv_Cache->delMod($module_name);
 
-    die('OK');
+    nv_htmlOutput('OK');
 }
 
 // Thay doi hoat dong bai viet
@@ -100,7 +100,7 @@ if ($nv_Request->isset_request('changestatus', 'post')) {
     // Xoa cache
     $nv_Cache->delMod($module_name);
 
-    die('OK');
+    nv_htmlOutput('OK');
 }
 
 $page_title = $BL->lang('blogList');

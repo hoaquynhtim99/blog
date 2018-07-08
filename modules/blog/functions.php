@@ -40,8 +40,7 @@ if ($op == 'main') {
             $page = intval($m[1]);
 
             if ($page <= 1) {
-                header('Location:' . nv_url_rewrite(NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name, true));
-                die();
+                nv_redirect_location(NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name, true);
             }
         } else {
             $defis = -1;
@@ -64,15 +63,13 @@ if ($op == 'main') {
                     if (preg_match("/^page\-([0-9]+)$/i", $array_op[1], $m)) {
                         $page = intval($m[1]);
                     } else {
-                        header('Location:' . nv_url_rewrite(NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . '&' . NV_OP_VARIABLE . '=' . $array_op[0], true));
-                        die();
+                        nv_redirect_location(NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . '&' . NV_OP_VARIABLE . '=' . $array_op[0], true);
                     }
                 }
             } else { // Xem bai viet
                 // Khong cho array_op nao lon hon
                 if (sizeof($array_op) > 1) {
-                    header('Location:' . nv_url_rewrite(NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . '&' . NV_OP_VARIABLE . '=' . $array_op[0], true));
-                    die();
+                    nv_redirect_location(NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . '&' . NV_OP_VARIABLE . '=' . $array_op[0], true);
                 }
 
                 $sql = "SELECT a.*, b.username AS postname, b.first_name, b.last_name FROM " . $BL->table_prefix . "_rows AS a LEFT JOIN " . NV_USERS_GLOBALTABLE . " AS b ON a.postid=b.userid WHERE a.status=1 AND a.alias=" . $db->quote($array_op[0]);
@@ -133,8 +130,7 @@ if ($op == 'main') {
                         'link' => NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $blog_data['alias'] . $global_config['rewrite_exturl'],
                     );
                 } else {
-                    header('Location:' . nv_url_rewrite(NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name, true));
-                    die();
+                    nv_redirect_location(NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name, true);
                 }
             }
         }

@@ -12,7 +12,7 @@
 if (!defined('NV_ADMIN') or !defined('NV_MAINFILE'))
     die('Stop!!!');
 
-$lang_translator['author'] = 'VINADES.,JSC (contact@vinades.vn)';
+$lang_translator['author'] = 'VINADES.,JSC <contact@vinades.vn>';
 $lang_translator['createdate'] = '07/03/2011, 20:15';
 $lang_translator['copyright'] = '@Copyright (C) 2011 VINADES.,JSC. All rights reserved';
 $lang_translator['info'] = '';

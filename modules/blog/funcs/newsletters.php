@@ -57,7 +57,7 @@ if ($nv_Request->isset_request('newsletters', 'post')) {
             die(sprintf($BL->lang('newsletterMailOk'), $array['email']));
         }
 
-        die("Unknow Error!!!");
+        nv_htmlOutput("Unknow Error!!!");
     } else {
         die($BL->lang('newsletterMailError'));
     }
@@ -119,8 +119,7 @@ if ($nv_Request->isset_request("confirm", "get") or $nv_Request->isset_request("
         }
     }
 } else {
-    Header("Location: " . nv_url_rewrite(NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name, true));
-    exit();
+    nv_redirect_location(NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name, true);
 }
 
 $contents = nv_newsletters_theme($array);

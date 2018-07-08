@@ -55,3 +55,6 @@
 !/themes/admin_default/images/blog
 !/themes/admin_default/modules/blog
 /error.php
+/.buildpath
+/.project
+/.settings

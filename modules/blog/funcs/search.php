@@ -34,14 +34,12 @@ $all_page = 0;
 
 // Chuyển đến trang xem theo theo mục nếu để trống từ khóa mà tìm theo danh mục
 if (empty($array['q']) and isset($global_array_cat[$array['catid']])) {
-    header('Location:' . nv_url_rewrite(NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . "&" . NV_OP_VARIABLE . "=" . $global_array_cat[$array['catid']]['alias'], true));
-    die();
+    nv_redirect_location(NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . "&" . NV_OP_VARIABLE . "=" . $global_array_cat[$array['catid']]['alias'], true);
 }
 
 // Chỉnh lại đường dẫn cho phù hợp
 if ($page < 1 or ($page == 1 and $nv_Request->isset_request('page', 'get')) or ($nv_Request->isset_request('q', 'get') and empty($array['q'])) or (empty($array['q']) and isset($_GET['catid'])) or (isset($_GET['catid']) and (!is_numeric($_GET['catid']) or (!isset($global_array_cat[$array['catid']]) and $array['catid'] != 0)))) {
-    header('Location:' . nv_url_rewrite(NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . "&" . NV_OP_VARIABLE . "=" . $op, true));
-    die();
+    nv_redirect_location(NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . "&" . NV_OP_VARIABLE . "=" . $op, true);
 }
 
 // Tiêu đề nếu có từ khóa
@@ -98,8 +96,7 @@ if (!empty($array['q'])) {
 
 // Khong cho dat $page tuy y
 if ($page > 1 and empty($array['contents'])) {
-    header('Location:' . nv_url_rewrite(NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name, true));
-    die();
+    nv_redirect_location(NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name, true);
 }
 
 // Lay thanh vien dang bai

@@ -71,7 +71,7 @@ if ($nv_Request->isset_request('changeweight', 'post')) {
 
     $nv_Cache->delMod($module_name);
 
-    die('OK');
+    nv_htmlOutput('OK');
 }
 
 // Cho hoat dong, dung hoat dong
@@ -98,7 +98,7 @@ if ($nv_Request->isset_request('changestatus', 'post')) {
 
     $nv_Cache->delMod($module_name);
 
-    die('OK');
+    nv_htmlOutput('OK');
 }
 
 // Xoa chuyen muc
@@ -125,7 +125,7 @@ if ($nv_Request->isset_request('del', 'post')) {
 
     $nv_Cache->delMod($module_name);
 
-    die('OK');
+    nv_htmlOutput('OK');
 }
 
 $page_title = $BL->lang('categoriesManager');
@@ -208,8 +208,7 @@ if ($nv_Request->isset_request("submit", "post")) {
                 nv_insert_logs(NV_LANG_DATA, $module_name, $BL->lang('categoriesEditLog'), $row['title'], $admin_info['userid']);
                 $nv_Cache->delMod($module_name);
 
-                Header("Location: " . NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . "&" . NV_OP_VARIABLE . "=categories&parentid=" . $data['parentid']);
-                exit();
+                nv_redirect_location(NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . "&" . NV_OP_VARIABLE . "=categories&parentid=" . $data['parentid']);
             } else {
                 $error = $BL->lang('errorUpdateUnknow');
             }
@@ -230,8 +229,7 @@ if ($nv_Request->isset_request("submit", "post")) {
                 $BL->fixCat($newid);
                 nv_insert_logs(NV_LANG_DATA, $module_name, $BL->lang('categoriesAdd'), $data['title'], $admin_info['userid']);
                 $nv_Cache->delMod($module_name);
-                Header("Location: " . NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . "&" . NV_OP_VARIABLE . "=categories&parentid=" . $data['parentid']);
-                exit();
+                nv_redirect_location(NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . "&" . NV_OP_VARIABLE . "=categories&parentid=" . $data['parentid']);
             } else {
                 $error = $BL->lang('errorSaveUnknow');
             }

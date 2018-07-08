@@ -22,7 +22,7 @@ if ($nv_Request->isset_request('addCommentOnly', 'post')) {
         $nv_Cache->delMod($module_name);
     }
 
-    die('OK');
+    nv_htmlOutput('OK');
 }
 
 if ($nv_Request->isset_request('delCommentOnly', 'post')) {
@@ -35,7 +35,7 @@ if ($nv_Request->isset_request('delCommentOnly', 'post')) {
         $nv_Cache->delMod($module_name);
     }
 
-    die('OK');
+    nv_htmlOutput('OK');
 }
 
-die('Error Access!!!');
+nv_htmlOutput('Error Access!!!');

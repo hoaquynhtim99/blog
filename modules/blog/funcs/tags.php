@@ -23,8 +23,7 @@ if (isset($array_op[1])) {
     // Kiểm tra hợp chuẩn URL
     unset($m);
     if (isset($array_op[3]) or (isset($array_op[2]) and !preg_match("/^page\-([0-9]+)$/i", $array_op[2], $m))) {
-        header('Location:' . nv_url_rewrite(NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name, true));
-        die();
+        nv_redirect_location(NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name, true);
     }
 
     // Xác định số trang
@@ -39,8 +38,7 @@ if (isset($array_op[1])) {
     $result = $db->query($sql);
 
     if ($result->rowCount() != 1) {
-        header('Location:' . nv_url_rewrite(NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name, true));
-        die();
+        nv_redirect_location(NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name, true);
     }
 
     $array_tags = $result->fetch();
@@ -123,8 +121,7 @@ if (isset($array_op[1])) {
 
     // Khong cho dat $page tuy y
     if ($page > 1 and empty($array)) {
-        header('Location:' . nv_url_rewrite(NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name, true));
-        die();
+        nv_redirect_location(NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name, true);
     }
 
     // Lay thanh vien dang bai

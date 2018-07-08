@@ -13,8 +13,7 @@ if (!defined('NV_IS_MOD_BLOG'))
 
 // Chuyển hướng đến trang chủ không có tên module nếu có cấu hình
 if ($BL->setting['sysRedirect2Home'] and empty($home) and $page <= 1 and $global_config['site_home_module'] == $module_name) {
-    header('Location:' . nv_url_rewrite(NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA, true));
-    die();
+    nv_redirect_location(NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA, true);
 }
 
 $page_title = $mod_title = $module_info['custom_title'];
@@ -85,8 +84,7 @@ while ($row = $result->fetch()) {
 
 // Khong cho dat $page tuy y
 if ($page > 1 and empty($array)) {
-    header('Location:' . nv_url_rewrite(NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name, true));
-    die();
+    nv_redirect_location(NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name, true);
 }
 
 // Lay thanh vien dang bai

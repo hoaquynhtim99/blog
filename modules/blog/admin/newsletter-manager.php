@@ -42,7 +42,7 @@ if ($nv_Request->isset_request('del', 'post')) {
 
     nv_insert_logs(NV_LANG_DATA, $module_name, $BL->lang('nltDelete'), implode(", ", $listid), $admin_info['userid']);
 
-    die('OK');
+    nv_htmlOutput('OK');
 }
 
 // Thay doi hoat dong email nhan tin
@@ -93,7 +93,7 @@ if ($nv_Request->isset_request('changestatus', 'post')) {
         $db->query($sql);
     }
 
-    die('OK');
+    nv_htmlOutput('OK');
 }
 
 // Tieu de trang

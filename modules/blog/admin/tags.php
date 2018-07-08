@@ -90,7 +90,7 @@ if ($nv_Request->isset_request('del', 'post')) {
     $nv_Cache->delMod($module_name);
     nv_insert_logs(NV_LANG_DATA, $module_name, $BL->lang('tagsDelete'), implode(", ", $listid), $admin_info['userid']);
 
-    die('OK');
+    nv_htmlOutput('OK');
 }
 
 $page_title = $BL->lang('tagsMg');
@@ -183,8 +183,7 @@ if ($nv_Request->isset_request("submit", "post")) {
                     die();
                 }
 
-                Header("Location: " . NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . "&" . NV_OP_VARIABLE . "=tags");
-                exit();
+                nv_redirect_location(NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . "&" . NV_OP_VARIABLE . "=tags");
             } else {
                 $error = $BL->lang('errorSaveUnknow');
             }
@@ -202,8 +201,7 @@ if ($nv_Request->isset_request("submit", "post")) {
                 nv_insert_logs(NV_LANG_DATA, $module_name, $BL->lang('tagsEditLog'), $row['title'], $admin_info['userid']);
                 $nv_Cache->delMod($module_name);
 
-                Header("Location: " . NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . "&" . NV_OP_VARIABLE . "=tags");
-                exit();
+                nv_redirect_location(NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . "&" . NV_OP_VARIABLE . "=tags");
             } else {
                 $error = $BL->lang('errorUpdateUnknow');
             }
