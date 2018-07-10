@@ -316,3 +316,30 @@ ul.pagination.bl-pagination li:nth-last-child(2) span {
 .bl-newsletters form {
     position:relative;
 }
+
+/* Block menu */
+.bl-bllist-menu>li,
+.bl-bllist-menu ul li,
+.panel-body .bl-bllist-menu>li,
+.panel-body .bl-bllist-menu ul li {
+    margin-bottom: 0;
+}
+
+.bl-bllist-menu li {
+    padding: 4px 0;
+}
+
+.bl-bllist-menu ul li:last-child {
+    padding-bottom: 0;
+}
+
+.bl-bllist-menu .bl-stat {
+    margin-left: 4px;
+    display: inline-block;
+    font-weight: 700;
+}
+
+.bl-bllist-menu ul {
+    margin-left: 20px;
+}
+
