@@ -109,6 +109,42 @@ RENAME TABLE nv3_vi_blog_tags TO nv4_vi_blog_tags;
 
 Sau khi chạy lệnh trên tiến hành xuất các bảng CSDL đã nâng cấp. Lúc xuất ra, chú ý chọn option `Add DROP TABLE / VIEW / PROCEDURE / FUNCTION / EVENT / TRIGGER statement`.
 
+Tiếp theo tạo một file php như sau
+
+```php
+<?php
+
+ini_set('memory_limit', '2048M');
+
+function unfixdb($value)
+{
+    $value = preg_replace(array(
+        "/(se)\-(lect)/i",
+        "/(uni)\-(on)/i",
+        "/(con)\-(cat)/i",
+        "/(c)\-(har)/i",
+        "/(out)\-(file)/i",
+        "/(al)\-(ter)/i",
+        "/(in)\-(sert)/i",
+        "/(d)\-(rop)/i",
+        "/(f)\-(rom)/i",
+        "/(whe)\-(re)/i",
+        "/(up)\-(date)/i",
+        "/(de)\-(lete)/i",
+        "/(cre)\-(ate)/i"), "$1$2", $value);
+    return $value;
+}
+
+$contents = file_get_contents('mysql.sql');
+$contents = unfixdb($contents);
+
+file_put_contents('mysql_fixed.sql', $contents, LOCK_EX);
+
+echo('OK');
+```
+
+Đổi tên CSDL đã xuất ra thành `mysql.sql`, đặt ngang hàng với file php sau đó chạy file php, khi được thông báo thành công thì sẽ có file `mysql_fixed.sql` được tạo ra.
+
 ## Bước 3: Cài mới module 4.1.02.
 
 Tiến hành cài site mới, cài đặt mới module blog. 
@@ -117,7 +153,7 @@ Tiến hành cài site mới, cài đặt mới module blog.
 
 ## Bước 4: Khôi phục CSDL và file upload cũ.
 
-- Tiến hành import CSDL đã xuất ở bước 2 vào CSDL mới. 
+- Tiến hành import CSDL đã xuất ở bước 2 vào CSDL mới (File `mysql_fixed.sql`). 
 - Xóa thư mục `uploads/blog` ở site mới copy thư mục đã backup ở bước 1 vào thay thế.
 
 ## Bước 5: Hoàn tất cập nhật
