@@ -91,10 +91,11 @@ if ($result->rowCount()) {
 $blog_data['href'] = NV_MY_DOMAIN . nv_url_rewrite(NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $blog_data['alias'] . $global_config['rewrite_exturl'], true);
 
 // Open Graph
-$my_head .= "<meta property=\"og:title\" content=\"" . $page_title . ' ' . NV_TITLEBAR_DEFIS . ' ' . $global_config['site_name'] . "\" />\n";
-$my_head .= "<meta property=\"og:type\" content=\"article\" />\n";
-$my_head .= "<meta property=\"og:url\" content=\"" . $blog_data['href'] . "\" />\n";
-$my_head .= "<meta property=\"og:description\" content=\"" . $description . "\" />\n";
+$meta_property['og:title'] = $page_title . ' ' . NV_TITLEBAR_DEFIS . ' ' . $global_config['site_name'];
+$meta_property['og:type'] = 'article';
+$meta_property['og:url'] = $blog_data['href'];
+$meta_property['og:description'] = $description;
+
 $my_head .= "<meta property=\"article:published_time\" content=\"" . date("Y-m-d", $blog_data['pubtime']) . "\" />\n";
 $my_head .= "<meta property=\"article:section\" content=\"" . $global_array_cat[$catid]['title'] . "\" />\n";
 
@@ -135,25 +136,35 @@ if (!empty($blog_data['mediavalue'])) {
 // Hình ảnh bài đăng
 if (!empty($blog_data['mediavalue']) and $blog_data['mediatype'] == 1) {
     if (preg_match("/^\//", $blog_data['mediavalue'])) {
-        $my_head .= "<meta property=\"og:image\" content=\"" . NV_MY_DOMAIN . $blog_data['mediavalue'] . "\" />\n";
+        $meta_property['og:image'] = NV_MY_DOMAIN . $blog_data['mediavalue'];
+        $blog_data['mediaImage'] = NV_MY_DOMAIN . $blog_data['mediavalue'];
     } else {
-        $my_head .= "<meta property=\"og:image\" content=\"" . $blog_data['mediavalue'] . "\" />\n";
+        $meta_property['og:image'] = $blog_data['mediavalue'];
+        $blog_data['mediaImage'] = $blog_data['mediavalue'];
     }
 } elseif (!empty($blog_data['images'])) {
     if (preg_match("/^\//", $blog_data['images'])) {
-        $my_head .= "<meta property=\"og:image\" content=\"" . NV_MY_DOMAIN . $blog_data['images'] . "\" />\n";
+        $meta_property['og:image'] = NV_MY_DOMAIN . $blog_data['images'];
+        $blog_data['mediaImage'] = NV_MY_DOMAIN . $blog_data['images'];
     } else {
-        $my_head .= "<meta property=\"og:image\" content=\"" . $blog_data['images'] . "\" />\n";
+        $meta_property['og:image'] = $blog_data['images'];
+        $blog_data['mediaImage'] = $blog_data['images'];
     }
 } elseif (!empty($BL->setting['sysDefaultImage'])) {
     if (preg_match("/^\//", $BL->setting['sysDefaultImage'])) {
-        $my_head .= "<meta property=\"og:image\" content=\"" . NV_MY_DOMAIN . $BL->setting['sysDefaultImage'] . "\" />\n";
+        $meta_property['og:image'] = NV_MY_DOMAIN . $BL->setting['sysDefaultImage'];
+        $blog_data['mediaImage'] = NV_MY_DOMAIN . $BL->setting['sysDefaultImage'];
     } else {
-        $my_head .= "<meta property=\"og:image\" content=\"" . $BL->setting['sysDefaultImage'] . "\" />\n";
+        $meta_property['og:image'] = $BL->setting['sysDefaultImage'];
+        $blog_data['mediaImage'] = $BL->setting['sysDefaultImage'];
     }
 } else {
-    $my_head .= "<meta property=\"og:image\" content=\"" . NV_MY_DOMAIN . NV_BASE_SITEURL . $global_config['site_logo'] . "\" />\n";
+    $meta_property['og:image'] = NV_MY_DOMAIN . NV_BASE_SITEURL . $global_config['site_logo'];
+    $blog_data['mediaImage'] = NV_MY_DOMAIN . NV_BASE_SITEURL . $global_config['site_logo'];
 }
+
+$blog_data['publisherName'] = $global_config['site_name'];
+$blog_data['publisherLogo'] = NV_MY_DOMAIN . NV_BASE_SITEURL . $global_config['site_logo'];
 
 $contents = nv_detail_theme($blog_data, $BL);
 

@@ -425,11 +425,13 @@ function nv_detail_theme($blog_data, $BL)
     $xtpl->assign('LANG', $lang_module);
     $xtpl->assign('GLANG', $lang_global);
 
-    $blog_data['pubtimeGoogle'] = nv_date('Y-m-d', $blog_data['pubtime']);
+    $blog_data['pubtimeGoogle'] = nv_date('c', $blog_data['pubtime']);
+    $blog_data['updatetimeGoogle'] = $blog_data['updatetime'] ? nv_date('c', $blog_data['updatetime']) : $blog_data['pubtimeGoogle'];
     $blog_data['pubtime'] = str_replace(array(' AM ', ' PM '), array(' SA ', ' CH '), nv_date('g:i A d/m/Y', $blog_data['pubtime']));
     $blog_data['numcomments'] = number_format($blog_data['numcomments'], 0, ',', '.');
     $blog_data['icon'] = empty($BL->setting['iconClass' . $blog_data['posttype']]) ? 'icon-pencil' : $BL->setting['iconClass' . $blog_data['posttype']];
     $blog_data['postName'] = $blog_data['postName'] ? $blog_data['postName'] : 'N/A';
+    $blog_data['headlineGoogle'] = nv_clean60(strip_tags($blog_data['hometext']), 107); // Không vượt qua 110 ký tự theo Google
 
     $xtpl->assign('DATA', $blog_data);
     $xtpl->assign('NV_LANG_DATA', NV_LANG_DATA);
@@ -499,11 +501,12 @@ function nv_detail_theme($blog_data, $BL)
     }
 
     // Xuất google authorship
-    if (!empty($blog_data['postgoogleid'])) {
-        $xtpl->parse('main.postgoogleid');
-    } else {
-        $xtpl->parse('main.postName');
-    }
+    // Không còn Google Author nữa do Google+ đã khai tử
+    //if (!empty($blog_data['postgoogleid'])) {
+    //    $xtpl->parse('main.postgoogleid');
+    //} else {
+    $xtpl->parse('main.postName');
+    //}
 
     // Xuất facebook like nếu có cấu hình facebook App ID
     if (!empty($BL->setting['sysFbAppID']) and !empty($BL->setting['sysLocale'])) {

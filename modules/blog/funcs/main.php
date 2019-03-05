@@ -129,25 +129,25 @@ if ($page > 1) {
 
 // Open Graph
 if ($global_config['site_home_module'] == $module_name and !empty($home)) {
-    $my_head .= "<meta property=\"og:title\" content=\"" . $global_config['site_name'] . "\" />\n";
-    $my_head .= "<meta property=\"og:type\" content=\"website\" />\n";
-    $my_head .= "<meta property=\"og:url\" content=\"" . NV_MY_DOMAIN . nv_url_rewrite(NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA, true) . "\" />\n";
-    $my_head .= "<meta property=\"og:description\" content=\"" . $global_config['site_description'] . "\" />\n";
+    $meta_property['og:title'] = $global_config['site_name'];
+    $meta_property['og:type'] = 'website';
+    $meta_property['og:url'] = NV_MY_DOMAIN . nv_url_rewrite(NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA, true);
+    $meta_property['og:description'] = $global_config['site_description'];
 } else {
-    $my_head .= "<meta property=\"og:title\" content=\"" . $page_title . ' ' . NV_TITLEBAR_DEFIS . ' ' . $global_config['site_name'] . "\" />\n";
-    $my_head .= "<meta property=\"og:type\" content=\"website\" />\n";
-    $my_head .= "<meta property=\"og:url\" content=\"" . NV_MY_DOMAIN . nv_url_rewrite(NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name, true) . "\" />\n";
-    $my_head .= "<meta property=\"og:description\" content=\"" . $module_info['description'] . "\" />\n";
+    $meta_property['og:title'] = $page_title . ' ' . NV_TITLEBAR_DEFIS . ' ' . $global_config['site_name'];
+    $meta_property['og:type'] = 'website';
+    $meta_property['og:url'] = NV_MY_DOMAIN . nv_url_rewrite(NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name, true);
+    $meta_property['og:description'] = $module_info['description'];
 }
 
 if (!empty($BL->setting['sysDefaultImage'])) {
     if (preg_match("/^\//", $BL->setting['sysDefaultImage'])) {
-        $my_head .= "<meta property=\"og:image\" content=\"" . NV_MY_DOMAIN . $BL->setting['sysDefaultImage'] . "\" />\n";
+        $meta_property['og:image'] = NV_MY_DOMAIN . $BL->setting['sysDefaultImage'];
     } else {
-        $my_head .= "<meta property=\"og:image\" content=\"" . $BL->setting['sysDefaultImage'] . "\" />\n";
+        $meta_property['og:image'] = $BL->setting['sysDefaultImage'];
     }
 } else {
-    $my_head .= "<meta property=\"og:image\" content=\"" . NV_MY_DOMAIN . NV_BASE_SITEURL . $global_config['site_logo'] . "\" />\n";
+    $meta_property['og:image'] = NV_MY_DOMAIN . NV_BASE_SITEURL . $global_config['site_logo'];
 }
 
 $my_head .= "<meta property=\"og:locale\" content=\"" . $BL->setting['sysLocale'] . "\" />\n";

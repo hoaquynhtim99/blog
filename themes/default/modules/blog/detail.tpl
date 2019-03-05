@@ -1,5 +1,16 @@
 <!-- BEGIN: main -->
 <div class="post-detail" itemscope itemtype="http://schema.org/Article">
+    <!-- Google structured data required -->
+    <span class="hidden" itemprop="dateModified" content="{DATA.updatetimeGoogle}"></span>
+    <span class="hidden" itemprop="headline" content="{DATA.headlineGoogle}"></span>
+    <span class="hidden" itemprop="mainEntityOfPage" content="{DATA.href}"></span>
+    <span class="hidden" itemprop="image" content="{DATA.mediaImage}"></span>
+    <span class="hidden" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+        <span class="hidden" itemprop="name" content="{DATA.publisherName}"></span>
+        <span class="hidden" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+            <span class="hidden" itemprop="url" content="{DATA.publisherLogo}"></span>
+        </span>
+    </span>
     <!-- BEGIN: media -->
     <div class="post-detail-media-data">
         <!-- BEGIN: image -->
