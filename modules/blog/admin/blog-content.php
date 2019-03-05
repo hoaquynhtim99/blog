@@ -2,7 +2,7 @@
 
 /**
  * @Project NUKEVIET BLOG 4.x
- * @Author PHAN TAN DUNG (phantandung92@gmail.com)
+ * @Author PHAN TAN DUNG <phantandung92@gmail.com>
  * @Copyright (C) 2014 PHAN TAN DUNG. All rights reserved
  * @License GNU/GPL version 2 or any later version
  * @Createdate Dec 11, 2013, 09:50:11 PM
@@ -89,6 +89,8 @@ if ($id) {
         "keywords" => $row['keywords'],
         "images" => $row['images'],
         "mediatype" => (int)$row['mediatype'],
+        "mediashowlist" => (int)$row['mediashowlist'],
+        "mediashowdetail" => (int)$row['mediashowdetail'],
         "mediaheight" => (int)$row['mediaheight'],
         "mediawidth" => (int)$row['mediawidth'],
         "mediaresponsive" => (int)$row['mediaresponsive'],
@@ -139,6 +141,8 @@ if ($id) {
         "keywords" => '',
         "images" => '',
         "mediatype" => $BL->setting['initMediaType'],
+        "mediashowlist" => 1,
+        "mediashowdetail" => 1,
         "mediaheight" => $BL->setting['initMediaHeight'],
         "mediawidth" => $BL->setting['initMediaWidth'],
         "mediaresponsive" => $BL->setting['initMediaResponsive'],
@@ -186,6 +190,8 @@ if ($prosessMode != 'none') {
     $array['keywords'] = nv_substr($nv_Request->get_title('keywords', 'post', '', 1), 0, 255);
     $array['images'] = $nv_Request->get_string('images', 'post', '');
     $array['mediatype'] = $nv_Request->get_int('mediatype', 'post', 0);
+    $array['mediashowlist'] = $nv_Request->get_int('mediashowlist', 'post', 0);
+    $array['mediashowdetail'] = $nv_Request->get_int('mediashowdetail', 'post', 0);
     $array['mediaheight'] = $nv_Request->get_int('mediaheight', 'post', 0);
     $array['mediawidth'] = $nv_Request->get_int('mediawidth', 'post', 0);
     $array['mediaresponsive'] = ($nv_Request->get_int('mediaresponsive', 'post', 0) ? 1 : 0);
@@ -383,36 +389,41 @@ if ($prosessMode != 'none') {
         $array['hometext'] = nv_nl2br($array['hometext']);
 
         if (empty($id)) {
-            $sql = "INSERT INTO " . $BL->table_prefix . "_rows VALUES(
-				NULL,
-				" . $array['postid'] . ", 
-				" . $db->quote($array['postgoogleid']) . ",
-				" . $db->quote($array['sitetitle']) . ",
-				" . $db->quote($array['title']) . ",
-				" . $db->quote($array['alias']) . ",
-				" . $db->quote($array['keywords']) . ",
-				" . $db->quote($array['images']) . ",
-				" . $array['mediatype'] . ", 
-				" . $array['mediaheight'] . ", 
-				" . $array['mediawidth'] . ", 
-				" . $array['mediaresponsive'] . ", 
-				" . $db->quote($array['mediavalue']) . ",
-				" . $db->quote($array['hometext']) . ",
-				" . $db->quote($array['bodytext']) . ",
-				" . $array['posttype'] . ", 
-				" . $array['fullpage'] . ", 
-				" . $array['inhome'] . ", 
-				" . $db->quote($array['catids'] ? "0," . implode(",", $array['catids']) . ",0" : "") . ",
-				" . $db->quote($array['tagids'] ? "0," . implode(",", $array['tagids']) . ",0" : "") . ",
-				" . $array['numwords'] . ", 
-				0, 0, 0, 0, '', 
-				" . NV_CURRENTTIME . ", 
-				" . NV_CURRENTTIME . ", 
-				" . $array['pubtime'] . ", 
-				" . $array['exptime'] . ", 
-				" . $array['expmode'] . ", 
-				" . $array['status'] . "
-			)";
+            $sql = "INSERT INTO " . $BL->table_prefix . "_rows (
+                postid, postgoogleid, sitetitle, title, alias, keywords, images, mediatype, mediashowlist, mediashowdetail,
+                mediaheight, mediawidth, mediaresponsive, mediavalue, hometext, bodytext, posttype, fullpage, inhome, catids, tagids,
+                numwords, numviews, numcomments, numvotes, votetotal, votedetail, posttime, updatetime, pubtime, exptime, expmode, status
+            ) VALUES(
+                " . $array['postid'] . ",
+                " . $db->quote($array['postgoogleid']) . ",
+                " . $db->quote($array['sitetitle']) . ",
+                " . $db->quote($array['title']) . ",
+                " . $db->quote($array['alias']) . ",
+                " . $db->quote($array['keywords']) . ",
+                " . $db->quote($array['images']) . ",
+                " . $array['mediatype'] . ",
+                " . $array['mediashowlist'] . ",
+                " . $array['mediashowdetail'] . ",
+                " . $array['mediaheight'] . ",
+                " . $array['mediawidth'] . ",
+                " . $array['mediaresponsive'] . ",
+                " . $db->quote($array['mediavalue']) . ",
+                " . $db->quote($array['hometext']) . ",
+                " . $db->quote($array['bodytext']) . ",
+                " . $array['posttype'] . ",
+                " . $array['fullpage'] . ",
+                " . $array['inhome'] . ",
+                " . $db->quote($array['catids'] ? "0," . implode(",", $array['catids']) . ",0" : "") . ",
+                " . $db->quote($array['tagids'] ? "0," . implode(",", $array['tagids']) . ",0" : "") . ",
+                " . $array['numwords'] . ",
+                0, 0, 0, 0, '',
+                " . NV_CURRENTTIME . ",
+                " . NV_CURRENTTIME . ",
+                " . $array['pubtime'] . ",
+                " . $array['exptime'] . ",
+                " . $array['expmode'] . ",
+                " . $array['status'] . "
+            )";
 
             $id = $db->insert_id($sql);
 
@@ -421,10 +432,10 @@ if ($prosessMode != 'none') {
                 $html_table = $BL->table_prefix . "_data_" . ceil($id / 4000);
 
                 $sql = "CREATE TABLE IF NOT EXISTS " . $html_table . " (
-					id mediumint(8) unsigned NOT NULL, 
-					bodyhtml longtext NOT NULL,
-					PRIMARY KEY  (id) 
-				) ENGINE=MyISAM";
+                    id mediumint(8) unsigned NOT NULL,
+                    bodyhtml longtext NOT NULL,
+                    PRIMARY KEY  (id)
+                ) ENGINE=MyISAM";
 
                 if (!$db->query($sql) and $prosessMode != "draft") {
                     $error = $BL->lang('blogErrorCreatTable');
@@ -463,33 +474,35 @@ if ($prosessMode != 'none') {
                 $error = $BL->lang('errorSaveUnknow');
             }
         } else {
-            $sql = "UPDATE " . $BL->table_prefix . "_rows SET 
-				postid=" . $array['postid'] . ", 
-				postgoogleid=" . $db->quote($array['postgoogleid']) . ",
-				sitetitle=" . $db->quote($array['sitetitle']) . ",
-				title=" . $db->quote($array['title']) . ",
-				alias=" . $db->quote($array['alias']) . ",
-				keywords=" . $db->quote($array['keywords']) . ",
-				images=" . $db->quote($array['images']) . ",
-				mediatype=" . $array['mediatype'] . ", 
-				mediaheight=" . $array['mediaheight'] . ", 
-				mediawidth=" . $array['mediawidth'] . ", 
-				mediaresponsive=" . $array['mediaresponsive'] . ", 
-				mediavalue=" . $db->quote($array['mediavalue']) . ",
-				hometext=" . $db->quote($array['hometext']) . ",
-				bodytext=" . $db->quote($array['bodytext']) . ",
-				posttype=" . $array['posttype'] . ", 
-				fullpage=" . $array['fullpage'] . ", 
-				inhome=" . $array['inhome'] . ", 
-				catids=" . $db->quote($array['catids'] ? "0," . implode(",", $array['catids']) . ",0" : "") . ",
-				tagids=" . $db->quote($array['tagids'] ? "0," . implode(",", $array['tagids']) . ",0" : "") . ",
-				numwords=" . $array['numwords'] . ", 
-				updatetime=" . NV_CURRENTTIME . ", 
-				pubtime=" . $array['pubtime'] . ", 
-				exptime=" . $array['exptime'] . ", 
-				expmode=" . $array['expmode'] . ", 
-				status=" . $array['status'] . "
-			WHERE id=" . $id;
+            $sql = "UPDATE " . $BL->table_prefix . "_rows SET
+                postid=" . $array['postid'] . ",
+                postgoogleid=" . $db->quote($array['postgoogleid']) . ",
+                sitetitle=" . $db->quote($array['sitetitle']) . ",
+                title=" . $db->quote($array['title']) . ",
+                alias=" . $db->quote($array['alias']) . ",
+                keywords=" . $db->quote($array['keywords']) . ",
+                images=" . $db->quote($array['images']) . ",
+                mediatype=" . $array['mediatype'] . ",
+                mediashowlist=" . $array['mediashowlist'] . ",
+                mediashowdetail=" . $array['mediashowdetail'] . ",
+                mediaheight=" . $array['mediaheight'] . ",
+                mediawidth=" . $array['mediawidth'] . ",
+                mediaresponsive=" . $array['mediaresponsive'] . ",
+                mediavalue=" . $db->quote($array['mediavalue']) . ",
+                hometext=" . $db->quote($array['hometext']) . ",
+                bodytext=" . $db->quote($array['bodytext']) . ",
+                posttype=" . $array['posttype'] . ",
+                fullpage=" . $array['fullpage'] . ",
+                inhome=" . $array['inhome'] . ",
+                catids=" . $db->quote($array['catids'] ? "0," . implode(",", $array['catids']) . ",0" : "") . ",
+                tagids=" . $db->quote($array['tagids'] ? "0," . implode(",", $array['tagids']) . ",0" : "") . ",
+                numwords=" . $array['numwords'] . ",
+                updatetime=" . NV_CURRENTTIME . ",
+                pubtime=" . $array['pubtime'] . ",
+                exptime=" . $array['exptime'] . ",
+                expmode=" . $array['expmode'] . ",
+                status=" . $array['status'] . "
+            WHERE id=" . $id;
 
             if ($db->query($sql)) {
                 $html_table = $BL->table_prefix . "_data_" . ceil($id / 4000);
@@ -718,6 +731,23 @@ $xtpl->assign('NEWSLETTERS', $newsletters ? " checked=\"checked\"" : "");
 $xtpl->assign('ISAUTOKEYWORDS', $isAutoKeywords ? " checked=\"checked\"" : "");
 $xtpl->assign('FULLPAGE', $array['fullpage'] ? " checked=\"checked\"" : "");
 $xtpl->assign('INHOME', $array['inhome'] ? " checked=\"checked\"" : "");
+
+// Hiển thị và ẩn media
+for ($i = 0; $i <= 1; $i++) {
+    $xtpl->assign('MEDIASHOWLIST', [
+        "key" => $i,
+        "title" => $BL->lang('mediashow' . $i),
+        "selected" => $i == $array['mediashowlist'] ? " selected=\"selected\"" : "",
+    ]);
+    $xtpl->parse('main.mediashowlist');
+
+    $xtpl->assign('MEDIASHOWDETAIL', [
+        "key" => $i,
+        "title" => $BL->lang('mediashow' . $i),
+        "selected" => $i == $array['mediashowdetail'] ? " selected=\"selected\"" : "",
+    ]);
+    $xtpl->parse('main.mediashowdetail');
+}
 
 $xtpl->parse('main');
 $contents = $xtpl->text('main');

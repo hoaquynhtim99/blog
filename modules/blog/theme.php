@@ -23,7 +23,7 @@ if (!empty($BL->setting['sysFbAdminID'])) {
 
 /**
  * nv_blog_alias_page()
- * 
+ *
  * @param mixed $title
  * @param mixed $base_url
  * @param mixed $num_items
@@ -127,7 +127,7 @@ function nv_blog_alias_page($title, $base_url, $num_items, $per_page, $on_page, 
 
 /**
  * nv_main_theme()
- * 
+ *
  * @param mixed $array
  * @param mixed $generate_page
  * @param mixed $cfg
@@ -192,7 +192,7 @@ function nv_main_theme($array, $generate_page, $cfg, $page, $total_pages, $BL)
         $xtpl->assign('ROW', $row);
 
         // Chi xuat media neu nhu kieu hien thi la danh sach dang blog
-        if (!empty($row['mediavalue']) and $BL->setting['indexViewType'] == 'type_blog') {
+        if (!empty($row['mediavalue']) and $BL->setting['indexViewType'] == 'type_blog' and !empty($row['mediashowlist'])) {
             if (in_array($row['mediatype'], array(0, 1))) {
                 // Kieu hinh anh
                 $xtpl->parse('main.loop.media.image');
@@ -255,7 +255,7 @@ function nv_main_theme($array, $generate_page, $cfg, $page, $total_pages, $BL)
 
 /**
  * nv_viewcat_theme()
- * 
+ *
  * @param mixed $array
  * @param mixed $generate_page
  * @param mixed $cfg
@@ -320,7 +320,7 @@ function nv_viewcat_theme($array, $generate_page, $cfg, $page, $total_pages, $BL
         $xtpl->assign('ROW', $row);
 
         // Chi xuat media neu nhu kieu hien thi la danh sach dang blog
-        if (!empty($row['mediavalue']) and $BL->setting['indexViewType'] == 'type_blog') {
+        if (!empty($row['mediavalue']) and $BL->setting['indexViewType'] == 'type_blog' and !empty($row['mediashowlist'])) {
             if (in_array($row['mediatype'], array(0, 1))) {
                 // Kieu hinh anh
                 $xtpl->parse('main.loop.media.image');
@@ -383,7 +383,7 @@ function nv_viewcat_theme($array, $generate_page, $cfg, $page, $total_pages, $BL
 
 /**
  * nv_newsletters_theme()
- * 
+ *
  * @param mixed $array
  * @return
  */
@@ -405,7 +405,7 @@ function nv_newsletters_theme($array)
 
 /**
  * nv_detail_theme()
- * 
+ *
  * @param mixed $blog_data
  * @param mixed $BL
  * @return
@@ -438,7 +438,7 @@ function nv_detail_theme($blog_data, $BL)
     $BL->callFrameWorks('highlight');
 
     // Xuất media - ảnh minh họa
-    if (!empty($blog_data['mediavalue'])) {
+    if (!empty($blog_data['mediavalue']) and !empty($blog_data['mediashowdetail'])) {
         if (in_array($blog_data['mediatype'], array(0, 1))) {
             // Kieu hinh anh
             $xtpl->parse('main.media.image');
@@ -535,7 +535,7 @@ function nv_detail_theme($blog_data, $BL)
 
 /**
  * nv_all_tags_theme()
- * 
+ *
  * @param mixed $array
  * @param mixed $BL
  * @return
@@ -566,7 +566,7 @@ function nv_all_tags_theme($array, $BL)
 
 /**
  * nv_detail_tags_theme()
- * 
+ *
  * @param mixed $array
  * @param mixed $generate_page
  * @param mixed $cfg
@@ -631,7 +631,7 @@ function nv_detail_tags_theme($array, $generate_page, $cfg, $page, $total_pages,
         $xtpl->assign('ROW', $row);
 
         // Chi xuat media neu nhu kieu hien thi la danh sach dang blog
-        if (!empty($row['mediavalue']) and $BL->setting['indexViewType'] == 'type_blog') {
+        if (!empty($row['mediavalue']) and $BL->setting['indexViewType'] == 'type_blog' and !empty($row['mediashowlist'])) {
             if (in_array($row['mediatype'], array(0, 1))) {
                 // Kieu hinh anh
                 $xtpl->parse('main.loop.media.image');
@@ -694,7 +694,7 @@ function nv_detail_tags_theme($array, $generate_page, $cfg, $page, $total_pages,
 
 /**
  * nv_message_theme()
- * 
+ *
  * @param mixed $message
  * @param integer $lev: 0: Error, 1: Warning, 2: Success, 3: Info
  * @return void
@@ -714,7 +714,7 @@ function nv_message_theme($message, $lev = 0)
 
 /**
  * nv_search_theme()
- * 
+ *
  * @param mixed $array
  * @param mixed $page
  * @param mixed $total_pages

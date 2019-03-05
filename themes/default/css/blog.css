@@ -91,12 +91,14 @@ h1.upper, h2.upper, h3.upper, h4.upper, h5.upper, h6.upper{
 .post-list .post-item .media-image{
     width: 100%;
     height: auto;
+    margin-bottom: 10px;
 }
 .post-list .post-item .media-iframe{
     padding:0;
     margin:0;
     border:0;
     width:100%;
+    margin-bottom: 10px;
 }
 .post-list .meta{
     float:left;
@@ -169,7 +171,7 @@ ul.pagination.bl-pagination li.pages {
 }
 ul.pagination.bl-pagination li.pages span {
     border-radius: 0;
-    border-color: transparent;    
+    border-color: transparent;
     color: inherit;
     background-color: transparent;
     padding-right: 0;
@@ -196,7 +198,7 @@ ul.pagination.bl-pagination li:nth-last-child(2) span {
     margin-left: 5px;
 }
 
-/* 
+/*
  * Detail blog
  */
 .post-detail-media-data{
@@ -215,10 +217,19 @@ ul.pagination.bl-pagination li:nth-last-child(2) span {
     text-align: justify;
     margin-bottom: 30px;
 }
+.post-detail-content {
+    overflow-x: hidden;
+}
 .post-detail-content img{
-    max-width: 100%!important;
-    margin: 2px 0!important;
     padding: 0!important;
+}
+.post-detail-content figure.image {
+    margin: 10px 0;
+    padding: 0;
+    float: none;
+}
+.post-detail-content figure.image figcaption {
+    margin-top: 10px;
 }
 .post-detail-tags{
     margin-bottom: 30px;
@@ -267,7 +278,7 @@ ul.pagination.bl-pagination li:nth-last-child(2) span {
     text-align: right;
 }
 
-/* 
+/*
  * Block tags
  */
 .bl-block-tags-list a {

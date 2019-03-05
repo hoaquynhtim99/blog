@@ -72,21 +72,128 @@ $(document).ready(function() {
     $('.bl-tags-list').each(function() {
         $(this).html($(this).html() + '.................................................................................................................................................................................................................................');
     });
-    // Xử lý responsive iframe
+    // Xử lý responsive iframe, ảnh
     var postiframescaleTimer = null;
+    var postimagescaleTimer = null;
+    var postdataiframescaleTimer = null;
     $(window).on('resize', function() {
+        // Chỉnh Iframe đầu bài viết
         if (postiframescaleTimer) {
             clearTimeout(postiframescaleTimer);
         }
         postiframescaleTimer = setTimeout(function() {
             blog_scaleIframe();
-        }, 100);
+        }, 50);
+        // Chỉnh ảnh nội dung bài viết
+        if (postimagescaleTimer) {
+            clearTimeout(postimagescaleTimer);
+        }
+        postimagescaleTimer = setTimeout(function() {
+            blog_scalePostImage(true);
+        }, 50);
+        // Chỉnh ảnh nội dung bài viết
+        if (postdataiframescaleTimer) {
+            clearTimeout(postdataiframescaleTimer);
+        }
+        postdataiframescaleTimer = setTimeout(function() {
+            blog_scalePostIframe();
+        }, 50);
     });
+    // Iframe fix cố định chiều cao do đó xử lý khi ready
     blog_scaleIframe();
+    blog_scalePostImage(true);
+    blog_scalePostIframe();
+});
+
+$(window).on('load', function() {
+    // Ảnh xử lý khi load trang xong
+    blog_scalePostImage(false);
 });
 
 function blog_scaleIframe() {
     $('[data-toggle="postiframescale"]').each(function() {
         $(this).height($(this).width() * $(this).data('h') / $(this).data('w'));
     });
+}
+
+function blog_scalePostImage(preLoad) {
+    if ($('.post-detail-content').length == 1) {
+        $('img', $('.post-detail-content')).each(function() {
+            var $this = $(this);
+            var defW = $this.data('w');
+            var defH = $this.data('h');
+            var ctnW = $('.post-detail-content').width();
+
+            // Xử lý data ảnh khi chưa có thiết lập rộng và cao
+            if (!defW || !defH) {
+                // Khi preLoad mà ảnh không có width và height thì kết thúc
+                var setW = $this.attr('width');
+                var setH = $this.attr('height');
+                if (!setW || !setH) {
+                    if (preLoad) {
+                        return false;
+                    }
+                    // Lấy kích thước thật
+                    defW = $this.width();
+                    defH = $this.height();
+                } else {
+                    defW = setW;
+                    defH = setH;
+                }
+                $this.data('w', defW);
+                $this.data('h', defH);
+            }
+
+            // Sau khi có rộng cao thì co ảnh
+            if (defW && defH) {
+                var w = defW;
+                var h = defH;
+                if (w > ctnW) {
+                    w = ctnW;
+                    h = (ctnW * defH / defW);
+                }
+                $this.css({
+                    'width' : w,
+                    'height' : h
+                });
+                $this.removeAttr('width');
+                $this.removeAttr('height');
+            }
+        });
+    }
+}
+
+function blog_scalePostIframe() {
+    if ($('.post-detail-content').length == 1) {
+        $('iframe', $('.post-detail-content')).each(function() {
+            var $this = $(this);
+            var defW = $this.data('w');
+            var defH = $this.data('h');
+            var ctnW = $('.post-detail-content').width();
+
+            // Xử lý data iframe khi chưa có thiết lập rộng và cao
+            if (!defW || !defH) {
+                defW = $this.width();
+                defH = $this.height();
+                $this.data('w', defW);
+                $this.data('h', defH);
+            }
+
+            // Sau khi có rộng cao thì co iframe
+            if (defW && defH) {
+                var w = defW;
+                var h = defH;
+                if (w > ctnW) {
+                    w = ctnW;
+                    h = (ctnW * defH / defW);
+                }
+                $this.css({
+                    'width' : w,
+                    'height' : h
+                });
+                $this.removeAttr('width');
+                $this.removeAttr('height');
+            }
+        });
+    }
 }

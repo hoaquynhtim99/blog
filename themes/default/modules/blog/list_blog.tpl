@@ -16,7 +16,7 @@
             <!-- BEGIN: height -->height: {ROW.mediaheight},<!-- END: height -->
             <!-- BEGIN: aspectratio -->aspectratio: "{ASPECTRATIO}",<!-- END: aspectratio -->
             stretching: 'fill'
-        });        
+        });
         </script>
         <!-- END: audio -->
         <!-- BEGIN: video -->
@@ -29,7 +29,7 @@
             <!-- BEGIN: height -->height: {ROW.mediaheight},<!-- END: height -->
             <!-- BEGIN: aspectratio -->aspectratio: "{ASPECTRATIO}",<!-- END: aspectratio -->
             stretching: 'fill'
-        });        
+        });
         </script>
         <!-- END: video -->
         <!-- BEGIN: iframe -->

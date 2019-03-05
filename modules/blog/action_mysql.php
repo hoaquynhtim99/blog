@@ -2,7 +2,7 @@
 
 /**
  * @Project NUKEVIET BLOG 4.x
- * @Author PHAN TAN DUNG (phantandung92@gmail.com)
+ * @Author PHAN TAN DUNG <phantandung92@gmail.com>
  * @Copyright (C) 2014 PHAN TAN DUNG. All rights reserved
  * @License GNU/GPL version 2 or any later version
  * @Createdate Dec 11, 2013, 09:50:11 PM
@@ -11,7 +11,7 @@
 if (!defined('NV_IS_FILE_MODULES'))
     die('Stop!!!');
 
-$sql_drop_module = array();
+$sql_drop_module = [];
 
 // Xoa cac bang du lieu
 $result = $db->query("SHOW TABLE STATUS LIKE '" . $db_config['prefix'] . "\_" . $lang . "\_" . $module_data . "\_categories'");
@@ -69,7 +69,7 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
   weight smallint(4) unsigned NOT NULL DEFAULT '0',
   status tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '0: Vô hiệu, 1: Hiệu lực',
   PRIMARY KEY (id),
-  UNIQUE KEY alias (alias)  
+  UNIQUE KEY alias (alias)
 )ENGINE=MyISAM";
 
 // Đăng ký nhận bản tin
@@ -84,7 +84,7 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
   numemail mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Số email đã gửi',
   status tinyint(1) NOT NULL DEFAULT '0' COMMENT '-1: Chưa xác nhận, 0: Vô hiệu, 1: Hiệu lực',
   PRIMARY KEY (id),
-  UNIQUE KEY email (email)  
+  UNIQUE KEY email (email)
 )ENGINE=MyISAM";
 
 // Dữ liệu gửi email newsletters
@@ -99,7 +99,7 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
   resenddata mediumtext NOT NULL COMMENT 'Danh sách ID đăng ký nhận tin chờ gửi lại',
   errordata mediumtext NOT NULL COMMENT 'Danh sách ID đăng ký nhận tin gửi bị lỗi cho đến thời điểm hiện tại',
   PRIMARY KEY (id),
-  KEY pid (pid)  
+  KEY pid (pid)
 )ENGINE=MyISAM";
 
 // Tags
@@ -125,6 +125,8 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
   keywords varchar(255) NOT NULL DEFAULT '' COMMENT 'Từ khóa cho máy chủ tìm kiếm',
   images varchar(255) NOT NULL DEFAULT '' COMMENT 'Hình ảnh bài viết',
   mediatype smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT '0: Dùng ảnh đại diện, 1: Dùng hình ảnh tùy chọn, 2: File âm thanh, 3: File video, 4: Iframe',
+  mediashowlist tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT 'Hiển thị Media ở trang danh sách',
+  mediashowdetail tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT 'Hiển thị Media ở trang chi tiết',
   mediaheight smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT 'Chiều cao media',
   mediawidth smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT 'Chiều rộng media',
   mediaresponsive tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT 'Responsive hay không',
@@ -155,9 +157,9 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 
 // Dữ liệu html
 $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_data_1 (
-	id mediumint(8) unsigned NOT NULL COMMENT 'ID bài viết', 
-	bodyhtml longtext NOT NULL COMMENT 'Nội dung HTML của bài viết',
-	PRIMARY KEY (id)
+    id mediumint(8) unsigned NOT NULL COMMENT 'ID bài viết',
+    bodyhtml longtext NOT NULL COMMENT 'Nội dung HTML của bài viết',
+    PRIMARY KEY (id)
 )ENGINE=MyISAM";
 
 // Cấu hình module
@@ -219,8 +221,8 @@ $sql_create_module[] = "INSERT INTO " . $db_config['prefix'] . "_" . $lang . "_"
 // Them cron cua module
 $result = $db->query("SHOW COLUMNS FROM " . NV_CRONJOBS_GLOBALTABLE);
 
-$list_field = array();
-$list_value = array();
+$list_field = [];
+$list_value = [];
 
 while ($row = $result->fetch()) {
     if (preg_match("/^([a-zA-Z0-9]{2})\_cron_name$/", $row['field'])) {
@@ -233,27 +235,27 @@ $list_field = ", " . implode(", ", $list_field);
 $list_value = ", " . implode(", ", $list_value);
 
 $sql_create_module[] = "INSERT INTO " . NV_CRONJOBS_GLOBALTABLE . " (
-	id, 
-	start_time, 
-	inter_val, 
-	run_file, 
-	run_func, 
-	params, 
-	del, 
-	is_sys, 
-	act, 
-	last_time, 
-	last_result " . $list_field . "
+    id,
+    start_time,
+    inter_val,
+    run_file,
+    run_func,
+    params,
+    del,
+    is_sys,
+    act,
+    last_time,
+    last_result " . $list_field . "
 ) VALUES (
-	NULL, 
-	" . NV_CURRENTTIME . ", 
-	5, 
-	'module_blog_newsletters.php', 
-	'cron_blog_newsletters', 
-	'" . $lang . "_" . $module_data . ", 5', 
-	0, 
-	0, 
-	1, 
-	" . NV_CURRENTTIME . ", 
-	1 " . $list_value . "
+    NULL,
+    " . NV_CURRENTTIME . ",
+    5,
+    'module_blog_newsletters.php',
+    'cron_blog_newsletters',
+    '" . $lang . "_" . $module_data . ", 5',
+    0,
+    0,
+    1,
+    " . NV_CURRENTTIME . ",
+    1 " . $list_value . "
 )";

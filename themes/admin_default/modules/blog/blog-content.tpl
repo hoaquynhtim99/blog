@@ -48,6 +48,22 @@
                     </select>
                 </dd>
             </dl>
+            <dl class="bl-post-dl">
+                <dt class="aright"><label for="mediashowlist">{LANG.blogmediashowlist}:</label></dt>
+                <dd>
+                    <select name="mediashowlist" id="mediashowlist" class="form-control">
+                        <!-- BEGIN: mediashowlist --><option value="{MEDIASHOWLIST.key}"{MEDIASHOWLIST.selected}>{MEDIASHOWLIST.title}</option><!-- END: mediashowlist -->
+                    </select>
+                </dd>
+            </dl>
+            <dl class="bl-post-dl">
+                <dt class="aright"><label for="mediashowdetail">{LANG.blogmediashowdetail}:</label></dt>
+                <dd>
+                    <select name="mediashowdetail" id="mediashowdetail" class="form-control">
+                        <!-- BEGIN: mediashowdetail --><option value="{MEDIASHOWDETAIL.key}"{MEDIASHOWDETAIL.selected}>{MEDIASHOWDETAIL.title}</option><!-- END: mediashowdetail -->
+                    </select>
+                </dd>
+            </dl>
             <div class="clearfix" id="mediaheight-wrap">
                 <dl class="bl-post-dl">
                     <dt class="aright"><label for="mediaheight">{LANG.blogMediaHeight}:</label></dt>
@@ -83,7 +99,7 @@
                     <p>
                         <select name="pubtime_h" class="form-control">
                             <!-- BEGIN: pubtime_h --><option value="{HOUR.key}"{HOUR.pub}>{HOUR.title}</option><!-- END: pubtime_h -->
-                        </select> : 
+                        </select> :
                         <select name="pubtime_m" class="form-control">
                             <!-- BEGIN: pubtime_m --><option value="{MIN.key}"{MIN.pub}>{MIN.title}</option><!-- END: pubtime_m -->
                         </select> {GLANG.day}
@@ -93,7 +109,7 @@
                     <p>
                         <select name="exptime_h" class="form-control">
                             <!-- BEGIN: exptime_h --><option value="{HOUR.key}"{HOUR.exp}>{HOUR.title}</option><!-- END: exptime_h -->
-                        </select> : 
+                        </select> :
                         <select name="exptime_m" class="form-control">
                             <!-- BEGIN: exptime_m --><option value="{MIN.key}"{MIN.exp}>{MIN.title}</option><!-- END: exptime_m -->
                         </select> {GLANG.day}
@@ -119,7 +135,7 @@
                 <div class="tl">{LANG.blogTags}</div>
                 <div class="ct">
                     <input type="hidden" name="tagids" value="{TAGIDS}" id="post-tags"/>
-                    <ul class="bl-list-tags" id="post-tags-list"> 
+                    <ul class="bl-list-tags" id="post-tags-list">
                         <!-- BEGIN: tag --><li rel="{TAG.id}">{TAG.title}<span>&nbsp;</span></li><!-- END: tag -->
                     </ul>
                     <!-- BEGIN: mostTags -->
@@ -153,7 +169,7 @@
                         <li><label><input type="checkbox" name="fullpage" value="1"{FULLPAGE}/> {LANG.blogFullPage}</label></li>
                         <li>
                             <label>
-                                {LANG.blogGoogleAuthor}: 
+                                {LANG.blogGoogleAuthor}:
                                 <input type="text" class="form-control bl-col-day" name="postgoogleid" value="{DATA.postgoogleid}"/>
                             </label>
                         </li>
