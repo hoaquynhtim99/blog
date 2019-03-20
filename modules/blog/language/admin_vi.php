@@ -9,8 +9,9 @@
  * @Createdate Dec 11, 2013, 09:50:11 PM
  */
 
-if (!defined('NV_ADMIN') or !defined('NV_MAINFILE'))
+if (!defined('NV_ADMIN') or !defined('NV_MAINFILE')) {
     die('Stop!!!');
+}
 
 $lang_translator['author'] = 'VINADES.,JSC <contact@vinades.vn>';
 $lang_translator['createdate'] = '07/03/2011, 20:15';
@@ -241,6 +242,8 @@ $lang_module['cfgCommentPerPage'] = 'Số bình luận trên một trang';
 $lang_module['cfgcommentDisqusShortname'] = 'Tài khoản bình luận Disqus';
 $lang_module['cfgcommentFacebookColorscheme'] = 'Giao diện bình luận';
 $lang_module['cfginitAutoKeywords'] = 'Tự động tạo từ khóa lúc đăng bài nếu không nhập';
+$lang_module['cfgshowAdsInDetailPage'] = 'Hiển thị khối quảng cáo khi xem chi tiết bài viết';
+$lang_module['cfgshowAdsInDetailPage1'] = 'Để hiển thị được khối quảng cáo, bạn cần mở file config.ini của giao diện đang dùng thêm phần position vị trí <code>[ADS_BLOG_DETAIL]</code> sau đó xóa cache của hệ thống';
 
 $lang_module['tagsMg'] = 'Quản lý tags';
 $lang_module['tagsDelete'] = 'Xóa tags';

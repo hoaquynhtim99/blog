@@ -8,8 +8,9 @@
  * @Createdate Dec 11, 2013, 09:50:11 PM
  */
 
-if (!defined('NV_IS_FILE_MODULES'))
+if (!defined('NV_IS_FILE_MODULES')) {
     die('Stop!!!');
+}
 
 $sql_drop_module = [];
 
@@ -178,6 +179,7 @@ $sql_create_module[] = "INSERT INTO " . $db_config['prefix'] . "_" . $lang . "_"
 ('numberResendNewsletter', '1'),
 ('strCutHomeText', '150'),
 ('numSearchResult', '20'),
+('showAdsInDetailPage', '0'),
 
 ('iconClass0', 'fa fa-pencil'),
 ('iconClass1', 'fa fa-picture-o'),

@@ -8,8 +8,9 @@
  * @Createdate Dec 11, 2013, 09:50:11 PM
  */
 
-if (!defined('NV_BLOG_ADMIN'))
+if (!defined('NV_BLOG_ADMIN')) {
     die('Stop!!!');
+}
 
 $page_title = $BL->lang('mainTitle');
 
@@ -17,7 +18,7 @@ $xtpl = new XTemplate("main.tpl", NV_ROOTDIR . "/themes/" . $global_config['modu
 $xtpl->assign('LANG', $lang_module);
 $xtpl->assign('GLANG', $lang_global);
 
-$array_notice = array();
+$array_notice = [];
 
 // Tags chua co mo ta hoac keywords
 $sql = "SELECT COUNT(*) FROM " . $BL->table_prefix . "_tags WHERE keywords='' OR description=''";
@@ -71,7 +72,7 @@ if (empty($BL->setting['sysFbAppID'])) {
     );
 }
 
-$array_statistics = array();
+$array_statistics = [];
 
 // Thong ke so bai viet
 $sql = "SELECT COUNT(*) FROM " . $BL->table_prefix . "_rows";

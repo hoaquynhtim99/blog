@@ -8,15 +8,16 @@
  * @Createdate Dec 11, 2013, 09:50:11 PM
  */
 
-if (!defined('NV_BLOG_ADMIN'))
+if (!defined('NV_BLOG_ADMIN')) {
     die('Stop!!!');
+}
 
 $page_title = $BL->lang('cfgMaster');
 
-$array = array();
+$array = [];
 
 // Thu muc uploads
-$array_structure_image = array();
+$array_structure_image = [];
 $array_structure_image[''] = NV_UPLOADS_DIR . '/' . $module_name;
 $array_structure_image['Y'] = NV_UPLOADS_DIR . '/' . $module_name . '/' . date('Y');
 $array_structure_image['Ym'] = NV_UPLOADS_DIR . '/' . $module_name . '/' . date('Y_m');
@@ -56,6 +57,7 @@ if ($nv_Request->isset_request('submit', 'post')) {
     $array['strCutHomeText'] = $nv_Request->get_int('strCutHomeText', 'post', 0);
     $array['sysHighlightTheme'] = nv_substr($nv_Request->get_title('sysHighlightTheme', 'post', '', 0), 0, 255);
     $array['numSearchResult'] = $nv_Request->get_int('numSearchResult', 'post', 20);
+    $array['showAdsInDetailPage'] = intval($nv_Request->get_bool('showAdsInDetailPage', 'post', false));
 
     // Lấy cấu hình lớp của icon loại bài viết
     foreach ($BL->blogposttype as $type) {
@@ -132,6 +134,7 @@ $xtpl->assign('DATA', $BL->setting);
 $xtpl->assign('INITNEWSLETTERS', $BL->setting['initNewsletters'] ? " checked=\"checked\"" : "");
 $xtpl->assign('INITAUTOKEYWORDS', $BL->setting['initAutoKeywords'] ? " checked=\"checked\"" : "");
 $xtpl->assign('INITMEDIARESPONSIVE', $BL->setting['initMediaResponsive'] ? " checked=\"checked\"" : "");
+$xtpl->assign('SHOWADSINDETAILPAGE', $BL->setting['showAdsInDetailPage'] ? " checked=\"checked\"" : "");
 
 // Xuat cac kieu hien thi
 foreach ($BL->indexViewType as $type) {

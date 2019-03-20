@@ -49,17 +49,6 @@
     <!-- END: media -->
     <h1 class="upper"><i class="{DATA.icon}">&nbsp;</i> <span itemprop="name">{DATA.title}</span></h1>
     <div class="post-detail-share clearfix">
-        <div class="fr">
-            <div class="g-plusone" data-size="tall" data-annotation="inline" data-width="300" data-href="{DATA.href}"></div>
-            <script type="text/javascript">
-              window.___gcfg = {lang: '{NV_LANG_DATA}'};
-              (function() {
-                var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-                po.src = 'https://apis.google.com/js/platform.js';
-                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-              })();
-            </script>
-        </div>
         <!-- BEGIN: fbShare -->
         <div class="fl">
             <div id="fb-root"></div>
@@ -87,6 +76,7 @@
         </div>
         <!-- END: fbShare -->
     </div>
+    <!-- BEGIN: ads --><div class="text-center margin-bottom">[ADS_BLOG_DETAIL]</div><!-- END: ads -->
     <div class="post-detail-content" itemprop="articleBody">
         {DATA.bodyhtml}
     </div>

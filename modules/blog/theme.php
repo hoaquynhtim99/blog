@@ -475,6 +475,11 @@ function nv_detail_theme($blog_data, $BL)
         $xtpl->parse('main.media');
     }
 
+    // Hiển thị quảng cáo nếu có cấu hình
+    if (!empty($BL->setting['showAdsInDetailPage'])) {
+        $xtpl->parse('main.ads');
+    }
+
     // Xuất tags nếu có
     if (!empty($blog_data['tags'])) {
         foreach ($blog_data['tags'] as $tag) {
