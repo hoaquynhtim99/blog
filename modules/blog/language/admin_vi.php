@@ -44,6 +44,7 @@ $lang_module['add'] = 'Thêm';
 $lang_module['browser'] = 'Duyệt';
 $lang_module['view'] = 'Xem';
 $lang_module['view_before_image'] = 'Xem trước ảnh';
+$lang_module['show_hide_pass'] = 'Xem/Ẩn mật khẩu';
 
 $lang_module['mainTitle'] = 'Hệ thống quản lý blog';
 $lang_module['mainNotice'] = 'Các cảnh báo cần giải quyết';
@@ -244,6 +245,19 @@ $lang_module['cfgcommentFacebookColorscheme'] = 'Giao diện bình luận';
 $lang_module['cfginitAutoKeywords'] = 'Tự động tạo từ khóa lúc đăng bài nếu không nhập';
 $lang_module['cfgshowAdsInDetailPage'] = 'Hiển thị khối quảng cáo khi xem chi tiết bài viết';
 $lang_module['cfgshowAdsInDetailPage1'] = 'Để hiển thị được khối quảng cáo, bạn cần mở file config.ini của giao diện đang dùng thêm phần position vị trí <code>[ADS_BLOG_DETAIL]</code> sau đó xóa cache của hệ thống';
+$lang_module['cfgInsArt'] = 'Thiết lập Facebook Instant Articles';
+$lang_module['cfgInsArtActive'] = 'Kích hoạt Instant Articles';
+$lang_module['cfgInsArtTemplate'] = 'Mẫu bài viết';
+$lang_module['cfgInsArtHttpauth'] = 'Xác thực HTTP';
+$lang_module['cfgInsArtUsername'] = 'Tài khoản xác thực';
+$lang_module['cfgInsArtPassword'] = 'Mật khẩu xác thực';
+$lang_module['cfgInsArtLivetime'] = 'Thời gian tạo lại RSS';
+$lang_module['cfgInsArtGettime'] = 'Thời gian lấy bài viết';
+$lang_module['cfgInsArtErrAccountAuth'] = 'Vui lòng nhập tài khoản xác thực và mật khẩu xác thực nếu kích hoạt xác thực HTTP';
+$lang_module['cfgInsArtToolLink'] = 'Công cụ lấy link RSS bài viết tức thời';
+$lang_module['cfgInsArtToolSelArea'] = 'Chọn khu vực';
+$lang_module['cfgInsArtToolSelAreaAll'] = 'Toàn bộ website';
+$lang_module['cfgInsArtToolResLink'] = 'Link RSS';
 
 $lang_module['tagsMg'] = 'Quản lý tags';
 $lang_module['tagsDelete'] = 'Xóa tags';

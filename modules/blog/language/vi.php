@@ -58,3 +58,5 @@ $lang_module['searchAbout'] = 'Bài viết về';
 $lang_module['searchAllCat'] = 'tất cả các danh mục';
 $lang_module['searchNoResult'] = 'Không có kết quả nào phù hợp với từ khóa &quot;%s&quot;';
 $lang_module['searchResultInfo'] = 'Tìm thấy <strong>%s</strong> kết quả phù hợp với từ khóa &quot;%s&quot;';
+
+$lang_module['insrss_not_auth'] = 'Tường lửa đã chặn truy cập khu vực này';

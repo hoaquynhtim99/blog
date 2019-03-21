@@ -20,7 +20,7 @@ $module_version = [
     'virtual' => 1,
     'version' => '4.3.05',
     'date' => 'Wednesday, March 20, 2019 9:35:53 PM GMT+07:00',
-    'author' => 'PHAN TAN DUNG (phantandung92@gmail.com)',
+    'author' => 'PHAN TAN DUNG <phantandung92@gmail.com>',
     'note' => 'Module Blog For Personal Blog Website',
     'uploads_dir' => [
         $module_name,

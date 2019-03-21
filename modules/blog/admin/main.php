@@ -25,10 +25,10 @@ $sql = "SELECT COUNT(*) FROM " . $BL->table_prefix . "_tags WHERE keywords='' OR
 $num = $db->query($sql)->fetchColumn();
 
 if ($num > 0) {
-    $array_notice[] = array(
+    $array_notice[] = [
         "link" => NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=tags&amp;noComplete=1",
         "title" => sprintf($BL->lang('mainTagsWarning'), $num),
-        );
+    ];
 }
 
 // Bai viet het han, cho dang, nhap
@@ -38,38 +38,38 @@ $result = $db->query($sql);
 while ($row = $result->fetch()) {
     if ($row['number'] > 0) {
         if ($row['status'] == 2) {
-            $array_notice[] = array(
+            $array_notice[] = [
                 "link" => NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=blog-list&amp;status=2",
                 "title" => sprintf($BL->lang('mainPostExpriedWarning'), $row['number']),
-            );
+            ];
         } elseif ($row['status'] == -2) {
-            $array_notice[] = array(
+            $array_notice[] = [
                 "link" => NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=blog-list&amp;status=-2",
                 "title" => sprintf($BL->lang('mainPostDraftWarning'), $row['number']),
-            );
+            ];
         } elseif ($row['status'] == -1) {
-            $array_notice[] = array(
+            $array_notice[] = [
                 "link" => NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=blog-list&amp;status=-1",
                 "title" => sprintf($BL->lang('mainPostWaitWarning'), $row['number']),
-            );
+            ];
         }
     }
 }
 
 // Cảnh báo Google Author chưa được đặt.
 if (empty($BL->setting['sysGoogleAuthor'])) {
-    $array_notice[] = array(
+    $array_notice[] = [
         "link" => NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=config-structured-data",
         "title" => $BL->lang('mainCfgGoogleAuthorWarning'),
-    );
+    ];
 }
 
 // Cảnh báo Facebook App ID chưa được đặt.
 if (empty($BL->setting['sysFbAppID'])) {
-    $array_notice[] = array(
+    $array_notice[] = [
         "link" => NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=config-structured-data",
         "title" => $BL->lang('mainCfgFbAppIDWarning'),
-    );
+    ];
 }
 
 $array_statistics = [];
@@ -78,28 +78,28 @@ $array_statistics = [];
 $sql = "SELECT COUNT(*) FROM " . $BL->table_prefix . "_rows";
 $num = $db->query($sql)->fetchColumn();
 
-$array_statistics[] = array(
+$array_statistics[] = [
     "link" => NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=blog-list",
     "title" => sprintf($BL->lang('mainStatPostTotal'), $num),
-);
+];
 
 // Thong ke so tags
 $sql = "SELECT COUNT(*) FROM " . $BL->table_prefix . "_tags";
 $num = $db->query($sql)->fetchColumn();
 
-$array_statistics[] = array(
+$array_statistics[] = [
     "link" => NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=tags",
     "title" => sprintf($BL->lang('mainStatTagsTotal'), $num),
-);
+];
 
 // Thong ke so email dang ky nhan tin
 $sql = "SELECT COUNT(*) FROM " . $BL->table_prefix . "_newsletters";
 $num = $db->query($sql)->fetchColumn();
 
-$array_statistics[] = array(
+$array_statistics[] = [
     "link" => NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=newsletter-manager",
     "title" => sprintf($BL->lang('mainStatNewsletters'), $num),
-);
+];
 
 // Xuat cac canh bao
 if (!empty($array_notice)) {
@@ -123,7 +123,8 @@ foreach ($array_statistics as $statistics) {
 include (NV_ROOTDIR . "/modules/" . $module_file . "/version.php");
 
 $module_version['date'] = intval(strtotime($module_version['date']));
-$module_version['date'] = $module_version['date'] ? nv_date("D, j M Y H:i:s", $module_version['date']) . " GMT" : "N/A";
+$module_version['date'] = $module_version['date'] ? nv_date('d/m/Y', $module_version['date']) : "N/A";
+$module_version['author'] = nv_htmlspecialchars(trim(preg_replace('/\<.*\>/', '', $module_version['author'])));
 
 $xtpl->assign('MODULE_INFO', $module_version);
 $xtpl->assign('AUTHOR_CONTACT', nv_EncodeEmail($BL->author_email));

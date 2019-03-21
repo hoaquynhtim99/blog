@@ -8,8 +8,9 @@
  * @Createdate 07/30/2013 10:27
  */
 
-if (!defined('NV_ADMIN'))
+if (!defined('NV_ADMIN')) {
     die('Stop!!!');
+}
 
 $submenu['blog-list'] = $lang_module['blogList'];
 $submenu['blog-content'] = $lang_module['blogAdd'];
@@ -18,7 +19,7 @@ $submenu['tags'] = $lang_module['tagsMg'];
 $submenu['newsletter-manager'] = $lang_module['nltList'];
 $submenu['config-master'] = $lang_module['cfgMaster'];
 
-$allow_func = array(
+$allow_func = [
     'main',
     'categories',
     'newsletter-manager',
@@ -29,5 +30,6 @@ $allow_func = array(
     'config-block-tags',
     'config-sys',
     'config-structured-data',
+    'config-instant-articles',
     'config-comment'
-);
+];

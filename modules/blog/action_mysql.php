@@ -217,7 +217,15 @@ $sql_create_module[] = "INSERT INTO " . $db_config['prefix'] . "_" . $lang . "_"
 ('sysLocale', 'vi_VN'),
 ('sysDefaultImage', ''),
 
-('folderStructure', 'Ym')
+('folderStructure', 'Ym'),
+
+('instantArticlesActive', '0'),
+('instantArticlesTemplate', 'default'),
+('instantArticlesHttpauth', '0'),
+('instantArticlesUsername', ''),
+('instantArticlesPassword', ''),
+('instantArticlesLivetime', '60'),
+('instantArticlesGettime', '120')
 ";
 
 // Them cron cua module

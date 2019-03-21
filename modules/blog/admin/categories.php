@@ -8,8 +8,9 @@
  * @Createdate Dec 11, 2013, 09:50:11 PM
  */
 
-if (!defined('NV_BLOG_ADMIN'))
+if (!defined('NV_BLOG_ADMIN')) {
     die('Stop!!!');
+}
 
 // Ham xoa danh muc
 function nv_del_cat($catid, $db, $module_data, $BL)
@@ -188,14 +189,14 @@ if ($nv_Request->isset_request("submit", "post")) {
         }
 
         if ($id) {
-            $sql = "UPDATE " . $BL->table_prefix . "_categories SET 
-				parentid=" . $data['parentid'] . ", 
-				title=" . $db->quote($data['title']) . ", 
-				alias=" . $db->quote($data['alias']) . ", 
-				keywords=" . $db->quote($data['keywords']) . ", 
-				description=" . $db->quote($data['description']) . ", 
-				weight=" . $new_weight . "
-			WHERE id=" . $id;
+            $sql = "UPDATE " . $BL->table_prefix . "_categories SET
+                parentid=" . $data['parentid'] . ",
+                title=" . $db->quote($data['title']) . ",
+                alias=" . $db->quote($data['alias']) . ",
+                keywords=" . $db->quote($data['keywords']) . ",
+                description=" . $db->quote($data['description']) . ",
+                weight=" . $new_weight . "
+            WHERE id=" . $id;
 
             if ($db->query($sql)) {
                 $BL->fixCat($id);
@@ -214,14 +215,14 @@ if ($nv_Request->isset_request("submit", "post")) {
             }
         } else {
             $sql = "INSERT INTO " . $BL->table_prefix . "_categories VALUES (
-				NULL, 
-				" . $data['parentid'] . ", 
-				" . $db->quote($data['title']) . ", 
-				" . $db->quote($data['alias']) . ", 
-				" . $db->quote($data['keywords']) . ", 
-				" . $db->quote($data['description']) . ", 
-				0, 0, " . $new_weight . ", 1
-			)";
+                NULL,
+                " . $data['parentid'] . ",
+                " . $db->quote($data['title']) . ",
+                " . $db->quote($data['alias']) . ",
+                " . $db->quote($data['keywords']) . ",
+                " . $db->quote($data['description']) . ",
+                0, 0, " . $new_weight . ", 1
+            )";
 
             $newid = $db->insert_id($sql);
 
