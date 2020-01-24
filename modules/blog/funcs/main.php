@@ -2,14 +2,15 @@
 
 /**
  * @Project NUKEVIET BLOG 4.x
- * @Author PHAN TAN DUNG (phantandung92@gmail.com)
+ * @Author PHAN TAN DUNG <phantandung92@gmail.com>
  * @Copyright (C) 2014 PHAN TAN DUNG. All rights reserved
  * @License GNU/GPL version 2 or any later version
  * @Createdate Dec 11, 2013, 09:50:11 PM
  */
 
-if (!defined('NV_IS_MOD_BLOG'))
+if (!defined('NV_IS_MOD_BLOG')) {
     die('Stop!!!');
+}
 
 // Chuyển hướng đến trang chủ không có tên module nếu có cấu hình
 if ($BL->setting['sysRedirect2Home'] and empty($home) and $page <= 1 and $global_config['site_home_module'] == $module_name) {

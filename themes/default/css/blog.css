@@ -81,13 +81,20 @@ h1.upper, h2.upper, h3.upper, h4.upper, h5.upper, h6.upper{
 .post-list .post-title i{
     color:#000;
 }
-.post-list .post-item{
+.post-list .post-item {
     border-bottom: 1px solid #BDBDBD;
     -webkit-box-shadow: 0 1px rgba(255, 255, 255, 0.75);
     box-shadow: 0 1px rgba(255, 255, 255, 0.75);
     padding-bottom:20px;
     margin-bottom:20px;
 }
+
+.post-list .post-item .item-hometext {
+    line-height: 1.5;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
 .post-list .post-item .media-image{
     width: 100%;
     height: auto;
@@ -106,8 +113,11 @@ h1.upper, h2.upper, h3.upper, h4.upper, h5.upper, h6.upper{
 .post-list .meta span{
     margin-right: 20px;
 }
-.post-list .post-item-html{
+.post-list .post-item-html {
     margin-bottom: 20px;
+    line-height: 1.5;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
 }
 .post-list .post-item-html img{
     max-width: 100%!important;
@@ -213,12 +223,13 @@ ul.pagination.bl-pagination li:nth-last-child(2) span {
     border:0;
     width:100%;
 }
-.post-detail-content{
-    text-align: justify;
-    margin-bottom: 30px;
-}
 .post-detail-content {
-    overflow-x: hidden;
+    margin-bottom: 30px;
+    max-width: 100%;
+    width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
 }
 .post-detail-content img{
     padding: 0!important;

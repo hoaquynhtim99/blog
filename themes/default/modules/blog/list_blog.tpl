@@ -38,7 +38,7 @@
         <!-- END: media -->
         <h3 class="post-title"><i class="{ROW.icon}">&nbsp;</i><a href="{ROW.link}"><span itemprop="name">{ROW.title}</span></a> </h3>
         <!-- BEGIN: hometext -->
-        <p>
+        <p class="item-hometext">
             {ROW.hometext}
         </p>
         <!-- END: hometext -->

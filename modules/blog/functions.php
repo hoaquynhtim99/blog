@@ -2,14 +2,15 @@
 
 /**
  * @Project NUKEVIET BLOG 4.x
- * @Author PHAN TAN DUNG (phantandung92@gmail.com)
+ * @Author PHAN TAN DUNG <phantandung92@gmail.com>
  * @Copyright (C) 2014 PHAN TAN DUNG. All rights reserved
  * @License GNU/GPL version 2 or any later version
  * @Createdate Dec 11, 2013, 09:50:11 PM
  */
 
-if (!defined('NV_SYSTEM'))
+if (!defined('NV_SYSTEM')) {
     die('Stop!!!');
+}
 
 define('NV_IS_MOD_BLOG', true);
 
@@ -66,7 +67,8 @@ if ($op == 'main') {
                         nv_redirect_location(NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . '&' . NV_OP_VARIABLE . '=' . $array_op[0], true);
                     }
                 }
-            } else { // Xem bai viet
+            } else {
+                // Xem bai viet
                 // Khong cho array_op nao lon hon
                 if (sizeof($array_op) > 1) {
                     nv_redirect_location(NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . '&' . NV_OP_VARIABLE . '=' . $array_op[0], true);
@@ -178,7 +180,7 @@ if (!empty($catid)) {
         );
         $parentid = $global_array_cat[$parentid]['parentid'];
     }
-    sort($array_mod_title, SORT_NUMERIC);
+    krsort($array_mod_title, SORT_NUMERIC);
 }
 
 // Loai bo cac bien tam
