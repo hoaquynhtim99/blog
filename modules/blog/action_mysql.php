@@ -225,7 +225,10 @@ $sql_create_module[] = "INSERT INTO " . $db_config['prefix'] . "_" . $lang . "_"
 ('instantArticlesUsername', ''),
 ('instantArticlesPassword', ''),
 ('instantArticlesLivetime', '60'),
-('instantArticlesGettime', '120')
+('instantArticlesGettime', '120'),
+
+('emailWhenComment', '0'),
+('emailWhenCommentList', '')
 ";
 
 // Them cron cua module

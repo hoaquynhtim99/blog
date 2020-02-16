@@ -46,7 +46,7 @@
 		<tr>
 			<td>
 				<strong>{LANG.title}</strong>
-				<span class="require">ӿ</span>
+				 <span class="text-danger">(*)</span>
 			</td>
 			<td>
 				<input type="text" required="required" class="form-control bl-txt-h" name="title" id="title" value="{DATA.title}" maxlength="255" onchange="if(document.getElementById('alias').value == '') get_alias('title','alias','cat');"/>
@@ -56,14 +56,14 @@
 		<tr>
 			<td>
 				<strong>{LANG.alias}</strong>
-				<span class="require">ӿ</span>
+				 <span class="text-danger">(*)</span>
 			</td>
 			<td><input type="text" required="required" class="form-control bl-txt-h" name="alias" id="alias" value="{DATA.alias}" maxlength="255"/></td>
 		</tr>
 		<tr>
 			<td>
 				<strong>{LANG.keywords}</strong>
-				<span class="require">ӿ</span>
+				 <span class="text-danger">(*)</span>
 				<span class="note">({LANG.keywordsNote})</span>
 			</td>
 			<td><input type="text" required="required" class="form-control bl-txt-h" name="keywords" value="{DATA.keywords}" maxlength="255"/></td>
@@ -71,7 +71,7 @@
 		<tr>
 			<td>
 				<strong>{LANG.description}</strong>
-				<span class="require">ӿ</span>
+				 <span class="text-danger">(*)</span>
 				<span class="note">({LANG.descriptionNote})</span>
 			</td>
 			<td><input type="text" required="required" class="form-control bl-txt-h" name="description" value="{DATA.description}" maxlength="255"/></td>
@@ -79,7 +79,7 @@
 		<tr>
 			<td>
 				<strong>{LANG.categoriesInCat}</strong>
-				<span class="require">ӿ</span>
+				 <span class="text-danger">(*)</span>
 			</td>
 			<td>
 				<select class="form-control" name="parentid">

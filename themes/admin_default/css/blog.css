@@ -66,11 +66,6 @@ h2.blog-panel-title {
     font-size:11px;
     color:#999;
 }
-.require{
-    vertical-align:super;
-    color:red;
-    font-size:11px;
-}
 .bl-hr{
     border-bottom: 1px solid #ddd;
     -webkit-box-shadow: 0 1px rgba(255, 255, 255, 0.75);
@@ -95,8 +90,8 @@ h2.blog-panel-title {
 .bl-warning:hover{
     color: #D02D2D;
 }
-.bl-inline-box{
-    margin: 0;
+.bl-inline-box {
+    margin: 0!important;
 }
 
 /* ORDER DATA */
@@ -316,4 +311,13 @@ h2.blog-panel-title {
 .label-inlist-group {
     position: relative;
     top: -2px;
+}
+
+/* Custom Editor */
+.blog-editor-element {
+    cursor: text;
+}
+
+.blog-editor-element:focus {
+    outline: 0;
 }

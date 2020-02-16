@@ -258,6 +258,9 @@ $lang_module['cfgInsArtToolLink'] = 'Công cụ lấy link RSS bài viết tức
 $lang_module['cfgInsArtToolSelArea'] = 'Chọn khu vực';
 $lang_module['cfgInsArtToolSelAreaAll'] = 'Toàn bộ website';
 $lang_module['cfgInsArtToolResLink'] = 'Link RSS';
+$lang_module['cfgemailWhenComment'] = 'Gửi email khi có bình luận mới';
+$lang_module['cfgemailWhenCommentList'] = 'Danh sách email nhận';
+$lang_module['cfgemailWhenCommentListNote'] = 'Nhập mỗi email một dòng';
 
 $lang_module['tagsMg'] = 'Quản lý tags';
 $lang_module['tagsDelete'] = 'Xóa tags';

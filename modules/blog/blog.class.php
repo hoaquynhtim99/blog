@@ -13,7 +13,7 @@ if (!defined('NV_MAINFILE'))
 
 /**
  * nv_mod_blog
- * 
+ *
  * @package Blog Phan Tan Dung
  * @author PHAN TAN DUNG
  * @copyright 2014
@@ -69,7 +69,7 @@ class nv_mod_blog
 
     /**
      * nv_mod_blog::__construct()
-     * 
+     *
      * @param string $d
      * @param string $n
      * @param string $f
@@ -143,7 +143,7 @@ class nv_mod_blog
 
     /**
      * nv_mod_blog::handle_error()
-     * 
+     *
      * @param string $messgae
      * @return
      */
@@ -154,7 +154,7 @@ class nv_mod_blog
 
     /**
      * nv_mod_blog::check_admin()
-     * 
+     *
      * @return
      */
     private function check_admin()
@@ -165,7 +165,7 @@ class nv_mod_blog
 
     /**
      * nv_mod_blog::nl2br()
-     * 
+     *
      * @param mixed $string
      * @return
      */
@@ -176,7 +176,7 @@ class nv_mod_blog
 
     /**
      * nv_mod_blog::db_cache()
-     * 
+     *
      * @param mixed $sql
      * @param string $id
      * @param string $module_name
@@ -192,7 +192,7 @@ class nv_mod_blog
 
     /**
      * nv_mod_blog::del_cache()
-     * 
+     *
      * @param mixed $module_name
      * @return
      */
@@ -203,7 +203,7 @@ class nv_mod_blog
 
     /**
      * nv_mod_blog::change_alias()
-     * 
+     *
      * @param mixed $alias
      * @return
      */
@@ -214,7 +214,7 @@ class nv_mod_blog
 
     /**
      * nv_mod_blog::get_setting()
-     * 
+     *
      * @return
      */
     private function get_setting()
@@ -222,7 +222,7 @@ class nv_mod_blog
         $sql = "SELECT config_name, config_value FROM " . $this->table_prefix . "_config";
         $result = $this->db_cache($sql);
 
-        $array = array();
+        $array = [];
         foreach ($result as $values) {
             $array[$values['config_name']] = $values['config_value'];
         }
@@ -232,7 +232,7 @@ class nv_mod_blog
 
     /**
      * nv_mod_blog::findFrameWorks()
-     * 
+     *
      * @param mixed $numargs
      * @param mixed $list_args
      * @param bool $allow_called
@@ -288,7 +288,7 @@ class nv_mod_blog
 
     /**
      * nv_mod_blog::sortArrayFromArrayKeys()
-     * 
+     *
      * @param mixed $keys
      * @param mixed $array
      * @return
@@ -307,7 +307,7 @@ class nv_mod_blog
 
     /**
      * nv_mod_blog::IdHandle()
-     * 
+     *
      * @param mixed $stroarr
      * @param string $defis
      * @return
@@ -329,7 +329,7 @@ class nv_mod_blog
 
     /**
      * nv_mod_blog::executeData()
-     * 
+     *
      * @param bool $rmCache
      * @return
      */
@@ -388,7 +388,7 @@ class nv_mod_blog
 
     /**
      * nv_mod_blog::lang()
-     * 
+     *
      * @param mixed $key
      * @return
      */
@@ -399,7 +399,7 @@ class nv_mod_blog
 
     /**
      * nv_mod_blog::glang()
-     * 
+     *
      * @param mixed $key
      * @return
      */
@@ -410,7 +410,7 @@ class nv_mod_blog
 
     /**
      * nv_mod_blog::string2array()
-     * 
+     *
      * @param mixed $str
      * @param string $defis
      * @param bool $unique
@@ -437,7 +437,7 @@ class nv_mod_blog
 
     /**
      * nv_mod_blog::checkExistsAlias()
-     * 
+     *
      * @param string $alias
      * @param string $mode
      * @param integer $id
@@ -471,7 +471,7 @@ class nv_mod_blog
 
     /**
      * nv_mod_blog::creatAlias()
-     * 
+     *
      * @param mixed $title
      * @param mixed $mode
      * @return
@@ -509,7 +509,7 @@ class nv_mod_blog
 
     /**
      * nv_mod_blog::setCats()
-     * 
+     *
      * @param mixed $list2
      * @param mixed $id
      * @param mixed $list
@@ -545,7 +545,7 @@ class nv_mod_blog
 
     /**
      * nv_mod_blog::listCat()
-     * 
+     *
      * @param mixed $parentid
      * @param integer $m
      * @return
@@ -627,7 +627,7 @@ class nv_mod_blog
 
     /**
      * nv_mod_blog::fixCat()
-     * 
+     *
      * @param mixed $id
      * @return
      */
@@ -664,7 +664,7 @@ class nv_mod_blog
 
     /**
      * nv_mod_blog::fixWeightCat()
-     * 
+     *
      * @param integer $parentid
      * @return
      */
@@ -684,7 +684,7 @@ class nv_mod_blog
 
     /**
      * nv_mod_blog::fixTags()
-     * 
+     *
      * @param mixed $id
      * @return
      */
@@ -714,7 +714,7 @@ class nv_mod_blog
     /**
      * nv_mod_blog::getTagsByID()
      * Lay tags tu id
-     * 
+     *
      * @param mixed $id
      * @param bool $sort
      * @return
@@ -746,7 +746,7 @@ class nv_mod_blog
     /**
      * nv_mod_blog::getPostByID()
      * Lay bai viet tu id
-     * 
+     *
      * @param mixed $id
      * @param bool $sort
      * @return
@@ -777,7 +777,7 @@ class nv_mod_blog
 
     /**
      * nv_mod_blog::build_query_search_id()
-     * 
+     *
      * @param mixed $id
      * @param mixed $field
      * @param string $logic
@@ -801,7 +801,7 @@ class nv_mod_blog
 
     /**
      * nv_mod_blog::delPost()
-     * 
+     *
      * @param mixed $id
      * @return
      */
@@ -862,7 +862,7 @@ class nv_mod_blog
 
     /**
      * nv_mod_blog::callFrameWorks()
-     * 
+     *
      * @return void
      */
     public function callFrameWorks()
@@ -880,7 +880,7 @@ class nv_mod_blog
 
     /**
      * nv_mod_blog::getFrameWorks()
-     * 
+     *
      * @return
      */
     public function getFrameWorks()
@@ -890,7 +890,7 @@ class nv_mod_blog
 
     /**
      * nv_mod_blog::BoldKeywordInStr()
-     * 
+     *
      * @param mixed $str
      * @param mixed $keyword
      * @return
@@ -910,10 +910,10 @@ class nv_mod_blog
 
         return $str;
     }
-    
+
     /**
      * nv_mod_blog::GetAspectRatio()
-     * 
+     *
      * @param mixed $w
      * @param mixed $h
      * @return

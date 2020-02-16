@@ -96,18 +96,17 @@ $meta_property['og:title'] = $page_title . ' ' . NV_TITLEBAR_DEFIS . ' ' . $glob
 $meta_property['og:type'] = 'article';
 $meta_property['og:url'] = $blog_data['href'];
 $meta_property['og:description'] = $description;
-
-$my_head .= "<meta property=\"article:published_time\" content=\"" . date("Y-m-d", $blog_data['pubtime']) . "\" />\n";
-$my_head .= "<meta property=\"article:section\" content=\"" . $global_array_cat[$catid]['title'] . "\" />\n";
+$meta_property['article:published_time'] = date("Y-m-d", $blog_data['pubtime']);
+$meta_property['article:section'] = $global_array_cat[$catid]['title'];
 
 // Khai báo thời gian cập nhật nếu bài đăng được cập nhật
 if ($blog_data['pubtime'] != $blog_data['updatetime']) {
-    $my_head .= "<meta property=\"article:modified_time\" content=\"" . date("Y-m-d", $blog_data['updatetime']) . "\" />\n";
+    $meta_property['article:modified_time'] = date("Y-m-d", $blog_data['updatetime']);
 }
 
 // Khai báo thời gian hết hạn nếu bài đăng hết hạn
 if (!empty($blog_data['exptime'])) {
-    $my_head .= "<meta property=\"article:expiration_time\" content=\"" . date("Y-m-d", $blog_data['exptime']) . "\" />\n";
+    $meta_property['article:expiration_time'] = date("Y-m-d", $blog_data['exptime']);
 }
 
 // Từ khóa bài đăng
@@ -118,19 +117,20 @@ if (!empty($blog_data['keywords'])) {
         arsort($keywords);
 
         foreach ($keywords as $keyword) {
+            // FIXME chỗ này NukeViet chưa hỗ trợ trùng tên nên phải thêm vào my_head
+            //$meta_property['article:tag'] = $keyword;
             $my_head .= "<meta property=\"article:tag\" content=\"" . $keyword . "\" />\n";
         }
     }
 }
 
 if (!empty($blog_data['mediavalue'])) {
-    // Âm thanh
     if ($blog_data['mediatype'] == 2) {
-        $my_head .= "<meta property=\"og:audio\" content=\"" . (preg_match("/^\//", $blog_data['mediavalue']) ? NV_MY_DOMAIN . $blog_data['mediavalue'] : $blog_data['mediavalue']) . "\" />\n";
-    }
-    // Video
-    elseif ($blog_data['mediatype'] == 3) {
-        $my_head .= "<meta property=\"og:video\" content=\"" . (preg_match("/^\//", $blog_data['mediavalue']) ? NV_MY_DOMAIN . $blog_data['mediavalue'] : $blog_data['mediavalue']) . "\" />\n";
+        // Âm thanh
+        $meta_property['og:audio'] = (preg_match("/^\//", $blog_data['mediavalue']) ? NV_MY_DOMAIN . $blog_data['mediavalue'] : $blog_data['mediavalue']);
+    } elseif ($blog_data['mediatype'] == 3) {
+        // Video
+        $meta_property['og:video'] = (preg_match("/^\//", $blog_data['mediavalue']) ? NV_MY_DOMAIN . $blog_data['mediavalue'] : $blog_data['mediavalue']);
     }
 }
 

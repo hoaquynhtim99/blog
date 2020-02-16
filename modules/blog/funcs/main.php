@@ -151,8 +151,6 @@ if (!empty($BL->setting['sysDefaultImage'])) {
     $meta_property['og:image'] = NV_MY_DOMAIN . NV_BASE_SITEURL . $global_config['site_logo'];
 }
 
-$my_head .= "<meta property=\"og:locale\" content=\"" . $BL->setting['sysLocale'] . "\" />\n";
-
 $contents = nv_main_theme($array, $generate_page, $BL->setting, $page, $total_pages, $BL);
 
 include NV_ROOTDIR . '/includes/header.php';

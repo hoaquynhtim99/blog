@@ -13,13 +13,16 @@ if (!defined('NV_IS_MOD_BLOG'))
 
 // Thêm vào meta tag
 if (!empty($BL->setting['sysFbAppID'])) {
-    $my_head .= "<meta property=\"fb:app_id\" content=\"" . $BL->setting['sysFbAppID'] . "\"/>" . NV_EOL;
+    $meta_property['fb:app_id'] = $BL->setting['sysFbAppID'];
 }
 
 // Thêm id admin vào meta tag
 if (!empty($BL->setting['sysFbAdminID'])) {
-    $my_head .= "<meta property=\"fb:admins\" content=\"" . $BL->setting['sysFbAdminID'] . "\"/>" . NV_EOL;
+    $meta_property['fb:admins'] = $BL->setting['sysFbAdminID'];
 }
+
+// Ngôn ngữ SDK facebook
+$meta_property['og:locale'] = $BL->setting['sysLocale'];
 
 /**
  * nv_blog_alias_page()
@@ -424,6 +427,7 @@ function nv_detail_theme($blog_data, $BL)
     $xtpl = new XTemplate("detail.tpl", NV_ROOTDIR . "/themes/" . $module_info['template'] . "/modules/" . $module_file);
     $xtpl->assign('LANG', $lang_module);
     $xtpl->assign('GLANG', $lang_global);
+    $xtpl->assign('NV_CHECK_SESSION', NV_CHECK_SESSION);
 
     $blog_data['pubtimeGoogle'] = nv_date('c', $blog_data['pubtime']);
     $blog_data['updatetimeGoogle'] = $blog_data['updatetime'] ? nv_date('c', $blog_data['updatetime']) : $blog_data['pubtimeGoogle'];

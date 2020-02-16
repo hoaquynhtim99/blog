@@ -20,11 +20,11 @@ var BL = {
             success: function(e) {}
         });
     },
-    addCommentOnly: function(blog_id) {
-        BL.callApi('addCommentOnly=1&id=' + blog_id)
+    addCommentOnly: function(blog_id, tokend, fbCommentID) {
+        BL.callApi('addCommentOnly=1&id=' + blog_id + '&tokend=' + tokend + '&fbcmtid=' + fbCommentID);
     },
-    delCommentOnly: function(blog_id) {
-        BL.callApi('delCommentOnly=1&id=' + blog_id);
+    delCommentOnly: function(blog_id, tokend, fbCommentID) {
+        BL.callApi('delCommentOnly=1&id=' + blog_id + '&tokend=' + tokend + '&fbcmtid=' + fbCommentID);
     },
 };
 

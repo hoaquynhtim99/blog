@@ -23,6 +23,18 @@ if ($nv_Request->isset_request('submit', 'post')) {
     $array['commentPerPage'] = $nv_Request->get_int('commentPerPage', 'post', 8);
     $array['commentDisqusShortname'] = nv_substr($nv_Request->get_title('commentDisqusShortname', 'post', '', 1), 0, 255);
     $array['commentFacebookColorscheme'] = nv_substr($nv_Request->get_title('commentFacebookColorscheme', 'post', 'light', 1), 0, 255);
+    $array['emailWhenComment'] = intval($nv_Request->get_bool('emailWhenComment', 'post', false));
+
+    $emailWhenCommentList = $nv_Request->get_textarea('emailWhenCommentList', '', NV_ALLOWED_HTML_TAGS);
+    $array['emailWhenCommentList'] = [];
+    $emailWhenCommentList = array_filter(array_map('trim', explode('|||', nv_nl2br($emailWhenCommentList, '|||'))));
+    foreach ($emailWhenCommentList as $email) {
+        $email = nv_check_valid_email($email, true);
+        if ($email[0] == '') {
+            $array['emailWhenCommentList'][] = $email[1];
+        }
+    }
+    $array['emailWhenCommentList'] = json_encode(array_unique($array['emailWhenCommentList']));
 
     // Kiem tra xac nhan
     if (!in_array($array['commentType'], $BL->commentType)) {
@@ -48,9 +60,12 @@ if ($nv_Request->isset_request('submit', 'post')) {
 $xtpl = new XTemplate("config-comment.tpl", NV_ROOTDIR . "/themes/" . $global_config['module_theme'] . "/modules/" . $module_file);
 $xtpl->assign('LANG', $lang_module);
 $xtpl->assign('GLANG', $lang_global);
-
 $xtpl->assign('FORM_ACTION', NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $op);
+
+$BL->setting['emailWhenCommentList'] = empty($BL->setting['emailWhenCommentList']) ? '' : implode("\n", json_decode($BL->setting['emailWhenCommentList'], true));
+
 $xtpl->assign('DATA', $BL->setting);
+$xtpl->assign('EMAILWHENCOMMENT', $BL->setting['emailWhenComment'] ? " checked=\"checked\"" : "");
 
 // Xuat cac kieu hien thi
 foreach ($BL->commentType as $type) {

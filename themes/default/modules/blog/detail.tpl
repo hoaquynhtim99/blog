@@ -51,27 +51,6 @@
     <div class="post-detail-share clearfix">
         <!-- BEGIN: fbShare -->
         <div class="fl">
-            <div id="fb-root"></div>
-            <script type="text/javascript">
-            $(document).ready(function() {
-                $.ajaxSetup({
-                    cache: true
-                });
-                $.getScript('//connect.facebook.net/{LOCALE}/all.js', function() {
-                    FB.init({
-                        appId: '{FB_APP_ID}',
-                        version: 'v2.0',
-                        xfbml: 1
-                    });
-                    FB.Event.subscribe('comment.create', function(e) {
-                        BL.addCommentOnly({DATA.id});
-                    });
-                    FB.Event.subscribe('comment.remove', function(e) {
-                        BL.delCommentOnly({DATA.id});
-                    });
-                });
-            });
-            </script>
             <div class="fb-like" data-href="{DATA.href}" data-width="200" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true"></div>
         </div>
         <!-- END: fbShare -->
@@ -118,7 +97,24 @@
     <!-- BEGIN: comment -->
     <a id="comment" name="comment"></a>
     <!-- BEGIN: facebook -->
+    <div class="fb-like hidden hide d-none"></div>
     <div class="fb-comments" data-href="{DATA.href}" data-numposts="{COMMENT_PER_PAGE}" data-colorscheme="{COLORSCHEME}" data-width="100%"></div>
+    <script type="text/javascript">
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId: '{FB_APP_ID}',
+            autoLogAppEvents: true,
+            xfbml: true,
+            version: 'v6.0'
+        });
+        FB.Event.subscribe('comment.create', function(e) {
+            BL.addCommentOnly({DATA.id}, '{NV_CHECK_SESSION}', e.commentID);
+        });
+        FB.Event.subscribe('comment.remove', function(e) {
+            BL.delCommentOnly({DATA.id}, '{NV_CHECK_SESSION}', e.commentID);
+        });
+    };
+    </script>
     <!-- END: facebook -->
     <!-- BEGIN: disqus -->
     <div id="disqus_thread"></div>

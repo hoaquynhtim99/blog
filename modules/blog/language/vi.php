@@ -60,3 +60,6 @@ $lang_module['searchNoResult'] = 'Không có kết quả nào phù hợp với t
 $lang_module['searchResultInfo'] = 'Tìm thấy <strong>%s</strong> kết quả phù hợp với từ khóa &quot;%s&quot;';
 
 $lang_module['insrss_not_auth'] = 'Tường lửa đã chặn truy cập khu vực này';
+
+$lang_module['email_ncomment_s'] = 'Thông báo có bình luận mới';
+$lang_module['email_ncomment_b'] = 'Có bình luận mới trên bài viết <strong>%s</strong>.<br />Mời bạn xem tại đây: <a href="%s">%s</a>';
