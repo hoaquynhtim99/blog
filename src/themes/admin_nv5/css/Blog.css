@@ -1,0 +1,69 @@
+/**
+ * @Project NUKEVIET BLOG 5.x
+ * @Author PHAN TAN DUNG <writeblabla@gmail.com>
+ * @Copyright (C) 2020 PHAN TAN DUNG. All rights reserved
+ * @License GNU/GPL version 2 or any later version
+ * @Createdate Saturday, February 22, 2020 15:39:20 GMT+07:00
+ */
+
+.bl-min-w-25 {
+    min-width: 25%!important;
+}
+
+.bl-main-card-height {
+    padding-bottom: 25px;
+    height: 100%;
+}
+
+.bl-main-card-height > .card {
+    height: 100%;
+    margin-bottom: 0;
+}
+
+.bl-min-w60 {
+    min-width: 60px!important;
+}
+
+.textarea-animated {
+    -webkit-transition: height 0.2s;
+    -moz-transition: height 0.2s;
+    transition: height 0.2s;
+}
+
+.bl-post-cats {
+    max-height: 183px;
+    overflow: auto;
+}
+
+.bl-post-col-tools {
+    border-left: 1px #ddd solid;
+}
+
+.post-tags-most-item {
+    margin-bottom: 3px;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.post-tags-most-item-sort:empty {
+    display: inline-block;
+}
+
+.post-tags-most-item-sort:before {
+    content: "-";
+    visibility: hidden;
+    opacity: 0;
+}
+
+.bl-list-tags {
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+
+.bl-list-tags li {
+    display: inline-block;
+    margin-right: 2px;
+}
