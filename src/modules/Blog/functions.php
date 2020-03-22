@@ -24,15 +24,18 @@ $global_array_cat = $BL->listCat(0, 0);
 
 // Xac dinh RSS co ban cua module
 if ($module_info['rss']) {
-    $rss[] = array('title' => $module_info['custom_title'], 'src' => NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=rss");
+    $rss[] = [
+        'title' => $module_info['custom_title'],
+        'src' => NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=rss"
+    ];
 }
 
 // Cac bien he thong
 $catid = 0;
-$nv_vertical_menu = array();
+$nv_vertical_menu = [];
 $page = 1;
 $blog_op = $op;
-$blog_data = array();
+$blog_data = [];
 
 // Xac dinh $catid
 if ($op == 'main') {
@@ -127,11 +130,11 @@ if ($op == 'main') {
                     }
 
                     // Xuat breadcrumbs
-                    $array_mod_title[] = array(
+                    $array_mod_title[] = [
                         'catid' => $blog_data['id'],
                         'title' => $blog_data['title'],
                         'link' => NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $blog_data['alias'] . $global_config['rewrite_exturl'],
-                    );
+                    ];
                 } else {
                     nv_redirect_location(NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name, true);
                 }
@@ -144,29 +147,32 @@ if ($op == 'main') {
 foreach ($global_array_cat as $_cat) {
     // Rss danh muc
     if ($module_info['rss']) {
-        $rss[] = array('title' => $_cat['title'] . ' ' . NV_TITLEBAR_DEFIS . ' ' . $module_info['custom_title'], 'src' => NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=rss/" . $_cat['alias']);
+        $rss[] = [
+            'title' => $_cat['title'] . ' ' . NV_TITLEBAR_DEFIS . ' ' . $module_info['custom_title'],
+            'src' => NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=rss/" . $_cat['alias']
+        ];
     }
 
     if ($_cat['parentid'] == 0) {
-        $sub_menu = array();
+        $sub_menu = [];
         $act = ($_cat['id'] == $catid) ? 1 : 0;
 
         if ($act or ($catid > 0 and $_cat['id'] == $global_array_cat[$catid]['parentid'])) {
             foreach ($_cat['subcats'] as $catid_i) {
-                $sub_menu[] = array(
+                $sub_menu[] = [
                     0 => $global_array_cat[$catid_i]['title'],
                     1 => NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $global_array_cat[$catid_i]['alias'],
                     2 => 0
-                );
+                ];
             }
         }
 
-        $nv_vertical_menu[] = array(
+        $nv_vertical_menu[] = [
             0 => $_cat['title'],
             1 => NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $_cat['alias'],
             2 => $act,
             'submenu' => $sub_menu,
-        );
+        ];
     }
 }
 
@@ -174,11 +180,11 @@ foreach ($global_array_cat as $_cat) {
 if (!empty($catid)) {
     $parentid = $catid;
     while ($parentid > 0) {
-        $array_mod_title[] = array(
+        $array_mod_title[] = [
             'catid' => $parentid,
             'title' => $global_array_cat[$parentid]['title'],
             'link' => NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $global_array_cat[$parentid]['alias'],
-        );
+        ];
         $parentid = $global_array_cat[$parentid]['parentid'];
     }
     krsort($array_mod_title, SORT_NUMERIC);

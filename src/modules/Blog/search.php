@@ -25,10 +25,10 @@ if ($num_items) {
     ->offset(($page - 1) * $limit);
     $result = $db_slave->query($db_slave->sql());
     while ($row = $result->fetch()) {
-        $result_array[] = array(
+        $result_array[] = [
             'link' => NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $m_values['module_name'] . '&amp;' . NV_OP_VARIABLE . '=' . $row['alias'] . $global_config['rewrite_exturl'],
             'title' => BoldKeywordInStr($row['title'], $key, $logic),
             'content' => BoldKeywordInStr($row['hometext'], $key, $logic)
-        );
+        ];
     }
 }

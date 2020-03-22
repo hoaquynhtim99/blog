@@ -42,24 +42,24 @@ class BlogInit
 
     public $setting = null;
 
-    public $indexViewType = array("type_blog", "type_news");
-    public $catViewType = array("type_blog", "type_news");
-    public $tagsViewType = array("type_blog", "type_news");
-    public $blockTagsShowType = array(
+    public $indexViewType = ["type_blog", "type_news"];
+    public $catViewType = ["type_blog", "type_news"];
+    public $tagsViewType = ["type_blog", "type_news"];
+    public $blockTagsShowType = [
         "random",
         "latest",
         "popular"
-    );
-    public $blogposttype = array(0, 1, 2, 3, 4, 5, 6);
-    public $blogMediaType = array(0, 1, 2, 3, 4);
-    public $blogExpMode = array(0, 1, 2);
-    public $blogStatus = array(-2, -1, 0, 1, 2);
-    public $commentType = array(
+    ];
+    public $blogposttype = [0, 1, 2, 3, 4, 5, 6];
+    public $blogMediaType = [0, 1, 2, 3, 4];
+    public $blogExpMode = [0, 1, 2];
+    public $blogStatus = [-2, -1, 0, 1, 2];
+    public $commentType = [
         "none",
         "sys",
         "facebook",
         "disqus"
-    );
+    ];
 
     private $base_site_url = null;
     private $root_dir = null;
@@ -237,7 +237,7 @@ class BlogInit
      */
     private function sortArrayFromArrayKeys($keys, $array)
     {
-        $return = array();
+        $return = [];
 
         foreach ($keys as $key) {
             if (isset($array[$key])) {
@@ -256,14 +256,14 @@ class BlogInit
      */
     private function IdHandle($stroarr, $defis = ",")
     {
-        $return = array();
+        $return = [];
 
         if (is_array($stroarr)) {
             $return = array_filter(array_unique(array_map("intval", $stroarr)));
         } elseif (strpos($stroarr, $defis) !== false) {
             $return = array_map("intval", $this->string2array($stroarr, $defis));
         } else {
-            $return = array(intval($stroarr));
+            $return = [intval($stroarr)];
         }
 
         return $return;
@@ -339,8 +339,9 @@ class BlogInit
      */
     public function string2array($str, $defis = ",", $unique = false, $empty = false)
     {
-        if (empty($str))
-            return array();
+        if (empty($str)) {
+            return [];
+        }
 
         $str = array_map("trim", explode((string )$defis, (string )$str));
 
@@ -368,13 +369,13 @@ class BlogInit
         $this->check_admin();
 
         if ($mode == "cat") {
-            $array_table_check = array("_rows", "_categories");
+            $array_table_check = ["_rows", "_categories"];
             $mode = "_categories";
         } elseif ($mode == "tags") {
-            $array_table_check = array("_tags");
+            $array_table_check = ["_tags"];
             $mode = "_tags";
         } else {
-            $array_table_check = array("_rows", "_categories");
+            $array_table_check = ["_rows", "_categories"];
             $mode = "_rows";
         }
         $id = intval($id);
@@ -382,8 +383,9 @@ class BlogInit
         foreach ($array_table_check as $table_check) {
             $sql = "SELECT * FROM " . $this->table_prefix . $table_check . " WHERE alias=" . $this->db->quote($alias) . (($mode == $table_check and !empty($id)) ? " AND id!=" . $id : "");
             $result = $this->db->query($sql);
-            if ($result->rowCount())
+            if ($result->rowCount()) {
                 return true;
+            }
         }
 
         return false;
@@ -405,9 +407,9 @@ class BlogInit
         $aliasAdd = 0;
 
         if ($mode == 'tags') {
-            $array_fetch_table = array("_tags");
+            $array_fetch_table = ["_tags"];
         } else {
-            $array_fetch_table = array("_rows", "_categories");
+            $array_fetch_table = ["_rows", "_categories"];
         }
 
         foreach ($array_fetch_table as $table) {
@@ -477,9 +479,9 @@ class BlogInit
             $sql = "SELECT * FROM " . $this->table_prefix . "_categories ORDER BY parentid, weight ASC";
             $result = $this->db->query($sql);
 
-            $list = array();
+            $list = [];
             while ($row = $result->fetch()) {
-                $list[$row['parentid']][] = array(
+                $list[$row['parentid']][] = [
                     'id' => (int)$row['id'],
                     'parentid' => (int)$row['parentid'],
                     'title' => $row['title'],
@@ -496,19 +498,19 @@ class BlogInit
                     'catlev' => 0,
                     'subcats' => [],
                     'selected' => $parentid == $row['id'] ? true : false
-                );
+                ];
             }
         } else {
             $sql = "SELECT * FROM " . $this->table_prefix . "_categories WHERE status=1 ORDER BY parentid, weight ASC";
             $result = $this->db_cache($sql, 'id', $this->mod_name);
 
-            $list = $list1 = array();
+            $list = $list1 = [];
 
             foreach ($result as $row) {
                 if (empty($row['parentid']) or isset($list1[$row['parentid']])) {
                     $list1[$row['id']] = $row['id'];
 
-                    $list[$row['parentid']][] = array(
+                    $list[$row['parentid']][] = [
                         'id' => (int)$row['id'],
                         'parentid' => (int)$row['parentid'],
                         'title' => $row['title'],
@@ -523,9 +525,9 @@ class BlogInit
                         'name' => $row['title'],
                         'defis' => "",
                         'catlev' => 0,
-                        'subcats' => array(),
+                        'subcats' => [],
                         'selected' => $parentid == $row['id'] ? true : false
-                    );
+                    ];
                 }
             }
 
@@ -536,7 +538,7 @@ class BlogInit
             return $list;
         }
 
-        $list2 = array();
+        $list2 = [];
         foreach ($list[0] as $value) {
             if ($value['id'] != $m) {
                 $list2[$value['id']] = $value;
@@ -680,11 +682,11 @@ class BlogInit
         $id = $this->IdHandle($id);
 
         if (empty($id)) {
-            return array();
+            return [];
         }
 
         // Lay du lieu
-        $posts = array();
+        $posts = [];
         $result = $this->db->query("SELECT * FROM " . $this->table_prefix . "_rows WHERE id IN(" . implode(",", $id) . ")");
 
         while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
@@ -736,10 +738,10 @@ class BlogInit
         $posts = $this->getPostByID($id);
 
         // Cac tags se fix
-        $array_tags_fix = array();
+        $array_tags_fix = [];
 
         // Cac danh muc se fix
-        $array_cat_fix = array();
+        $array_cat_fix = [];
 
         foreach ($posts as $row) {
             // Xoa bang chinh

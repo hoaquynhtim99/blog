@@ -21,11 +21,11 @@ define('NV_BLOG_ADMIN', true);
 
 // Tao lien ket tinh tu dong
 if ($nv_Request->isset_request("get_alias", "post")) {
-    if (!defined('NV_IS_AJAX'))
+    if (!defined('NV_IS_AJAX')) {
         die('Wrong URL');
+    }
 
     include NV_ROOTDIR . '/includes/header.php';
-    echo $BL->creatAlias(nv_substr($nv_Request->get_title('get_alias', 'post', '', 1), 0, 255), nv_substr($nv_Request->get_title('mode', 'post', 'cat', 1), 0, 255));
+    echo $BL->creatAlias(nv_substr($nv_Request->get_title('get_alias', 'post', ''), 0, 250), nv_substr($nv_Request->get_title('mode', 'post', 'cat'), 0, 250));
     include NV_ROOTDIR . '/includes/footer.php';
-    die();
 }
