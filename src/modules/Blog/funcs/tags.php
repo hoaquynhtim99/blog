@@ -13,11 +13,11 @@ if (!defined('NV_IS_MOD_BLOG')) {
 }
 
 // Breadcrumbs
-$array_mod_title[] = array(
+$array_mod_title[] = [
     'catid' => 0,
     'title' => 'Tags',
     'link' => NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $op,
-);
+];
 
 // Xem chi tiết tags
 if (isset($array_op[1])) {
@@ -58,11 +58,11 @@ if (isset($array_op[1])) {
     }
 
     // Thêm vào breadcrumbs
-    $array_mod_title[] = array(
+    $array_mod_title[] = [
         'catid' => 1,
         'title' => $array_tags['title'],
         'link' => NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $op . '/' . $array_tags['alias'],
-    );
+    ];
 
     // SQL lấy các bài viết
     $sql = "FROM " . $BL->table_prefix . "_rows WHERE status=1 AND (" . $BL->build_query_search_id($array_tags['id'], 'tagids') . ")";
@@ -77,10 +77,7 @@ if (isset($array_op[1])) {
     $sql = "SELECT * " . $sql . " ORDER BY pubtime DESC LIMIT " . (($page - 1) * $per_page) . ", " . $per_page;
     $result = $db->query($sql);
 
-    $array = $array_userids = array();
-
-    // Danh sách các bảng data của bài viết sẽ cần duyệt qua để lấy nội dung hmtl
-    $array_table_pass = array();
+    $array = $array_userids = $array_ids = [];
 
     while ($row = $result->fetch()) {
         $row['mediatype'] = intval($row['mediatype']);
@@ -109,15 +106,9 @@ if (isset($array_op[1])) {
             }
         }
 
-        // Đánh dấu fullpage
-        if (!empty($row['fullpage'])) {
-            $table = ceil($row['id'] / 4000);
-            $array_table_pass[$table][$row['id']] = $row['id'];
-            unset($table);
-        }
-
         $array[$row['id']] = $row;
         $array_userids[$row['postid']] = $row['postid'];
+        $array_ids[] = $row['id'];
     }
 
     // Khong cho dat $page tuy y
@@ -130,7 +121,7 @@ if (isset($array_op[1])) {
         $sql = "SELECT userid, username, first_name, last_name FROM " . NV_USERS_GLOBALTABLE . " WHERE userid IN(" . implode(",", $array_userids) . ")";
         $result = $db->query($sql);
 
-        $array_userids = array();
+        $array_userids = [];
         while ($row = $result->fetch()) {
             $array_userids[$row['userid']] = nv_show_name_user($row['first_name'], $row['last_name'], $row['username']);
         }
@@ -143,14 +134,11 @@ if (isset($array_op[1])) {
     }
 
     // Lấy nội dung html nếu có
-    if (!empty($array_table_pass)) {
-        foreach ($array_table_pass as $table => $postids) {
-            $sql = "SELECT id, bodyhtml FROM " . $BL->table_prefix . "_data_" . $table . " WHERE id IN( " . implode(",", $postids) . " )";
-            $result = $db->query($sql);
-
-            while ($row = $result->fetch()) {
-                $array[$row['id']]['bodyhtml'] = $row['bodyhtml'];
-            }
+    if (!empty($array_ids)) {
+        $sql = "SELECT id, bodyhtml FROM " . $BL->table_prefix . "_rows_detail WHERE id IN( " . implode(",", $array_ids) . " )";
+        $result = $db->query($sql);
+        while ($row = $result->fetch()) {
+            $array[$row['id']]['bodyhtml'] = $row['bodyhtml'];
         }
     }
 
@@ -199,7 +187,7 @@ if (isset($array_op[1])) {
     $sql = "SELECT id, title, alias, numposts FROM " . $BL->table_prefix . "_tags ORDER BY title ASC";
     $result = $db->query($sql);
 
-    $array = array();
+    $array = [];
     while ($row = $result->fetch()) {
         $array[$row['id']] = $row;
         $array[$row['id']]['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op . '/' . $row['alias'];

@@ -14,30 +14,12 @@ if (!defined('NV_IS_FILE_MODULES')) {
 
 $sql_drop_module = [];
 
-// Xoa cac bang du lieu
-$result = $db->query("SHOW TABLE STATUS LIKE '" . $db_config['prefix'] . "\_" . $lang . "\_" . $module_data . "\_categories'");
-$num_table = sizeof($result->fetchAll());
-if ($num_table > 0) {
-    // Xoa cac bang HTML
-    $maxid = $db->query("SELECT MAX(id) FROM " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_rows")->fetchColumn();
-
-    if ($maxid == 0) {
-        $maxid = 1;
-    }
-
-    $i1 = 1;
-    while ($i1 <= $maxid) {
-        $tb = ceil($i1 / 4000);
-        $sql_drop_module[] = "DROP TABLE IF EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_data_" . $tb;
-        $i1 = $i1 + 4000;
-    }
-}
-
 $sql_drop_module[] = "DROP TABLE IF EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_categories";
 $sql_drop_module[] = "DROP TABLE IF EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_newsletters";
 $sql_drop_module[] = "DROP TABLE IF EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_send";
 $sql_drop_module[] = "DROP TABLE IF EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_tags";
 $sql_drop_module[] = "DROP TABLE IF EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_rows";
+$sql_drop_module[] = "DROP TABLE IF EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_rows_detail";
 $sql_drop_module[] = "DROP TABLE IF EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_config";
 
 // Xoa cron cua module
@@ -71,7 +53,7 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
   status tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '0: Vô hiệu, 1: Hiệu lực',
   PRIMARY KEY (id),
   UNIQUE KEY alias (alias(191))
-)ENGINE=InnoDB";
+) ENGINE=InnoDB";
 
 // Đăng ký nhận bản tin
 $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_newsletters (
@@ -86,7 +68,7 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
   status tinyint(1) NOT NULL DEFAULT '0' COMMENT '-1: Chưa xác nhận, 0: Vô hiệu, 1: Hiệu lực',
   PRIMARY KEY (id),
   UNIQUE KEY email (email(191))
-)ENGINE=InnoDB";
+) ENGINE=InnoDB";
 
 // Dữ liệu gửi email newsletters
 $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_send (
@@ -101,7 +83,7 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
   errordata mediumtext NOT NULL COMMENT 'Danh sách ID đăng ký nhận tin gửi bị lỗi cho đến thời điểm hiện tại',
   PRIMARY KEY (id),
   KEY pid (pid)
-)ENGINE=InnoDB";
+) ENGINE=InnoDB";
 
 // Tags
 $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_tags (
@@ -113,7 +95,7 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
   numposts smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT 'Số bài viết',
   PRIMARY KEY (id),
   UNIQUE KEY alias (alias(191))
-)ENGINE=InnoDB";
+) ENGINE=InnoDB";
 
 // Bài viết
 $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_rows (
@@ -133,7 +115,7 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
   mediaresponsive tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT 'Responsive hay không',
   mediavalue mediumtext NOT NULL COMMENT 'Nội dung media',
   hometext mediumtext NOT NULL COMMENT 'Mô tả ngắn gọn',
-  bodytext mediumtext NOT NULL COMMENT 'Nội dung bài viết dạng text',
+  bodytext mediumtext NOT NULL COMMENT 'Nội dung bài viết dạng text chuẩn hóa để tìm kiếm',
   posttype smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT '0: Bình thường, 1: Ảnh, 2: Video, 3: Audio, 4: Ghi chú, 5: Liên kết, 6: Thư viện',
   fullpage tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Nếu là 1, đối với kiểu hiển thị dạng blog, sẽ show toàn bộ nội dung bài viết',
   inhome tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Hiển thị bài viết trên trang chủ',
@@ -154,21 +136,32 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
   PRIMARY KEY (id),
   UNIQUE KEY alias (alias(191)),
   KEY postid (postid)
-)ENGINE=InnoDB";
+) ENGINE=InnoDB";
 
 // Dữ liệu html
-$sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_data_1 (
+$sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_rows_detail (
     id mediumint(8) unsigned NOT NULL COMMENT 'ID bài viết',
     bodyhtml longtext NOT NULL COMMENT 'Nội dung HTML của bài viết',
     PRIMARY KEY (id)
-)ENGINE=InnoDB";
+) ENGINE=InnoDB PARTITION BY RANGE (id) PARTITIONS 10 (
+    PARTITION p0 VALUES LESS THAN (100000) ENGINE = InnoDB,
+    PARTITION p1 VALUES LESS THAN (200000) ENGINE = InnoDB,
+    PARTITION p2 VALUES LESS THAN (300000) ENGINE = InnoDB,
+    PARTITION p3 VALUES LESS THAN (400000) ENGINE = InnoDB,
+    PARTITION p4 VALUES LESS THAN (500000) ENGINE = InnoDB,
+    PARTITION p5 VALUES LESS THAN (600000) ENGINE = InnoDB,
+    PARTITION p6 VALUES LESS THAN (700000) ENGINE = InnoDB,
+    PARTITION p7 VALUES LESS THAN (800000) ENGINE = InnoDB,
+    PARTITION p8 VALUES LESS THAN (900000) ENGINE = InnoDB,
+    PARTITION p9 VALUES LESS THAN (1000000) ENGINE = InnoDB
+)";
 
 // Cấu hình module
 $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_config (
   config_name varchar(30) NOT NULL,
   config_value mediumtext NOT NULL,
   UNIQUE KEY config_name (config_name)
-)ENGINE=InnoDB";
+) ENGINE=InnoDB";
 
 $sql_create_module[] = "INSERT INTO " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_config VALUES
 ('indexViewType', 'type_blog'),

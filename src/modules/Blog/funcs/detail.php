@@ -27,7 +27,7 @@ $key_words = $blog_data['keywords'];
 $description = $blog_data['hometext'];
 
 // Lấy nội dung html của bài viết
-$sql = "SELECT bodyhtml FROM " . $BL->table_prefix . "_data_" . ceil($blog_data['id'] / 4000) . " WHERE id=" . $blog_data['id'];
+$sql = "SELECT bodyhtml FROM " . $BL->table_prefix . "_rows_detail WHERE id=" . $blog_data['id'];
 $result = $db->query($sql);
 
 if ($result->rowCount()) {

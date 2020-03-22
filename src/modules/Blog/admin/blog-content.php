@@ -111,14 +111,13 @@ if ($id) {
         "status" => (int)$row['status'],
     ];
 
-    $sql = "SELECT * FROM " . $BL->table_prefix . "_data_" . ceil($id / 4000) . " WHERE id=" . $id;
+    $sql = "SELECT * FROM " . $BL->table_prefix . "_rows_detail WHERE id=" . $id;
     $result = $db->query($sql);
 
     if ($result->rowCount()) {
         $row = $result->fetch();
         $array_old['bodyhtml'] = $array['bodyhtml'] = $row['bodyhtml'];
     }
-
 
     // Gui email den cac email dang ky nhan tin
     $newsletters = 0;
@@ -423,21 +422,8 @@ if ($prosessMode != 'none') {
             $id = $db->insert_id($sql);
 
             if ($id) {
-                // Tao bang HTML
-                $html_table = $BL->table_prefix . "_data_" . ceil($id / 4000);
-
-                $sql = "CREATE TABLE IF NOT EXISTS " . $html_table . " (
-                    id mediumint(8) unsigned NOT NULL,
-                    bodyhtml longtext NOT NULL,
-                    PRIMARY KEY  (id)
-                ) ENGINE=MyISAM";
-
-                if (!$db->query($sql) and $prosessMode != "draft") {
-                    $error = $nv_Lang->getModule('blogErrorCreatTable');
-                }
-
                 // Luu noi dung bodyhtml vao
-                $sql = "INSERT INTO " . $html_table . " VALUES( " . $id . ", " . $db->quote($array['bodyhtml']) . " )";
+                $sql = "INSERT INTO " . $BL->table_prefix . "_rows_detail (id, bodyhtml) VALUES (" . $id . ", " . $db->quote($array['bodyhtml']) . ")";
                 if (!$db->query($sql) and $prosessMode != "draft") {
                     $error = $nv_Lang->getModule('blogErrorSaveHtml');
                 }
@@ -500,10 +486,8 @@ if ($prosessMode != 'none') {
             WHERE id=" . $id;
 
             if ($db->query($sql)) {
-                $html_table = $BL->table_prefix . "_data_" . ceil($id / 4000);
-
                 // Luu noi dung bodyhtml vao
-                $sql = "UPDATE " . $html_table . " SET bodyhtml=" . $db->quote($array['bodyhtml']) . " WHERE id=" . $id;
+                $sql = "UPDATE " . $BL->table_prefix . "_rows_detail SET bodyhtml=" . $db->quote($array['bodyhtml']) . " WHERE id=" . $id;
 
                 if (!$db->query($sql) and $prosessMode != "draft") {
                     $error = $nv_Lang->getModule('blogErrorUpdateHtml');

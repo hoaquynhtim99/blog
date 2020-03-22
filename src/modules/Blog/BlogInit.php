@@ -748,9 +748,8 @@ class BlogInit
             $sql = "DELETE FROM " . $this->table_prefix . "_rows WHERE id=" . $row['id'];
             $this->db->query($sql);
 
-            // Xoa bang data
-            $html_table = $this->table_prefix . "_data_" . ceil($row['id'] / 4000);
-            $sql = "DELETE FROM " . $html_table . " WHERE id=" . $row['id'];
+            // Xoa bang detail
+            $sql = "DELETE FROM " . $this->table_prefix . "_rows_detail WHERE id=" . $row['id'];
             $this->db->query($sql);
 
             // Them cac danh muc can fix
@@ -763,16 +762,6 @@ class BlogInit
             $row['tagids'] = $this->string2array($row['tagids']);
             foreach ($row['tagids'] as $tagsid) {
                 $array_tags_fix[$tagsid] = $tagsid;
-            }
-
-            // Xoa bang data neu khong con bai viet nao
-            $sql = "SELECT COUNT(*) FROM " . $html_table;
-            $result = $this->db->query($sql);
-            list($numposts) = $result->fetch(PDO::FETCH_BOTH);
-
-            if (!$numposts) {
-                $sql = "DROP TABLE " . $html_table;
-                $this->db->query($sql);
             }
 
             // Xoa tien trinh gui email

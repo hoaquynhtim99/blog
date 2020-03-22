@@ -37,10 +37,7 @@ $all_page = $result1->fetchColumn();
 $sql = "SELECT * " . $sql . " ORDER BY pubtime DESC LIMIT " . (($page - 1) * $per_page) . ", " . $per_page;
 $result = $db->query($sql);
 
-$array = $array_userids = array();
-
-// Danh sách các bảng data của bài viết sẽ cần duyệt qua để lấy nội dung hmtl
-$array_table_pass = array();
+$array = $array_userids = $array_ids = [];
 
 while ($row = $result->fetch()) {
     $row['mediatype'] = intval($row['mediatype']);
@@ -72,15 +69,9 @@ while ($row = $result->fetch()) {
     // Mặc định nội dung html trống
     $row['bodyhtml'] = '';
 
-    // Đánh dấu fullpage
-    if (!empty($row['fullpage'])) {
-        $table = ceil($row['id'] / 4000);
-        $array_table_pass[$table][$row['id']] = $row['id'];
-        unset($table);
-    }
-
     $array[$row['id']] = $row;
     $array_userids[$row['postid']] = $row['postid'];
+    $array_ids[] = $row['id'];
 }
 
 // Khong cho dat $page tuy y
@@ -93,7 +84,7 @@ if (!empty($array_userids)) {
     $sql = "SELECT userid, username, first_name, last_name FROM " . NV_USERS_GLOBALTABLE . " WHERE userid IN(" . implode(",", $array_userids) . ")";
     $result = $db->query($sql);
 
-    $array_userids = array();
+    $array_userids = [];
     while ($row = $result->fetch()) {
         $array_userids[$row['userid']] = nv_show_name_user($row['first_name'], $row['last_name'], $row['username']);
     }
@@ -106,14 +97,11 @@ if (!empty($array_userids)) {
 }
 
 // Lấy nội dung html nếu có
-if (!empty($array_table_pass)) {
-    foreach ($array_table_pass as $table => $postids) {
-        $sql = "SELECT id, bodyhtml FROM " . $BL->table_prefix . "_data_" . $table . " WHERE id IN( " . implode(",", $postids) . " )";
-        $result = $db->query($sql);
-
-        while ($row = $result->fetch()) {
-            $array[$row['id']]['bodyhtml'] = $row['bodyhtml'];
-        }
+if (!empty($array_ids)) {
+    $sql = "SELECT id, bodyhtml FROM " . $BL->table_prefix . "_rows_detail WHERE id IN( " . implode(",", $array_ids) . " )";
+    $result = $db->query($sql);
+    while ($row = $result->fetch()) {
+        $array[$row['id']]['bodyhtml'] = $row['bodyhtml'];
     }
 }
 
