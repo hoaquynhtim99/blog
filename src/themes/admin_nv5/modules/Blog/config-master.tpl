@@ -203,6 +203,25 @@
                     </label>
                 </div>
             </div>
+            <div class="form-group row">
+                <label class="col-12 col-sm-3 col-form-label text-sm-right" for="postingMode">{$LANG->get('cfgpostingMode')}</label>
+                <div class="col-12 col-sm-8 col-lg-6">
+                    <div class="form-inline">
+                        <div class="d-inline-flex align-items-center">
+                            <div class="flex-grow-1 flex-shrink-1">
+                                <select class="form-control form-control-sm" id="postingMode" name="postingMode">
+                                    {foreach from=$POSTINGMODE key=key item=value}
+                                    <option value="{$value}"{if $value eq $DATA.postingMode} selected="selected"{/if}>{$LANG->get("cfgpostingMode`$value`")}</option>
+                                    {/foreach}
+                                </select>
+                            </div>
+                            <div class="flex-grow-0 flex-shrink-0 ml-1">
+                                <i class="fas fa-info-circle text-primary cursor-pointer" data-toggle="tooltip" data-placement="top" data-trigger="click" title="{$LANG->get('cfgpostingModeHelp')}"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="form-group row mb-0 pb-0">
                 <label class="col-12 col-sm-3 col-form-label text-sm-right"></label>
                 <div class="col-12 col-sm-8 col-lg-6">

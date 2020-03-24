@@ -109,7 +109,9 @@ if ($id) {
         "exptime_m" => $row['exptime'] ? (int)date("i", $row['exptime']) : 0,
         "expmode" => (int)$row['expmode'],
         "status" => (int)$row['status'],
+        'markdown_text' => ''
     ];
+    $postingMode = $row['post_mode'];
 
     $sql = "SELECT * FROM " . $BL->table_prefix . "_rows_detail WHERE id=" . $id;
     $result = $db->query($sql);
@@ -117,13 +119,13 @@ if ($id) {
     if ($result->rowCount()) {
         $row = $result->fetch();
         $array_old['bodyhtml'] = $array['bodyhtml'] = $row['bodyhtml'];
+        $array_old['markdown_text'] = $array['markdown_text'] = $row['markdown_text'];
     }
 
     // Gui email den cac email dang ky nhan tin
     $newsletters = 0;
     $isAutoKeywords = 0;
 } else {
-
     $array = [
         "postid" => $admin_info['userid'],
         "postgoogleid" => $BL->setting['sysGoogleAuthor'],
@@ -156,7 +158,11 @@ if ($id) {
         "exptime_m" => 0,
         "expmode" => $BL->setting['initPostExp'],
         "status" => -2,
+        'markdown_text' => ''
     ];
+
+    // Kiểu đăng bài mới
+    $postingMode = $BL->setting['postingMode'];
 
     // Gui email den cac email dang ky nhan tin
     $newsletters = $BL->setting['initNewsletters'];
@@ -204,9 +210,11 @@ if ($prosessMode != 'none') {
     $array['exptime_h'] = $nv_Request->get_int('exptime_h', 'post', 0);
     $array['exptime_m'] = $nv_Request->get_int('exptime_m', 'post', 0);
     $array['expmode'] = $nv_Request->get_int('expmode', 'post', 0);
+    $array['markdown_text'] = isset($_POST['markdown_text']) ? (trim($_POST['markdown_text']) . "\n") : '';
 
     $newsletters = $nv_Request->get_int('newsletters', 'post', 0);
     $isAutoKeywords = $nv_Request->get_int('isAutoKeywords', 'post', 0);
+    $postingMode = $nv_Request->get_title('postingMode', 'post', '');
 
     // Chuẩn hóa google author
     if (!preg_match("/^([0-9]{1,30})$/", $array['postgoogleid'])) {
@@ -291,6 +299,9 @@ if ($prosessMode != 'none') {
     if (!in_array($array['expmode'], $BL->blogExpMode)) {
         $array['expmode'] = 0;
     }
+    if (!in_array($postingMode, $BL->postingMode)) {
+        $postingMode = $BL->postingMode[0];
+    }
 
     // Chuẩn hóa giá trị 0, 1
     $array['fullpage'] = $array['fullpage'] ? 1 : 0;
@@ -329,9 +340,8 @@ if ($prosessMode != 'none') {
         // Neu la xuat ban thi bao loi ton tai
         if ($prosessMode == "public") {
             $error = $nv_Lang->getModule('errorAliasExists');
-        }
-        // Tao lien ket tinh khac
-        else {
+        } else {
+            // Lưu bản nháp, trùng thì tạo liên kết tĩnh khác tự động
             $array['alias'] = $BL->creatAlias($array['alias'], 'post');
         }
     }
@@ -339,25 +349,21 @@ if ($prosessMode != 'none') {
     // Xac dinh status
     if ($prosessMode == "draft") {
         $array['status'] = -2;
-    }
-    // Bai viet het han
-    elseif ($array['exptime'] <= NV_CURRENTTIME and !empty($array['exptime'])) {
+    } elseif ($array['exptime'] <= NV_CURRENTTIME and !empty($array['exptime'])) {
+        // Bai viet het han
         $array['status'] = $array['expmode'] == 0 ? 0 : 2;
-    }
-    // Bai viet cho dang
-    elseif ($array['pubtime'] > NV_CURRENTTIME) {
+    } elseif ($array['pubtime'] > NV_CURRENTTIME) {
+        // Bai viet cho dang
         // Tao bai viet thi -1
         if (empty($id)) {
             $array['status'] = -1;
-        }
-        // Sua bai viet
-        else {
+        } else {
+            // Sua bai viet
             // Neu khong bi dung thi cho dang
             if (!in_array($array_old['status'], [0])) {
                 $array['status'] = -1;
-            }
-            // Bi dung thi tiep tuc dung, nhap thi tiep tuc nhap
-            else {
+            } else {
+                // Bi dung thi tiep tuc dung, nhap thi tiep tuc nhap
                 $array['status'] = $array_old['status'];
             }
         }
@@ -365,15 +371,13 @@ if ($prosessMode != 'none') {
         // Tao bai viet thi 1
         if (empty($id)) {
             $array['status'] = 1;
-        }
-        // Sua bai viet
-        else {
+        } else {
+            // Sua bai viet
             // Neu khong bi dung thi cho dang
             if (!in_array($array_old['status'], [0])) {
                 $array['status'] = 1;
-            }
-            // Bi dung thi tiep tuc dung, nhap thi tiep tuc nhap
-            else {
+            } else {
+                // Bi dung thi tiep tuc dung, nhap thi tiep tuc nhap
                 $array['status'] = $array_old['status'];
             }
         }
@@ -386,7 +390,8 @@ if ($prosessMode != 'none') {
             $sql = "INSERT INTO " . $BL->table_prefix . "_rows (
                 postid, postgoogleid, sitetitle, title, alias, keywords, images, mediatype, mediashowlist, mediashowdetail,
                 mediaheight, mediawidth, mediaresponsive, mediavalue, hometext, bodytext, posttype, fullpage, inhome, catids, tagids,
-                numwords, numviews, numcomments, numvotes, votetotal, votedetail, posttime, updatetime, pubtime, exptime, expmode, status
+                numwords, numviews, numcomments, numvotes, votetotal, votedetail, posttime, updatetime, pubtime, exptime, expmode, status,
+                post_mode
             ) VALUES(
                 " . $array['postid'] . ",
                 " . $db->quote($array['postgoogleid']) . ",
@@ -416,14 +421,20 @@ if ($prosessMode != 'none') {
                 " . $array['pubtime'] . ",
                 " . $array['exptime'] . ",
                 " . $array['expmode'] . ",
-                " . $array['status'] . "
+                " . $array['status'] . ",
+                " . $db->quote($postingMode) . "
             )";
 
             $id = $db->insert_id($sql);
 
             if ($id) {
                 // Luu noi dung bodyhtml vao
-                $sql = "INSERT INTO " . $BL->table_prefix . "_rows_detail (id, bodyhtml) VALUES (" . $id . ", " . $db->quote($array['bodyhtml']) . ")";
+                $sql = "INSERT INTO " . $BL->table_prefix . "_rows_detail (
+                    id, bodyhtml, markdown_text
+                ) VALUES (
+                    " . $id . ", " . $db->quote($array['bodyhtml']) . ",
+                    " . $db->quote($array['markdown_text']) . "
+                )";
                 if (!$db->query($sql) and $prosessMode != "draft") {
                     $error = $nv_Lang->getModule('blogErrorSaveHtml');
                 }
@@ -482,16 +493,17 @@ if ($prosessMode != 'none') {
                 pubtime=" . $array['pubtime'] . ",
                 exptime=" . $array['exptime'] . ",
                 expmode=" . $array['expmode'] . ",
-                status=" . $array['status'] . "
+                status=" . $array['status'] . ",
+                post_mode=" . $db->quote($postingMode) . "
             WHERE id=" . $id;
 
             if ($db->query($sql)) {
                 // Luu noi dung bodyhtml vao
-                $sql = "UPDATE " . $BL->table_prefix . "_rows_detail SET bodyhtml=" . $db->quote($array['bodyhtml']) . " WHERE id=" . $id;
-
-                if (!$db->query($sql) and $prosessMode != "draft") {
-                    $error = $nv_Lang->getModule('blogErrorUpdateHtml');
-                }
+                $sql = "UPDATE " . $BL->table_prefix . "_rows_detail SET
+                    bodyhtml=" . $db->quote($array['bodyhtml']) . ",
+                    markdown_text=" . $db->quote($array['markdown_text']) . "
+                WHERE id=" . $id;
+                $db->query($sql);
 
                 if (empty($error)) {
                     $complete = true;
@@ -519,6 +531,7 @@ if ($prosessMode != 'none') {
 
 $array['hometext'] = nv_htmlspecialchars($array['hometext']);
 $array['bodyhtml'] = nv_htmlspecialchars($array['bodyhtml']);
+$array['markdown_text'] = htmlspecialchars($array['markdown_text'], ENT_QUOTES);
 
 // Trinh soan thao
 if (defined('NV_EDITOR')) {
@@ -557,7 +570,7 @@ $tpl->assign('MODULE_FILE', $module_file);
 $tpl->assign('ID', $id);
 $tpl->assign('DATA', $array);
 $tpl->assign('TAGIDS', implode(',', $array['tagids']));
-$tpl->assign('EDITOR', (defined('NV_EDITOR') and nv_function_exists('nv_aleditor')) ? "true" : "false");
+$tpl->assign('EDITOR', (defined('NV_EDITOR') and nv_function_exists('nv_aleditor') and $postingMode == 'editor') ? 'true' : 'false');
 
 // Trả về JSON nếu lưu bản nháp
 if ($prosessMode == "draft") {
@@ -588,6 +601,7 @@ $tpl->assign('BLOGEXPMODE', $BL->blogExpMode);
 $tpl->assign('BLOGPOSTTYPE', $BL->blogposttype);
 $tpl->assign('MOSTTAGS', $mosttags);
 $tpl->assign('TAGS', $tags);
+$tpl->assign('POSTINGMODE', $postingMode);
 
 $tpl->assign('NEWSLETTERS', $newsletters);
 $tpl->assign('ISAUTOKEYWORDS', $isAutoKeywords);

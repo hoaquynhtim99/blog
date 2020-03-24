@@ -432,4 +432,162 @@ $(document).ready(function() {
             $btnall.prop('checked', false);
         }
     });
+
+    // Trình soạn thảo
+    /*
+     * Kiểm tra chèn, gỡ ký tự chèn vào
+     */
+    function mozWrap(txtarea, open, close) {
+        var textLength = (typeof(txtarea.textLength) == 'undefined') ? txtarea.value.length : txtarea.textLength; // Số ký tự trong ô soạn thảo
+        var selStart = realSelStart = txtarea.selectionStart; // Vị trí bắt đầu chọn
+        var selEnd = realSelEnd = txtarea.selectionEnd; // Vị trí kết thúc chọn
+        var scrollTop = txtarea.scrollTop; // Vị trí cuộn ô soạn thảo
+
+        /*
+         * Khi bôi đen text thì tính toán lại vùng chọn trên tinh thần bỏ
+         * các khoảng trắng đầu và cuối vùng chọn
+         */
+        if (selStart < selEnd) {
+            for (var i = selStart; i < selEnd; i++) {
+                var character = (txtarea.value).substring(i, i + 1);
+                if (character == ' ') {
+                    realSelStart++;
+                } else {
+                    break;
+                }
+            }
+            for (var i = selEnd; i > selStart; i--) {
+                var character = (txtarea.value).substring(i, i - 1);
+                if (character == ' ') {
+                    realSelEnd--;
+                } else {
+                    break;
+                }
+            }
+            selStart = realSelStart;
+            selEnd = realSelEnd;
+            if (selStart > selEnd) {
+                selStart = selEnd;
+            }
+        }
+
+        /*
+         * Trong khoảng editor, tính ra vị trí bắt đầu, kết thúc thật
+         * trên tinh thần từ vị trí trỏ chuột duyệt về trước, gặp khoảng trống thì kết thúc => Đánh dấu start
+         * từ vị trí trỏ chuột duyệt về sau gặp khoảng trống thì kết thúc => Đánh dấu end
+         *
+         * Ngoài khoảng editor đơn giản thêm vào là được
+         */
+        var isAutoRange = false;
+        if (selStart == selEnd && (selEnd + 1) < textLength) {
+            for (var i = selStart - 1; i >= 0; i--) {
+                var character = (txtarea.value).substring(i, i + 1);
+                if (character == ' ') {
+                    break;
+                }
+                realSelStart = i;
+            }
+            for (var i = selEnd + 1; i < textLength; i++) {
+                var character = (txtarea.value).substring(i - 1, i);
+                if (character == ' ') {
+                    break;
+                }
+                realSelEnd = i;
+            }
+            isAutoRange = true;
+        }
+
+        /*
+         * Kiểm tra thêm vào hay loại ra
+         * - Từ điểm start thực lấy lùi về sau xxx ký tự nếu bằng open thì đánh dấu +1
+         * - Từ điểm end thực lấy về trước xxx ký tự nếu bằng close thì đánh dấu +1
+         * Nếu =2 thì là xóa còn lại là cộng
+         */
+        var countRemoveCheck = 0;
+        if (isAutoRange) {
+            if ((realSelStart + open.length) <= textLength && ((txtarea.value).substring(realSelStart, realSelStart + open.length)) == open) {
+                countRemoveCheck++;
+            }
+            if ((realSelEnd - close.length) >= 0 && ((txtarea.value).substring(realSelEnd - close.length, realSelEnd)) == close) {
+                countRemoveCheck++;
+            }
+        } else {
+            if ((realSelStart - open.length) >= 0 && ((txtarea.value).substring(realSelStart - open.length, realSelStart)) == open) {
+                countRemoveCheck++;
+            }
+            if ((realSelEnd + close.length) <= textLength && ((txtarea.value).substring(realSelEnd, realSelEnd + close.length)) == close) {
+                countRemoveCheck++;
+            }
+        }
+
+        if (countRemoveCheck == 2) {
+            // Loại ra
+            if (isAutoRange) {
+                // Loại khi auto tìm từ
+                var s1 = (txtarea.value).substring(0, realSelStart);
+                var s2 = (txtarea.value).substring(realSelStart + open.length, realSelEnd - close.length);
+                var s3 = (txtarea.value).substring(realSelEnd, textLength);
+
+                txtarea.value = s1 + s2 + s3;
+                txtarea.selectionStart = selStart - open.length;
+                txtarea.selectionEnd = selEnd - open.length;
+            } else {
+                // Loại khi chủ động bôi đen từ
+                var s1 = (txtarea.value).substring(0, realSelStart - open.length);
+                var s2 = (txtarea.value).substring(realSelStart, realSelEnd);
+                var s3 = (txtarea.value).substring(realSelEnd + close.length, textLength);
+
+                txtarea.value = s1 + s2 + s3;
+                txtarea.selectionStart = realSelStart - open.length;
+                txtarea.selectionEnd = realSelEnd - open.length;
+            }
+        } else {
+            // Thêm vào
+            var s1 = (txtarea.value).substring(0, realSelStart);
+            var s2 = (txtarea.value).substring(realSelStart, realSelEnd);
+            var s3 = (txtarea.value).substring(realSelEnd, textLength);
+
+            txtarea.value = s1 + open + s2 + close + s3;
+            txtarea.selectionStart = selStart + open.length;
+            txtarea.selectionEnd = selEnd + open.length;
+        }
+
+        txtarea.focus();
+        txtarea.scrollTop = scrollTop;
+        $(txtarea).trigger('change');
+    }
+
+    var markdownEditor = $('[name="markdown_text"]');
+    if (markdownEditor.length) {
+        $('[data-toggle="mdicon"]').on('click', function(e) {
+            e.preventDefault();
+
+            var $this = $(this);
+            var command = $this.data('command');
+
+            // Xác định ký tự mở, đóng
+            var openChar, closeChar = '';
+            var inline = true;
+            if (command == 'bold') {
+                openChar = closeChar = '**';
+            } else if (command == 'italic') {
+                openChar = closeChar = '_';
+            } else if (command == 'code') {
+                openChar = closeChar = '`';
+            }
+
+            var textarea = markdownEditor[0];
+            var clientPC = navigator.userAgent.toLowerCase();
+            var is_ie = ((clientPC.indexOf('msie') != -1) && (clientPC.indexOf('opera') == -1));
+
+            if (!isNaN(textarea.selectionStart) && !is_ie) {
+                // Trên Chrome, Firefox, Opera
+                mozWrap(textarea, openChar, closeChar);
+            } else if (textarea.createTextRange && textarea.caretPos) {
+                // IE
+            } else {
+                // Trình duyệt khác
+            }
+        });
+    }
 });

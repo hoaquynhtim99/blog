@@ -84,7 +84,35 @@
             </div>
             <div class="card-divider"></div>
             <h4>{$LANG->get('blogBodyhtml')} <i class="text-danger">(*)</i></h4>
-            <div class="mb-4">{$DATA.bodyhtml}</div>
+            <div class="mb-4">
+                {if $POSTINGMODE eq 'editor'}
+                {$DATA.bodyhtml}
+                {else}
+                <div class="blmd-header">
+                    <div class="blmd-header-tabs">
+                        <ul role="tablist" class="nav nav-tabs">
+                            <li class="nav-item"><a href="#home" data-toggle="tab" role="tab" class="nav-link active">Soạn thảo</a></li>
+                            <li class="nav-item"><a href="#profile" data-toggle="tab" role="tab" class="nav-link">Xem trước</a></li>
+                        </ul>
+                    </div>
+                    <div class="blmd-header-btns">
+                        <div class="btns-inner">
+                            <div class="d-flex align-items-center">
+                                <a class="ml-2" href="#" data-toggle="mdicon" data-command="heading"><i class="fas fa-heading" data-toggle="tooltip" title="{$LANG->get('mdHeading')}"></i></a>
+                                <a class="ml-2" href="#" data-toggle="mdicon" data-command="bold"><i class="fas fa-bold" data-toggle="tooltip" title="{$LANG->get('mdBold')}"></i></a>
+                                <a class="ml-2" href="#" data-toggle="mdicon" data-command="italic"><i class="fas fa-italic" data-toggle="tooltip" title="{$LANG->get('mdItalic')}"></i></a>
+                                <a class="ml-4" href="#" data-toggle="mdicon" data-command="quote"><i class="fas fa-quote-right" data-toggle="tooltip" title="{$LANG->get('mdQuote')}"></i></a>
+                                <a class="ml-2" href="#" data-toggle="mdicon" data-command="code"><i class="fas fa-code" data-toggle="tooltip" title="{$LANG->get('mdCode')}"></i></a>
+                                <a class="ml-2" href="#" data-toggle="mdicon" data-command="link"><i class="fas fa-link" data-toggle="tooltip" title="{$LANG->get('mdLink')}"></i></a>
+                                <a class="ml-4" href="#" data-toggle="mdicon" data-command="blist"><i class="fas fa-list-ul" data-toggle="tooltip" title="{$LANG->get('mdBulletList')}"></i></a>
+                                <a class="ml-2" href="#" data-toggle="mdicon" data-command="nlist"><i class="fas fa-list-ol" data-toggle="tooltip" title="{$LANG->get('mdNumberList')}"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <textarea rows="10" name="markdown_text" class="form-control blmd-editor">{$DATA.markdown_text}</textarea>
+                {/if}
+            </div>
             <div class="row">
                 <div class="col-lg-8">
                     <div class="form-group row">
@@ -288,6 +316,7 @@
             </div>
             <hr>
             <div class="text-center">
+                <input type="hidden" name="postingMode" value="{$POSTINGMODE}">
                 <input type="submit" name="submit" value="{$LANG->get('blogPublic')}" class="btn btn-primary btn-input-sm">
                 <input type="submit" name="draft" value="{$LANG->get('blogSaveDraft')}" class="btn btn-secondary btn-input-sm" data-toggle="savedraft">
             </div>

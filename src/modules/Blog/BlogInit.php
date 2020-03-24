@@ -60,6 +60,10 @@ class BlogInit
         "facebook",
         "disqus"
     ];
+    public $postingMode = [
+        'editor',
+        'markdown'
+    ];
 
     private $base_site_url = null;
     private $root_dir = null;

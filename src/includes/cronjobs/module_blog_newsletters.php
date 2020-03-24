@@ -23,7 +23,7 @@ if (!defined('NV_IS_CRON')) {
  */
 function cron_blog_newsletters($table_data, $num_onesend)
 {
-    global $db, $global_config, $db_config;
+    global $db, $global_config, $db_config, $nv_Lang;
 
     $num_onesend = empty($num_onesend) ? 5 : intval($num_onesend);
 
@@ -66,7 +66,7 @@ function cron_blog_newsletters($table_data, $num_onesend)
             }
 
             // Goi ngon ngu
-            include NV_ROOTDIR . "/modules/" . $module_file . "/language/" . $lang . ".php";
+            $nv_Lang->loadModule($module_file, false, true);
 
             // Lay nguoi gui lan gui 1
             if ($data_send['round'] <= 1) {
@@ -119,6 +119,9 @@ function cron_blog_newsletters($table_data, $num_onesend)
 
             $db->query("UPDATE " . $table_data . "_send SET " . implode(", ", $sql) . " WHERE id=" . $data_send['id']);
         }
+
+        // Xóa ngôn ngữ tạm
+        $nv_Lang->changeLang();
     }
 
     return true;

@@ -6,6 +6,10 @@
  * @Createdate Saturday, February 22, 2020 15:39:20 GMT+07:00
  */
 
+.cursor-pointer {
+    cursor: pointer!important;
+}
+
 .bl-min-w-25 {
     min-width: 25%!important;
 }
@@ -66,4 +70,43 @@
 .bl-list-tags li {
     display: inline-block;
     margin-right: 2px;
+}
+
+/* POSTING */
+.blmd-header {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.blmd-header .blmd-header-tabs {
+
+}
+
+.blmd-header .blmd-header-btns {
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    -ms-flex-negative: 1;
+    flex-shrink: 1;
+}
+
+.blmd-header .blmd-header-btns .btns-inner {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+}
+
+.blmd-header .blmd-header-btns .btns-inner a {
+    color: #586069;
+}
+
+.blmd-header .blmd-header-btns .btns-inner a:hover {
+    color: #4285f4;
+}
+
+.blmd-editor {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
 }

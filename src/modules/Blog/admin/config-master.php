@@ -57,6 +57,7 @@ if ($nv_Request->get_title('tokend', 'post', '') === NV_CHECK_SESSION) {
     $array['sysHighlightTheme'] = nv_substr($nv_Request->get_title('sysHighlightTheme', 'post', ''), 0, 255);
     $array['numSearchResult'] = $nv_Request->get_int('numSearchResult', 'post', 20);
     $array['showAdsInDetailPage'] = intval($nv_Request->get_bool('showAdsInDetailPage', 'post', false));
+    $array['postingMode'] = $nv_Request->get_title('postingMode', 'post', '');
 
     // Lấy cấu hình lớp của icon loại bài viết
     foreach ($BL->blogposttype as $type) {
@@ -90,6 +91,9 @@ if ($nv_Request->get_title('tokend', 'post', '') === NV_CHECK_SESSION) {
     }
     if (!isset($array_structure_image[$array['folderStructure']])) {
         $array['folderStructure'] = "Ym";
+    }
+    if (!in_array($array['postingMode'], $BL->postingMode)) {
+        $array['postingMode'] = $BL->postingMode[0];
     }
 
     $array['initNewsletters'] = $array['initNewsletters'] ? 1 : 0;
@@ -140,6 +144,7 @@ $tpl->assign('BLOGPOSTTYPE', $BL->blogposttype);
 $tpl->assign('BLOGEXPMODE', $BL->blogExpMode);
 $tpl->assign('BLOGPOSTTYPE', $BL->blogposttype);
 $tpl->assign('BLOGMEDIATYPE', $BL->blogMediaType);
+$tpl->assign('POSTINGMODE', $BL->postingMode);
 $tpl->assign('STRUCTURE_IMAGE', $array_structure_image);
 $tpl->assign('RESENDNEWSLETTERMAX', $numberResendNewsletterMax);
 

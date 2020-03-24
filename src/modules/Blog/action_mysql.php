@@ -133,9 +133,11 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
   exptime int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Thời gian hết hạn',
   expmode smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT 'Kiểu xử lý tự động khi hết hạn: 0: Ngưng hoạt động, 1: Cho thành hết hạn, 2: Xóa',
   status tinyint(1) NOT NULL DEFAULT '0' COMMENT '-2: Nháp, -1: Chờ đăng, 0: Tạm ngưng, 1: Hoạt động, 2: Hết hạn',
+  post_mode varchar(10) NOT NULL DEFAULT 'editor' COMMENT 'Chế độ viết bài',
   PRIMARY KEY (id),
   UNIQUE KEY alias (alias(191)),
-  KEY postid (postid)
+  KEY postid (postid),
+  KEY post_mode (post_mode)
 ) ENGINE=InnoDB";
 
 // Dữ liệu html
@@ -211,6 +213,7 @@ $sql_create_module[] = "INSERT INTO " . $db_config['prefix'] . "_" . $lang . "_"
 ('sysDefaultImage', ''),
 
 ('folderStructure', 'Ym'),
+('postingMode', 'editor'),
 
 ('instantArticlesActive', '0'),
 ('instantArticlesTemplate', 'default'),
@@ -224,7 +227,7 @@ $sql_create_module[] = "INSERT INTO " . $db_config['prefix'] . "_" . $lang . "_"
 ('emailWhenCommentList', '')
 ";
 
-// Them cron cua module
+// Thêm cron của module
 $result = $db->query("SHOW COLUMNS FROM " . NV_CRONJOBS_GLOBALTABLE);
 
 $list_field = [];
