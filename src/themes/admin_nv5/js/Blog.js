@@ -437,64 +437,102 @@ $(document).ready(function() {
     /*
      * Kiểm tra chèn, gỡ ký tự chèn vào
      */
-    function mozWrap(txtarea, open, close) {
+    function mozWrap(txtarea, open, close, command) {
+        // Chỉnh lại line-end
+        var textNew = txtarea.value.replace(/(?:\r\n|\r)/g, "\n");
+        $(txtarea).val(textNew);
+
         var textLength = (typeof(txtarea.textLength) == 'undefined') ? txtarea.value.length : txtarea.textLength; // Số ký tự trong ô soạn thảo
         var selStart = realSelStart = txtarea.selectionStart; // Vị trí bắt đầu chọn
         var selEnd = realSelEnd = txtarea.selectionEnd; // Vị trí kết thúc chọn
         var scrollTop = txtarea.scrollTop; // Vị trí cuộn ô soạn thảo
 
-        /*
-         * Khi bôi đen text thì tính toán lại vùng chọn trên tinh thần bỏ
-         * các khoảng trắng đầu và cuối vùng chọn
-         */
-        if (selStart < selEnd) {
-            for (var i = selStart; i < selEnd; i++) {
-                var character = (txtarea.value).substring(i, i + 1);
-                if (character == ' ') {
-                    realSelStart++;
-                } else {
-                    break;
-                }
-            }
-            for (var i = selEnd; i > selStart; i--) {
-                var character = (txtarea.value).substring(i, i - 1);
-                if (character == ' ') {
-                    realSelEnd--;
-                } else {
-                    break;
-                }
-            }
-            selStart = realSelStart;
-            selEnd = realSelEnd;
-            if (selStart > selEnd) {
-                selStart = selEnd;
-            }
+        var isAutoRange = false;
+
+        // Cho xuống hàng khi bôi đen tiêu đề, ghi chú
+        if ((command == 'heading' || command == 'quote' || command == 'blist' || command == 'nlist') && selStart < selEnd) {
+            open = "\n\n" + open;
+            close = "\n\n";
         }
 
-        /*
-         * Trong khoảng editor, tính ra vị trí bắt đầu, kết thúc thật
-         * trên tinh thần từ vị trí trỏ chuột duyệt về trước, gặp khoảng trống thì kết thúc => Đánh dấu start
-         * từ vị trí trỏ chuột duyệt về sau gặp khoảng trống thì kết thúc => Đánh dấu end
-         *
-         * Ngoài khoảng editor đơn giản thêm vào là được
-         */
-        var isAutoRange = false;
-        if (selStart == selEnd && (selEnd + 1) < textLength) {
-            for (var i = selStart - 1; i >= 0; i--) {
-                var character = (txtarea.value).substring(i, i + 1);
-                if (character == ' ') {
-                    break;
+        if ((command == 'heading' || command == 'quote' || command == 'blist' || command == 'nlist') && selStart >= selEnd) {
+            /*
+             * Dạng chèn/bỏ chèn ở đầu đoạn văn
+             * - Khi bôi đen thì tạo đoạn mới
+             * - Khi không bôi đen thì tính tới đầu đoạn văn
+             */
+
+            /*
+             * Đếm từ vị trí chọn đến đầu đoạn văn
+             */
+            if (selStart > 0) {
+                for (var i = selStart - 1; i >= 0; i--) {
+                    var character = (txtarea.value).substring(i, i + 1);
+                    if (character == "\n") {
+                        break;
+                    }
+                    realSelStart--;
                 }
-                realSelStart = i;
             }
-            for (var i = selEnd + 1; i < textLength; i++) {
-                var character = (txtarea.value).substring(i - 1, i);
-                if (character == ' ') {
-                    break;
-                }
-                realSelEnd = i;
-            }
+
             isAutoRange = true;
+        } else {
+            /*
+             * Dạng chèn/bỏ chèn inline
+             */
+
+            /*
+             * Khi bôi đen text thì tính toán lại vùng chọn trên tinh thần bỏ
+             * các khoảng trắng đầu và cuối vùng chọn
+             */
+            if (selStart < selEnd) {
+                for (var i = selStart; i < selEnd; i++) {
+                    var character = (txtarea.value).substring(i, i + 1);
+                    if (character == ' ' || character == "\n") {
+                        realSelStart++;
+                    } else {
+                        break;
+                    }
+                }
+                for (var i = selEnd; i > selStart; i--) {
+                    var character = (txtarea.value).substring(i, i - 1);
+                    if (character == ' ' || character == "\n") {
+                        realSelEnd--;
+                    } else {
+                        break;
+                    }
+                }
+                selStart = realSelStart;
+                selEnd = realSelEnd;
+                if (selStart > selEnd) {
+                    selStart = selEnd;
+                }
+            }
+
+            /*
+             * Trong khoảng editor, tính ra vị trí bắt đầu, kết thúc thật
+             * trên tinh thần từ vị trí trỏ chuột duyệt về trước, gặp khoảng trống thì kết thúc => Đánh dấu start
+             * từ vị trí trỏ chuột duyệt về sau gặp khoảng trống thì kết thúc => Đánh dấu end
+             *
+             * Ngoài khoảng editor đơn giản thêm vào là được
+             */
+            if (selStart == selEnd && (selEnd + 1) < textLength) {
+                for (var i = selStart - 1; i >= 0; i--) {
+                    var character = (txtarea.value).substring(i, i + 1);
+                    if (character == ' ' || character == "\n") {
+                        break;
+                    }
+                    realSelStart = i;
+                }
+                for (var i = selEnd + 1; i < textLength; i++) {
+                    var character = (txtarea.value).substring(i - 1, i);
+                    if (character == ' ' || character == "\n") {
+                        break;
+                    }
+                    realSelEnd = i;
+                }
+                isAutoRange = true;
+            }
         }
 
         /*
@@ -508,7 +546,9 @@ $(document).ready(function() {
             if ((realSelStart + open.length) <= textLength && ((txtarea.value).substring(realSelStart, realSelStart + open.length)) == open) {
                 countRemoveCheck++;
             }
-            if ((realSelEnd - close.length) >= 0 && ((txtarea.value).substring(realSelEnd - close.length, realSelEnd)) == close) {
+            if (close == '') {
+                countRemoveCheck++;
+            } else if ((realSelEnd - close.length) >= 0 && ((txtarea.value).substring(realSelEnd - close.length, realSelEnd)) == close) {
                 countRemoveCheck++;
             }
         } else {
@@ -520,7 +560,10 @@ $(document).ready(function() {
             }
         }
 
-        if (countRemoveCheck == 2) {
+        /*
+         * Tính toán lại vị trí con trỏ hoặc bôi đen text sau khi thêm vào, loại ra
+         */
+        if (countRemoveCheck >= 2) {
             // Loại ra
             if (isAutoRange) {
                 // Loại khi auto tìm từ
@@ -529,10 +572,22 @@ $(document).ready(function() {
                 var s3 = (txtarea.value).substring(realSelEnd, textLength);
 
                 txtarea.value = s1 + s2 + s3;
-                txtarea.selectionStart = selStart - open.length;
-                txtarea.selectionEnd = selEnd - open.length;
+                /*
+                 * Sau khi loại ra nếu là link thì kiểm tra
+                 * Trước đó trỏ chuột ở trong dòng url thì
+                 */
+                if (command == 'link' && selStart > (realSelEnd - (close.length + 1))) {
+                    txtarea.selectionStart = realSelEnd - (close.length + 1);
+                    txtarea.selectionEnd = realSelEnd - (close.length + 1);
+                } else {
+                    txtarea.selectionStart = selStart - open.length;
+                    txtarea.selectionEnd = selEnd - open.length;
+                }
             } else {
-                // Loại khi chủ động bôi đen từ
+                /*
+                 * Loại khi chủ động bôi đen từ
+                 * - Chủ động bôi đen từ không loại cái thẻ link
+                 */
                 var s1 = (txtarea.value).substring(0, realSelStart - open.length);
                 var s2 = (txtarea.value).substring(realSelStart, realSelEnd);
                 var s3 = (txtarea.value).substring(realSelEnd + close.length, textLength);
@@ -548,13 +603,21 @@ $(document).ready(function() {
             var s3 = (txtarea.value).substring(realSelEnd, textLength);
 
             txtarea.value = s1 + open + s2 + close + s3;
-            txtarea.selectionStart = selStart + open.length;
-            txtarea.selectionEnd = selEnd + open.length;
+
+            if (command == 'link') {
+                // Thêm link thì, bôi đen cái link
+                txtarea.selectionStart = realSelEnd + 3;
+                txtarea.selectionEnd = realSelEnd + 6;
+            } else {
+                // Giữ nguyên trỏ chuột, bôi đen text trước đó
+                txtarea.selectionStart = selStart + open.length;
+                txtarea.selectionEnd = selEnd + open.length;
+            }
         }
 
         txtarea.focus();
         txtarea.scrollTop = scrollTop;
-        $(txtarea).trigger('change');
+        $(txtarea).trigger('input');
     }
 
     var markdownEditor = $('[name="markdown_text"]');
@@ -567,13 +630,27 @@ $(document).ready(function() {
 
             // Xác định ký tự mở, đóng
             var openChar, closeChar = '';
-            var inline = true;
             if (command == 'bold') {
-                openChar = closeChar = '**';
+                openChar = closeChar = '**'; // Đậm
             } else if (command == 'italic') {
-                openChar = closeChar = '_';
+                openChar = closeChar = '_'; // Nghiêng
             } else if (command == 'code') {
-                openChar = closeChar = '`';
+                openChar = closeChar = '`'; // Inline code
+            } else if (command == 'heading') {
+                openChar = '### '; // Tiêu đề cấp 3
+                closeChar = '';
+            } else if (command == 'quote') {
+                openChar = '> '; // Ghi chú
+                closeChar = '';
+            } else if (command == 'link') {
+                openChar = '['; // Ghi chú
+                closeChar = '](url)';
+            } else if (command == 'blist') {
+                openChar = '- '; // Danh sách gạch đầu dòng
+                closeChar = '';
+            } else if (command == 'nlist') {
+                openChar = '1. '; // Danh sách số thứ tự
+                closeChar = '';
             }
 
             var textarea = markdownEditor[0];
@@ -582,11 +659,11 @@ $(document).ready(function() {
 
             if (!isNaN(textarea.selectionStart) && !is_ie) {
                 // Trên Chrome, Firefox, Opera
-                mozWrap(textarea, openChar, closeChar);
+                mozWrap(textarea, openChar, closeChar, command);
             } else if (textarea.createTextRange && textarea.caretPos) {
-                // IE
+                // FIXME tạm chưa hỗ trợ
             } else {
-                // Trình duyệt khác
+                // FIXME Trình duyệt khác
             }
         });
     }
