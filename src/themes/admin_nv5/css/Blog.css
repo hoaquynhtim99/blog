@@ -110,3 +110,8 @@
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 }
+
+#post-markdown-preview {
+    border: 1px #bdc0c7 solid;
+    padding: 20px;
+}

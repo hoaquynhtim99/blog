@@ -220,6 +220,7 @@
                             </div>
                         </div>
                     </div>
+                    <div class="form-text text-muted">{$LANG->get('cfgMarkdownClass')}</div>
                 </div>
             </div>
             <div class="form-group row mb-0 pb-0">

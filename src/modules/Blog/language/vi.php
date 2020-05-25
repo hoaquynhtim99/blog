@@ -300,6 +300,7 @@ $lang_module['cfgpostingMode'] = 'Chế độ viết bài';
 $lang_module['cfgpostingModeHelp'] = 'Chế độ trình soạn thảo cho phép da số người dùng đăng bài dễ dàng, trong khi đó chế độ Markdown cho phép nhà phát triển đăng các bài hướng dẫn, có các loại code, chế độ này còn hỗ trợ Google AMP và Facebook Instant Articles. Từ chế độ Markdown có thể chuyển về trình soạn thảo nhưng không có chiều ngược lại';
 $lang_module['cfgpostingModeeditor'] = 'Trình soạn thảo (nếu có)';
 $lang_module['cfgpostingModemarkdown'] = 'Chuyên nghiệp (Markdown)';
+$lang_module['cfgMarkdownClass'] = 'Để sử dụng chế độ chuyên nghiệp, bạn cần cài đặt thư viện Parsedown <code>composer require erusev/parsedown 2.0.x-dev</code>';
 $lang_module['tagsMg'] = 'Quản lý tags';
 $lang_module['tagsDelete'] = 'Xóa tags';
 $lang_module['tagsErrorTitle'] = 'Lỗi: Tên tags không được để trống';

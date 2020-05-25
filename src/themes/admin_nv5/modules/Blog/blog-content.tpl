@@ -91,8 +91,8 @@
                 <div class="blmd-header">
                     <div class="blmd-header-tabs">
                         <ul role="tablist" class="nav nav-tabs">
-                            <li class="nav-item"><a href="#home" data-toggle="tab" role="tab" class="nav-link active">Soạn thảo</a></li>
-                            <li class="nav-item"><a href="#profile" data-toggle="tab" role="tab" class="nav-link">Xem trước</a></li>
+                            <li class="nav-item"><a href="#tab-post-writemarkdown" data-control="postTabs" data-value="write" data-toggle="tab" role="tab" class="nav-link active">Soạn thảo</a></li>
+                            <li class="nav-item"><a href="#tab-post-previewmarkdown" data-control="postTabs" data-value="preview" data-toggle="tab" role="tab" class="nav-link">Xem trước</a></li>
                         </ul>
                     </div>
                     <div class="blmd-header-btns">
@@ -110,7 +110,38 @@
                         </div>
                     </div>
                 </div>
-                <textarea rows="10" name="markdown_text" class="form-control blmd-editor">{$DATA.markdown_text}</textarea>
+                <div class="tab-content p-0 m-0">
+                    <div class="tab-pane show active" id="tab-post-writemarkdown" role="tabpanel" aria-labelledby="tab-post-writemarkdown">
+                        <textarea rows="10" name="markdown_text" class="form-control blmd-editor">{$DATA.markdown_text}</textarea>
+                    </div>
+                    <div class="tab-pane fade" id="tab-post-previewmarkdown" role="tabpanel" aria-labelledby="tab-post-previewmarkdowntab-post-previewmarkdown">
+                        <div id="post-markdown-preview"></div>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                $(document).ready(function() {
+                    var currentHtml = 1;
+                    var currentView = 0;
+                    $('[name="markdown_text"]').on('keyup', function() {
+                        currentHtml++;
+                    });
+                    $('[data-control="postTabs"]').on('show.bs.tab', function(e) {
+                        var currentTab = $(e.target);
+                        if (currentTab.data('value') != 'preview' || currentView >= currentHtml) {
+                            return true;
+                        }
+                        var ctn = $('#post-markdown-preview');
+                        ctn.html('<div class="text-center"><i class="fas fa-spinner fa-pulse"></i></div>');
+                        $.post(
+                            script_name + '?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=blog-content&nocache=' + new Date().getTime(),
+                            'markdownrender=1&id=' + id,
+                            function(res) {
+                                ctn.html(res);
+                            }
+                        );
+                    });
+                });
+                </script>
                 {/if}
             </div>
             <div class="row">

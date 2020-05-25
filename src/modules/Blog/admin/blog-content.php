@@ -171,6 +171,22 @@ if ($id) {
     $isAutoKeywords = $BL->setting['initAutoKeywords'];
 }
 
+// Kiểm tra thư viện
+if ($postingMode == 'markdown' and !class_exists('Erusev\Parsedown\Parsedown')) {
+    die($nv_Lang->getModule('cfgMarkdownClass'));
+}
+
+use Erusev\Parsedown\Parsedown;
+
+// Xuất nội dung markdown => HTML
+if ($nv_Request->get_title('markdownrender', 'post', '') === NV_CHECK_SESSION) {
+    $Parsedown = new Parsedown();
+
+    $markdown = isset($_POST['markdown']) ? htmlspecialchars($_POST['markdown']) : '';
+    $html = $Parsedown->toHtml($markdown);
+    nv_htmlOutput($html);
+}
+
 // Thao tac xu ly
 $prosessMode = "none";
 if ($nv_Request->get_title('tokend', 'post', '') === NV_CHECK_SESSION) {
