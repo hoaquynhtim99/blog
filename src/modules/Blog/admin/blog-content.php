@@ -1,5 +1,7 @@
 <?php
 
+use NukeViet\Module\Blog\Parsedown;
+
 /**
  * @Project NUKEVIET BLOG 5.x
  * @Author PHAN TAN DUNG <writeblabla@gmail.com>
@@ -171,22 +173,6 @@ if ($id) {
     $isAutoKeywords = $BL->setting['initAutoKeywords'];
 }
 
-// Kiểm tra thư viện
-if ($postingMode == 'markdown' and !class_exists('Erusev\Parsedown\Parsedown')) {
-    die($nv_Lang->getModule('cfgMarkdownClass'));
-}
-
-use Erusev\Parsedown\Parsedown;
-
-// Xuất nội dung markdown => HTML
-if ($nv_Request->get_title('markdownrender', 'post', '') === NV_CHECK_SESSION) {
-    $Parsedown = new Parsedown();
-
-    $markdown = isset($_POST['markdown']) ? htmlspecialchars($_POST['markdown']) : '';
-    $html = $Parsedown->toHtml($markdown);
-    nv_htmlOutput($html);
-}
-
 // Thao tac xu ly
 $prosessMode = "none";
 if ($nv_Request->get_title('tokend', 'post', '') === NV_CHECK_SESSION) {
@@ -235,6 +221,15 @@ if ($prosessMode != 'none') {
     // Chuẩn hóa google author
     if (!preg_match("/^([0-9]{1,30})$/", $array['postgoogleid'])) {
         $array['postgoogleid'] = $BL->setting['sysGoogleAuthor'];
+    }
+
+    // Kiểu đăng
+    if (!in_array($postingMode, $BL->postingMode)) {
+        $postingMode = $BL->postingMode[0];
+    }
+    if ($postingMode == 'markdown') {
+        $Parsedown = new Parsedown();
+        $array['bodyhtml'] = $Parsedown->text($array['markdown_text']);
     }
 
     // Tự động lấy từ khóa
@@ -314,9 +309,6 @@ if ($prosessMode != 'none') {
     // Chuan hoa kieu xu ly khi het han
     if (!in_array($array['expmode'], $BL->blogExpMode)) {
         $array['expmode'] = 0;
-    }
-    if (!in_array($postingMode, $BL->postingMode)) {
-        $postingMode = $BL->postingMode[0];
     }
 
     // Chuẩn hóa giá trị 0, 1

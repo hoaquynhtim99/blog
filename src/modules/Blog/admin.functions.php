@@ -13,6 +13,7 @@ if (!defined('NV_ADMIN') or !defined('NV_MAINFILE') or !defined('NV_IS_MODADMIN'
 }
 
 use NukeViet\Module\Blog\BlogInit;
+use NukeViet\Module\Blog\Parsedown;
 
 // Class cua module
 $BL = new BlogInit();
@@ -28,4 +29,15 @@ if ($nv_Request->isset_request("get_alias", "post")) {
     include NV_ROOTDIR . '/includes/header.php';
     echo $BL->creatAlias(nv_substr($nv_Request->get_title('get_alias', 'post', ''), 0, 250), nv_substr($nv_Request->get_title('mode', 'post', 'cat'), 0, 250));
     include NV_ROOTDIR . '/includes/footer.php';
+}
+
+// Xem trước nội dung soạn thảo
+if ($nv_Request->get_title('markdownpreview', 'post', '') === NV_CHECK_SESSION) {
+    $markdowntext = isset($_POST['markdowntext']) ? $_POST['markdowntext'] : '';
+    if (empty($markdowntext)) {
+        nv_htmlOutput('');
+    }
+
+    $Parsedown = new Parsedown();
+    nv_htmlOutput($Parsedown->text($markdowntext));
 }
