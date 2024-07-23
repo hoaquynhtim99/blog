@@ -95,7 +95,7 @@ if ($nv_Request->isset_request('del', 'post')) {
 
 $page_title = $nv_Lang->getModule('tagsMg');
 
-$tpl = new \NukeViet\Template\Smarty();
+$tpl = new \NukeViet\Template\NVSmarty();
 $tpl->registerPlugin('modifier', 'format', 'number_format');
 $tpl->registerPlugin('modifier', 'date', 'nv_date');
 $tpl->setTemplateDir(NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file);

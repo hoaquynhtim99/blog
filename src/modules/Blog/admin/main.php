@@ -14,7 +14,7 @@ if (!defined('NV_BLOG_ADMIN')) {
 
 $page_title = $nv_Lang->getModule('mainTitle');
 
-$tpl = new \NukeViet\Template\Smarty();
+$tpl = new \NukeViet\Template\NVSmarty();
 $tpl->registerPlugin('modifier', 'date', 'nv_date');
 $tpl->setTemplateDir(NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file);
 $tpl->assign('LANG', $nv_Lang);

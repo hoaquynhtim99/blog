@@ -45,7 +45,7 @@ if ($nv_Request->get_title('tokend', 'post', '') === NV_CHECK_SESSION) {
     nv_redirect_location(NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . "&" . NV_OP_VARIABLE . "=" . $op);
 }
 
-$tpl = new \NukeViet\Template\Smarty();
+$tpl = new \NukeViet\Template\NVSmarty();
 $tpl->setTemplateDir(NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file);
 $tpl->assign('LANG', $nv_Lang);
 $tpl->assign('TOKEND', NV_CHECK_SESSION);

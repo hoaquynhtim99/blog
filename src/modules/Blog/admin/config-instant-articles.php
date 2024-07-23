@@ -61,7 +61,7 @@ if ($nv_Request->get_title('tokend', 'post', '') === NV_CHECK_SESSION) {
     $array['instantArticlesGettime'] = $BL->setting['instantArticlesGettime'];
 }
 
-$tpl = new \NukeViet\Template\Smarty();
+$tpl = new \NukeViet\Template\NVSmarty();
 $tpl->registerPlugin('modifier', 'rewrite', 'nv_url_rewrite');
 $tpl->setTemplateDir(NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file);
 $tpl->assign('LANG', $nv_Lang);

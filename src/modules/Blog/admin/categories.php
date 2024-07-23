@@ -136,7 +136,7 @@ if ($nv_Request->isset_request('del', 'post')) {
 
 $page_title = $nv_Lang->getModule('categoriesManager');
 
-$tpl = new \NukeViet\Template\Smarty();
+$tpl = new \NukeViet\Template\NVSmarty();
 $tpl->setTemplateDir(NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file);
 $tpl->assign('LANG', $nv_Lang);
 $tpl->assign('TOKEND', NV_CHECK_SESSION);

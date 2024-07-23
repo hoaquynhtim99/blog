@@ -566,7 +566,7 @@ if (!empty($array['mediavalue']) and preg_match("/^\//i", $array['mediavalue']))
     $array['mediavalue'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . "/" . $module_name . $array['mediavalue'];
 }
 
-$tpl = new \NukeViet\Template\Smarty();
+$tpl = new \NukeViet\Template\NVSmarty();
 $tpl->registerPlugin('modifier', 'date', 'nv_date');
 $tpl->setTemplateDir(NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file);
 $tpl->assign('LANG', $nv_Lang);

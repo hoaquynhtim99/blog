@@ -189,7 +189,7 @@ $sql = "SELECT * " . $sql . " LIMIT " . (($page - 1) * $per_page) . ", " . $per_
 $result = $db->query($sql);
 $array = $result->fetchAll();
 
-$tpl = new \NukeViet\Template\Smarty();
+$tpl = new \NukeViet\Template\NVSmarty();
 $tpl->registerPlugin('modifier', 'format', 'number_format');
 $tpl->registerPlugin('modifier', 'date', 'nv_date');
 $tpl->setTemplateDir(NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file);
