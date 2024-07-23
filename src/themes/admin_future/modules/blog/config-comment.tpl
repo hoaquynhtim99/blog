@@ -14,17 +14,17 @@
     <div class="card-body">
         <form method="post" action="{$FORM_ACTION}" autocomplete="off">
             <div class="form-group row">
-                <label class="col-12 col-sm-3 col-form-label text-sm-right" for="commentPerPage">{$LANG->get('cfgCommentPerPage')}</label>
+                <label class="col-12 col-sm-3 col-form-label text-sm-end" for="commentPerPage">{$LANG->get('cfgCommentPerPage')}</label>
                 <div class="col-12 col-sm-8 col-lg-6">
                     <div class="form-inline">
-                        <input type="number" class="form-control form-control-sm" id="commentPerPage" name="commentPerPage" value="{$DATA.commentPerPage}" min="0" max="999">
+                        <input type="number" class="form-control" id="commentPerPage" name="commentPerPage" value="{$DATA.commentPerPage}" min="0" max="999">
                     </div>
                 </div>
             </div>
             <div class="form-group row">
-                <label class="col-12 col-sm-3 col-form-label text-sm-right" for="commentType">{$LANG->get('cfgCommentType')}</label>
+                <label class="col-12 col-sm-3 col-form-label text-sm-end" for="commentType">{$LANG->get('cfgCommentType')}</label>
                 <div class="col-12 col-sm-7 col-md-5 col-lg-4 col-xl-3">
-                    <select class="form-control form-control-sm" id="commentType" name="commentType">
+                    <select class="form-select" id="commentType" name="commentType">
                         {foreach from=$COMMENTTYPE key=key item=value}
                         <option value="{$value}"{if $value eq $DATA.commentType} selected="selected"{/if}>{$LANG->get("cfgCommentType_`$value`")}</option>
                         {/foreach}
@@ -33,9 +33,9 @@
             </div>
             <div id="comment-facebook" class="comment-table">
                 <div class="form-group row">
-                    <label class="col-12 col-sm-3 col-form-label text-sm-right" for="commentFacebookColorscheme">{$LANG->get('cfgcommentFacebookColorscheme')}</label>
+                    <label class="col-12 col-sm-3 col-form-label text-sm-end" for="commentFacebookColorscheme">{$LANG->get('cfgcommentFacebookColorscheme')}</label>
                     <div class="col-12 col-sm-7 col-md-5 col-lg-4 col-xl-3">
-                        <select class="form-control form-control-sm" id="commentFacebookColorscheme" name="commentFacebookColorscheme">
+                        <select class="form-select" id="commentFacebookColorscheme" name="commentFacebookColorscheme">
                             {foreach from=$COLORSCHEME key=key item=value}
                             <option value="{$key}"{if $key eq $DATA.commentFacebookColorscheme} selected="selected"{/if}>{$value}</option>
                             {/foreach}
@@ -43,7 +43,7 @@
                     </div>
                 </div>
                 <div class="form-group row py-0">
-                    <label class="col-12 col-sm-3 col-form-label text-sm-right d-none d-sm-block"></label>
+                    <label class="col-12 col-sm-3 col-form-label text-sm-end d-none d-sm-block"></label>
                     <div class="col-12 col-sm-8 col-lg-6 form-check mt-1">
                         <label class="custom-control custom-checkbox custom-control-inline mb-1">
                             <input class="custom-control-input" type="checkbox" id="emailWhenComment" name="emailWhenComment" value="1"{if $DATA.emailWhenComment} checked="checked"{/if}><span class="custom-control-label">{$LANG->get('cfgemailWhenComment')}</span>
@@ -51,7 +51,7 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-12 col-sm-3 col-form-label text-sm-right" for="emailWhenCommentList">{$LANG->get('cfgemailWhenCommentList')}</label>
+                    <label class="col-12 col-sm-3 col-form-label text-sm-end" for="emailWhenCommentList">{$LANG->get('cfgemailWhenCommentList')}</label>
                     <div class="col-12 col-sm-8 col-lg-6">
                         <textarea rows="4" class="form-control" name="emailWhenCommentList" id="emailWhenCommentList">{$DATA.emailWhenCommentList}</textarea>
                         <div class="form-text text-muted">{$LANG->get('cfgemailWhenCommentListNote')}</div>
@@ -60,9 +60,9 @@
             </div>
             <div id="comment-disqus" class="comment-table">
                 <div class="form-group row">
-                    <label class="col-12 col-sm-3 col-form-label text-sm-right" for="commentDisqusShortname">{$LANG->get('cfgcommentDisqusShortname')} <i class="text-danger">(*)</i></label>
+                    <label class="col-12 col-sm-3 col-form-label text-sm-end" for="commentDisqusShortname">{$LANG->get('cfgcommentDisqusShortname')} <i class="text-danger">(*)</i></label>
                     <div class="col-12 col-sm-8 col-lg-6">
-                        <input type="text" class="form-control form-control-sm" name="commentDisqusShortname" id="commentDisqusShortname" value="{$DATA.commentDisqusShortname}">
+                        <input type="text" class="form-control" name="commentDisqusShortname" id="commentDisqusShortname" value="{$DATA.commentDisqusShortname}">
                     </div>
                 </div>
             </div>
@@ -74,7 +74,7 @@
                 </div>
             </div>
             <div class="form-group row mb-0 pb-0">
-                <label class="col-12 col-sm-3 col-form-label text-sm-right"></label>
+                <label class="col-12 col-sm-3 col-form-label text-sm-end"></label>
                 <div class="col-12 col-sm-8 col-lg-6">
                     <input type="hidden" name="tokend" value="{$TOKEND}">
                     <button class="btn btn-space btn-primary" type="submit">{$LANG->get('submit')}</button>

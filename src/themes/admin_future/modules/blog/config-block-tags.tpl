@@ -9,9 +9,9 @@
     <div class="card-body">
         <form method="post" action="{$FORM_ACTION}" autocomplete="off">
             <div class="form-group row">
-                <label class="col-12 col-sm-3 col-form-label text-sm-right" for="blockTagsShowType">{$LANG->get('cfgblockTagsShowType')}</label>
+                <label class="col-12 col-sm-3 col-form-label text-sm-end" for="blockTagsShowType">{$LANG->get('cfgblockTagsShowType')}</label>
                 <div class="col-12 col-sm-7 col-md-5 col-lg-4 col-xl-3">
-                    <select class="form-control form-control-sm" id="blockTagsShowType" name="blockTagsShowType">
+                    <select class="form-select" id="blockTagsShowType" name="blockTagsShowType">
                         {foreach from=$SHOWTYPE key=key item=value}
                         <option value="{$value}"{if $value eq $DATA.blockTagsShowType} selected="selected"{/if}>{$LANG->get("cfgblockTagsShowType_`$value`")}</option>
                         {/foreach}
@@ -19,15 +19,15 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label class="col-12 col-sm-3 col-form-label text-sm-right" for="blockTagsNums">{$LANG->get('cfgblockTagsNums')}</label>
+                <label class="col-12 col-sm-3 col-form-label text-sm-end" for="blockTagsNums">{$LANG->get('cfgblockTagsNums')}</label>
                 <div class="col-12 col-sm-8 col-lg-6">
                     <div class="form-inline">
-                        <input type="number" class="form-control form-control-sm" id="blockTagsNums" name="blockTagsNums" value="{$DATA.blockTagsNums}" min="0" max="999">
+                        <input type="number" class="form-control" id="blockTagsNums" name="blockTagsNums" value="{$DATA.blockTagsNums}" min="0" max="999">
                     </div>
                 </div>
             </div>
             <div class="form-group row py-0">
-                <label class="col-12 col-sm-3 col-form-label text-sm-right d-none d-sm-block"></label>
+                <label class="col-12 col-sm-3 col-form-label text-sm-end d-none d-sm-block"></label>
                 <div class="col-12 col-sm-8 col-lg-6 form-check mt-1">
                     <label class="custom-control custom-checkbox custom-control-inline mb-1">
                         <input class="custom-control-input" type="checkbox" id="blockTagsCacheIfRandom" name="blockTagsCacheIfRandom" value="1"{if $DATA.blockTagsCacheIfRandom} checked="checked"{/if}><span class="custom-control-label">{$LANG->get('cfgblockTagsCacheIfRandom')}</span>
@@ -35,12 +35,12 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label class="col-12 col-sm-3 col-form-label text-sm-right" for="blockTagsNums">{$LANG->get('cfgblockTagsCacheLive')}</label>
+                <label class="col-12 col-sm-3 col-form-label text-sm-end" for="blockTagsNums">{$LANG->get('cfgblockTagsCacheLive')}</label>
                 <div class="col-12 col-sm-8 col-lg-6">
                     <div class="form-inline">
                         <div class="d-flex align-items-center">
                             <div class="flex-grow-1 flex-shrink-1">
-                                <input type="number" class="form-control form-control-sm" id="blockTagsCacheLive" name="blockTagsCacheLive" value="{$DATA.blockTagsCacheLive}" min="0">
+                                <input type="number" class="form-control" id="blockTagsCacheLive" name="blockTagsCacheLive" value="{$DATA.blockTagsCacheLive}" min="0">
                             </div>
                             <div class="pl-1"><i>({$LANG->get('min')})</i></div>
                         </div>
@@ -48,7 +48,7 @@
                 </div>
             </div>
             <div class="form-group row mb-0 pb-0">
-                <label class="col-12 col-sm-3 col-form-label text-sm-right"></label>
+                <label class="col-12 col-sm-3 col-form-label text-sm-end"></label>
                 <div class="col-12 col-sm-8 col-lg-6">
                     <input type="hidden" name="tokend" value="{$TOKEND}">
                     <button class="btn btn-space btn-primary" type="submit">{$LANG->get('submit')}</button>

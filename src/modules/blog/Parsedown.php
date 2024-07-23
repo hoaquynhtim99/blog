@@ -13,7 +13,7 @@
 #
 #
 
-namespace NukeViet\Module\Blog;
+namespace NukeViet\Module\blog;
 
 class Parsedown
 {

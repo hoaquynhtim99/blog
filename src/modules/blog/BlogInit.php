@@ -8,7 +8,7 @@
  * @Createdate Saturday, February 22, 2020 15:39:20 GMT+07:00
  */
 
-namespace NukeViet\Module\Blog;
+namespace NukeViet\Module\blog;
 
 use PDO;
 

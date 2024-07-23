@@ -12,7 +12,7 @@ if (!defined('NV_SYSTEM')) {
     die('Stop!!!');
 }
 
-use NukeViet\Module\Blog\BlogInit;
+use NukeViet\Module\blog\BlogInit;
 
 define('NV_IS_MOD_BLOG', true);
 

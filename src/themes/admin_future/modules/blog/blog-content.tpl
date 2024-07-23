@@ -24,7 +24,7 @@
                         <div class="col-12 col-lg-9">
                             <div class="d-flex align-items-center">
                                 <div class="flex-grow-1 flex-shrink-1">
-                                    <input type="text" class="form-control form-control-sm" id="formElementTitle" name="title" value="{$DATA.title}" maxlength="250">
+                                    <input type="text" class="form-control" id="formElementTitle" name="title" value="{$DATA.title}" maxlength="250">
                                 </div>
                                 <div class="flex-grow-0 flex-shrink-0 pl-2">
                                     <button class="btn btn-secondary btn-input-sm" type="button" id="formElementTitleClick" tabindex="-1">{$LANG->get('aliasAutoGet')}</button>
@@ -35,19 +35,19 @@
                     <div class="form-group row">
                         <label class="col-12 col-lg-3 col-form-label text-lg-right" for="formElementAlias">{$LANG->get('alias')}</label>
                         <div class="col-12 col-lg-9">
-                            <input type="text" class="form-control form-control-sm" id="formElementAlias" name="alias" value="{$DATA.alias}" maxlength="250">
+                            <input type="text" class="form-control" id="formElementAlias" name="alias" value="{$DATA.alias}" maxlength="250">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-12 col-lg-3 col-form-label text-lg-right" for="formElementSitetitle">{$LANG->get('blogSiteTitle')}</label>
                         <div class="col-12 col-lg-9">
-                            <input type="text" class="form-control form-control-sm" id="formElementSitetitle" name="sitetitle" value="{$DATA.sitetitle}" maxlength="250">
+                            <input type="text" class="form-control" id="formElementSitetitle" name="sitetitle" value="{$DATA.sitetitle}" maxlength="250">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-12 col-lg-3 col-form-label text-lg-right" for="formElementKeywords">{$LANG->get('keywordsSoft')}</label>
                         <div class="col-12 col-lg-9">
-                            <input type="text" class="form-control form-control-sm" id="formElementKeywords" name="keywords" value="{$DATA.keywords}" maxlength="250">
+                            <input type="text" class="form-control" id="formElementKeywords" name="keywords" value="{$DATA.keywords}" maxlength="250">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -151,7 +151,7 @@
                         <div class="col-12 col-lg-9">
                             <div class="d-flex align-items-center">
                                 <div class="flex-grow-1 flex-shrink-1">
-                                    <input type="text" class="form-control form-control-sm" id="formElementImages" name="images" value="{$DATA.images}">
+                                    <input type="text" class="form-control" id="formElementImages" name="images" value="{$DATA.images}">
                                 </div>
                                 <div class="flex-grow-0 flex-shrink-0 pl-2">
                                     <button class="btn btn-secondary btn-input-sm" type="button" id="formElementImagesView"><i class="icon icon-left far fa-eye"></i> {$LANG->get('view')}</button>
@@ -166,7 +166,7 @@
                         <label class="col-12 col-lg-3 col-form-label text-lg-right" for="formElementMediatype">{$LANG->get('blogmediatype')}</label>
                         <div class="col-12 col-lg-9">
                             <div class="form-inline">
-                                <select class="form-control form-control-sm" id="formElementMediatype" name="mediatype">
+                                <select class="form-select" id="formElementMediatype" name="mediatype">
                                     {foreach from=$BLOGMEDIATYPE key=key item=value}
                                     <option value="{$value}"{if $value eq $DATA.mediatype} selected="selected"{/if}>{$LANG->get("blogmediatype`$value`")}</option>
                                     {/foreach}
@@ -195,7 +195,7 @@
                             <label class="col-12 col-lg-3 col-form-label text-lg-right" for="formElementMediaheight">{$LANG->get('blogMediaHeight')}</label>
                             <div class="col-12 col-lg-9">
                                 <div class="form-inline">
-                                    <input class="form-control form-control-sm" type="number" id="formElementMediaheight" name="mediaheight" value="{$DATA.mediaheight}" min="0" max="99999">
+                                    <input class="form-control" type="number" id="formElementMediaheight" name="mediaheight" value="{$DATA.mediaheight}" min="0" max="99999">
                                 </div>
                             </div>
                         </div>
@@ -211,7 +211,7 @@
                             <label class="col-12 col-lg-3 col-form-label text-lg-right" for="formElementMediawidth">{$LANG->get('blogMediaWidth')}</label>
                             <div class="col-12 col-lg-9">
                                 <div class="form-inline">
-                                    <input class="form-control form-control-sm" type="number" id="formElementMediawidth" name="mediawidth" value="{$DATA.mediawidth}" min="0" max="99999">
+                                    <input class="form-control" type="number" id="formElementMediawidth" name="mediawidth" value="{$DATA.mediawidth}" min="0" max="99999">
                                 </div>
                             </div>
                         </div>
@@ -222,7 +222,7 @@
                             <div class="col-12 col-lg-9">
                                 <div class="d-flex align-items-center">
                                     <div class="flex-grow-1 flex-shrink-1">
-                                        <input type="text" class="form-control form-control-sm" id="formElementMediavalue" name="mediavalue" value="{$DATA.mediavalue}">
+                                        <input type="text" class="form-control" id="formElementMediavalue" name="mediavalue" value="{$DATA.mediavalue}">
                                     </div>
                                     <div class="flex-grow-0 flex-shrink-0 pl-2" id="formElementMediavalueWrap">
                                         <button class="btn btn-secondary btn-input-sm" type="button" id="formElementMediavalueBtn"><i class="icon icon-left far fa-folder-open"></i> {$LANG->get('browse_image')}</button>
@@ -299,45 +299,45 @@
                     </div>
                     <div class="form-group mb-2">
                         <label for="formElementGoogleAuthor">{$LANG->get('blogGoogleAuthor')}:</label>
-                        <input type="text" class="form-control form-control-sm" id="formElementGoogleAuthor" name="postgoogleid" value="{$DATA.postgoogleid}">
+                        <input type="text" class="form-control" id="formElementGoogleAuthor" name="postgoogleid" value="{$DATA.postgoogleid}">
                     </div>
                 </div>
                 <div class="col-12 col-md-4  col-xl-4">
                     <div class="form-group mb-2">
                         <label for="formElementPubtime">{$LANG->get('blogPubtime1')}:</label>
                         <div class="form-inline">
-                            <select name="pubtime_h" class="form-control form-control-sm mb-2 mr-lg-2">
+                            <select name="pubtime_h" class="form-control mb-2 mr-lg-2">
                                 {for $val=0 to 23}
                                 <option value="{$val}"{if $val eq $DATA.pubtime_h} selected="selected"{/if}>{if $val lt 10}0{/if}{$val}</option>
                                 {/for}
                             </select>
-                            <select name="pubtime_m" class="form-control form-control-sm mb-2 mr-lg-2">
+                            <select name="pubtime_m" class="form-control mb-2 mr-lg-2">
                                 {for $val=0 to 59}
                                 <option value="{$val}"{if $val eq $DATA.pubtime_m} selected="selected"{/if}>{if $val lt 10}0{/if}{$val}</option>
                                 {/for}
                             </select>
-                            <input type="text" class="form-control form-control-sm mb-2 bsdatepicker" value="{if not empty($DATA.pubtime)}{"d/m/Y"|date:$DATA.pubtime}{/if}" name="pubtime" id="formElementPubtime" placeholder="dd/mm/yyyy">
+                            <input type="text" class="form-control mb-2 bsdatepicker" value="{if not empty($DATA.pubtime)}{"d/m/Y"|date:$DATA.pubtime}{/if}" name="pubtime" id="formElementPubtime" placeholder="dd/mm/yyyy">
                         </div>
                     </div>
                     <div class="form-group mb-2">
                         <label for="formElementExptime">{$LANG->get('blogExptime1')}:</label>
                         <div class="form-inline">
-                            <select name="exptime_h" class="form-control form-control-sm mb-2 mr-lg-2">
+                            <select name="exptime_h" class="form-control mb-2 mr-lg-2">
                                 {for $val=0 to 23}
                                 <option value="{$val}"{if $val eq $DATA.exptime_h} selected="selected"{/if}>{if $val lt 10}0{/if}{$val}</option>
                                 {/for}
                             </select>
-                            <select name="exptime_m" class="form-control form-control-sm mb-2 mr-lg-2">
+                            <select name="exptime_m" class="form-control mb-2 mr-lg-2">
                                 {for $val=0 to 59}
                                 <option value="{$val}"{if $val eq $DATA.exptime_m} selected="selected"{/if}>{if $val lt 10}0{/if}{$val}</option>
                                 {/for}
                             </select>
-                            <input type="text" class="form-control form-control-sm mb-2 bsdatepicker" value="{if not empty($DATA.exptime)}{"d/m/Y"|date:$DATA.exptime}{/if}" name="exptime" id="formElementExptime" placeholder="dd/mm/yyyy">
+                            <input type="text" class="form-control mb-2 bsdatepicker" value="{if not empty($DATA.exptime)}{"d/m/Y"|date:$DATA.exptime}{/if}" name="exptime" id="formElementExptime" placeholder="dd/mm/yyyy">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="formElementExpmode">{$LANG->get('blogExpMode1')}:</label>
-                        <select id="formElementExpmode" name="expmode" class="form-control form-control-sm">
+                        <select id="formElementExpmode" name="expmode" class="form-control">
                             {foreach from=$BLOGEXPMODE key=key item=value}
                             <option value="{$value}"{if $value eq $DATA.expmode} selected="selected"{/if}>{$LANG->get("blogExpMode_`$value`")}</option>
                             {/foreach}
@@ -449,7 +449,7 @@ $(document).on("nv.upload.ready", function() {
     <div class="modal-dialog full-width">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" data-dismiss="modal" aria-hidden="true" class="close"><span class="fas fa-times"></span></button>
+                <button type="button" data-bs-dismiss="modal" aria-hidden="true" class="close"><span class="fas fa-times"></span></button>
             </div>
             <div class="modal-body">
                 <div class="text-center" data-toggle="mdcontent"></div>

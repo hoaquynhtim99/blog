@@ -1,6 +1,6 @@
 <?php
 
-use NukeViet\Module\Blog\Parsedown;
+use NukeViet\Module\blog\Parsedown;
 
 /**
  * @Project NUKEVIET BLOG 5.x

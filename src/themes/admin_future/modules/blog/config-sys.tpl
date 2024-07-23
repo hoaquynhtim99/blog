@@ -9,7 +9,7 @@
     <div class="card-body">
         <form method="post" action="{$FORM_ACTION}" autocomplete="off">
             <div class="form-group row py-0">
-                <label class="col-12 col-sm-3 col-form-label text-sm-right d-none d-sm-block"></label>
+                <label class="col-12 col-sm-3 col-form-label text-sm-end d-none d-sm-block"></label>
                 <div class="col-12 col-sm-8 col-lg-6 form-check mt-1">
                     <label class="custom-control custom-checkbox custom-control-inline mb-1">
                         <input class="custom-control-input" type="checkbox" id="sysDismissAdminCache" name="sysDismissAdminCache" value="1"{if $DATA.sysDismissAdminCache} checked="checked"{/if}><span class="custom-control-label">{$LANG->get('cfgsysDismissAdminCache')}</span>
@@ -17,7 +17,7 @@
                 </div>
             </div>
             <div class="form-group row py-0">
-                <label class="col-12 col-sm-3 col-form-label text-sm-right d-none d-sm-block"></label>
+                <label class="col-12 col-sm-3 col-form-label text-sm-end d-none d-sm-block"></label>
                 <div class="col-12 col-sm-8 col-lg-6 form-check mt-1">
                     <label class="custom-control custom-checkbox custom-control-inline mb-1">
                         <input class="custom-control-input" type="checkbox" id="sysRedirect2Home" name="sysRedirect2Home" value="1"{if $DATA.sysRedirect2Home} checked="checked"{/if}><span class="custom-control-label">{$LANG->get('cfgsysRedirect2Home')}</span>
@@ -25,7 +25,7 @@
                 </div>
             </div>
             <div class="form-group row mb-0 pb-0">
-                <label class="col-12 col-sm-3 col-form-label text-sm-right"></label>
+                <label class="col-12 col-sm-3 col-form-label text-sm-end"></label>
                 <div class="col-12 col-sm-8 col-lg-6">
                     <input type="hidden" name="tokend" value="{$TOKEND}">
                     <button class="btn btn-space btn-primary" type="submit">{$LANG->get('submit')}</button>

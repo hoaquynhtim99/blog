@@ -12,7 +12,7 @@ if (!defined('NV_MAINFILE')) {
     die('Stop!!!');
 }
 
-use NukeViet\Module\Blog\BlogInit;
+use NukeViet\Module\blog\BlogInit;
 
 if (!nv_function_exists('nv_blog_verticalCategories')) {
     /**

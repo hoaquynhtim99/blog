@@ -12,8 +12,8 @@ if (!defined('NV_ADMIN') or !defined('NV_MAINFILE') or !defined('NV_IS_MODADMIN'
     die('Stop!!!');
 }
 
-use NukeViet\Module\Blog\BlogInit;
-use NukeViet\Module\Blog\Parsedown;
+use NukeViet\Module\blog\BlogInit;
+use NukeViet\Module\blog\Parsedown;
 
 // Class cua module
 $BL = new BlogInit();

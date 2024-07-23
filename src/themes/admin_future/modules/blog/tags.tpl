@@ -7,7 +7,7 @@
             <div class="card-body-search-form pt-4 pb-2 px-4 form-inline">
                 <div class="input-group bl-min-w-25">
                     <label class="sr-only" for="formElementQ">{$LANG->get('searchTags')}</label>
-                    <input type="text" class="form-control form-control-sm mb-2 mr-sm-2" id="formElementQ" name="q" value="{$DATA_SEARCH.q}" placeholder="{$LANG->get('searchTags')}">
+                    <input type="text" class="form-control mb-2 mr-sm-2" id="formElementQ" name="q" value="{$DATA_SEARCH.q}" placeholder="{$LANG->get('searchTags')}">
                 </div>
                 <button type="submit" class="btn btn-primary btn-input-sm mb-2 mr-2">{$LANG->get('filter_action')}</button>
                 {if not empty($DATA_SEARCH.q)}
@@ -87,11 +87,11 @@
     <div class="card-body">
         <form method="post" action="{$FORM_ACTION}" autocomplete="off">
             <div class="form-group row">
-                <label class="col-12 col-sm-3 col-form-label text-sm-right" for="formElementTitle">{$LANG->get('title')} <i class="text-danger">(*)</i></label>
+                <label class="col-12 col-sm-3 col-form-label text-sm-end" for="formElementTitle">{$LANG->get('title')} <i class="text-danger">(*)</i></label>
                 <div class="col-12 col-sm-8 col-lg-6">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1 flex-shrink-1">
-                            <input type="text" class="form-control form-control-sm" id="formElementTitle" name="title" value="{$DATA.title}" maxlength="250">
+                            <input type="text" class="form-control" id="formElementTitle" name="title" value="{$DATA.title}" maxlength="250">
                         </div>
                         <div class="flex-grow-0 flex-shrink-0 pl-2">
                             <button class="btn btn-secondary btn-input-sm" type="button" id="formElementTitleClick" tabindex="-1">{$LANG->get('aliasAutoGet')}</button>
@@ -100,27 +100,27 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label class="col-12 col-sm-3 col-form-label text-sm-right" for="formElementAlias">{$LANG->get('alias')} <i class="text-danger">(*)</i></label>
+                <label class="col-12 col-sm-3 col-form-label text-sm-end" for="formElementAlias">{$LANG->get('alias')} <i class="text-danger">(*)</i></label>
                 <div class="col-12 col-sm-8 col-lg-6">
-                    <input type="text" class="form-control form-control-sm" id="formElementAlias" name="alias" value="{$DATA.alias}" maxlength="250">
+                    <input type="text" class="form-control" id="formElementAlias" name="alias" value="{$DATA.alias}" maxlength="250">
                 </div>
             </div>
             <div class="form-group row">
-                <label class="col-12 col-sm-3 col-form-label text-sm-right" for="formElementKeywords">{$LANG->get('keywords')} <i class="text-danger">(*)</i></label>
+                <label class="col-12 col-sm-3 col-form-label text-sm-end" for="formElementKeywords">{$LANG->get('keywords')} <i class="text-danger">(*)</i></label>
                 <div class="col-12 col-sm-8 col-lg-6">
-                    <input type="text" class="form-control form-control-sm" id="formElementKeywords" name="keywords" value="{$DATA.keywords}" maxlength="255">
+                    <input type="text" class="form-control" id="formElementKeywords" name="keywords" value="{$DATA.keywords}" maxlength="255">
                     <div class="form-text text-muted">{$LANG->get('keywordsNote')}</div>
                 </div>
             </div>
             <div class="form-group row">
-                <label class="col-12 col-sm-3 col-form-label text-sm-right" for="formElementDescription">{$LANG->get('description')} <i class="text-danger">(*)</i></label>
+                <label class="col-12 col-sm-3 col-form-label text-sm-end" for="formElementDescription">{$LANG->get('description')} <i class="text-danger">(*)</i></label>
                 <div class="col-12 col-sm-8 col-lg-6">
-                    <input type="text" class="form-control form-control-sm" id="formElementDescription" name="description" value="{$DATA.description}" maxlength="255">
+                    <input type="text" class="form-control" id="formElementDescription" name="description" value="{$DATA.description}" maxlength="255">
                     <div class="form-text text-muted">{$LANG->get('descriptionNote')}</div>
                 </div>
             </div>
             <div class="form-group row mb-0 pb-0">
-                <label class="col-12 col-sm-3 col-form-label text-sm-right"></label>
+                <label class="col-12 col-sm-3 col-form-label text-sm-end"></label>
                 <div class="col-12 col-sm-8 col-lg-6">
                     <input type="hidden" name="id" value="{$ID}">
                     <input type="hidden" name="tokend" value="{$TOKEND}">

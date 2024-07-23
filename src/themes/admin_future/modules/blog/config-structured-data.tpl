@@ -9,28 +9,28 @@
     <div class="card-body">
         <form method="post" action="{$FORM_ACTION}" autocomplete="off">
             <div class="form-group row">
-                <label class="col-12 col-sm-3 col-form-label text-sm-right" for="sysGoogleAuthor">{$LANG->get('cfgsysGoogleAuthor')}</label>
+                <label class="col-12 col-sm-3 col-form-label text-sm-end" for="sysGoogleAuthor">{$LANG->get('cfgsysGoogleAuthor')}</label>
                 <div class="col-12 col-sm-8 col-lg-6">
-                    <input type="text" class="form-control form-control-sm" id="sysGoogleAuthor" name="sysGoogleAuthor" value="{$DATA.sysGoogleAuthor}">
+                    <input type="text" class="form-control" id="sysGoogleAuthor" name="sysGoogleAuthor" value="{$DATA.sysGoogleAuthor}">
                     <div class="form-text text-muted">{$LANG->get('cfgsysGoogleAuthorNote')}</div>
                 </div>
             </div>
             <div class="form-group row">
-                <label class="col-12 col-sm-3 col-form-label text-sm-right" for="sysFbAppID">{$LANG->get('cfgsysFbAppID')}</label>
+                <label class="col-12 col-sm-3 col-form-label text-sm-end" for="sysFbAppID">{$LANG->get('cfgsysFbAppID')}</label>
                 <div class="col-12 col-sm-8 col-lg-6">
-                    <input type="text" class="form-control form-control-sm" id="sysFbAppID" name="sysFbAppID" value="{$DATA.sysFbAppID}">
+                    <input type="text" class="form-control" id="sysFbAppID" name="sysFbAppID" value="{$DATA.sysFbAppID}">
                 </div>
             </div>
             <div class="form-group row">
-                <label class="col-12 col-sm-3 col-form-label text-sm-right" for="sysFbAdminID">{$LANG->get('cfgsysFbAdminID')}</label>
+                <label class="col-12 col-sm-3 col-form-label text-sm-end" for="sysFbAdminID">{$LANG->get('cfgsysFbAdminID')}</label>
                 <div class="col-12 col-sm-8 col-lg-6">
-                    <input type="text" class="form-control form-control-sm" id="sysFbAdminID" name="sysFbAdminID" value="{$DATA.sysFbAdminID}">
+                    <input type="text" class="form-control" id="sysFbAdminID" name="sysFbAdminID" value="{$DATA.sysFbAdminID}">
                 </div>
             </div>
             <div class="form-group row">
-                <label class="col-12 col-sm-3 col-form-label text-sm-right" for="sysLocale">{$LANG->get('cfgsysLocale')}</label>
+                <label class="col-12 col-sm-3 col-form-label text-sm-end" for="sysLocale">{$LANG->get('cfgsysLocale')}</label>
                 <div class="col-12 col-sm-7 col-md-5 col-lg-4 col-xl-3">
-                    <select class="form-control form-control-sm" id="sysLocale" name="sysLocale">
+                    <select class="form-select" id="sysLocale" name="sysLocale">
                         {foreach from=$ARRAY_LOCALES key=key item=value}
                         <option value="{$key}"{if $key eq $DATA.sysLocale} selected="selected"{/if}>{$value}</option>
                         {/foreach}
@@ -38,11 +38,11 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label class="col-12 col-sm-3 col-form-label text-sm-right" for="sysDefaultImage">{$LANG->get('cfgsysDefaultImage')}</label>
+                <label class="col-12 col-sm-3 col-form-label text-sm-end" for="sysDefaultImage">{$LANG->get('cfgsysDefaultImage')}</label>
                 <div class="col-12 col-sm-8 col-lg-6">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1 flex-shrink-1">
-                            <input type="text" class="form-control form-control-sm" id="sysDefaultImage" name="sysDefaultImage" value="{$DATA.sysDefaultImage}">
+                            <input type="text" class="form-control" id="sysDefaultImage" name="sysDefaultImage" value="{$DATA.sysDefaultImage}">
                         </div>
                         <div class="flex-grow-0 flex-shrink-0 pl-2">
                             <button class="btn btn-secondary btn-input-sm" type="button" id="sysDefaultImageBtn"><i class="icon icon-left far fa-folder-open"></i> {$LANG->get('browse_image')}</button>
@@ -52,7 +52,7 @@
                 </div>
             </div>
             <div class="form-group row mb-0 pb-0">
-                <label class="col-12 col-sm-3 col-form-label text-sm-right"></label>
+                <label class="col-12 col-sm-3 col-form-label text-sm-end"></label>
                 <div class="col-12 col-sm-8 col-lg-6">
                     <input type="hidden" name="tokend" value="{$TOKEND}">
                     <button class="btn btn-space btn-primary" type="submit">{$LANG->get('submit')}</button>

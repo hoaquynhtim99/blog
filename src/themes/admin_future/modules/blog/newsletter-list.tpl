@@ -7,7 +7,7 @@
             <div class="card-body-search-form pt-4 pb-2 px-4 form-inline">
                 <div class="input-group bl-min-w-25">
                     <label class="sr-only" for="formElementQ">{$LANG->get('searchEmail')}</label>
-                    <input type="text" class="form-control form-control-sm mb-2 mr-sm-2" id="formElementQ" name="q" value="{$DATA_SEARCH.q}" placeholder="{$LANG->get('searchEmail')}">
+                    <input type="text" class="form-control mb-2 mr-sm-2" id="formElementQ" name="q" value="{$DATA_SEARCH.q}" placeholder="{$LANG->get('searchEmail')}">
                 </div>
                 <button type="submit" class="btn btn-primary btn-input-sm mb-2 mr-2">{$LANG->get('filter_action')}</button>
                 {if not empty($DATA_SEARCH.q)}

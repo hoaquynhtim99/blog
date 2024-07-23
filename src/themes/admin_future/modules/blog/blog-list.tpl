@@ -9,7 +9,7 @@
                     <div class="row">
                         <div class="col-12 col-lg-6">
                             <label for="formEleQ">{$LANG->get('keywordsSoft')}:</label>
-                            <input type="text" class="form-control form-control-sm" id="formEleQ" name="q" value="{$DATA_SEARCH.q}">
+                            <input type="text" class="form-control" id="formEleQ" name="q" value="{$DATA_SEARCH.q}">
                         </div>
                         <div class="col-12 col-lg-6">
                             <label for="formEleCat">{$LANG->get('blogInCats')}:</label>
@@ -28,17 +28,17 @@
                             <div class="row">
                                 <div class="col-6">
                                     <label for="formEleFrom">{$LANG->get('filter_from')}:</label>
-                                    <input class="form-control form-control-sm bsdatepicker" value="{$DATA_SEARCH.from}" type="text" id="formEleFrom" name="from" autocomplete="off">
+                                    <input class="form-control bsdatepicker" value="{$DATA_SEARCH.from}" type="text" id="formEleFrom" name="from" autocomplete="off">
                                 </div>
                                 <div class="col-6">
                                     <label for="formEleTo">{$LANG->get('filter_to')}:</label>
-                                    <input class="form-control form-control-sm bsdatepicker" value="{$DATA_SEARCH.to}" type="text" id="formEleTo" name="to" autocomplete="off">
+                                    <input class="form-control bsdatepicker" value="{$DATA_SEARCH.to}" type="text" id="formEleTo" name="to" autocomplete="off">
                                 </div>
                             </div>
                         </div>
                         <div class="col-12 col-lg-6">
                             <label for="formEleStatus">{$LANG->get('status1')}:</label>
-                            <select class="form-control form-control-sm" name="status" id="formEleStatus">
+                            <select class="form-select" name="status" id="formEleStatus">
                                 <option value="10">{$LANG->get('filter_all_status')}</option>
                                 {foreach from=$BLOGSTATUS key=key item=value}
                                 <option value="{$value}"{if $value eq $DATA_SEARCH.status} selected="selected"{/if}>{$LANG->get("blogStatus`$value`")}</option>
