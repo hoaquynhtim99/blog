@@ -1,1 +1,0 @@
-This data is collected from https://www.facebook.com/translations/FacebookLocales.xml
