@@ -129,7 +129,7 @@ if ($nv_Request->get_title('tokend', 'post', '') === NV_CHECK_SESSION) {
 $tpl = new \NukeViet\Template\NVSmarty();
 $tpl->registerPlugin('modifier', 'substr', 'substr');
 $tpl->registerPlugin('modifier', 'ucfirst', 'ucfirst');
-$tpl->registerPlugin('modifier', 'replace', 'str_replace');
+$tpl->registerPlugin('modifier', 'str_replace', 'str_replace');
 $tpl->setTemplateDir(NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file);
 $tpl->assign('LANG', $nv_Lang);
 $tpl->assign('TOKEND', NV_CHECK_SESSION);

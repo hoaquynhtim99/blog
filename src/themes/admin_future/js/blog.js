@@ -104,7 +104,7 @@ function nv_delete_newsletters(id) {
 
 // Thao tac voi danh muc tin
 function nv_change_cat_status(id) {
-    var nv_timer = nv_settimeout_disable('change_status' + id, 4000);
+    nv_settimeout_disable('change_status' + id, 4000);
     $.post(script_name + '?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=categories&nocache=' + new Date().getTime(), 'changestatus=1&id=' + id, function(res) {
         nv_change_status_result(res);
     });
@@ -112,7 +112,7 @@ function nv_change_cat_status(id) {
 }
 
 function nv_change_cat_weight(id) {
-    var nv_timer = nv_settimeout_disable('weight' + id, 5000);
+    nv_settimeout_disable('weight' + id, 5000);
     var newpos = document.getElementById('weight' + id).options[document.getElementById('weight' + id).selectedIndex].value;
     $.post(script_name + '?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=categories&nocache=' + new Date().getTime(), 'changeweight=1&id=' + id + '&new=' + newpos, function(res) {
         nv_chang_weight_result(res);
@@ -301,7 +301,7 @@ BL.tags = {
             cursor: "crosshair",
             placeholder: "badge badge-secondary post-tags-most-item post-tags-most-item-sort",
             forcePlaceholderSize: true,
-            update: function(event, ui) {
+            update: function() {
                 BL.tags.reset();
             }
         });
@@ -432,6 +432,13 @@ $(document).ready(function() {
             $btnall.prop('checked', false);
         }
     });
+
+    // Select2 chung
+    if ($('.select2').length) {
+        $('.select2').select2({
+            width: '100%'
+        });
+    }
 
     // Trình soạn thảo
     /*

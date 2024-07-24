@@ -7,11 +7,11 @@
             <div class="card-body-search-form pt-4 pb-2 px-4 form-inline">
                 <div class="input-group bl-min-w-25">
                     <label class="sr-only" for="formElementQ">{$LANG->get('searchTags')}</label>
-                    <input type="text" class="form-control mb-2 mr-sm-2" id="formElementQ" name="q" value="{$DATA_SEARCH.q}" placeholder="{$LANG->get('searchTags')}">
+                    <input type="text" class="form-control mb-2 me-sm-2" id="formElementQ" name="q" value="{$DATA_SEARCH.q}" placeholder="{$LANG->get('searchTags')}">
                 </div>
-                <button type="submit" class="btn btn-primary btn-input-sm mb-2 mr-2">{$LANG->get('filter_action')}</button>
+                <button type="submit" class="btn btn-primary mb-2 me-2">{$LANG->get('filter_action')}</button>
                 {if not empty($DATA_SEARCH.q)}
-                <a href="{$NV_BASE_ADMINURL}index.php?{$NV_LANG_VARIABLE}={$NV_LANG_DATA}&amp;{$NV_NAME_VARIABLE}={$MODULE_NAME}&amp;{$NV_OP_VARIABLE}={$OP}" class="btn btn-secondary btn-input-sm mb-2">{$LANG->get('filter_cancel')}</a>
+                <a href="{$NV_BASE_ADMINURL}index.php?{$NV_LANG_VARIABLE}={$NV_LANG_DATA}&amp;{$NV_NAME_VARIABLE}={$MODULE_NAME}&amp;{$NV_OP_VARIABLE}={$OP}" class="btn btn-secondary mb-2">{$LANG->get('filter_cancel')}</a>
                 {/if}
             </div>
         </form>
@@ -21,7 +21,7 @@
                     <tr>
                         <th style="width:5%;" class="text-nowrap">
                             <label class="custom-control custom-control-sm custom-checkbox">
-                                <input class="custom-control-input" type="checkbox" data-toggle="BLCheckAll" name="BLIdItems" data-target="[name='BLIdItem[]']"><span class="custom-control-label"></span>
+                                <input class="form-check-input" type="checkbox" data-toggle="BLCheckAll" name="BLIdItems" data-target="[name='BLIdItem[]']"><span class="custom-control-label"></span>
                             </label>
                         </th>
                         <th style="width:5%;" class="text-nowrap">ID</th>
@@ -36,7 +36,7 @@
                     <tr>
                         <td>
                             <label class="custom-control custom-control-sm custom-checkbox">
-                                <input class="custom-control-input" type="checkbox" data-toggle="BLUncheckAll" name="BLIdItem[]" data-target="[name='BLIdItems']" value="{$row.id}"><span class="custom-control-label"></span>
+                                <input class="form-check-input" type="checkbox" data-toggle="BLUncheckAll" name="BLIdItem[]" data-target="[name='BLIdItems']" value="{$row.id}"><span class="custom-control-label"></span>
                             </label>
                         </td>
                         <td>{$row.id}</td>
@@ -74,57 +74,57 @@
     </div>
 </div>
 {if not empty($ERROR)}
-<div role="alert" class="alert alert-danger alert-dismissible">
+<div role="alert" class="alert alert-danger">
     <button type="button" data-dismiss="alert" aria-label="{$LANG->get('close')}" class="close"><i class="fas fa-times"></i></button>
     <div class="icon"><i class="far fa-times-circle"></i></div>
     <div class="message">{$ERROR}</div>
 </div>
 {/if}
-<div class="card card-border-color card-border-color-primary" id="formElement">
-    <div class="card-header card-header-divider">
+<div class="card" id="formElement">
+    <div class="card-header fs-5 fw-medium">
         {if $ID}{$LANG->get('tagsEdit')}{else}{$LANG->get('tagsAdd')}{/if}
     </div>
     <div class="card-body">
         <form method="post" action="{$FORM_ACTION}" autocomplete="off">
-            <div class="form-group row">
+            <div class="row mb-3">
                 <label class="col-12 col-sm-3 col-form-label text-sm-end" for="formElementTitle">{$LANG->get('title')} <i class="text-danger">(*)</i></label>
                 <div class="col-12 col-sm-8 col-lg-6">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1 flex-shrink-1">
                             <input type="text" class="form-control" id="formElementTitle" name="title" value="{$DATA.title}" maxlength="250">
                         </div>
-                        <div class="flex-grow-0 flex-shrink-0 pl-2">
-                            <button class="btn btn-secondary btn-input-sm" type="button" id="formElementTitleClick" tabindex="-1">{$LANG->get('aliasAutoGet')}</button>
+                        <div class="flex-grow-0 flex-shrink-0 ps-2">
+                            <button class="btn btn-secondary" type="button" id="formElementTitleClick" tabindex="-1">{$LANG->get('aliasAutoGet')}</button>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="form-group row">
+            <div class="row mb-3">
                 <label class="col-12 col-sm-3 col-form-label text-sm-end" for="formElementAlias">{$LANG->get('alias')} <i class="text-danger">(*)</i></label>
                 <div class="col-12 col-sm-8 col-lg-6">
                     <input type="text" class="form-control" id="formElementAlias" name="alias" value="{$DATA.alias}" maxlength="250">
                 </div>
             </div>
-            <div class="form-group row">
+            <div class="row mb-3">
                 <label class="col-12 col-sm-3 col-form-label text-sm-end" for="formElementKeywords">{$LANG->get('keywords')} <i class="text-danger">(*)</i></label>
                 <div class="col-12 col-sm-8 col-lg-6">
                     <input type="text" class="form-control" id="formElementKeywords" name="keywords" value="{$DATA.keywords}" maxlength="255">
                     <div class="form-text text-muted">{$LANG->get('keywordsNote')}</div>
                 </div>
             </div>
-            <div class="form-group row">
+            <div class="row mb-3">
                 <label class="col-12 col-sm-3 col-form-label text-sm-end" for="formElementDescription">{$LANG->get('description')} <i class="text-danger">(*)</i></label>
                 <div class="col-12 col-sm-8 col-lg-6">
                     <input type="text" class="form-control" id="formElementDescription" name="description" value="{$DATA.description}" maxlength="255">
                     <div class="form-text text-muted">{$LANG->get('descriptionNote')}</div>
                 </div>
             </div>
-            <div class="form-group row mb-0 pb-0">
+            <div class="row">
                 <label class="col-12 col-sm-3 col-form-label text-sm-end"></label>
                 <div class="col-12 col-sm-8 col-lg-6">
                     <input type="hidden" name="id" value="{$ID}">
                     <input type="hidden" name="tokend" value="{$TOKEND}">
-                    <button class="btn btn-space btn-primary" type="submit">{$LANG->get('submit')}</button>
+                    <button class="btn btn-primary" type="submit">{$LANG->get('submit')}</button>
                 </div>
             </div>
         </form>

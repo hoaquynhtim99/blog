@@ -58,7 +58,7 @@
                     <tr>
                         <th style="width:5%;" class="text-nowrap">
                             <label class="custom-control custom-control-sm custom-checkbox">
-                                <input class="custom-control-input" type="checkbox" data-toggle="BLCheckAll" name="BLIdItems" data-target="[name='BLIdItem[]']"><span class="custom-control-label"></span>
+                                <input class="form-check-input" type="checkbox" data-toggle="BLCheckAll" name="BLIdItems" data-target="[name='BLIdItem[]']"><span class="custom-control-label"></span>
                             </label>
                         </th>
                         <th style="width:35%;" class="text-nowrap"><a href="{$DATA_ORDER.title.data.url}" title="{$DATA_ORDER.title.data.title}">{if $DATA_ORDER.title.data.key eq 'asc'}<i class="fas fa-sort-amount-down-alt"></i> {elseif $DATA_ORDER.title.data.key eq 'desc'}<i class="fas fa-sort-amount-up"></i> {/if}{$LANG->get('title')}</a></th>
@@ -73,7 +73,7 @@
                     <tr>
                         <td>
                             <label class="custom-control custom-control-sm custom-checkbox">
-                                <input class="custom-control-input" type="checkbox" data-toggle="BLUncheckAll" name="BLIdItem[]" data-target="[name='BLIdItems']" value="{$row.id}"><span class="custom-control-label"></span>
+                                <input class="form-check-input" type="checkbox" data-toggle="BLUncheckAll" name="BLIdItem[]" data-target="[name='BLIdItems']" value="{$row.id}"><span class="custom-control-label"></span>
                             </label>
                         </td>
                         <td>

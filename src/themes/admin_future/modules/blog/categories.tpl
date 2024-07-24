@@ -1,8 +1,6 @@
 {if empty($NUMCAT)}
-<div role="alert" class="alert alert-danger alert-dismissible">
-    <button type="button" data-dismiss="alert" aria-label="{$LANG->get('close')}" class="close"><i class="fas fa-times"></i></button>
-    <div class="icon"><i class="far fa-times-circle"></i></div>
-    <div class="message">{$LANG->get('categoriesEmpty')}</div>
+<div role="alert" class="alert alert-danger">
+    <i class="far fa-times-circle"></i> {$LANG->get('categoriesEmpty')}
 </div>
 {else}
 <nav aria-label="breadcrumb" role="navigation">
@@ -74,52 +72,50 @@
 </div>
 {/if}
 {if not empty($ERROR)}
-<div role="alert" class="alert alert-danger alert-dismissible">
-    <button type="button" data-dismiss="alert" aria-label="{$LANG->get('close')}" class="close"><i class="fas fa-times"></i></button>
-    <div class="icon"><i class="far fa-times-circle"></i></div>
-    <div class="message">{$ERROR}</div>
+<div role="alert" class="alert alert-danger">
+    <i class="far fa-times-circle"></i> {$ERROR}
 </div>
 {/if}
-<div class="card card-border-color card-border-color-primary" id="formElement">
-    <div class="card-header card-header-divider">
+<div class="card" id="formElement">
+    <div class="card-header fs-5 fw-medium">
         {if $ID}{$LANG->get('categoriesEdit')}{else}{$LANG->get('categoriesAdd')}{/if}
     </div>
     <div class="card-body">
         <form method="post" action="{$FORM_ACTION}" autocomplete="off">
-            <div class="form-group row">
+            <div class="row mb-3">
                 <label class="col-12 col-sm-3 col-form-label text-sm-end" for="formElementTitle">{$LANG->get('title')} <i class="text-danger">(*)</i></label>
                 <div class="col-12 col-sm-8 col-lg-6">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1 flex-shrink-1">
                             <input type="text" class="form-control" id="formElementTitle" name="title" value="{$DATA.title}" maxlength="250">
                         </div>
-                        <div class="flex-grow-0 flex-shrink-0 pl-2">
-                            <button class="btn btn-secondary btn-input-sm" type="button" id="formElementTitleClick" tabindex="-1">{$LANG->get('aliasAutoGet')}</button>
+                        <div class="flex-grow-0 flex-shrink-0 ps-2">
+                            <button class="btn btn-secondary" type="button" id="formElementTitleClick" tabindex="-1">{$LANG->get('aliasAutoGet')}</button>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="form-group row">
+            <div class="row mb-3">
                 <label class="col-12 col-sm-3 col-form-label text-sm-end" for="formElementAlias">{$LANG->get('alias')} <i class="text-danger">(*)</i></label>
                 <div class="col-12 col-sm-8 col-lg-6">
                     <input type="text" class="form-control" id="formElementAlias" name="alias" value="{$DATA.alias}" maxlength="250">
                 </div>
             </div>
-            <div class="form-group row">
+            <div class="row mb-3">
                 <label class="col-12 col-sm-3 col-form-label text-sm-end" for="formElementKeywords">{$LANG->get('keywords')} <i class="text-danger">(*)</i></label>
                 <div class="col-12 col-sm-8 col-lg-6">
                     <input type="text" class="form-control" id="formElementKeywords" name="keywords" value="{$DATA.keywords}" maxlength="255">
                     <div class="form-text text-muted">{$LANG->get('keywordsNote')}</div>
                 </div>
             </div>
-            <div class="form-group row">
+            <div class="row mb-3">
                 <label class="col-12 col-sm-3 col-form-label text-sm-end" for="formElementDescription">{$LANG->get('description')} <i class="text-danger">(*)</i></label>
                 <div class="col-12 col-sm-8 col-lg-6">
                     <input type="text" class="form-control" id="formElementDescription" name="description" value="{$DATA.description}" maxlength="255">
                     <div class="form-text text-muted">{$LANG->get('descriptionNote')}</div>
                 </div>
             </div>
-            <div class="form-group row">
+            <div class="row mb-3">
                 <label class="col-12 col-sm-3 col-form-label text-sm-end" for="formElementParentid">{$LANG->get('categoriesInCat')}</label>
                 <div class="col-12 col-sm-7 col-md-5 col-lg-4 col-xl-3">
                     <select class="form-select" id="formElementParentid" name="parentid">
@@ -129,12 +125,12 @@
                     </select>
                 </div>
             </div>
-            <div class="form-group row mb-0 pb-0">
+            <div class="row">
                 <label class="col-12 col-sm-3 col-form-label text-sm-end"></label>
                 <div class="col-12 col-sm-8 col-lg-6">
                     <input type="hidden" name="id" value="{$ID}">
                     <input type="hidden" name="tokend" value="{$TOKEND}">
-                    <button class="btn btn-space btn-primary" type="submit">{$LANG->get('submit')}</button>
+                    <button class="btn btn-primary" type="submit">{$LANG->get('submit')}</button>
                 </div>
             </div>
         </form>

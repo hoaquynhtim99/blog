@@ -7,11 +7,11 @@
             <div class="card-body-search-form pt-4 pb-2 px-4 form-inline">
                 <div class="input-group bl-min-w-25">
                     <label class="sr-only" for="formElementQ">{$LANG->get('searchEmail')}</label>
-                    <input type="text" class="form-control mb-2 mr-sm-2" id="formElementQ" name="q" value="{$DATA_SEARCH.q}" placeholder="{$LANG->get('searchEmail')}">
+                    <input type="text" class="form-control mb-2 me-sm-2" id="formElementQ" name="q" value="{$DATA_SEARCH.q}" placeholder="{$LANG->get('searchEmail')}">
                 </div>
-                <button type="submit" class="btn btn-primary btn-input-sm mb-2 mr-2">{$LANG->get('filter_action')}</button>
+                <button type="submit" class="btn btn-primary mb-2 me-2">{$LANG->get('filter_action')}</button>
                 {if not empty($DATA_SEARCH.q)}
-                <a href="{$NV_BASE_ADMINURL}index.php?{$NV_LANG_VARIABLE}={$NV_LANG_DATA}&amp;{$NV_NAME_VARIABLE}={$MODULE_NAME}&amp;{$NV_OP_VARIABLE}={$OP}" class="btn btn-secondary btn-input-sm mb-2">{$LANG->get('filter_cancel')}</a>
+                <a href="{$NV_BASE_ADMINURL}index.php?{$NV_LANG_VARIABLE}={$NV_LANG_DATA}&amp;{$NV_NAME_VARIABLE}={$MODULE_NAME}&amp;{$NV_OP_VARIABLE}={$OP}" class="btn btn-secondary mb-2">{$LANG->get('filter_cancel')}</a>
                 {/if}
             </div>
         </form>
@@ -21,7 +21,7 @@
                     <tr>
                         <th style="width:5%;" class="text-nowrap">
                             <label class="custom-control custom-control-sm custom-checkbox">
-                                <input class="custom-control-input" type="checkbox" data-toggle="BLCheckAll" name="BLIdItems" data-target="[name='BLIdItem[]']"><span class="custom-control-label"></span>
+                                <input class="form-check-input" type="checkbox" data-toggle="BLCheckAll" name="BLIdItems" data-target="[name='BLIdItem[]']"><span class="custom-control-label"></span>
                             </label>
                         </th>
                         <th style="width:20%;" class="text-nowrap"><a href="{$DATA_ORDER.email.data.url}" title="{$DATA_ORDER.email.data.title}">{if $DATA_ORDER.email.data.key eq 'asc'}<i class="fas fa-sort-amount-down-alt"></i> {elseif $DATA_ORDER.email.data.key eq 'desc'}<i class="fas fa-sort-amount-up"></i> {/if}{$LANG->get('nltEmail')}</a></th>
@@ -37,7 +37,7 @@
                     <tr>
                         <td>
                             <label class="custom-control custom-control-sm custom-checkbox">
-                                <input class="custom-control-input" type="checkbox" data-toggle="BLUncheckAll" name="BLIdItem[]" data-target="[name='BLIdItems']" value="{$row.id}"><span class="custom-control-label"></span>
+                                <input class="form-check-input" type="checkbox" data-toggle="BLUncheckAll" name="BLIdItem[]" data-target="[name='BLIdItems']" value="{$row.id}"><span class="custom-control-label"></span>
                             </label>
                         </td>
                         <td class="cell-detail">

@@ -1,27 +1,21 @@
 {if not empty($ERROR)}
-<div role="alert" class="alert alert-danger alert-dismissible">
-    <button type="button" data-dismiss="alert" aria-label="{$LANG->get('close')}" class="close"><i class="fas fa-times"></i></button>
-    <div class="icon"><i class="far fa-times-circle"></i></div>
-    <div class="message">{$ERROR}</div>
+<div role="alert" class="alert alert-danger">
+    <i class="far fa-times-circle"></i> {$ERROR}
 </div>
 {/if}
-<div role="alert" class="alert alert-primary alert-dismissible">
-    <button type="button" data-dismiss="alert" aria-label="{$LANG->get('close')}" class="close"><i class="fas fa-times"></i></button>
-    <div class="icon"><i class="fas fa-info-circle"></i></div>
-    <div class="message">{$LANG->get('cfgCommentNote')}</div>
+<div role="alert" class="alert alert-primary">
+    <i class="fas fa-info-circle"></i> {$LANG->get('cfgCommentNote')}
 </div>
-<div class="card card-border-color card-border-color-primary">
+<div class="card">
     <div class="card-body">
         <form method="post" action="{$FORM_ACTION}" autocomplete="off">
-            <div class="form-group row">
+            <div class="row mb-3">
                 <label class="col-12 col-sm-3 col-form-label text-sm-end" for="commentPerPage">{$LANG->get('cfgCommentPerPage')}</label>
-                <div class="col-12 col-sm-8 col-lg-6">
-                    <div class="form-inline">
-                        <input type="number" class="form-control" id="commentPerPage" name="commentPerPage" value="{$DATA.commentPerPage}" min="0" max="999">
-                    </div>
+                <div class="col-12 col-sm-8 col-lg-3">
+                    <input type="number" class="form-control" id="commentPerPage" name="commentPerPage" value="{$DATA.commentPerPage}" min="0" max="999">
                 </div>
             </div>
-            <div class="form-group row">
+            <div class="row mb-3">
                 <label class="col-12 col-sm-3 col-form-label text-sm-end" for="commentType">{$LANG->get('cfgCommentType')}</label>
                 <div class="col-12 col-sm-7 col-md-5 col-lg-4 col-xl-3">
                     <select class="form-select" id="commentType" name="commentType">
@@ -32,7 +26,7 @@
                 </div>
             </div>
             <div id="comment-facebook" class="comment-table">
-                <div class="form-group row">
+                <div class="row mb-3">
                     <label class="col-12 col-sm-3 col-form-label text-sm-end" for="commentFacebookColorscheme">{$LANG->get('cfgcommentFacebookColorscheme')}</label>
                     <div class="col-12 col-sm-7 col-md-5 col-lg-4 col-xl-3">
                         <select class="form-select" id="commentFacebookColorscheme" name="commentFacebookColorscheme">
@@ -42,15 +36,16 @@
                         </select>
                     </div>
                 </div>
-                <div class="form-group row py-0">
+                <div class="row mb-3">
                     <label class="col-12 col-sm-3 col-form-label text-sm-end d-none d-sm-block"></label>
-                    <div class="col-12 col-sm-8 col-lg-6 form-check mt-1">
-                        <label class="custom-control custom-checkbox custom-control-inline mb-1">
-                            <input class="custom-control-input" type="checkbox" id="emailWhenComment" name="emailWhenComment" value="1"{if $DATA.emailWhenComment} checked="checked"{/if}><span class="custom-control-label">{$LANG->get('cfgemailWhenComment')}</span>
-                        </label>
+                    <div class="col-12 col-sm-8 col-lg-6 mt-1">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="emailWhenComment" name="emailWhenComment" value="1"{if $DATA.emailWhenComment} checked="checked"{/if}>
+                            <label for="emailWhenComment" class="form-check-label">{$LANG->get('cfgemailWhenComment')}</label>
+                        </div>
                     </div>
                 </div>
-                <div class="form-group row">
+                <div class="row mb-3">
                     <label class="col-12 col-sm-3 col-form-label text-sm-end" for="emailWhenCommentList">{$LANG->get('cfgemailWhenCommentList')}</label>
                     <div class="col-12 col-sm-8 col-lg-6">
                         <textarea rows="4" class="form-control" name="emailWhenCommentList" id="emailWhenCommentList">{$DATA.emailWhenCommentList}</textarea>
@@ -59,7 +54,7 @@
                 </div>
             </div>
             <div id="comment-disqus" class="comment-table">
-                <div class="form-group row">
+                <div class="row mb-3">
                     <label class="col-12 col-sm-3 col-form-label text-sm-end" for="commentDisqusShortname">{$LANG->get('cfgcommentDisqusShortname')} <i class="text-danger">(*)</i></label>
                     <div class="col-12 col-sm-8 col-lg-6">
                         <input type="text" class="form-control" name="commentDisqusShortname" id="commentDisqusShortname" value="{$DATA.commentDisqusShortname}">
@@ -67,17 +62,14 @@
                 </div>
             </div>
             <div id="comment-sys" class="comment-table">
-                <div role="alert" class="alert alert-danger alert-dismissible my-2">
-                    <button type="button" data-dismiss="alert" aria-label="{$LANG->get('close')}" class="close"><i class="fas fa-times"></i></button>
-                    <div class="icon"><i class="far fa-times-circle"></i></div>
-                    <div class="message">{$LANG->get('isDevelop')}</div>
+                <div role="alert" class="alert alert-danger my-3">
+                    <i class="far fa-times-circle"></i> {$LANG->get('isDevelop')}
                 </div>
             </div>
-            <div class="form-group row mb-0 pb-0">
-                <label class="col-12 col-sm-3 col-form-label text-sm-end"></label>
-                <div class="col-12 col-sm-8 col-lg-6">
+            <div class="row">
+                <div class="col-12 col-sm-8 col-lg-6 offset-sm-3">
                     <input type="hidden" name="tokend" value="{$TOKEND}">
-                    <button class="btn btn-space btn-primary" type="submit">{$LANG->get('submit')}</button>
+                    <button class="btn btn-primary" type="submit">{$LANG->get('submit')}</button>
                 </div>
             </div>
         </form>

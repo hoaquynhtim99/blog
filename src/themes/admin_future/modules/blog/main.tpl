@@ -1,16 +1,16 @@
 <div class="card mb-4">
     {if empty($ARRAY_NOTICE)}
-    <div class="card-header card-header-divider fs-5 fw-medium">{$LANG->get('mainNotice')}</div>
+    <div class="card-header fs-5 fw-medium fs-5 fw-medium">{$LANG->get('mainNotice')}</div>
     <div class="card-body">
         <div role="alert" class="alert alert-success my-0">
             <i class="fas fa-check"></i> {$LANG->get('mainNoticeEmpty')}
         </div>
     </div>
     {else}
-    <div class="card-header ml-4 fs-5 fw-medium">{$LANG->get('mainNotice')}</div>
+    <div class="card-header fs-5 fw-medium">{$LANG->get('mainNotice')}</div>
         <div class="list-group list-group-flush">
             {foreach from=$ARRAY_NOTICE item=item}
-            <div class="list-group-item pl-4"><i class="fas fa-exclamation-circle text-warning"></i> <a href="{$item.link}">{$item.title}</a></div>
+            <div class="list-group-item"><i class="fas fa-exclamation-circle text-warning"></i> <a href="{$item.link}">{$item.title}</a></div>
             {/foreach}
         </div>
     {/if}
@@ -19,24 +19,24 @@
     <div class="col-lg-4">
         <div class="bl-main-card-height">
             <div class="card card-border-color card-border-color-dark">
-                <div class="card-header ml-4 fs-5 fw-medium">{$LANG->get('mainQuickLink')}</div>
+                <div class="card-header fs-5 fw-medium">{$LANG->get('mainQuickLink')}</div>
                 <div class="list-group list-group-flush">
-                    <div class="list-group-item pl-4"><a href="{$NV_BASE_ADMINURL}index.php?{$NV_LANG_VARIABLE}={$NV_LANG_DATA}&amp;{$NV_NAME_VARIABLE}={$MODULE_NAME}&amp;{$NV_OP_VARIABLE}=config-block-tags"><i class="fas fa-chevron-right"></i> {$LANG->get('cfgBlockTags')}</a></div>
-                    <div class="list-group-item pl-4"><a href="{$NV_BASE_ADMINURL}index.php?{$NV_LANG_VARIABLE}={$NV_LANG_DATA}&amp;{$NV_NAME_VARIABLE}={$MODULE_NAME}&amp;{$NV_OP_VARIABLE}=config-sys"><i class="fas fa-chevron-right"></i> {$LANG->get('cfgSys')}</a></div>
-                    <div class="list-group-item pl-4"><a href="{$NV_BASE_ADMINURL}index.php?{$NV_LANG_VARIABLE}={$NV_LANG_DATA}&amp;{$NV_NAME_VARIABLE}={$MODULE_NAME}&amp;{$NV_OP_VARIABLE}=config-structured-data"><i class="fas fa-chevron-right"></i> {$LANG->get('cfgStructureData')}</a></div>
-                    <div class="list-group-item pl-4"><a href="{$NV_BASE_ADMINURL}index.php?{$NV_LANG_VARIABLE}={$NV_LANG_DATA}&amp;{$NV_NAME_VARIABLE}={$MODULE_NAME}&amp;{$NV_OP_VARIABLE}=config-comment"><i class="fas fa-chevron-right"></i> {$LANG->get('cfgComment')}</a></div>
-                    <div class="list-group-item pl-4"><a href="{$NV_BASE_ADMINURL}index.php?{$NV_LANG_VARIABLE}={$NV_LANG_DATA}&amp;{$NV_NAME_VARIABLE}={$MODULE_NAME}&amp;{$NV_OP_VARIABLE}=config-instant-articles"><i class="fas fa-chevron-right"></i> {$LANG->get('cfgInsArt')}</a></div>
+                    <div class="list-group-item"><a href="{$NV_BASE_ADMINURL}index.php?{$NV_LANG_VARIABLE}={$NV_LANG_DATA}&amp;{$NV_NAME_VARIABLE}={$MODULE_NAME}&amp;{$NV_OP_VARIABLE}=config-block-tags"><i class="fas fa-chevron-right"></i> {$LANG->get('cfgBlockTags')}</a></div>
+                    <div class="list-group-item"><a href="{$NV_BASE_ADMINURL}index.php?{$NV_LANG_VARIABLE}={$NV_LANG_DATA}&amp;{$NV_NAME_VARIABLE}={$MODULE_NAME}&amp;{$NV_OP_VARIABLE}=config-sys"><i class="fas fa-chevron-right"></i> {$LANG->get('cfgSys')}</a></div>
+                    <div class="list-group-item"><a href="{$NV_BASE_ADMINURL}index.php?{$NV_LANG_VARIABLE}={$NV_LANG_DATA}&amp;{$NV_NAME_VARIABLE}={$MODULE_NAME}&amp;{$NV_OP_VARIABLE}=config-structured-data"><i class="fas fa-chevron-right"></i> {$LANG->get('cfgStructureData')}</a></div>
+                    <div class="list-group-item"><a href="{$NV_BASE_ADMINURL}index.php?{$NV_LANG_VARIABLE}={$NV_LANG_DATA}&amp;{$NV_NAME_VARIABLE}={$MODULE_NAME}&amp;{$NV_OP_VARIABLE}=config-comment"><i class="fas fa-chevron-right"></i> {$LANG->get('cfgComment')}</a></div>
+                    <div class="list-group-item"><a href="{$NV_BASE_ADMINURL}index.php?{$NV_LANG_VARIABLE}={$NV_LANG_DATA}&amp;{$NV_NAME_VARIABLE}={$MODULE_NAME}&amp;{$NV_OP_VARIABLE}=config-instant-articles"><i class="fas fa-chevron-right"></i> {$LANG->get('cfgInsArt')}</a></div>
                 </div>
             </div>
         </div>
     </div>
     <div class="col-lg-4">
         <div class="bl-main-card-height">
-            <div class="card card-border-color card-border-color-primary">
-                <div class="card-header ml-4 fs-5 fw-medium">{$LANG->get('mainStat')}</div>
+            <div class="card">
+                <div class="card-header fs-5 fw-medium">{$LANG->get('mainStat')}</div>
                 <div class="list-group list-group-flush">
                     {foreach from=$ARRAY_STATISTICS item=item}
-                    <div class="list-group-item pl-4"><a href="{$item.link}"><i class="fas fa-project-diagram text-dark"></i> {$item.title}</a></div>
+                    <div class="list-group-item"><a href="{$item.link}"><i class="fas fa-project-diagram text-dark"></i> {$item.title}</a></div>
                     {/foreach}
                 </div>
             </div>
@@ -45,21 +45,21 @@
     <div class="col-lg-4">
         <div class="bl-main-card-height">
             <div class="card card-border-color card-border-color-danger">
-                <div class="card-header ml-4 fs-5 fw-medium">{$LANG->get('mainInfo')}</div>
+                <div class="card-header fs-5 fw-medium">{$LANG->get('mainInfo')}</div>
                 <div class="list-group list-group-flush">
-                    <div class="list-group-item pl-4"><i class="fas fa-info-circle"></i> {$LANG->get('mainInfoVersion')}: <strong class="text-danger">{$MODULE_INFO.version}</strong></div>
-                    <div class="list-group-item pl-4"><i class="fas fa-info-circle"></i> {$LANG->get('mainInfoRelease')}: <strong class="text-danger">{"d/m/Y"|date:$MODULE_INFO.date}</strong></div>
-                    <div class="list-group-item pl-4"><i class="fas fa-info-circle"></i> {$LANG->get('mainInfoAuthor')}: <strong class="text-danger">{$MODULE_INFO.author}</strong></div>
-                    <div class="list-group-item pl-4"><i class="fas fa-info-circle"></i> {$LANG->get('mainInfoContact')}: <strong class="text-danger">{$AUTHOR_CONTACT}</strong></div>
-                    <div class="list-group-item pl-4"><i class="fas fa-info-circle"></i> {$LANG->get('mainInfoSupport')}: <strong class="text-danger"><a class="badge text-bg-primary" href="https://github.com/hoaquynhtim99/blog/" target="_blank" title="https://github.com/hoaquynhtim99/blog/"><i class="fa-brands fa-github"></i> {$LANG->get('mainInfoSupport')}</a></strong></div>
-                    <div class="list-group-item pl-4"><i class="fas fa-info-circle"></i> {$LANG->get('mainInfoIssue')}: <strong class="text-danger"><a class="badge text-bg-primary" href="https://github.com/hoaquynhtim99/blog/issues" target="_blank" title="https://github.com/hoaquynhtim99/blog/issues"><i class="fas fa-bug"></i> {$LANG->get('mainInfoIssue')}</a></strong></div>
+                    <div class="list-group-item"><i class="fas fa-info-circle"></i> {$LANG->get('mainInfoVersion')}: <strong class="text-danger">{$MODULE_INFO.version}</strong></div>
+                    <div class="list-group-item"><i class="fas fa-info-circle"></i> {$LANG->get('mainInfoRelease')}: <strong class="text-danger">{"d/m/Y"|date:$MODULE_INFO.date}</strong></div>
+                    <div class="list-group-item"><i class="fas fa-info-circle"></i> {$LANG->get('mainInfoAuthor')}: <strong class="text-danger">{$MODULE_INFO.author}</strong></div>
+                    <div class="list-group-item"><i class="fas fa-info-circle"></i> {$LANG->get('mainInfoContact')}: <strong class="text-danger">{$AUTHOR_CONTACT}</strong></div>
+                    <div class="list-group-item"><i class="fas fa-info-circle"></i> {$LANG->get('mainInfoSupport')}: <strong class="text-danger"><a class="badge text-bg-primary" href="https://github.com/hoaquynhtim99/blog/" target="_blank" title="https://github.com/hoaquynhtim99/blog/"><i class="fa-brands fa-github"></i> {$LANG->get('mainInfoSupport')}</a></strong></div>
+                    <div class="list-group-item"><i class="fas fa-info-circle"></i> {$LANG->get('mainInfoIssue')}: <strong class="text-danger"><a class="badge text-bg-primary" href="https://github.com/hoaquynhtim99/blog/issues" target="_blank" title="https://github.com/hoaquynhtim99/blog/issues"><i class="fas fa-bug"></i> {$LANG->get('mainInfoIssue')}</a></strong></div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <div class="card card-border-color card-border-color-success">
-    <div class="card-header card-header-divider">
+    <div class="card-header fs-5 fw-medium">
         <h5>{$LANG->get('mainDonation')}</h5>
         <span class="card-subtitle text-body-secondary">{$LANG->get('donateTitle')}</span>
     </div>
@@ -93,11 +93,8 @@
 <div id="modalDonateMomo" tabindex="-1" role="dialog" class="modal fade">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{$LANG->get('close')}"></button>
-            </div>
             <div class="modal-body">
-                <div class="text-center">
+                <div class="text-center mt-4">
                     <div class="text-center mb-2">
                         <img width="200" class="img-fluid" alt="Donate Momo" src="{$NV_BASE_SITEURL}themes/{$TEMPLATE}/images/{$MODULE_FILE}/donate-momo-qr.jpg">
                     </div>

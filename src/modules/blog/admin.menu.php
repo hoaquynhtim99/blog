@@ -12,13 +12,6 @@ if (!defined('NV_ADMIN')) {
     die('Stop!!!');
 }
 
-$submenu['blog-list'] = $nv_Lang->getModule('blogList');
-$submenu['blog-content'] = $nv_Lang->getModule('blogAdd');
-$submenu['categories'] = $nv_Lang->getModule('categoriesManager');
-$submenu['tags'] = $nv_Lang->getModule('tagsMg');
-$submenu['newsletter-manager'] = $nv_Lang->getModule('nltList');
-$submenu['config-master'] = $nv_Lang->getModule('cfgMaster');
-
 $allow_func = [
     'main',
     'categories',
@@ -32,4 +25,20 @@ $allow_func = [
     'config-structured-data',
     'config-instant-articles',
     'config-comment'
+];
+
+$submenu['blog-list'] = $nv_Lang->getModule('blogList');
+$submenu['blog-content'] = $nv_Lang->getModule('blogAdd');
+$submenu['categories'] = $nv_Lang->getModule('categoriesManager');
+$submenu['tags'] = $nv_Lang->getModule('tagsMg');
+$submenu['newsletter-manager'] = $nv_Lang->getModule('nltList');
+$submenu['config-master'] = [
+    'title' => $nv_Lang->getModule('cfgMaster'),
+    'submenu' => [
+        'config-block-tags' => $nv_Lang->getModule('cfgBlockTags'),
+        'config-sys' => $nv_Lang->getModule('cfgSys'),
+        'config-structured-data' => $nv_Lang->getModule('cfgStructureData'),
+        'config-comment' => $nv_Lang->getModule('cfgComment'),
+        'config-instant-articles' => $nv_Lang->getModule('cfgInsArt')
+    ]
 ];

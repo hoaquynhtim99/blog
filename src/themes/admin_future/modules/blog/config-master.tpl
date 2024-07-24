@@ -64,7 +64,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group row mb-3">
+                    <div class="row mb-3">
                         <label class="col-12 col-sm-4 col-form-label text-sm-end" for="showAdsInDetailPage">{$LANG->get('cfgshowAdsInDetailPage')}</label>
                         <div class="col-12 col-sm-8 col-lg-6 mt-1">
                             <div class="form-check form-switch">
@@ -89,10 +89,10 @@
                     <div class="row mb-3">
                         <label class="col-12 col-sm-4 col-form-label text-sm-end" for="sysHighlightTheme">{$LANG->get('cfgsysHighlightTheme')}</label>
                         <div class="col-12 col-sm-7 col-md-5 col-lg-4 col-xl-3">
-                            <select class="select2" id="sysHighlightTheme" name="sysHighlightTheme">
+                            <select class="form-select select2" id="sysHighlightTheme" name="sysHighlightTheme">
                                 {foreach from=$HIGHLIGHT_THEMES key=key item=value}
                                 {assign var="highlightTheme" value=$value|substr:0:-4 nocache}
-                                <option value="{$highlightTheme}"{if $highlightTheme eq $DATA.sysHighlightTheme} selected="selected"{/if}>{['-', '.', '_']|replace:" ":"`$highlightTheme|ucfirst`"}</option>
+                                <option value="{$highlightTheme}"{if $highlightTheme eq $DATA.sysHighlightTheme} selected="selected"{/if}>{['-', '.', '_']|str_replace:" ":"`$highlightTheme|ucfirst`"}</option>
                                 {/foreach}
                             </select>
                         </div>
@@ -164,12 +164,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group row py-0">
+                    <div class="row mb-3">
                         <label class="col-12 col-sm-4 col-form-label text-sm-end d-none d-sm-block"></label>
                         <div class="col-12 col-sm-8 col-lg-6 mt-1">
-                            <label class="custom-control custom-checkbox custom-control-inline mb-1">
-                                <input class="custom-control-input" type="checkbox" id="initMediaResponsive" name="initMediaResponsive" value="1"{if $DATA.initMediaResponsive} checked="checked"{/if}><span class="custom-control-label">{$LANG->get('cfginitMediaResponsive')}</span>
-                            </label>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="initMediaResponsive" name="initMediaResponsive" value="1"{if $DATA.initMediaResponsive} checked="checked"{/if}>
+                                <label for="initMediaResponsive" class="form-check-label">{$LANG->get('cfginitMediaResponsive')}</label>
+                            </div>
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -182,7 +183,7 @@
                     </div>
                     <div class="row mb-3">
                         <label class="col-12 col-sm-4 col-form-label text-sm-end" for="folderStructure">{$LANG->get('cfgfolderStructure')}</label>
-                        <div class="col-12 col-sm-7 col-md-5 col-lg-4 col-xl-3">
+                        <div class="col-12 col-sm-8 col-lg-6">
                             <select class="form-select" id="folderStructure" name="folderStructure">
                                 {foreach from=$STRUCTURE_IMAGE key=key item=value}
                                 <option value="{$key}"{if $key eq $DATA.folderStructure} selected="selected"{/if}>{$value}</option>
@@ -190,20 +191,22 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group row py-0">
+                    <div class="row mb-3">
                         <label class="col-12 col-sm-4 col-form-label text-sm-end d-none d-sm-block"></label>
                         <div class="col-12 col-sm-8 col-lg-6 mt-1">
-                            <label class="custom-control custom-checkbox custom-control-inline mb-1">
-                                <input class="custom-control-input" type="checkbox" id="initNewsletters" name="initNewsletters" value="1"{if $DATA.initNewsletters} checked="checked"{/if}><span class="custom-control-label">{$LANG->get('cfginitNewsletters')}</span>
-                            </label>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="initNewsletters" name="initNewsletters" value="1"{if $DATA.initNewsletters} checked="checked"{/if}>
+                                <label for="initNewsletters" class="form-check-label">{$LANG->get('cfginitNewsletters')}</label>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group row py-0">
+                    <div class="row mb-3">
                         <label class="col-12 col-sm-4 col-form-label text-sm-end d-none d-sm-block"></label>
                         <div class="col-12 col-sm-8 col-lg-6 mt-1">
-                            <label class="custom-control custom-checkbox custom-control-inline mb-1">
-                                <input class="custom-control-input" type="checkbox" id="initAutoKeywords" name="initAutoKeywords" value="1"{if $DATA.initAutoKeywords} checked="checked"{/if}><span class="custom-control-label">{$LANG->get('cfginitAutoKeywords')}</span>
-                            </label>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="initAutoKeywords" name="initAutoKeywords" value="1"{if $DATA.initAutoKeywords} checked="checked"{/if}>
+                                <label for="initAutoKeywords" class="form-check-label">{$LANG->get('cfginitAutoKeywords')}</label>
+                            </div>
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -218,12 +221,11 @@
                                             {/foreach}
                                         </select>
                                     </div>
-                                    <div class="flex-grow-0 flex-shrink-0 ml-1">
+                                    <div class="flex-grow-0 flex-shrink-0 ms-1">
                                         <i class="fas fa-info-circle text-primary cursor-pointer" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="click" title="{$LANG->get('cfgpostingModeHelp')}"></i>
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-text text-muted">{$LANG->get('cfgMarkdownClass')}</div>
                         </div>
                     </div>
                     <div class="row">
@@ -261,11 +263,3 @@
 
 <script src="{$smarty.const.ASSETS_STATIC_URL}/js/select2/select2.min.js"></script>
 <script src="{$smarty.const.ASSETS_STATIC_URL}/js/select2/i18n/{$smarty.const.NV_LANG_INTERFACE}.js"></script>
-
-<script type="text/javascript">
-$(document).ready(function() {
-    $("#sysHighlightTheme").select2({
-        width: "100%"
-    });
-});
-</script>
