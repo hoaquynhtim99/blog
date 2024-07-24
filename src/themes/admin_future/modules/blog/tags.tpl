@@ -1,4 +1,4 @@
-<div class="card card-table card-footer-nav">
+<div class="card">
     <div class="card-body">
         <form method="get" action="{$NV_BASE_ADMINURL}index.php">
             <input type="hidden" name="{$NV_LANG_VARIABLE}" value="{$NV_LANG_DATA}">
@@ -28,7 +28,7 @@
                         <th style="width:30%;" class="text-nowrap"><a href="{$DATA_ORDER.title.data.url}" title="{$DATA_ORDER.title.data.title}">{if $DATA_ORDER.title.data.key eq 'asc'}<i class="fas fa-sort-amount-down-alt"></i> {elseif $DATA_ORDER.title.data.key eq 'desc'}<i class="fas fa-sort-amount-up"></i> {/if}{$LANG->get('title')}</a></th>
                         <th style="width:45%;" class="text-nowrap">{$LANG->get('colDescriptionKeyword')}</th>
                         <th style="width:10%;" class="text-nowrap"><a href="{$DATA_ORDER.numposts.data.url}" title="{$DATA_ORDER.numposts.data.title}">{if $DATA_ORDER.numposts.data.key eq 'asc'}<i class="fas fa-sort-amount-down-alt"></i> {elseif $DATA_ORDER.numposts.data.key eq 'desc'}<i class="fas fa-sort-amount-up"></i> {/if}{$LANG->get('categoriesnumPost')}</a></th>
-                        <th class="text-right text-nowrap" style="width:10%;">{$LANG->get('feature')}</th>
+                        <th class="text-end text-nowrap" style="width:10%;">{$LANG->get('feature')}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -49,7 +49,7 @@
                             <span class="cell-detail-description">{$LANG->get('keywordsSoft')}: {$row.keywords}</span>
                         </td>
                         <td><strong class="text-danger">{$row.numposts|format:0:",":"."}</strong></td>
-                        <td class="text-right text-nowrap">
+                        <td class="text-end text-nowrap">
                             <a href="{$PREFIX_EDIT}&amp;id={$row.id}" class="btn btn-sm btn-hspace btn-secondary"><i class="icon icon-left fas fa-pencil-alt"></i> {$LANG->get('edit')}</a>
                             <a href="javascript:void(0);" class="btn btn-sm btn-danger" onclick="nv_delete_tags({$row.id});"><i class="icon icon-left fas fa-trash-alt"></i> {$LANG->get('delete')}</a>
                         </td>

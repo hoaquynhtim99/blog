@@ -3,27 +3,26 @@
     <i class="far fa-times-circle"></i> {$LANG->get('categoriesEmpty')}
 </div>
 {else}
-<nav aria-label="breadcrumb" role="navigation">
-    <ol class="breadcrumb">
-        {foreach from=$BREADCRUMBS key=key item=value}
-        {if $value.link lt 0}
-        <li class="breadcrumb-item active">{$value.title}</li>
-        {elseif $value.link eq 0}
-        <li class="breadcrumb-item"><a href="{$NV_BASE_ADMINURL}index.php?{$NV_LANG_VARIABLE}={$NV_LANG_DATA}&amp;{$NV_NAME_VARIABLE}={$MODULE_NAME}&amp;{$NV_OP_VARIABLE}={$OP}">{$value.title}</a></li>
-        {else}
-        <li class="breadcrumb-item"><a href="{$NV_BASE_ADMINURL}index.php?{$NV_LANG_VARIABLE}={$NV_LANG_DATA}&amp;{$NV_NAME_VARIABLE}={$MODULE_NAME}&amp;{$NV_OP_VARIABLE}={$OP}&amp;parentid={$value.link}">{$value.title}</a></li>
-        {/if}
-        {/foreach}
-    </ol>
-</nav>
-<div class="card card-table card-footer-nav">
-    <div class="card-header">
-        {$LANG->get('blogInCats')}
+<div class="card mb-4">
+    <div class="card-body">
+        <nav aria-label="breadcrumb" role="navigation">
+            <ol class="breadcrumb mb-0">
+                {foreach from=$BREADCRUMBS key=key item=value}
+                {if $value.link lt 0}
+                <li class="breadcrumb-item active">{$value.title}</li>
+                {elseif $value.link eq 0}
+                <li class="breadcrumb-item"><a href="{$NV_BASE_ADMINURL}index.php?{$NV_LANG_VARIABLE}={$NV_LANG_DATA}&amp;{$NV_NAME_VARIABLE}={$MODULE_NAME}&amp;{$NV_OP_VARIABLE}={$OP}">{$value.title}</a></li>
+                {else}
+                <li class="breadcrumb-item"><a href="{$NV_BASE_ADMINURL}index.php?{$NV_LANG_VARIABLE}={$NV_LANG_DATA}&amp;{$NV_NAME_VARIABLE}={$MODULE_NAME}&amp;{$NV_OP_VARIABLE}={$OP}&amp;parentid={$value.link}">{$value.title}</a></li>
+                {/if}
+                {/foreach}
+            </ol>
+        </nav>
     </div>
     <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-striped table-hover">
-                <thead>
+        <div class="table-responsive-lg table-card" id="list-items">
+            <table class="table table-striped align-middle table-sticky mb-0">
+                <thead class="text-muted">
                     <tr>
                         <th style="width:5%;" class="text-nowrap">ID</th>
                         <th style="width:5%;" class="text-nowrap">{$LANG->get('order')}</th>
@@ -31,7 +30,7 @@
                         <th style="width:28%;" class="text-nowrap">{$LANG->get('description')}</th>
                         <th style="width:10%;" class="text-nowrap">{$LANG->get('categoriesnumPost')}</th>
                         <th style="width:15%;" class="text-nowrap">{$LANG->get('status')}</th>
-                        <th class="text-right text-nowrap" style="width:10%;">{$LANG->get('feature')}</th>
+                        <th class="text-center text-nowrap" style="width:10%;">{$LANG->get('feature')}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -39,7 +38,7 @@
                     <tr>
                         <td>{$row.id}</td>
                         <td>
-                            <select class="form-control form-control-xs bl-min-w60" name="weight" id="weight{$row.id}" onchange="nv_change_cat_weight({$row.id});">
+                            <select class="form-select form-select-sm bl-min-w60" name="weight" id="weight{$row.id}" onchange="nv_change_cat_weight({$row.id});">
                                 {for $weight=1 to $NUMCAT}
                                 <option value="{$weight}"{if $weight eq $row.weight} selected="selected"{/if}>{$weight}</option>
                                 {/for}
@@ -54,12 +53,11 @@
                         <td>{$row.description}</td>
                         <td><strong class="text-danger">{$row.numposts}</strong></td>
                         <td>
-                            <div class="switch-button switch-button-sm">
-                                <input type="checkbox" name="status" id="change_status{$row.id}" value="1"{if $row.status eq 1} checked="checked"{/if} id="change_status{$row.id}" onclick="nv_change_cat_status({$row.id})"><span>
-                                <label for="change_status{$row.id}"></label></span>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" name="status" id="change_status{$row.id}" value="1"{if $row.status eq 1} checked="checked"{/if} id="change_status{$row.id}" onclick="nv_change_cat_status({$row.id})">
                             </div>
                         </td>
-                        <td class="text-right text-nowrap">
+                        <td class="text-end text-nowrap">
                             <a href="{$NV_BASE_ADMINURL}index.php?{$NV_LANG_VARIABLE}={$NV_LANG_DATA}&amp;{$NV_NAME_VARIABLE}={$MODULE_NAME}&amp;{$NV_OP_VARIABLE}={$OP}&amp;id={$row.id}" class="btn btn-sm btn-hspace btn-secondary"><i class="icon icon-left fas fa-pencil-alt"></i> {$LANG->get('edit')}</a>
                             <a href="#" class="btn btn-sm btn-danger" onclick="nv_delete_cat({$row.id});"><i class="icon icon-left fas fa-trash-alt"></i> {$LANG->get('delete')}</a>
                         </td>
@@ -118,7 +116,7 @@
             <div class="row mb-3">
                 <label class="col-12 col-sm-3 col-form-label text-sm-end" for="formElementParentid">{$LANG->get('categoriesInCat')}</label>
                 <div class="col-12 col-sm-7 col-md-5 col-lg-4 col-xl-3">
-                    <select class="form-select" id="formElementParentid" name="parentid">
+                    <select class="form-select select2" id="formElementParentid" name="parentid">
                         {foreach from=$LISTCATS key=key item=value}
                         <option value="{$value.id}"{if $value.selected} selected="selected"{/if}>{$value.name}</option>
                         {/foreach}
@@ -126,8 +124,7 @@
                 </div>
             </div>
             <div class="row">
-                <label class="col-12 col-sm-3 col-form-label text-sm-end"></label>
-                <div class="col-12 col-sm-8 col-lg-6">
+                <div class="col-12 col-sm-8 col-lg-6 offset-sm-3">
                     <input type="hidden" name="id" value="{$ID}">
                     <input type="hidden" name="tokend" value="{$TOKEND}">
                     <button class="btn btn-primary" type="submit">{$LANG->get('submit')}</button>
@@ -136,6 +133,8 @@
         </form>
     </div>
 </div>
+<script src="{$smarty.const.ASSETS_STATIC_URL}/js/select2/select2.min.js"></script>
+<script src="{$smarty.const.ASSETS_STATIC_URL}/js/select2/i18n/{$smarty.const.NV_LANG_INTERFACE}.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
     $('#formElementTitle').on('change', function() {
@@ -151,7 +150,7 @@ $(document).ready(function() {
 $(window).on('load', function() {
     $('html, body').animate({
         scrollTop: $('#formElement').offset().top
-    }, 500);
+    }, 200);
 });
 {/if}
 </script>

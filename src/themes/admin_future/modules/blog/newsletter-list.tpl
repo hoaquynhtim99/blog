@@ -1,4 +1,4 @@
-<div class="card card-table card-footer-nav">
+<div class="card">
     <div class="card-body">
         <form method="get" action="{$NV_BASE_ADMINURL}index.php">
             <input type="hidden" name="{$NV_LANG_VARIABLE}" value="{$NV_LANG_DATA}">
@@ -29,7 +29,7 @@
                         <th style="width:15%;" class="text-nowrap"><a href="{$DATA_ORDER.lastsendtime.data.url}" title="{$DATA_ORDER.lastsendtime.data.title}">{if $DATA_ORDER.lastsendtime.data.key eq 'asc'}<i class="fas fa-sort-amount-down-alt"></i> {elseif $DATA_ORDER.lastsendtime.data.key eq 'desc'}<i class="fas fa-sort-amount-up"></i> {/if}{$LANG->get('nltlastsendtime')}</a></th>
                         <th style="width:15%;" class="text-nowrap"><a href="{$DATA_ORDER.numemail.data.url}" title="{$DATA_ORDER.numemail.data.title}">{if $DATA_ORDER.numemail.data.key eq 'asc'}<i class="fas fa-sort-amount-down-alt"></i> {elseif $DATA_ORDER.numemail.data.key eq 'desc'}<i class="fas fa-sort-amount-up"></i> {/if}{$LANG->get('nltnumemail')}</a></th>
                         <th style="width:15%;" class="text-nowrap">{$LANG->get('status1')}</th>
-                        <th class="text-right text-nowrap" style="width:10%;">{$LANG->get('feature')}</th>
+                        <th class="text-end text-nowrap" style="width:10%;">{$LANG->get('feature')}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -51,7 +51,7 @@
                         <td>{if empty($row.lastsendtime)}{$LANG->get('nltlastsendtimeno')}{else}{"H:i d/m/Y"|date:$row.lastsendtime}{/if}</td>
                         <td><strong class="text-danger">{$row.numemail|format:0:",":"."}</strong></td>
                         <td>{$LANG->get("nltstatus`$row.status`")}</td>
-                        <td class="text-right text-nowrap">
+                        <td class="text-end text-nowrap">
                             <a href="javascript:void(0);" class="btn btn-danger" onclick="nv_delete_newsletters({$row.id});"><i class="icon icon-left fas fa-trash-alt"></i> {$LANG->get('delete')}</a>
                         </td>
                     </tr>
