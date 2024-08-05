@@ -1,7 +1,5 @@
 <?php
 
-use NukeViet\Module\blog\Parsedown;
-
 /**
  * @Project NUKEVIET BLOG 5.x
  * @Author PHAN TAN DUNG <writeblabla@gmail.com>
@@ -13,6 +11,8 @@ use NukeViet\Module\blog\Parsedown;
 if (!defined('NV_BLOG_ADMIN')) {
     die('Stop!!!');
 }
+
+use NukeViet\Module\blog\Parsedown;
 
 // Xử lý thư mục upload
 $username_alias = change_alias($admin_info['username']);

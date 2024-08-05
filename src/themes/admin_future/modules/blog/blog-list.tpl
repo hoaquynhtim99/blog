@@ -48,7 +48,7 @@
                     </div>
                 </div>
                 <div class="col-12 col-lg-12 col-xl-6">
-                    <button type="submit" class="btn btn-primary"><i class="icon icon-left fas fa-search"></i> {$LANG->get('filter_action')}</button>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> {$LANG->get('filter_action')}</button>
                 </div>
             </div>
         </form>
@@ -100,8 +100,8 @@
                             {$LANG->get("blogStatus`$row.status`")}
                         </td>
                         <td class="text-end text-nowrap">
-                            <a href="{$NV_BASE_ADMINURL}index.php?{$NV_LANG_VARIABLE}={$NV_LANG_DATA}&amp;{$NV_NAME_VARIABLE}={$MODULE_NAME}&amp;{$NV_OP_VARIABLE}=blog-content&amp;id={$row.id}" class="btn btn-hspace btn-secondary"><i class="icon icon-left fas fa-pencil-alt"></i> {$LANG->get('edit')}</a>
-                            <a href="#" class="btn btn-danger" onclick="nv_delete_post({$row.id});"><i class="icon icon-left fas fa-trash-alt"></i> {$LANG->get('delete')}</a>
+                            <a href="{$NV_BASE_ADMINURL}index.php?{$NV_LANG_VARIABLE}={$NV_LANG_DATA}&amp;{$NV_NAME_VARIABLE}={$MODULE_NAME}&amp;{$NV_OP_VARIABLE}=blog-content&amp;id={$row.id}" class="btn btn-hspace btn-secondary"><i class="fas fa-pencil-alt"></i> {$LANG->get('edit')}</a>
+                            <a href="#" class="btn btn-danger" onclick="nv_delete_post({$row.id});"><i class="fas fa-trash-alt"></i> {$LANG->get('delete')}</a>
                         </td>
                     </tr>
                     {/foreach}

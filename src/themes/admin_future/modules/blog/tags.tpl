@@ -50,8 +50,8 @@
                         </td>
                         <td><strong class="text-danger">{$row.numposts|format:0:",":"."}</strong></td>
                         <td class="text-end text-nowrap">
-                            <a href="{$PREFIX_EDIT}&amp;id={$row.id}" class="btn btn-sm btn-hspace btn-secondary"><i class="icon icon-left fas fa-pencil-alt"></i> {$LANG->get('edit')}</a>
-                            <a href="javascript:void(0);" class="btn btn-sm btn-danger" onclick="nv_delete_tags({$row.id});"><i class="icon icon-left fas fa-trash-alt"></i> {$LANG->get('delete')}</a>
+                            <a href="{$PREFIX_EDIT}&amp;id={$row.id}" class="btn btn-sm btn-hspace btn-secondary"><i class="fas fa-pencil-alt"></i> {$LANG->get('edit')}</a>
+                            <a href="javascript:void(0);" class="btn btn-sm btn-danger" onclick="nv_delete_tags({$row.id});"><i class="fas fa-trash-alt"></i> {$LANG->get('delete')}</a>
                         </td>
                     </tr>
                     {/foreach}

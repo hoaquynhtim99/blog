@@ -384,17 +384,9 @@ BL.post = {
                         $('#' + BL.post.IDpost).val(data.id);
                     }
                     if (data.error) {
-                        $.gritter.add({
-                            title: data.title,
-                            text: data.message,
-                            class_name: "color danger"
-                        });
+                        nvToast(data.message, 'error');
                     } else {
-                        $.gritter.add({
-                            title: data.title,
-                            text: data.message,
-                            class_name: "color success"
-                        });
+                        nvToast(data.message, 'success');
                     }
                 }
             });
@@ -437,6 +429,13 @@ $(document).ready(function() {
     if ($('.select2').length) {
         $('.select2').select2({
             width: '100%'
+        });
+    }
+
+    // Thanh cuộn
+    if ($('.bl-scroller').length) {
+        new PerfectScrollbar($('.bl-scroller')[0], {
+            wheelPropagation: true
         });
     }
 

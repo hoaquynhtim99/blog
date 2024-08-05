@@ -1,14 +1,10 @@
-<link type="text/css" href="{$NV_BASE_SITEURL}{$NV_ASSETS_DIR}/js/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
-<link data-offset="0" rel="stylesheet" href="{$NV_BASE_SITEURL}{$NV_ASSETS_DIR}/js/bootstrap-datepicker/css/bootstrap-datepicker.min.css">
+<link type="text/css" href="{$smarty.const.ASSETS_STATIC_URL}/js/jquery-ui/jquery-ui.min.css" rel="stylesheet">
+<script type="text/javascript" src="{$smarty.const.ASSETS_STATIC_URL}/js/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="{$smarty.const.ASSETS_STATIC_URL}/js/language/jquery.ui.datepicker-{$smarty.const.NV_LANG_INTERFACE}.js"></script>
 <script type="text/javascript" src="{$NV_BASE_SITEURL}themes/default/images/{$MODULE_FILE}/frameworks/autosize/jquery.autosize.js"></script>
-<script type="text/javascript" src="{$NV_BASE_SITEURL}{$NV_ASSETS_DIR}/js/jquery-ui/jquery-ui.min.js"></script>
-<script src="{$NV_BASE_SITEURL}{$NV_ASSETS_DIR}/js/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
-<script src="{$NV_BASE_SITEURL}{$NV_ASSETS_DIR}/js/bootstrap-datepicker/locales/bootstrap-datepicker.{$NV_LANG_INTERFACE}.min.js"></script>
 {if not empty($ERROR)}
 <div role="alert" class="alert alert-danger">
-    <button type="button" data-dismiss="alert" aria-label="{$LANG->get('close')}" class="close"><i class="fas fa-times"></i></button>
-    <div class="icon"><i class="far fa-times-circle"></i></div>
-    <div class="message">{$ERROR}</div>
+    <i class="far fa-times-circle"></i> {$ERROR}
 </div>
 {/if}
 <form method="post" action="{$FORM_ACTION}" autocomplete="off" id="post-form">
@@ -20,7 +16,7 @@
             <div class="row">
                 <div class="col-lg-8">
                     <div class="row mb-3">
-                        <label class="col-12 col-lg-3 col-form-label text-lg-right" for="formElementTitle">{$LANG->get('blogTitle')} <i class="text-danger">(*)</i></label>
+                        <label class="col-12 col-lg-3 col-form-label text-lg-end" for="formElementTitle">{$LANG->get('blogTitle')} <i class="text-danger">(*)</i></label>
                         <div class="col-12 col-lg-9">
                             <div class="d-flex align-items-center">
                                 <div class="flex-grow-1 flex-shrink-1">
@@ -33,27 +29,27 @@
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label class="col-12 col-lg-3 col-form-label text-lg-right" for="formElementAlias">{$LANG->get('alias')}</label>
+                        <label class="col-12 col-lg-3 col-form-label text-lg-end" for="formElementAlias">{$LANG->get('alias')}</label>
                         <div class="col-12 col-lg-9">
                             <input type="text" class="form-control" id="formElementAlias" name="alias" value="{$DATA.alias}" maxlength="250">
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label class="col-12 col-lg-3 col-form-label text-lg-right" for="formElementSitetitle">{$LANG->get('blogSiteTitle')}</label>
+                        <label class="col-12 col-lg-3 col-form-label text-lg-end" for="formElementSitetitle">{$LANG->get('blogSiteTitle')}</label>
                         <div class="col-12 col-lg-9">
                             <input type="text" class="form-control" id="formElementSitetitle" name="sitetitle" value="{$DATA.sitetitle}" maxlength="250">
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label class="col-12 col-lg-3 col-form-label text-lg-right" for="formElementKeywords">{$LANG->get('keywordsSoft')}</label>
+                        <label class="col-12 col-lg-3 col-form-label text-lg-end" for="formElementKeywords">{$LANG->get('keywordsSoft')}</label>
                         <div class="col-12 col-lg-9">
                             <input type="text" class="form-control" id="formElementKeywords" name="keywords" value="{$DATA.keywords}" maxlength="250">
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label class="col-12 col-lg-3 col-form-label text-lg-right" for="formElementHometext">{$LANG->get('blogHometext')} <i class="text-danger">(*)</i></label>
+                        <label class="col-12 col-lg-3 col-form-label text-lg-end" for="formElementHometext">{$LANG->get('blogHometext')} <i class="text-danger">(*)</i></label>
                         <div class="col-12 col-lg-9">
-                            <textarea type="text" class="autoresize textarea-animated form-control" id="formElementHometext" name="hometext" rows="3">{$DATA.hometext}</textarea>
+                            <textarea type="text" class="autoresize textarea-animated form-control" id="formElementHometext" name="hometext" rows="5">{$DATA.hometext}</textarea>
                         </div>
                     </div>
                 </div>
@@ -66,15 +62,16 @@
                             <input type="submit" name="draft" value="{$LANG->get('blogSaveDraft')}" class="btn btn-secondary" data-toggle="savedraft">
                         </div>
                     </div>
-                    <div class="card card-border mt-2">
+                    <div class="card border mt-3 ">
                         <div class="card-header fs-5 fw-medium">{$LANG->get('blogInCats')} <i class="text-danger">(*)</i></div>
                         <div class="card-body">
-                            <div class="nv-scroller bl-post-cats" data-wheel="true">
+                            <div class="bl-scroller bl-post-cats" data-wheel="true">
                                 <div class="content">
                                     {foreach from=$LIST_CATS key=key item=value}
-                                    <label class="custom-control custom-checkbox" style="margin-left: {$value.catlev * 20}px;">
-                                        <input class="form-check-input" type="checkbox" name="catids[]" value="{$value.id}"{if in_array($value.id, $DATA.catids)} checked="checked"{/if}><span class="custom-control-label">{$value.title}</span>
-                                    </label>
+                                    <div class="form-check" style="margin-left: {$value.catlev * 20}px;">
+                                        <input class="form-check-input" type="checkbox" id="catids_{$value.id}" name="catids[]" value="{$value.id}"{if in_array($value.id, $DATA.catids)} checked="checked"{/if}>
+                                        <label class="form-check-label" for="catids_{$value.id}">{$value.title}</label>
+                                    </div>
                                     {/foreach}
                                 </div>
                             </div>
@@ -90,9 +87,9 @@
                 {else}
                 <div class="blmd-header">
                     <div class="blmd-header-tabs">
-                        <ul role="tablist" class="nav nav-tabs">
-                            <li class="nav-item"><a href="#tab-post-writemarkdown" data-control="postTabs" data-value="write" data-toggle="tab" role="tab" class="nav-link active">Soạn thảo</a></li>
-                            <li class="nav-item"><a href="#tab-post-previewmarkdown" data-control="postTabs" data-value="preview" data-toggle="tab" role="tab" class="nav-link">Xem trước</a></li>
+                        <ul class="nav nav-underline" role="tablist">
+                            <li class="nav-item"><a href="#tab-post-writemarkdown" data-control="postTabs" data-value="write" data-bs-toggle="tab" role="tab" class="nav-link active">{$LANG->getModule('content_editing')}</a></li>
+                            <li class="nav-item"><a href="#tab-post-previewmarkdown" data-control="postTabs" data-value="preview" data-bs-toggle="tab" role="tab" class="nav-link">{$LANG->getModule('content_preview')}</a></li>
                         </ul>
                     </div>
                     <div class="blmd-header-btns">
@@ -119,7 +116,7 @@
                     </div>
                 </div>
                 <script type="text/javascript">
-                $(document).ready(function() {
+                $(function() {
                     var currentHtml = 1;
                     var currentView = 0;
                     $('[name="markdown_text"]').on('keyup', function() {
@@ -132,13 +129,18 @@
                         }
                         var ctn = $('#post-markdown-preview');
                         ctn.html('<div class="text-center"><i class="fas fa-spinner fa-pulse"></i></div>');
-                        $.post(
-                            script_name + '?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=blog-content&nocache=' + new Date().getTime(),
-                            'markdownrender=1&id=' + id,
-                            function(res) {
+                        $.ajax({
+                            url: script_name + '?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=blog-content&nocache=' + new Date().getTime(),
+                            type: 'POST',
+                            data: {
+                                markdownpreview: '{$TOKEND}',
+                                markdowntext: $('[name="markdown_text"]').val(),
+                            },
+                            success: function(res) {
                                 ctn.html(res);
+                                currentView++;
                             }
-                        );
+                        });
                     });
                 });
                 </script>
@@ -147,23 +149,23 @@
             <div class="row">
                 <div class="col-lg-8">
                     <div class="row mb-3">
-                        <label class="col-12 col-lg-3 col-form-label text-lg-right" for="formElementImages">{$LANG->get('blogImages')}</label>
+                        <label class="col-12 col-lg-3 col-form-label text-lg-end" for="formElementImages">{$LANG->get('blogImages')}</label>
                         <div class="col-12 col-lg-9">
                             <div class="d-flex align-items-center">
                                 <div class="flex-grow-1 flex-shrink-1">
                                     <input type="text" class="form-control" id="formElementImages" name="images" value="{$DATA.images}">
                                 </div>
                                 <div class="flex-grow-0 flex-shrink-0 ps-2">
-                                    <button class="btn btn-secondary" type="button" id="formElementImagesView"><i class="icon icon-left far fa-eye"></i> {$LANG->get('view')}</button>
+                                    <button class="btn btn-secondary" type="button" id="formElementImagesView"><i class="far fa-eye"></i> {$LANG->get('view')}</button>
                                 </div>
                                 <div class="flex-grow-0 flex-shrink-0 ps-2">
-                                    <button class="btn btn-secondary" type="button" id="formElementImagesBtn"><i class="icon icon-left far fa-folder-open"></i> {$LANG->get('browse_image')}</button>
+                                    <button class="btn btn-secondary" type="button" id="formElementImagesBtn" data-toggle="selectfile" data-target="formElementImages" data-path="{$UPLOADS_PATH}" data-currentpath="{$CURRENT_PATH}" data-type="image"><i class="far fa-folder-open"></i> {$LANG->get('browse_image')}</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label class="col-12 col-lg-3 col-form-label text-lg-right" for="formElementMediatype">{$LANG->get('blogmediatype')}</label>
+                        <label class="col-12 col-lg-3 col-form-label text-lg-end" for="formElementMediatype">{$LANG->get('blogmediatype')}</label>
                         <div class="col-12 col-lg-9">
                             <div class="form-inline">
                                 <select class="form-select" id="formElementMediatype" name="mediatype">
@@ -174,25 +176,27 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row mb-3">
-                        <label class="col-12 col-lg-3 col-form-label text-lg-right d-none d-sm-block"></label>
-                        <div class="col-12 col-lg-8 form-check mt-1">
-                            <label class="custom-control custom-checkbox custom-control-inline mb-1">
-                                <input class="form-check-input" type="checkbox" id="blogmediashowlist" name="mediashowlist" value="1"{if $DATA.mediashowlist} checked="checked"{/if}><span class="custom-control-label">{$LANG->get('blogmediashowlist')}</span>
-                            </label>
+                    <div class="row mb-2">
+                        <label class="col-12 col-lg-3 col-form-label text-lg-end d-none d-sm-block"></label>
+                        <div class="col-12 col-lg-8 mt-1">
+                            <div class="form-check form-check-inline mb-1">
+                                <input class="form-check-input" type="checkbox" id="blogmediashowlist" name="mediashowlist" value="1"{if $DATA.mediashowlist} checked="checked"{/if}>
+                                <label class="form-check-label" for="blogmediashowlist">{$LANG->get('blogmediashowlist')}</label>
+                            </div>
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label class="col-12 col-lg-3 col-form-label text-lg-right d-none d-sm-block"></label>
-                        <div class="col-12 col-lg-8 form-check mt-1">
-                            <label class="custom-control custom-checkbox custom-control-inline mb-1">
-                                <input class="form-check-input" type="checkbox" id="blogmediashowdetail" name="mediashowdetail" value="1"{if $DATA.mediashowdetail} checked="checked"{/if}><span class="custom-control-label">{$LANG->get('blogmediashowdetail')}</span>
-                            </label>
+                        <label class="col-12 col-lg-3 col-form-label text-lg-end d-none d-sm-block"></label>
+                        <div class="col-12 col-lg-8 mt-1">
+                            <div class="form-check form-check-inline mb-1">
+                                <input class="form-check-input" type="checkbox" id="blogmediashowdetail" name="mediashowdetail" value="1"{if $DATA.mediashowdetail} checked="checked"{/if}>
+                                <label class="form-check-label" for="blogmediashowdetail">{$LANG->get('blogmediashowdetail')}</label>
+                            </div>
                         </div>
                     </div>
                     <div id="mediaheight-wrap">
                         <div class="row mb-3">
-                            <label class="col-12 col-lg-3 col-form-label text-lg-right" for="formElementMediaheight">{$LANG->get('blogMediaHeight')}</label>
+                            <label class="col-12 col-lg-3 col-form-label text-lg-end" for="formElementMediaheight">{$LANG->get('blogMediaHeight')}</label>
                             <div class="col-12 col-lg-9">
                                 <div class="form-inline">
                                     <input class="form-control" type="number" id="formElementMediaheight" name="mediaheight" value="{$DATA.mediaheight}" min="0" max="99999">
@@ -200,15 +204,16 @@
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <label class="col-12 col-lg-3 col-form-label text-lg-right d-none d-sm-block"></label>
-                            <div class="col-12 col-lg-8 form-check mt-1">
-                                <label class="custom-control custom-checkbox custom-control-inline mb-1">
-                                    <input class="form-check-input" type="checkbox" id="formElementMediaresponsive" name="mediaresponsive" value="1"{if $DATA.mediaresponsive} checked="checked"{/if}><span class="custom-control-label">{$LANG->get('blogMediaResponsive')}</span>
-                                </label>
+                            <label class="col-12 col-lg-3 col-form-label text-lg-end d-none d-sm-block"></label>
+                            <div class="col-12 col-lg-8 mt-1">
+                                <div class="form-check form-check-inline mb-1">
+                                    <input class="form-check-input" type="checkbox" id="formElementMediaresponsive" name="mediaresponsive" value="1"{if $DATA.mediaresponsive} checked="checked"{/if}>
+                                    <label class="form-check-label" for="formElementMediaresponsive">{$LANG->get('blogMediaResponsive')}</label>
+                                </div>
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <label class="col-12 col-lg-3 col-form-label text-lg-right" for="formElementMediawidth">{$LANG->get('blogMediaWidth')}</label>
+                            <label class="col-12 col-lg-3 col-form-label text-lg-end" for="formElementMediawidth">{$LANG->get('blogMediaWidth')}</label>
                             <div class="col-12 col-lg-9">
                                 <div class="form-inline">
                                     <input class="form-control" type="number" id="formElementMediawidth" name="mediawidth" value="{$DATA.mediawidth}" min="0" max="99999">
@@ -218,14 +223,14 @@
                     </div>
                     <div id="mediavalue-wrap">
                         <div class="row mb-3">
-                            <label class="col-12 col-lg-3 col-form-label text-lg-right" for="formElementMediavalue">{$LANG->get('blogMediaValue')}</label>
+                            <label class="col-12 col-lg-3 col-form-label text-lg-end" for="formElementMediavalue">{$LANG->get('blogMediaValue')}</label>
                             <div class="col-12 col-lg-9">
                                 <div class="d-flex align-items-center">
                                     <div class="flex-grow-1 flex-shrink-1">
                                         <input type="text" class="form-control" id="formElementMediavalue" name="mediavalue" value="{$DATA.mediavalue}">
                                     </div>
                                     <div class="flex-grow-0 flex-shrink-0 ps-2" id="formElementMediavalueWrap">
-                                        <button class="btn btn-secondary" type="button" id="formElementMediavalueBtn"><i class="icon icon-left far fa-folder-open"></i> {$LANG->get('browse_image')}</button>
+                                        <button class="btn btn-secondary" type="button" id="formElementMediavalueBtn" data-toggle="selectfile" data-target="formElementMediavalue" data-path="{$UPLOADS_PATH}" data-currentpath="{$CURRENT_PATH}" data-type="file"><i class="far fa-folder-open"></i> {$LANG->get('browse_file')}</button>
                                     </div>
                                 </div>
                             </div>
@@ -273,29 +278,34 @@
             <div class="row">
                 <div class="col-12 col-md-4  col-xl-4">
                     <div class="form-group mb-2">
-                        <label>{$LANG->get('blogposttype')}:</label>
+                        <div class="fw-medium mb-2">{$LANG->get('blogposttype')}:</div>
                         {foreach from=$BLOGPOSTTYPE key=key item=value}
-                        <label class="custom-control custom-radio">
-                            <input class="form-check-input" type="radio" name="posttype" value="{$value}"{if $DATA.posttype eq $value} checked="checked"{/if}><span class="custom-control-label">{$LANG->get("blogposttype`$value`")}</span>
-                        </label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" id="elementPosttype_{$value}" name="posttype" value="{$value}"{if $DATA.posttype eq $value} checked="checked"{/if}>
+                            <label class="form-check-label" for="elementPosttype_{$value}">{$LANG->get("blogposttype`$value`")}</label>
+                        </div>
                         {/foreach}
                     </div>
                 </div>
                 <div class="col-12 col-md-4  col-xl-4">
                     <div class="form-group mb-2">
-                        <label>{$LANG->get('blogOtherOption')}:</label>
-                        <label class="custom-control custom-checkbox">
-                            <input class="form-check-input" type="checkbox" name="newsletters" value="1"{if $NEWSLETTERS} checked="checked"{/if}><span class="custom-control-label">{$LANG->get('blogSendNewsletter')}</span>
-                        </label>
-                        <label class="custom-control custom-checkbox">
-                            <input class="form-check-input" type="checkbox" name="fullpage" value="1"{if $DATA.fullpage} checked="checked"{/if}><span class="custom-control-label">{$LANG->get('blogFullPage')}</span>
-                        </label>
-                        <label class="custom-control custom-checkbox">
-                            <input class="form-check-input" type="checkbox" name="isAutoKeywords" value="1"{if $ISAUTOKEYWORDS} checked="checked"{/if}><span class="custom-control-label">{$LANG->get('blogIsAutoKeywords')}</span>
-                        </label>
-                        <label class="custom-control custom-checkbox">
-                            <input class="form-check-input" type="checkbox" name="inhome" value="1"{if $DATA.inhome} checked="checked"{/if}><span class="custom-control-label">{$LANG->get('bloginhome')}</span>
-                        </label>
+                        <div class="fw-medium mb-2">{$LANG->get('blogOtherOption')}:</div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="elementNewsletters" name="newsletters" value="1"{if $NEWSLETTERS} checked="checked"{/if}>
+                            <label class="form-check-label" for="elementNewsletters">{$LANG->get('blogSendNewsletter')}</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="elementFullpage" name="fullpage" value="1"{if $DATA.fullpage} checked="checked"{/if}>
+                            <label class="form-check-label" for="elementFullpage">{$LANG->get('blogFullPage')}</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="elementIsAutoKeywords" name="isAutoKeywords" value="1"{if $ISAUTOKEYWORDS} checked="checked"{/if}>
+                            <label class="form-check-label" for="elementIsAutoKeywords">{$LANG->get('blogIsAutoKeywords')}</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="elementInhome" name="inhome" value="1"{if $DATA.inhome} checked="checked"{/if}>
+                            <label class="form-check-label" for="elementInhome">{$LANG->get('bloginhome')}</label>
+                        </div>
                     </div>
                     <div class="form-group mb-2">
                         <label for="formElementGoogleAuthor">{$LANG->get('blogGoogleAuthor')}:</label>
@@ -305,39 +315,51 @@
                 <div class="col-12 col-md-4  col-xl-4">
                     <div class="form-group mb-2">
                         <label for="formElementPubtime">{$LANG->get('blogPubtime1')}:</label>
-                        <div class="form-inline">
-                            <select name="pubtime_h" class="form-control mb-2 me-lg-2">
-                                {for $val=0 to 23}
-                                <option value="{$val}"{if $val eq $DATA.pubtime_h} selected="selected"{/if}>{if $val lt 10}0{/if}{$val}</option>
-                                {/for}
-                            </select>
-                            <select name="pubtime_m" class="form-control mb-2 me-lg-2">
-                                {for $val=0 to 59}
-                                <option value="{$val}"{if $val eq $DATA.pubtime_m} selected="selected"{/if}>{if $val lt 10}0{/if}{$val}</option>
-                                {/for}
-                            </select>
-                            <input type="text" class="form-control mb-2 bsdatepicker" value="{if not empty($DATA.pubtime)}{"d/m/Y"|date:$DATA.pubtime}{/if}" name="pubtime" id="formElementPubtime" placeholder="dd/mm/yyyy">
+                        <div class="row g-2">
+                            <div class="col-xs-6 col-sm-3">
+                                <select name="pubtime_h" class="form-select mb-2">
+                                    {for $val=0 to 23}
+                                    <option value="{$val}"{if $val eq $DATA.pubtime_h} selected="selected"{/if}>{if $val lt 10}0{/if}{$val}</option>
+                                    {/for}
+                                </select>
+                            </div>
+                            <div class="col-xs-6 col-sm-3">
+                                <select name="pubtime_m" class="form-select mb-2">
+                                    {for $val=0 to 59}
+                                    <option value="{$val}"{if $val eq $DATA.pubtime_m} selected="selected"{/if}>{if $val lt 10}0{/if}{$val}</option>
+                                    {/for}
+                                </select>
+                            </div>
+                            <div class="col-xs-12 col-sm-6">
+                                <input type="text" class="form-control mb-2 bsdatepicker" value="{if not empty($DATA.pubtime)}{"d/m/Y"|date:$DATA.pubtime}{/if}" name="pubtime" id="formElementPubtime" placeholder="dd/mm/yyyy">
+                            </div>
                         </div>
                     </div>
                     <div class="form-group mb-2">
                         <label for="formElementExptime">{$LANG->get('blogExptime1')}:</label>
-                        <div class="form-inline">
-                            <select name="exptime_h" class="form-control mb-2 me-lg-2">
-                                {for $val=0 to 23}
-                                <option value="{$val}"{if $val eq $DATA.exptime_h} selected="selected"{/if}>{if $val lt 10}0{/if}{$val}</option>
-                                {/for}
-                            </select>
-                            <select name="exptime_m" class="form-control mb-2 me-lg-2">
-                                {for $val=0 to 59}
-                                <option value="{$val}"{if $val eq $DATA.exptime_m} selected="selected"{/if}>{if $val lt 10}0{/if}{$val}</option>
-                                {/for}
-                            </select>
-                            <input type="text" class="form-control mb-2 bsdatepicker" value="{if not empty($DATA.exptime)}{"d/m/Y"|date:$DATA.exptime}{/if}" name="exptime" id="formElementExptime" placeholder="dd/mm/yyyy">
+                        <div class="row g-2">
+                            <div class="col-xs-6 col-sm-3">
+                                <select name="exptime_h" class="form-select mb-2">
+                                    {for $val=0 to 23}
+                                    <option value="{$val}"{if $val eq $DATA.exptime_h} selected="selected"{/if}>{if $val lt 10}0{/if}{$val}</option>
+                                    {/for}
+                                </select>
+                            </div>
+                            <div class="col-xs-6 col-sm-3">
+                                <select name="exptime_m" class="form-select mb-2">
+                                    {for $val=0 to 59}
+                                    <option value="{$val}"{if $val eq $DATA.exptime_m} selected="selected"{/if}>{if $val lt 10}0{/if}{$val}</option>
+                                    {/for}
+                                </select>
+                            </div>
+                            <div class="col-xs-12 col-sm-6">
+                                <input type="text" class="form-control mb-2 bsdatepicker" value="{if not empty($DATA.exptime)}{"d/m/Y"|date:$DATA.exptime}{/if}" name="exptime" id="formElementExptime" placeholder="dd/mm/yyyy">
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="formElementExpmode">{$LANG->get('blogExpMode1')}:</label>
-                        <select id="formElementExpmode" name="expmode" class="form-control">
+                        <select id="formElementExpmode" name="expmode" class="form-select">
                             {foreach from=$BLOGEXPMODE key=key item=value}
                             <option value="{$value}"{if $value eq $DATA.expmode} selected="selected"{/if}>{$LANG->get("blogExpMode_`$value`")}</option>
                             {/foreach}
@@ -428,33 +450,16 @@ $(document).ready(function() {
     BL.tags.init();
     BL.post.init({$EDITOR});
 });
-$(document).on("nv.upload.ready", function() {
-    $("#formElementImagesBtn").nvBrowseFile({
-        adminBaseUrl: '{$NV_BASE_ADMINURL}',
-        path: '{$UPLOADS_PATH}',
-        currentpath: '{$CURRENT_PATH}',
-        type: 'image',
-        area: '#formElementImages'
-    });
-    $("#formElementMediavalueBtn").nvBrowseFile({
-        adminBaseUrl: '{$NV_BASE_ADMINURL}',
-        path: '{$UPLOADS_PATH}',
-        currentpath: '{$CURRENT_PATH}',
-        type: 'file',
-        area: '#formElementMediavalue'
-    });
-});
 </script>
 <div id="md-view-post-image" tabindex="-1" role="dialog" class="modal fade">
     <div class="modal-dialog full-width">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" data-bs-dismiss="modal" aria-hidden="true" class="close"><span class="fas fa-times"></span></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{$LANG->getGlobal('close')}"></button>
             </div>
             <div class="modal-body">
                 <div class="text-center" data-toggle="mdcontent"></div>
             </div>
-            <div class="modal-footer"></div>
         </div>
     </div>
 </div>

@@ -144,6 +144,7 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_rows_detail (
     id mediumint(8) unsigned NOT NULL COMMENT 'ID bài viết',
     bodyhtml longtext NOT NULL COMMENT 'Nội dung HTML của bài viết',
+    markdown_text longtext NOT NULL COMMENT 'Nội dung dạng Markdown',
     PRIMARY KEY (id)
 ) ENGINE=InnoDB PARTITION BY RANGE (id) PARTITIONS 10 (
     PARTITION p0 VALUES LESS THAN (100000) ENGINE = InnoDB,

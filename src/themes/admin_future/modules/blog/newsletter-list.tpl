@@ -52,7 +52,7 @@
                         <td><strong class="text-danger">{$row.numemail|format:0:",":"."}</strong></td>
                         <td>{$LANG->get("nltstatus`$row.status`")}</td>
                         <td class="text-end text-nowrap">
-                            <a href="javascript:void(0);" class="btn btn-danger" onclick="nv_delete_newsletters({$row.id});"><i class="icon icon-left fas fa-trash-alt"></i> {$LANG->get('delete')}</a>
+                            <a href="javascript:void(0);" class="btn btn-danger" onclick="nv_delete_newsletters({$row.id});"><i class="fas fa-trash-alt"></i> {$LANG->get('delete')}</a>
                         </td>
                     </tr>
                     {/foreach}

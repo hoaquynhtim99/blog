@@ -58,8 +58,8 @@
                             </div>
                         </td>
                         <td class="text-end text-nowrap">
-                            <a href="{$NV_BASE_ADMINURL}index.php?{$NV_LANG_VARIABLE}={$NV_LANG_DATA}&amp;{$NV_NAME_VARIABLE}={$MODULE_NAME}&amp;{$NV_OP_VARIABLE}={$OP}&amp;id={$row.id}" class="btn btn-sm btn-hspace btn-secondary"><i class="icon icon-left fas fa-pencil-alt"></i> {$LANG->get('edit')}</a>
-                            <a href="#" class="btn btn-sm btn-danger" onclick="nv_delete_cat({$row.id});"><i class="icon icon-left fas fa-trash-alt"></i> {$LANG->get('delete')}</a>
+                            <a href="{$NV_BASE_ADMINURL}index.php?{$NV_LANG_VARIABLE}={$NV_LANG_DATA}&amp;{$NV_NAME_VARIABLE}={$MODULE_NAME}&amp;{$NV_OP_VARIABLE}={$OP}&amp;id={$row.id}" class="btn btn-sm btn-hspace btn-secondary"><i class="fas fa-pencil-alt"></i> {$LANG->get('edit')}</a>
+                            <a href="#" class="btn btn-sm btn-danger" onclick="nv_delete_cat({$row.id});"><i class="fas fa-trash-alt"></i> {$LANG->get('delete')}</a>
                         </td>
                     </tr>
                     {/foreach}

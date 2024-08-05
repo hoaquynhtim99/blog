@@ -35,8 +35,9 @@
 }
 
 .bl-post-cats {
-    max-height: 183px;
-    overflow: auto;
+    max-height: 170px;
+    overflow: hidden;
+    position: relative;
 }
 
 .bl-post-col-tools {
@@ -74,27 +75,17 @@
 
 /* POSTING */
 .blmd-header {
-    display: -ms-flexbox;
     display: flex;
-    -ms-flex-align: center;
     align-items: center;
 }
 
-.blmd-header .blmd-header-tabs {
-
-}
-
 .blmd-header .blmd-header-btns {
-    -ms-flex-positive: 1;
     flex-grow: 1;
-    -ms-flex-negative: 1;
     flex-shrink: 1;
 }
 
 .blmd-header .blmd-header-btns .btns-inner {
-    display: -ms-flexbox;
     display: flex;
-    -ms-flex-pack: end;
     justify-content: flex-end;
 }
 

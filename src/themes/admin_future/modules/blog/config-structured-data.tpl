@@ -43,7 +43,7 @@
                             <input type="text" class="form-control" id="sysDefaultImage" name="sysDefaultImage" value="{$DATA.sysDefaultImage}">
                         </div>
                         <div class="flex-grow-0 flex-shrink-0 ps-2">
-                            <button class="btn btn-secondary" type="button" id="sysDefaultImageBtn" data-toggle="selectfile" data-target="sysDefaultImage" data-path="{$UPLOADS_PATH}" data-currentpath="{$UPLOADS_PATH}" data-type="image"><i class="icon icon-left far fa-folder-open"></i> {$LANG->get('browse_image')}</button>
+                            <button class="btn btn-secondary" type="button" id="sysDefaultImageBtn" data-toggle="selectfile" data-target="sysDefaultImage" data-path="{$UPLOADS_PATH}" data-currentpath="{$UPLOADS_PATH}" data-type="image"><i class="far fa-folder-open"></i> {$LANG->get('browse_image')}</button>
                         </div>
                     </div>
                     <div class="form-text text-muted">{$LANG->get('cfgsysDefaultImageNote')}</div>
