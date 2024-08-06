@@ -40,14 +40,14 @@
                         <td>
                             <select class="form-select form-select-sm bl-min-w60" name="weight" id="weight{$row.id}" onchange="nv_change_cat_weight({$row.id});">
                                 {for $weight=1 to $NUMCAT}
-                                <option value="{$weight}"{if $weight eq $row.weight} selected="selected"{/if}>{$weight}</option>
+                                <option value="{$weight}"{if $weight eq $row.weight_level} selected="selected"{/if}>{$weight}</option>
                                 {/for}
                             </select>
                         </td>
                         <td>
                             {$row.title}
-                            {if not empty($row.numsubs)}
-                            (<a href="{$NV_BASE_ADMINURL}index.php?{$NV_LANG_VARIABLE}={$NV_LANG_DATA}&amp;{$NV_NAME_VARIABLE}={$MODULE_NAME}&amp;{$NV_OP_VARIABLE}={$OP}&amp;parentid={$row.id}">{$LANG->get('categoriesHasSub', $row.numsubs)}</a>)
+                            {if not empty($row.subcat_num)}
+                            (<a href="{$NV_BASE_ADMINURL}index.php?{$NV_LANG_VARIABLE}={$NV_LANG_DATA}&amp;{$NV_NAME_VARIABLE}={$MODULE_NAME}&amp;{$NV_OP_VARIABLE}={$OP}&amp;parentid={$row.id}">{$LANG->get('categoriesHasSub', $row.subcat_num)}</a>)
                             {/if}
                         </td>
                         <td>{$row.description}</td>
@@ -117,8 +117,9 @@
                 <label class="col-12 col-sm-3 col-form-label text-sm-end" for="formElementParentid">{$LANG->get('categoriesInCat')}</label>
                 <div class="col-12 col-sm-7 col-md-5 col-lg-4 col-xl-3">
                     <select class="form-select select2" id="formElementParentid" name="parentid">
+                        <option value="0">{$LANG->get('categoriesMainCat')}</option>
                         {foreach from=$LISTCATS key=key item=value}
-                        <option value="{$value.id}"{if $value.selected} selected="selected"{/if}>{$value.name}</option>
+                        <option value="{$value.id}"{if $value.id eq $DATA.parentid} selected="selected"{/if}{if $value.id eq $ID} disabled="disabled"{/if}>{if $value.cat_level gt 1}{for $foo=2 to $value.cat_level} &nbsp; &nbsp;{/for}{/if}{$value.title}</option>
                         {/foreach}
                     </select>
                 </div>
@@ -136,7 +137,7 @@
 <script src="{$smarty.const.ASSETS_STATIC_URL}/js/select2/select2.min.js"></script>
 <script src="{$smarty.const.ASSETS_STATIC_URL}/js/select2/i18n/{$smarty.const.NV_LANG_INTERFACE}.js"></script>
 <script type="text/javascript">
-$(document).ready(function() {
+$(function() {
     $('#formElementTitle').on('change', function() {
         if (trim($('#formElementAlias').val()) == '') {
             get_alias('formElementTitle', 'formElementAlias', 'cat');

@@ -64,7 +64,7 @@
             <div class="btn-group">
                 <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" data-boundary="window">{$LANG->get('withSelectedRow')} <span class="icon-dropdown fas fa-chevron-down"></span></button>
                 <div class="dropdown-menu" role="menu">
-                    <a class="dropdown-item" href="javascript:void(0);" onclick="nv_tags_action('[name=\'BLIdItem[]\']', '{$LANG->get('alert_check')}', 1);"><i class="icon far fa-times-circle"></i> {$LANG->get('delete')}</a>
+                    <a class="dropdown-item" href="javascript:void(0);" onclick="nv_tags_action('[name=\'BLIdItem[]\']', '{$LANG->get('alert_check')}', 1);"><i class="far fa-times-circle"></i> {$LANG->get('delete')}</a>
                 </div>
             </div>
         </div>
@@ -131,7 +131,7 @@
     </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function() {
+$(function() {
     $('#formElementTitle').on('change', function() {
         if (trim($('#formElementAlias').val()) == '') {
             get_alias('formElementTitle', 'formElementAlias', 'tags');

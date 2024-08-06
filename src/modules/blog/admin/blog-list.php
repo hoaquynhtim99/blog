@@ -239,7 +239,7 @@ $tpl->assign('ARRAY', $array);
 $tpl->assign('DATA_SEARCH', $data_search);
 $tpl->assign('DATA_ORDER', $order);
 $tpl->assign('GENERATE_PAGE', nv_generate_page($base_url, $all_page, $per_page, $page));
-$tpl->assign('LIST_CATS', $BL->listCat($data_search['catid']));
+$tpl->assign('LIST_CATS', $global_array_cat);
 $tpl->assign('BLOGSTATUS', $BL->blogStatus);
 
 $contents = $tpl->fetch('blog-list.tpl');

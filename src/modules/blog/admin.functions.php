@@ -15,20 +15,21 @@ if (!defined('NV_ADMIN') or !defined('NV_MAINFILE') or !defined('NV_IS_MODADMIN'
 use NukeViet\Module\blog\BlogInit;
 use NukeViet\Module\blog\Parsedown;
 
-// Class cua module
-$BL = new BlogInit();
-
 define('NV_BLOG_ADMIN', true);
 
-// Tao lien ket tinh tu dong
+// Class của module
+$BL = new BlogInit();
+
+$global_array_cat = $BL->listCat();
+
+// Tạo liên kết tĩnh tự động
 if ($nv_Request->isset_request("get_alias", "post")) {
     if (!defined('NV_IS_AJAX')) {
         die('Wrong URL');
     }
 
-    include NV_ROOTDIR . '/includes/header.php';
-    echo $BL->creatAlias(nv_substr($nv_Request->get_title('get_alias', 'post', ''), 0, 250), nv_substr($nv_Request->get_title('mode', 'post', 'cat'), 0, 250));
-    include NV_ROOTDIR . '/includes/footer.php';
+    $alias = $BL->creatAlias(nv_substr($nv_Request->get_title('get_alias', 'post', ''), 0, 250), nv_substr($nv_Request->get_title('mode', 'post', 'cat'), 0, 250));
+    nv_htmlOutput($alias);
 }
 
 // Xem trước nội dung soạn thảo

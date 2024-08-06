@@ -163,39 +163,6 @@ function nv_delete_tags(id) {
     return false;
 }
 
-// Thao tac voi bai viet
-function nv_post_action(checkitem, nv_message_no_check, key) {
-    var items = $(checkitem);
-    if (!items.length) {
-        return false;
-    }
-    var listid = [];
-    items.each(function() {
-        if ($(this).is(':checked')) {
-            listid.push($(this).val());
-        }
-    });
-    if (listid.length) {
-        if (key == 1) {
-            if (confirm(nv_is_del_confirm[0])) {
-                $.post(script_name + '?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=blog-list&nocache=' + new Date().getTime(), 'del=1&listid=' + listid, function(res) {
-                    nv_delete_result(res);
-                });
-            }
-        } else if (key == 2) {
-            $.post(script_name + '?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=blog-list&nocache=' + new Date().getTime(), 'changestatus=1&status=1&listid=' + listid, function(res) {
-                nv_change_status_list_result(res);
-            });
-        } else if (key == 3) {
-            $.post(script_name + '?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=blog-list&nocache=' + new Date().getTime(), 'changestatus=1&status=2&listid=' + listid, function(res) {
-                nv_change_status_list_result(res);
-            });
-        }
-    } else {
-        alert(nv_message_no_check);
-    }
-}
-
 function nv_delete_post(id) {
     if (confirm(nv_is_del_confirm[0])) {
         $.post(script_name + '?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=blog-list&nocache=' + new Date().getTime(), 'del=1&id=' + id, function(res) {
@@ -367,7 +334,13 @@ BL.post = {
     draft: function(editor) {
         if (!BL.busy) {
             if (editor) {
-                $("textarea[name=bodyhtml]").val(CKEDITOR.instances[BL.data.dbName + '_bodyhtml'].getData());
+                if (typeof CKEDITOR != "undefined") {
+                    // CKEditor 4
+                    $("textarea[name=bodyhtml]").val(CKEDITOR.instances[BL.data.dbName + '_bodyhtml'].getData());
+                } else if (window.nveditor && window.nveditor[BL.data.dbName + '_bodyhtml']) {
+                    // CKEditor 5
+                    $("textarea[name=bodyhtml]").val(window.nveditor[BL.data.dbName + '_bodyhtml'].getData());
+                }
             }
 
             var data = BL.data.langval + '=' + BL.data.lang + '&' + BL.data.nv + '=' + BL.data.name + '&' + BL.data.op + '=blog-content&draft=1&' + $('#' + BL.post.IDform).serialize();
@@ -400,8 +373,9 @@ BL.post = {
     }
 }
 
-$(document).ready(function() {
+$(function() {
     // Check/bỏ check
+    // FIXME
     $('[data-toggle="BLCheckAll"]').on('change', function(e) {
         e.preventDefault();
         var $this = $(this);
@@ -438,6 +412,70 @@ $(document).ready(function() {
             wheelPropagation: true
         });
     }
+
+    // Chọn ngày tháng
+    if ($('.datepicker-get').length) {
+        $('.datepicker-get').datepicker({
+            dateFormat: nv_jsdate_get.replace('yyyy', 'yy'),
+            changeMonth: true,
+            changeYear: true,
+            showOtherMonths: true,
+            showButtonPanel: true,
+            showOn: 'focus',
+            isRTL: $('html').attr('dir') == 'rtl'
+        });
+    }
+    if ($('.datepicker-post').length) {
+        $('.datepicker-post').datepicker({
+            dateFormat: nv_jsdate_post.replace('yyyy', 'yy'),
+            changeMonth: true,
+            changeYear: true,
+            showOtherMonths: true,
+            showButtonPanel: true,
+            showOn: 'focus',
+            isRTL: $('html').attr('dir') == 'rtl'
+        });
+    }
+
+    // Action tại trang danh sách bài viết
+    $('[data-toggle="blAction"]').on('click', function(e) {
+        e.preventDefault();
+        var $this = $(this);
+
+        var items = $('[name="BLIdItem[]"]');
+        if (!items.length) {
+            return false;
+        }
+        var listid = [];
+        items.each(function() {
+            if ($(this).is(':checked')) {
+                listid.push($(this).val());
+            }
+        });
+        if (listid.length < 1) {
+            nvToast($this.data('mgs'), 'warning');
+            return;
+        }
+
+        if ($this.data('action') == 1) {
+            // Xóa
+            nvConfirm(nv_is_del_confirm[0], () => {
+                $.post(script_name + '?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=blog-list&nocache=' + new Date().getTime(), 'del=1&listid=' + listid, function(res) {
+                    nv_delete_result(res);
+                });
+            });
+        } else if ($this.data('action') == 2) {
+            // Đăng
+            $.post(script_name + '?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=blog-list&nocache=' + new Date().getTime(), 'changestatus=1&status=1&listid=' + listid, function(res) {
+                nv_change_status_list_result(res);
+            });
+        } else if ($this.data('action') == 3) {
+            // Đình chỉ
+            $.post(script_name + '?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=blog-list&nocache=' + new Date().getTime(), 'changestatus=1&status=2&listid=' + listid, function(res) {
+                nv_change_status_list_result(res);
+            });
+        }
+    });
 
     // Trình soạn thảo
     /*

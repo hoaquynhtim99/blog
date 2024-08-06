@@ -452,7 +452,7 @@ if ($prosessMode != 'none') {
 
                     if ($prosessMode != "draft") {
                         // Cap nhat danh muc
-                        $BL->fixCat($array['catids']);
+                        $BL->updateCatStatistics($array['catids']);
 
                         // Cap nhat tags
                         $BL->fixTags($array['tagids']);
@@ -518,7 +518,7 @@ if ($prosessMode != 'none') {
 
                     if ($prosessMode != "draft") {
                         // Cap nhat danh muc
-                        $BL->fixCat(array_unique(array_filter(array_merge_recursive($array_old['catids'], $array['catids']))));
+                        $BL->updateCatStatistics(array_unique(array_filter(array_merge_recursive($array_old['catids'], $array['catids']))));
 
                         // Cap nhat tags
                         $BL->fixTags(array_unique(array_filter(array_merge_recursive($array_old['tagids'], $array['tagids']))));
@@ -603,7 +603,7 @@ $mosttags = $db->query($sql)->fetchAll();
 $tags = $BL->getTagsByID($array['tagids'], true);
 
 $tpl->assign('ERROR', $error);
-$tpl->assign('LIST_CATS', $BL->listCat(0, 0));
+$tpl->assign('LIST_CATS', $global_array_cat);
 $tpl->assign('BLOGMEDIATYPE', $BL->blogMediaType);
 $tpl->assign('BLOGEXPMODE', $BL->blogExpMode);
 $tpl->assign('BLOGPOSTTYPE', $BL->blogposttype);

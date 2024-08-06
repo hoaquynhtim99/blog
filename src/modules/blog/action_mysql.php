@@ -45,12 +45,17 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
   parentid mediumint(8) unsigned NOT NULL DEFAULT '0',
   title varchar(250) NOT NULL DEFAULT '',
   alias varchar(250) NOT NULL DEFAULT '',
+  image varchar(250) NOT NULL DEFAULT '' COMMENT 'Ảnh chuyên mục',
   keywords varchar(255) NOT NULL DEFAULT '' COMMENT 'Từ khóa cho máy chủ tìm kiếm',
   description varchar(255) NOT NULL DEFAULT '' COMMENT 'Mô tả cho máy chủ tìm kiếm',
-  numsubs smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT 'Số danh mục con',
   numposts smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT 'Số bài viết',
-  weight smallint(4) unsigned NOT NULL DEFAULT '0',
+  cat_level tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT 'Cấp, bắt đầu từ 1',
+  weight_level mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Thứ tự trong một cấp',
+  weight_all mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Thứ tự toàn bộ',
+  subcat_num tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT 'Số chuyên mục con',
+  subcat_ids varchar(250) NOT NULL DEFAULT '' COMMENT 'ID các chuyên mục con, cách nhau dấu phảy',
   status tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '0: Vô hiệu, 1: Hiệu lực',
+  show_block tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '1: Hiển thị trên block, 0: Không hiển thị trên block',
   PRIMARY KEY (id),
   UNIQUE KEY alias (alias(191))
 ) ENGINE=InnoDB";
@@ -59,7 +64,7 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_newsletters (
   id mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   email varchar(250) NOT NULL DEFAULT '' COMMENT 'Email đăng ký',
-  regip varchar(20) NOT NULL DEFAULT '' COMMENT 'IP đã đăng ký',
+  regip varchar(45) NOT NULL DEFAULT '' COMMENT 'IP đã đăng ký',
   regtime int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Thời gian đăng ký',
   confirmtime int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Thời gian xác nhận',
   lastsendtime int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Lần gửi cuối',
@@ -176,6 +181,7 @@ $sql_create_module[] = "INSERT INTO " . $db_config['prefix'] . "_" . $lang . "_"
 ('strCutHomeText', '150'),
 ('numSearchResult', '20'),
 ('showAdsInDetailPage', '0'),
+('defaultPostImage', ''),
 
 ('iconClass0', 'fa fa-pencil'),
 ('iconClass1', 'fa fa-picture-o'),

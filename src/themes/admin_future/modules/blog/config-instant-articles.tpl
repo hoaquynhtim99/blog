@@ -83,7 +83,7 @@
 <script src="{$smarty.const.ASSETS_STATIC_URL}/js/select2/select2.min.js"></script>
 <script src="{$smarty.const.ASSETS_STATIC_URL}/js/select2/i18n/{$smarty.const.NV_LANG_INTERFACE}.js"></script>
 <script type="text/javascript">
-$(document).ready(function() {
+$(function() {
     $('#instantArticlesPasswordShowHide').on("click", function() {
         var icon = $(this).find('i');
         if (icon.is(".fa-eye")) {

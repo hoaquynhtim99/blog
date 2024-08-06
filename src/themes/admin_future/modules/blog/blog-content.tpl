@@ -68,7 +68,7 @@
                             <div class="bl-scroller bl-post-cats" data-wheel="true">
                                 <div class="content">
                                     {foreach from=$LIST_CATS key=key item=value}
-                                    <div class="form-check" style="margin-left: {$value.catlev * 20}px;">
+                                    <div class="form-check" style="margin-left: {($value.cat_level - 1) * 20}px;">
                                         <input class="form-check-input" type="checkbox" id="catids_{$value.id}" name="catids[]" value="{$value.id}"{if in_array($value.id, $DATA.catids)} checked="checked"{/if}>
                                         <label class="form-check-label" for="catids_{$value.id}">{$value.title}</label>
                                     </div>
@@ -331,7 +331,7 @@
                                 </select>
                             </div>
                             <div class="col-xs-12 col-sm-6">
-                                <input type="text" class="form-control mb-2 bsdatepicker" value="{if not empty($DATA.pubtime)}{"d/m/Y"|date:$DATA.pubtime}{/if}" name="pubtime" id="formElementPubtime" placeholder="dd/mm/yyyy">
+                                <input type="text" class="form-control mb-2 datepicker-post" value="{if not empty($DATA.pubtime)}{"d/m/Y"|date:$DATA.pubtime}{/if}" name="pubtime" id="formElementPubtime" placeholder="dd/mm/yyyy">
                             </div>
                         </div>
                     </div>
@@ -353,7 +353,7 @@
                                 </select>
                             </div>
                             <div class="col-xs-12 col-sm-6">
-                                <input type="text" class="form-control mb-2 bsdatepicker" value="{if not empty($DATA.exptime)}{"d/m/Y"|date:$DATA.exptime}{/if}" name="exptime" id="formElementExptime" placeholder="dd/mm/yyyy">
+                                <input type="text" class="form-control mb-2 datepicker-post" value="{if not empty($DATA.exptime)}{"d/m/Y"|date:$DATA.exptime}{/if}" name="exptime" id="formElementExptime" placeholder="dd/mm/yyyy">
                             </div>
                         </div>
                     </div>
@@ -377,7 +377,7 @@
     </div>
 </form>
 <script type="text/javascript">
-$(document).ready(function() {
+$(function() {
     function mediaHandle() {
         var mediatype = $('#formElementMediatype').val();
         if (mediatype != '2' && mediatype != '3' && mediatype != 4) {
@@ -415,18 +415,6 @@ $(document).ready(function() {
     // Lấy liên kết tĩnh khi ấn nút
     $('#formElementTitleClick').on('click', function() {
         get_alias('formElementTitle', 'formElementAlias', 'post');
-    });
-    // Chọn ngày tháng năm
-    $(".bsdatepicker").datepicker({
-        autoclose: 1,
-        templates: {
-            rightArrow: '<i class="fas fa-chevron-right"></i>',
-            leftArrow: '<i class="fas fa-chevron-left"></i>'
-        },
-        language: '{$NV_LANG_INTERFACE}',
-        orientation: 'auto bottom',
-        todayHighlight: true,
-        format: 'dd/mm/yyyy'
     });
     // Thao tác khi thay đổi loại media
     $('#formElementMediatype').change(function() {

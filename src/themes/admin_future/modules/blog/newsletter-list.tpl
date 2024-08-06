@@ -65,10 +65,10 @@
             <div class="btn-group">
                 <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" data-boundary="window">{$LANG->get('withSelectedRow')} <span class="icon-dropdown fas fa-chevron-down"></span></button>
                 <div class="dropdown-menu" role="menu">
-                    <a class="dropdown-item" href="javascript:void(0);" onclick="nv_newsletters_action('[name=\'BLIdItem[]\']', '{$LANG->get('alert_check')}', 1);"><i class="icon far fa-times-circle"></i> {$LANG->get('delete')}</a>
+                    <a class="dropdown-item" href="javascript:void(0);" onclick="nv_newsletters_action('[name=\'BLIdItem[]\']', '{$LANG->get('alert_check')}', 1);"><i class="far fa-times-circle"></i> {$LANG->get('delete')}</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="javascript:void(0);" onclick="nv_newsletters_action('[name=\'BLIdItem[]\']', '{$LANG->get('alert_check')}', 2);"><i class="icon fas fa-toggle-on"></i> {$LANG->get('action_status_ok')}</a>
-                    <a class="dropdown-item" href="javascript:void(0);" onclick="nv_newsletters_action('[name=\'BLIdItem[]\']', '{$LANG->get('alert_check')}', 3);"><i class="icon fas fa-toggle-off"></i> {$LANG->get('action_status_no')}</a>
+                    <a class="dropdown-item" href="javascript:void(0);" onclick="nv_newsletters_action('[name=\'BLIdItem[]\']', '{$LANG->get('alert_check')}', 2);"><i class="fas fa-toggle-on"></i> {$LANG->get('action_status_ok')}</a>
+                    <a class="dropdown-item" href="javascript:void(0);" onclick="nv_newsletters_action('[name=\'BLIdItem[]\']', '{$LANG->get('alert_check')}', 3);"><i class="fas fa-toggle-off"></i> {$LANG->get('action_status_no')}</a>
                 </div>
             </div>
         </div>

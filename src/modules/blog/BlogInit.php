@@ -233,7 +233,7 @@ class BlogInit
     }
 
     /**
-     * nv_mod_blog::sortArrayFromArrayKeys()
+     * Sắp xếp mảng dựa theo key, thứ tự key từ một mảng khác
      *
      * @param mixed $keys
      * @param mixed $array
@@ -341,7 +341,7 @@ class BlogInit
      * @param bool $empty
      * @return
      */
-    public function string2array($str, $defis = ",", $unique = false, $empty = false)
+    public function string2array($str, $defis = ',', $unique = false, $empty = false)
     {
         if (empty($str)) {
             return [];
@@ -434,182 +434,41 @@ class BlogInit
     }
 
     /**
-     * nv_mod_blog::setCats()
-     *
-     * @param mixed $list2
-     * @param mixed $id
-     * @param mixed $list
-     * @param integer $m
-     * @param integer $num
-     * @return
+     * @return array
      */
-    private function setCats($list2, $id, $list, $m = 0, $num = 0)
+    public function listCat()
     {
-        $num++;
-        $defis = "";
-        for ($i = 0; $i < $num; $i++) {
-            $defis .= "&nbsp; &nbsp; ";
-        }
-
-        if (isset($list[$id])) {
-            foreach ($list[$id] as $value) {
-                if ($value['id'] != $m) {
-                    $list2[$value['id']] = $value;
-                    $list2[$value['id']]['name'] = "" . $defis . "" . $list2[$value['id']]['name'];
-                    $list2[$value['id']]['defis'] = $defis;
-                    $list2[$value['id']]['catlev'] += 1;
-                    $list2[$value['parentid']]['subcats'][] = $value['id'];
-
-                    if (isset($list[$value['id']])) {
-                        $list2 = $this->setCats($list2, $value['id'], $list, $m, $num);
-                    }
-                }
-            }
-        }
-
-        return $list2;
+        $sql = "SELECT * FROM " . $this->table_prefix . "_categories ORDER BY weight_all ASC";
+        return $this->db_cache($sql, 'id', $this->mod_name);
     }
 
-    /**
-     * nv_mod_blog::listCat()
-     *
-     * @param mixed $parentid
-     * @param integer $m
-     * @return
-     */
-    public function listCat($parentid, $m = 0)
+    public function updateCatStatistics($id)
     {
-        if (defined('NV_ADMIN')) {
-            $sql = "SELECT * FROM " . $this->table_prefix . "_categories ORDER BY parentid, weight ASC";
-            $result = $this->db->query($sql);
-
-            $list = [];
-            while ($row = $result->fetch()) {
-                $list[$row['parentid']][] = [
-                    'id' => (int)$row['id'],
-                    'parentid' => (int)$row['parentid'],
-                    'title' => $row['title'],
-                    'alias' => $row['alias'],
-                    'keywords' => $row['keywords'],
-                    'description' => $row['description'],
-                    'numsubs' => (int)$row['numsubs'],
-                    'numposts' => (int)$row['numposts'],
-                    'numpostsFormat' => number_format($row['numposts'], 0, '.', '.'),
-                    'weight' => (int)$row['weight'],
-                    'status' => (int)$row['status'],
-                    'name' => $row['title'],
-                    'defis' => "",
-                    'catlev' => 0,
-                    'subcats' => [],
-                    'selected' => $parentid == $row['id'] ? true : false
-                ];
-            }
-        } else {
-            $sql = "SELECT * FROM " . $this->table_prefix . "_categories WHERE status=1 ORDER BY parentid, weight ASC";
-            $result = $this->db_cache($sql, 'id', $this->mod_name);
-
-            $list = $list1 = [];
-
-            foreach ($result as $row) {
-                if (empty($row['parentid']) or isset($list1[$row['parentid']])) {
-                    $list1[$row['id']] = $row['id'];
-
-                    $list[$row['parentid']][] = [
-                        'id' => (int)$row['id'],
-                        'parentid' => (int)$row['parentid'],
-                        'title' => $row['title'],
-                        'alias' => $row['alias'],
-                        'keywords' => $row['keywords'],
-                        'description' => $row['description'],
-                        'numsubs' => (int)$row['numsubs'],
-                        'numposts' => (int)$row['numposts'],
-                        'numpostsFormat' => number_format($row['numposts'], 0, '.', '.'),
-                        'weight' => (int)$row['weight'],
-                        'status' => (int)$row['status'],
-                        'name' => $row['title'],
-                        'defis' => "",
-                        'catlev' => 0,
-                        'subcats' => [],
-                        'selected' => $parentid == $row['id'] ? true : false
-                    ];
-                }
-            }
-
-            unset($list1);
+        if (empty($id)) {
+            return false;
         }
-
-        if (empty($list)) {
-            return $list;
-        }
-
-        $list2 = [];
-        foreach ($list[0] as $value) {
-            if ($value['id'] != $m) {
-                $list2[$value['id']] = $value;
-                if (isset($list[$value['id']])) {
-                    $list2 = $this->setCats($list2, $value['id'], $list, $m);
-                }
-            }
-        }
-
-        return $list2;
-    }
-
-    /**
-     * nv_mod_blog::fixCat()
-     *
-     * @param mixed $id
-     * @return
-     */
-    public function fixCat($id)
-    {
-        if (empty($id))
-            return;
 
         $ids = $this->IdHandle($id);
 
         foreach ($ids as $id) {
-            // Lay thong tin cua danh muc
+            // Lấy danh mục
             $sql = "SELECT * FROM " . $this->table_prefix . "_categories WHERE id=" . $id;
             $result = $this->db->query($sql);
 
-            if (!$result->rowCount())
-                return;
+            if (!$result->rowCount()) {
+                return false;
+            }
 
             $row = $result->fetch(PDO::FETCH_ASSOC);
 
-            // Cap nhat so bai viet
+            // Cập nhật số bài viết
             $numposts = $this->db->query("SELECT COUNT(*) FROM " . $this->table_prefix . "_rows WHERE " . $this->build_query_search_id($id, 'catids') . "AND status=1")->fetchColumn();
             $this->db->query("UPDATE " . $this->table_prefix . "_categories SET numposts=" . $numposts . " WHERE id=" . $id);
 
-            // Cap nhat so danh muc con
-            $numsubs = $this->db->query("SELECT COUNT(*) FROM " . $this->table_prefix . "_categories WHERE parentid=" . $id)->fetchColumn();
-            $this->db->query("UPDATE " . $this->table_prefix . "_categories SET numsubs=" . $numsubs . " WHERE id=" . $id);
-
-            $this->fixCat($row['parentid']);
+            $this->updateCatStatistics($row['parentid']);
         }
 
-        return;
-    }
-
-    /**
-     * nv_mod_blog::fixWeightCat()
-     *
-     * @param integer $parentid
-     * @return
-     */
-    public function fixWeightCat($parentid = 0)
-    {
-        $sql = "SELECT id FROM " . $this->table_prefix . "_categories WHERE parentid=" . $parentid . " ORDER BY weight ASC";
-        $result = $this->db->query($sql);
-
-        $weight = 0;
-        while ($row = $result->fetch()) {
-            $weight++;
-            $this->db->query("UPDATE " . $this->table_prefix . "_categories SET weight=" . $weight . " WHERE id=" . $row['id']);
-        }
-
-        return;
+        return true;
     }
 
     /**
@@ -776,8 +635,8 @@ class BlogInit
         // Cap nhat tags
         $this->fixTags($array_tags_fix);
 
-        // Cap nhat danh muc
-        $this->fixCat($array_cat_fix);
+        // Cập nhật thống kê cho danh mục
+        $this->updateCatStatistics($array_cat_fix);
     }
 
     /**
@@ -834,5 +693,60 @@ class BlogInit
             }
         }
         return $reverse ? ($h . ':' . $w) : ($w . ':' . $h);
+    }
+
+    /**
+     * @param number $parentid
+     * @param number $order
+     * @param number $lev
+     * @return number|integer
+     */
+    public function fixCatOrder($parentid = 0, $weight_all = 0, $cat_level = 0)
+    {
+        /*
+         * Lấy ra ID các chuyên mục trong cấp này
+         * theo thứ tự tăng dần
+         */
+        $sql = 'SELECT id FROM ' . $this->table_prefix . '_categories WHERE parentid=' . $parentid . ' ORDER BY weight_level ASC';
+        $array_cat_order = $this->db->query($sql)->fetchAll(PDO::FETCH_COLUMN);
+
+        /*
+         * Tính cấp của chuyên mục, bắt đầu từ cấp 1
+         * Tính lại thứ tự của chuyên mục trong cấp này
+         */
+        $weight_level = 0;
+        if ($parentid > 0) {
+            $cat_level++;
+        } else {
+            $cat_level = 1;
+        }
+        foreach ($array_cat_order as $id_i) {
+            $weight_all++;
+            $weight_level++;
+            $sql = 'UPDATE ' . $this->table_prefix . '_categories SET
+                weight_level=' . $weight_level . ',
+                weight_all=' . $weight_all . ',
+                cat_level=' . $cat_level . '
+            WHERE id=' . intval($id_i);
+            $this->db->query($sql);
+            $weight_all = $this->fixCatOrder($id_i, $weight_all, $cat_level);
+        }
+
+        /*
+         * Tính số chuyên mục con bằng thứ tự cao nhất trong cấp
+         */
+        $subcat_num = $weight_level;
+        if ($parentid > 0) {
+            $sql = 'UPDATE ' . $this->table_prefix . '_categories SET subcat_num=' . $subcat_num;
+            if ($subcat_num == 0) {
+                $sql .= ", subcat_ids=''";
+            } else {
+                $sql .= ", subcat_ids='" . implode(',', $array_cat_order) . "'";
+            }
+            $sql .= ' WHERE id=' . intval($parentid);
+            $this->db->query($sql);
+        }
+
+        return $weight_all;
     }
 }
