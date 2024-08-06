@@ -42,7 +42,7 @@
 }
 
 .bl-post-col-tools {
-  border-left: 1px #ddd solid;
+  border-right: 1px #ddd solid;
 }
 
 .post-tags-most-item {
@@ -71,7 +71,7 @@
 
 .bl-list-tags li {
   display: inline-block;
-  margin-right: 2px;
+  margin-left: 2px;
 }
 
 /* POSTING */
@@ -99,13 +99,12 @@
 }
 
 .blmd-editor {
-  border-top-left-radius: 0;
   border-top-right-radius: 0;
+  border-top-left-radius: 0;
 }
 
 #post-markdown-preview {
   border: 1px #bdc0c7 solid;
   padding: 20px;
 }
-
-/*# sourceMappingURL=blog.css.map */
+/*# sourceMappingURL=blog.rtl.css.map */

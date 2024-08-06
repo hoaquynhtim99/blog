@@ -52,6 +52,9 @@
 /src/themes/admin_default/images/*
 /src/themes/admin_default/modules/*
 !/src/themes/admin_default/css/blog.css
+!/src/themes/admin_default/css/blog.css.map
+!/src/themes/admin_default/css/blog.rtl.css
+!/src/themes/admin_default/css/blog.rtl.css.map
 !/src/themes/admin_default/js/blog.js
 !/src/themes/admin_default/images/blog
 !/src/themes/admin_default/modules/blog
@@ -67,6 +70,9 @@
 /src/themes/admin_future/images/*
 /src/themes/admin_future/modules/*
 !/src/themes/admin_future/css/blog.css
+!/src/themes/admin_future/css/blog.css.map
+!/src/themes/admin_future/css/blog.rtl.css
+!/src/themes/admin_future/css/blog.rtl.css.map
 !/src/themes/admin_future/js/blog.js
 !/src/themes/admin_future/images/blog
 !/src/themes/admin_future/modules/blog
@@ -98,3 +104,5 @@
 /src/web.config
 /tests
 /tools
+/node_modules
+/package-lock.json
