@@ -244,7 +244,7 @@
                             <input type="hidden" name="tagids" value="{$TAGIDS}" id="post-tags">
                             <ul class="bl-list-tags" id="post-tags-list">
                                 {foreach from=$TAGS key=key item=value}
-                                <li data-id="{$value.id}" class="badge badge-secondary post-tags-most-item"><i class="fas fa-tag"></i> {$value.title} <a href="#"><i class="fas fa-times"></i></a></li>
+                                <li data-id="{$value.id}" class="badge text-bg-secondary lh-base post-tags-most-item"><i class="fas fa-tag"></i> {$value.title} <a href="#"><i class="fas fa-times text-danger"></i></a></li>
                                 {/foreach}
                             </ul>
                         </div>
@@ -254,7 +254,7 @@
                         <label>{$LANG->get('tagsMost')}:</label>
                         <div id="post-tags-most">
                             {foreach from=$MOSTTAGS key=key item=value}
-                            <a href="#" class="badge badge-secondary post-tags-most-item" data-toggle="tagitem" data-id="{$value.id}" data-title="{$value.title}"><i class="fas fa-tag"></i> {$value.title}</a>
+                            <a href="#" class="badge text-bg-secondary lh-base post-tags-most-item" data-toggle="tagitem" data-id="{$value.id}" data-title="{$value.title}"><i class="fas fa-tag"></i> {$value.title}</a>
                             {/foreach}
                         </div>
                     </div>

@@ -203,7 +203,7 @@ BL.tags = {
     },
     add: function(id, value) {
         if ($('#' + BL.tags.listTagsID + ' li[data-id="' + id + '"]').length == 0) {
-            $('#' + BL.tags.listTagsID).append('<li data-id="' + id + '" class="badge badge-secondary post-tags-most-item"><i class="fas fa-tag"></i> ' + value + ' <a href="#"><i class="fas fa-times"></i></a></li>');
+            $('#' + BL.tags.listTagsID).append('<li data-id="' + id + '" class="badge text-bg-secondary lh-base post-tags-most-item"><i class="fas fa-tag"></i> ' + value + ' <a href="#"><i class="fas fa-times text-danger"></i></a></li>');
             BL.tags.reset();
         }
     },
