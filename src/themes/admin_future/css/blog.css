@@ -28,6 +28,10 @@
     min-width: 60px!important;
 }
 
+.bl-min-w200 {
+    min-width: 200px!important;
+}
+
 .textarea-animated {
     -webkit-transition: height 0.2s;
     -moz-transition: height 0.2s;

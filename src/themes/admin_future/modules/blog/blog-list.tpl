@@ -18,15 +18,15 @@
                         {/foreach}
                     </select>
                 </div>
-                <div class="col-md-6 flex-lg-fill">
+                <div class="col-6 flex-lg-fill">
                     <label class="form-label" for="formEleFrom">{$LANG->get('filter_from')}:</label class="form-label">
                     <input class="form-control datepicker-get" value="{$DATA_SEARCH.from}" type="text" id="formEleFrom" name="from" autocomplete="off">
                 </div>
-                <div class="col-md-6 flex-lg-fill">
+                <div class="col-6 flex-lg-fill">
                     <label class="form-label" for="formEleTo">{$LANG->get('filter_to')}:</label>
                     <input class="form-control datepicker-get" value="{$DATA_SEARCH.to}" type="text" id="formEleTo" name="to" autocomplete="off">
                 </div>
-                <div class="col-md-6 flex-lg-fill">
+                <div class="col-auto bl-min-w200 flex-fill">
                     <label class="form-label" for="formEleStatus">{$LANG->get('status1')}:</label>
                     <select class="form-select" name="status" id="formEleStatus">
                         <option value="10">{$LANG->get('filter_all_status')}</option>
@@ -36,7 +36,7 @@
                     </select>
                 </div>
                 <div class="flex-grow-0 flex-shrink-1 w-auto">
-                    <label class="form-label d-none d-sm-block">&nbsp;</label>
+                    <label class="form-label d-block">&nbsp;</label>
                     <button type="submit" class="btn btn-primary text-nowrap"><i class="fas fa-search"></i> {$LANG->get('filter_action')}</button>
                 </div>
             </div>
@@ -50,9 +50,15 @@
                         <th style="width:1%;" class="text-nowrap">
                             <input class="form-check-input" type="checkbox" data-toggle="checkAll" name="BLIdItems" data-target="[name='BLIdItem[]']">
                         </th>
-                        <th style="width:35%;" class="text-nowrap"><a href="{$DATA_ORDER.title.data.url}" title="{$DATA_ORDER.title.data.title}">{if $DATA_ORDER.title.data.key eq 'asc'}<i class="fas fa-sort-amount-down-alt"></i> {elseif $DATA_ORDER.title.data.key eq 'desc'}<i class="fas fa-sort-amount-up"></i> {/if}{$LANG->get('title')}</a></th>
-                        <th style="width:16%;" class="text-nowrap"><a href="{$DATA_ORDER.posttime.data.url}" title="{$DATA_ORDER.posttime.data.title}">{if $DATA_ORDER.posttime.data.key eq 'asc'}<i class="fas fa-sort-amount-down-alt"></i> {elseif $DATA_ORDER.posttime.data.key eq 'desc'}<i class="fas fa-sort-amount-up"></i> {/if}{$LANG->get('blogposttime')}</a></th>
-                        <th style="width:16%;" class="text-nowrap"><a href="{$DATA_ORDER.updatetime.data.url}" title="{$DATA_ORDER.updatetime.data.title}">{if $DATA_ORDER.updatetime.data.key eq 'asc'}<i class="fas fa-sort-amount-down-alt"></i> {elseif $DATA_ORDER.updatetime.data.key eq 'desc'}<i class="fas fa-sort-amount-up"></i> {/if}{$LANG->get('blogupdatetime')}</a></th>
+                        <th style="width:35%;" class="text-nowrap">
+                            <a href="{$DATA_ORDER.title.data.url}" title="{$DATA_ORDER.title.data.title}">{if $DATA_ORDER.title.data.key eq 'asc'}<i class="fas fa-sort-amount-down-alt"></i> {elseif $DATA_ORDER.title.data.key eq 'desc'}<i class="fas fa-sort-amount-up"></i> {/if}{$LANG->get('title')}</a>
+                        </th>
+                        <th style="width:16%;" class="text-nowrap">
+                            <a href="{$DATA_ORDER.posttime.data.url}" title="{$DATA_ORDER.posttime.data.title}">{if $DATA_ORDER.posttime.data.key eq 'asc'}<i class="fas fa-sort-amount-down-alt"></i> {elseif $DATA_ORDER.posttime.data.key eq 'desc'}<i class="fas fa-sort-amount-up"></i> {/if}{$LANG->get('blogposttime')}</a>
+                        </th>
+                        <th style="width:16%;" class="text-nowrap">
+                            <a href="{$DATA_ORDER.updatetime.data.url}" title="{$DATA_ORDER.updatetime.data.title}">{if $DATA_ORDER.updatetime.data.key eq 'asc'}<i class="fas fa-sort-amount-down-alt"></i> {elseif $DATA_ORDER.updatetime.data.key eq 'desc'}<i class="fas fa-sort-amount-up"></i> {/if}{$LANG->get('blogupdatetime')}</a>
+                        </th>
                         <th style="width:16%;" class="text-nowrap">{$LANG->get('status')}</th>
                         <th class="text-right text-nowrap" style="width:16%;">{$LANG->get('feature')}</th>
                     </tr>
