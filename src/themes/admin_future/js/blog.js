@@ -60,39 +60,6 @@ function nv_chang_weight_result(res) {
     return;
 }
 
-// Thao tac voi email dang ky nhan tin
-function nv_newsletters_action(checkitem, nv_message_no_check, key) {
-    var items = $(checkitem);
-    if (!items.length) {
-        return false;
-    }
-    var listid = [];
-    items.each(function() {
-        if ($(this).is(':checked')) {
-            listid.push($(this).val());
-        }
-    });
-    if (listid.length) {
-        if (key == 1) {
-            if (confirm(nv_is_del_confirm[0])) {
-                $.post(script_name + '?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=newsletter-manager&nocache=' + new Date().getTime(), 'del=1&listid=' + listid, function(res) {
-                    nv_delete_result(res);
-                });
-            }
-        } else if (key == 2) {
-            $.post(script_name + '?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=newsletter-manager&nocache=' + new Date().getTime(), 'changestatus=1&status=1&listid=' + listid, function(res) {
-                nv_change_status_list_result(res);
-            });
-        } else if (key == 3) {
-            $.post(script_name + '?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=newsletter-manager&nocache=' + new Date().getTime(), 'changestatus=1&status=2&listid=' + listid, function(res) {
-                nv_change_status_list_result(res);
-            });
-        }
-    } else {
-        alert(nv_message_no_check);
-    }
-}
-
 function nv_delete_newsletters(id) {
     if (confirm(nv_is_del_confirm[0])) {
         $.post(script_name + '?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=newsletter-manager&nocache=' + new Date().getTime(), 'del=1&id=' + id, function(res) {
@@ -349,31 +316,6 @@ BL.post = {
 }
 
 $(function() {
-    // Check/bỏ check
-    // FIXME
-    $('[data-toggle="BLCheckAll"]').on('change', function(e) {
-        e.preventDefault();
-        var $this = $(this);
-        var $items = $($this.data('target'));
-        if ($this.is(':checked')) {
-            $items.prop('checked', true);
-        } else {
-            $items.prop('checked', false);
-        }
-    });
-    $('[data-toggle="BLUncheckAll"]').on('change', function(e) {
-        e.preventDefault();
-        var $this = $(this);
-        var $btnall = $($this.data('target'));
-        var $items = $($btnall.data('target'));
-        var $itemsChecked = $($btnall.data('target') + ':checked');
-        if ($itemsChecked.length >= $items.length) {
-            $btnall.prop('checked', true);
-        } else {
-            $btnall.prop('checked', false);
-        }
-    });
-
     // Select2 chung
     if ($('.select2').length) {
         $('.select2').select2({
@@ -478,6 +420,46 @@ $(function() {
                 $.post(script_name + '?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=tags&nocache=' + new Date().getTime(), 'del=1&listid=' + listid, function(res) {
                     nv_delete_result(res);
                 });
+            });
+        }
+    });
+
+    // Action tại trang danh sách email nhận tin
+    $('[data-toggle="newslettersAction"]').on('click', function(e) {
+        e.preventDefault();
+        var $this = $(this);
+
+        var items = $('[name="BLIdItem[]"]');
+        if (!items.length) {
+            return false;
+        }
+        var listid = [];
+        items.each(function() {
+            if ($(this).is(':checked')) {
+                listid.push($(this).val());
+            }
+        });
+        if (listid.length < 1) {
+            nvToast($this.data('mgs'), 'warning');
+            return;
+        }
+
+        if ($this.data('action') == 1) {
+            // Xóa
+            nvConfirm(nv_is_del_confirm[0], () => {
+                $.post(script_name + '?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=newsletter-manager&nocache=' + new Date().getTime(), 'del=1&listid=' + listid, function(res) {
+                    nv_delete_result(res);
+                });
+            });
+        } else if ($this.data('action') == 2) {
+            // Đăng
+            $.post(script_name + '?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=newsletter-manager&nocache=' + new Date().getTime(), 'changestatus=1&status=1&listid=' + listid, function(res) {
+                nv_change_status_list_result(res);
+            });
+        } else if ($this.data('action') == 3) {
+            // Đình chỉ
+            $.post(script_name + '?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=newsletter-manager&nocache=' + new Date().getTime(), 'changestatus=1&status=2&listid=' + listid, function(res) {
+                nv_change_status_list_result(res);
             });
         }
     });
