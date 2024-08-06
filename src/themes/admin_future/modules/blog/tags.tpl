@@ -1,33 +1,37 @@
-<div class="card">
+<div class="card mb-4">
     <div class="card-body">
         <form method="get" action="{$NV_BASE_ADMINURL}index.php">
             <input type="hidden" name="{$NV_LANG_VARIABLE}" value="{$NV_LANG_DATA}">
             <input type="hidden" name="{$NV_NAME_VARIABLE}" value="{$MODULE_NAME}">
             <input type="hidden" name="{$NV_OP_VARIABLE}" value="{$OP}">
-            <div class="card-body-search-form pt-4 pb-2 px-4 form-inline">
-                <div class="input-group bl-min-w-25">
-                    <label class="sr-only" for="formElementQ">{$LANG->get('searchTags')}</label>
-                    <input type="text" class="form-control mb-2 me-sm-2" id="formElementQ" name="q" value="{$DATA_SEARCH.q}" placeholder="{$LANG->get('searchTags')}">
+            <div class="row g-3 flex-nowrap">
+                <div class="col-auto flex-fill flex-md-grow-0 flex-md-shrink-0">
+                    <label class="form-label" for="formElementQ">{$LANG->get('searchTags')}</label>
+                    <input type="text" class="form-control" id="formElementQ" name="q" value="{$DATA_SEARCH.q}" placeholder="{$LANG->get('searchTags')}">
                 </div>
-                <button type="submit" class="btn btn-primary mb-2 me-2">{$LANG->get('filter_action')}</button>
-                {if not empty($DATA_SEARCH.q)}
-                <a href="{$NV_BASE_ADMINURL}index.php?{$NV_LANG_VARIABLE}={$NV_LANG_DATA}&amp;{$NV_NAME_VARIABLE}={$MODULE_NAME}&amp;{$NV_OP_VARIABLE}={$OP}" class="btn btn-secondary mb-2">{$LANG->get('filter_cancel')}</a>
-                {/if}
+                <div class="flex-grow-0 flex-shrink-1 w-auto">
+                    <label class="form-label d-block">&nbsp;</label>
+                    <button type="submit" class="btn btn-primary text-nowrap"><i class="fas fa-search"></i> {$LANG->get('filter_action')}</button>
+                </div>
             </div>
         </form>
-        <div class="table-responsive">
-            <table class="table table-striped table-hover">
+    </div>
+    <div class="card-body">
+        <div class="table-responsive-lg table-card">
+            <table class="table table-striped align-middle table-sticky mb-0">
                 <thead>
                     <tr>
                         <th style="width:5%;" class="text-nowrap">
-                            <label class="custom-control custom-control-sm custom-checkbox">
-                                <input class="form-check-input" type="checkbox" data-toggle="BLCheckAll" name="BLIdItems" data-target="[name='BLIdItem[]']"><span class="custom-control-label"></span>
-                            </label>
+                            <input class="form-check-input" type="checkbox" data-toggle="checkAll" name="BLIdItems" data-target="[name='BLIdItem[]']">
                         </th>
                         <th style="width:5%;" class="text-nowrap">ID</th>
-                        <th style="width:30%;" class="text-nowrap"><a href="{$DATA_ORDER.title.data.url}" title="{$DATA_ORDER.title.data.title}">{if $DATA_ORDER.title.data.key eq 'asc'}<i class="fas fa-sort-amount-down-alt"></i> {elseif $DATA_ORDER.title.data.key eq 'desc'}<i class="fas fa-sort-amount-up"></i> {/if}{$LANG->get('title')}</a></th>
+                        <th style="width:30%;" class="text-nowrap">
+                            <a href="{$DATA_ORDER.title.data.url}" title="{$DATA_ORDER.title.data.title}">{if $DATA_ORDER.title.data.key eq 'asc'}<i class="fas fa-sort-amount-down-alt"></i> {elseif $DATA_ORDER.title.data.key eq 'desc'}<i class="fas fa-sort-amount-up"></i> {/if}{$LANG->get('title')}</a>
+                        </th>
                         <th style="width:45%;" class="text-nowrap">{$LANG->get('colDescriptionKeyword')}</th>
-                        <th style="width:10%;" class="text-nowrap"><a href="{$DATA_ORDER.numposts.data.url}" title="{$DATA_ORDER.numposts.data.title}">{if $DATA_ORDER.numposts.data.key eq 'asc'}<i class="fas fa-sort-amount-down-alt"></i> {elseif $DATA_ORDER.numposts.data.key eq 'desc'}<i class="fas fa-sort-amount-up"></i> {/if}{$LANG->get('categoriesnumPost')}</a></th>
+                        <th style="width:10%;" class="text-nowrap">
+                            <a href="{$DATA_ORDER.numposts.data.url}" title="{$DATA_ORDER.numposts.data.title}">{if $DATA_ORDER.numposts.data.key eq 'asc'}<i class="fas fa-sort-amount-down-alt"></i> {elseif $DATA_ORDER.numposts.data.key eq 'desc'}<i class="fas fa-sort-amount-up"></i> {/if}{$LANG->get('categoriesnumPost')}</a>
+                        </th>
                         <th class="text-end text-nowrap" style="width:10%;">{$LANG->get('feature')}</th>
                     </tr>
                 </thead>
@@ -35,9 +39,7 @@
                     {foreach from=$ARRAY key=key item=row}
                     <tr>
                         <td>
-                            <label class="custom-control custom-control-sm custom-checkbox">
-                                <input class="form-check-input" type="checkbox" data-toggle="BLUncheckAll" name="BLIdItem[]" data-target="[name='BLIdItems']" value="{$row.id}"><span class="custom-control-label"></span>
-                            </label>
+                            <input class="form-check-input" type="checkbox" data-toggle="checkSingle" name="BLIdItem[]" data-target="[name='BLIdItems']" value="{$row.id}">
                         </td>
                         <td>{$row.id}</td>
                         <td class="cell-detail">
@@ -59,25 +61,32 @@
             </table>
         </div>
     </div>
-    <div class="card-footer">
-        <div class="page-tools">
-            <div class="btn-group">
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" data-boundary="window">{$LANG->get('withSelectedRow')} <span class="icon-dropdown fas fa-chevron-down"></span></button>
-                <div class="dropdown-menu" role="menu">
-                    <a class="dropdown-item" href="javascript:void(0);" onclick="nv_tags_action('[name=\'BLIdItem[]\']', '{$LANG->get('alert_check')}', 1);"><i class="far fa-times-circle"></i> {$LANG->get('delete')}</a>
+    <div class="card-footer border-top">
+        <div class="d-flex flex-wrap justify-content-between align-items-center">
+            <div class="d-flex flex-wrap flex-sm-nowrap align-items-center">
+                <div class="me-2">
+                    <input type="checkbox" data-toggle="checkAll" class="form-check-input m-0 align-middle" aria-label="{$LANG->getGlobal('toggle_checkall')}">
+                </div>
+                <div class="input-group me-1 my-1">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            {$LANG->get('withSelectedRow')}
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" data-toggle="tagAction" data-action="1" data-mgs="{$LANG->get('alert_check')}"><i class="far fa-times-circle text-danger"></i> {$LANG->get('delete')}</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
+            <div class="pagination-wrap">
+                {$GENERATE_PAGE}
+            </div>
         </div>
-        {if not empty($GENERATE_PAGE)}
-        <nav class="page-nav">{$GENERATE_PAGE}</nav>
-        {/if}
     </div>
 </div>
 {if not empty($ERROR)}
 <div role="alert" class="alert alert-danger">
-    <button type="button" data-dismiss="alert" aria-label="{$LANG->get('close')}" class="close"><i class="fas fa-times"></i></button>
-    <div class="icon"><i class="far fa-times-circle"></i></div>
-    <div class="message">{$ERROR}</div>
+    <i class="far fa-times-circle"></i> {$ERROR}
 </div>
 {/if}
 <div class="card" id="formElement">
@@ -145,7 +154,7 @@ $(function() {
 $(window).on('load', function() {
     $('html, body').animate({
         scrollTop: $('#formElement').offset().top
-    }, 500);
+    }, 150);
 });
 {/if}
 </script>

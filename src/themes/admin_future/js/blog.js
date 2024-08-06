@@ -129,31 +129,6 @@ function nv_delete_cat(id) {
     return false;
 }
 
-// Thao tac voi tags
-function nv_tags_action(checkitem, nv_message_no_check, key) {
-    var items = $(checkitem);
-    if (!items.length) {
-        return false;
-    }
-    var listid = [];
-    items.each(function() {
-        if ($(this).is(':checked')) {
-            listid.push($(this).val());
-        }
-    });
-    if (listid.length) {
-        if (key == 1) {
-            if (confirm(nv_is_del_confirm[0])) {
-                $.post(script_name + '?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=tags&nocache=' + new Date().getTime(), 'del=1&listid=' + listid, function(res) {
-                    nv_delete_result(res);
-                });
-            }
-        }
-    } else {
-        alert(nv_message_no_check);
-    }
-}
-
 function nv_delete_tags(id) {
     if (confirm(nv_is_del_confirm[0])) {
         $.post(script_name + '?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=tags&nocache=' + new Date().getTime(), 'del=1&id=' + id, function(res) {
@@ -473,6 +448,36 @@ $(function() {
             // Đình chỉ
             $.post(script_name + '?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=blog-list&nocache=' + new Date().getTime(), 'changestatus=1&status=2&listid=' + listid, function(res) {
                 nv_change_status_list_result(res);
+            });
+        }
+    });
+
+    // Action tại trang tag
+    $('[data-toggle="tagAction"]').on('click', function(e) {
+        e.preventDefault();
+        var $this = $(this);
+
+        var items = $('[name="BLIdItem[]"]');
+        if (!items.length) {
+            return false;
+        }
+        var listid = [];
+        items.each(function() {
+            if ($(this).is(':checked')) {
+                listid.push($(this).val());
+            }
+        });
+        if (listid.length < 1) {
+            nvToast($this.data('mgs'), 'warning');
+            return;
+        }
+
+        if ($this.data('action') == 1) {
+            // Xóa
+            nvConfirm(nv_is_del_confirm[0], () => {
+                $.post(script_name + '?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=tags&nocache=' + new Date().getTime(), 'del=1&listid=' + listid, function(res) {
+                    nv_delete_result(res);
+                });
             });
         }
     });

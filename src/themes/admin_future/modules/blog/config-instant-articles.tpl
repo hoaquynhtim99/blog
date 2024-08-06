@@ -111,7 +111,7 @@ $(function() {
                     <option value="">{$LANG->get('cfgInsArtToolSelArea')}</option>
                     <option value="{$NV_MY_DOMAIN}{"`$NV_BASE_SITEURL`index.php?`$NV_LANG_VARIABLE`=`$NV_LANG_DATA`&amp;`$NV_NAME_VARIABLE`=`$MODULE_NAME`&amp;`$NV_OP_VARIABLE`=instant-rss"|rewrite:1}">{$LANG->get('cfgInsArtToolSelAreaAll')}</option>
                     {foreach from=$ARRAY_CATS key=key item=value}
-                    <option value="{$NV_MY_DOMAIN}{"`$NV_BASE_SITEURL`index.php?`$NV_LANG_VARIABLE`=`$NV_LANG_DATA`&amp;`$NV_NAME_VARIABLE`=`$MODULE_NAME`&amp;`$NV_OP_VARIABLE`=instant-rss/`$value.alias`"|rewrite:1}">{$value.name}</option>
+                    <option value="{$NV_MY_DOMAIN}{"`$NV_BASE_SITEURL`index.php?`$NV_LANG_VARIABLE`=`$NV_LANG_DATA`&amp;`$NV_NAME_VARIABLE`=`$MODULE_NAME`&amp;`$NV_OP_VARIABLE`=instant-rss/`$value.alias`"|rewrite:1}">{if $value.cat_level gt 1}{for $foo=2 to $value.cat_level} &nbsp; &nbsp; &nbsp;{/for}{/if}{$value.title}</option>
                     {/foreach}
                 </select>
             </div>

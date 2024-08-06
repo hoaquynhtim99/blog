@@ -41,7 +41,7 @@
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label class="col-12 col-lg-3 col-form-label text-lg-end" for="formElementKeywords">{$LANG->get('keywordsSoft')}</label>
+                        <label class="col-12 col-lg-3 col-form-label text-lg-end" for="formElementKeywords">{$LANG->get('keywordsSoft')} <i class="text-danger">(*)</i></label>
                         <div class="col-12 col-lg-9">
                             <input type="text" class="form-control" id="formElementKeywords" name="keywords" value="{$DATA.keywords}" maxlength="250">
                         </div>
