@@ -26,112 +26,6 @@ if (!empty($BL->setting['sysFbAdminID'])) {
 $meta_property['og:locale'] = $BL->setting['sysLocale'];
 
 /**
- * nv_blog_alias_page()
- *
- * @param mixed $title
- * @param mixed $base_url
- * @param mixed $num_items
- * @param mixed $per_page
- * @param mixed $on_page
- * @param bool $add_prevnext_text
- * @param bool $full_theme
- * @return
- */
-function nv_blog_alias_page($title, $base_url, $num_items, $per_page, $on_page, $add_prevnext_text = true, $full_theme = true)
-{
-    global $nv_Lang;
-
-    $total_pages = ceil($num_items / $per_page);
-
-    if ($total_pages < 2) {
-        return '';
-    }
-
-    $title .= ' ' . NV_TITLEBAR_DEFIS . ' ' . $nv_Lang->getGlobal('page');
-    $page_string = ($on_page == 1) ? '<li class="active"><a href="#">1</a></li>' : '<li><a rel="prev" title="' . $title . ' 1" href="' . $base_url . '">1</a></li>';
-
-    if ($total_pages > 7) {
-        if ($on_page < 4) {
-            $init_page_max = ($total_pages > 2) ? 2 : $total_pages;
-            for ($i = 2; $i <= $init_page_max; ++$i) {
-                if ($i == $on_page) {
-                    $page_string .= '<li class="active"><a href="#">' . $i . '</a></li>';
-                } else {
-                    $rel = ($i > $on_page) ? 'next' : 'prev';
-                    $page_string .= '<li><a rel="' . $rel . '" title="' . $title . ' ' . $i . '" href="' . $base_url . '/page-' . $i . '">' . $i . '</a></li>';
-                }
-            }
-        }
-
-        if ($on_page > 1 and $on_page < $total_pages) {
-            if ($on_page > 3) {
-                $page_string .= '<li class="disabled"><span>...</span></li>';
-            }
-
-            $init_page_min = ($on_page > 3) ? $on_page : 4;
-            $init_page_max = ($on_page < $total_pages - 3) ? $on_page : $total_pages - 3;
-
-            for ($i = $init_page_min - 1; $i < $init_page_max + 2; ++$i) {
-                if ($i == $on_page) {
-                    $page_string .= '<li class="active"><a href="#">' . $i . '</a></li>';
-                } else {
-                    $rel = ($i > $on_page) ? 'next' : 'prev';
-                    $page_string .= '<li><a rel="' . $rel . '" title="' . $title . ' ' . $i . '" href="' . $base_url . '/page-' . $i . '">' . $i . '</a></li>';
-                }
-            }
-
-            if ($on_page < $total_pages - 3) {
-                $page_string .= '<li class="disabled"><span>...</span></li>';
-            }
-        } else {
-            $page_string .= '<li class="disabled"><span>...</span></li>';
-        }
-
-        $init_page_min = ($total_pages - $on_page > 3) ? $total_pages : $total_pages - 1;
-        for ($i = $init_page_min; $i <= $total_pages; ++$i) {
-            if ($i == $on_page) {
-                $page_string .= '<li class="active"><a href="#">' . $i . '</a></li>';
-            } else {
-                $rel = ($i > $on_page) ? 'next' : 'prev';
-                $page_string .= '<li><a rel="' . $rel . '" title="' . $title . ' ' . $i . '" href="' . $base_url . '/page-' . $i . '">' . $i . '</a></li>';
-            }
-        }
-    } else {
-        for ($i = 2; $i < $total_pages + 1; ++$i) {
-            if ($i == $on_page) {
-                $page_string .= '<li class="active"><a href="#">' . $i . '</a><li>';
-            } else {
-                $rel = ($i > $on_page) ? 'next' : 'prev';
-                $page_string .= '<li><a rel="' . $rel . '" title="' . $title . ' ' . $i . '" href="' . $base_url . '/page-' . $i . '">' . $i . '</a></li>';
-            }
-        }
-    }
-
-    if ($add_prevnext_text) {
-        if ($on_page > 1) {
-            $href = ($on_page > 2) ? $base_url . '/page-' . ($on_page - 1) : $base_url;
-            $page_string = '<li><a rel="prev" title="' . $title . ' ' . ($on_page - 1) . '" href="' . $href . '">&laquo;</a></li>' . $page_string;
-        } else {
-            $page_string = '<li class="disabled"><a href="#">&laquo;</a></li>' . $page_string;
-        }
-
-        if ($on_page < $total_pages) {
-            $page_string .= '<li><a rel="next" title="' . $title . ' ' . ($on_page + 1) . '" href="' . $base_url . '/page-' . ($on_page + 1) . '">&raquo;</a></li>';
-        } else {
-            $page_string .= '<li class="disabled"><a href="#">&raquo;</a></li>';
-        }
-    }
-
-    if ($full_theme !== true) {
-        return $page_string;
-    }
-
-    return '<ul class="pagination">' . $page_string . '</ul>';
-}
-
-/**
- * nv_main_theme()
- *
  * @param mixed $array
  * @param mixed $generate_page
  * @param mixed $cfg
@@ -158,10 +52,10 @@ function nv_main_theme($array, $generate_page, $cfg, $page, $total_pages, $BL)
 
     if ($BL->setting['indexViewType'] == 'type_blog') {
         // Kieu danh sach blog
-        $xtpl = new XTemplate("list_blog.tpl", NV_ROOTDIR . "/themes/" . $module_info['template'] . "/modules/" . $module_file);
+        $xtpl = new XTemplate('list_blog.tpl', get_module_tpl_dir('list_blog.tpl'));
     } else {
         // Kieu danh sach tin tuc
-        $xtpl = new XTemplate("list_news.tpl", NV_ROOTDIR . "/themes/" . $module_info['template'] . "/modules/" . $module_file);
+        $xtpl = new XTemplate('list_news.tpl', get_module_tpl_dir('list_news.tpl'));
     }
 
     $xtpl->assign('LANG', \NukeViet\Core\Language::$lang_module);
@@ -260,8 +154,6 @@ function nv_main_theme($array, $generate_page, $cfg, $page, $total_pages, $BL)
 }
 
 /**
- * nv_viewcat_theme()
- *
  * @param mixed $array
  * @param mixed $generate_page
  * @param mixed $cfg
@@ -288,10 +180,10 @@ function nv_viewcat_theme($array, $generate_page, $cfg, $page, $total_pages, $BL
 
     if ($BL->setting['catViewType'] == 'type_blog') {
         // Kieu danh sach blog
-        $xtpl = new XTemplate("list_blog.tpl", NV_ROOTDIR . "/themes/" . $module_info['template'] . "/modules/" . $module_file);
+        $xtpl = new XTemplate('list_blog.tpl', get_module_tpl_dir('list_blog.tpl'));
     } else {
         // Kieu danh sach tin tuc
-        $xtpl = new XTemplate("list_news.tpl", NV_ROOTDIR . "/themes/" . $module_info['template'] . "/modules/" . $module_file);
+        $xtpl = new XTemplate('list_news.tpl', get_module_tpl_dir('list_news.tpl'));
     }
 
     $xtpl->assign('LANG', \NukeViet\Core\Language::$lang_module);
@@ -390,16 +282,14 @@ function nv_viewcat_theme($array, $generate_page, $cfg, $page, $total_pages, $BL
 }
 
 /**
- * nv_newsletters_theme()
- *
  * @param mixed $array
  * @return
  */
 function nv_newsletters_theme($array)
 {
-    global $module_file, $module_info, $nv_Lang;
+    global $nv_Lang;
 
-    $xtpl = new XTemplate("newsletters.tpl", NV_ROOTDIR . "/themes/" . $module_info['template'] . "/modules/" . $module_file);
+    $xtpl = new XTemplate('newsletters.tpl', get_module_tpl_dir('newsletters.tpl'));
     $xtpl->assign('LANG', \NukeViet\Core\Language::$lang_module);
     $xtpl->assign('GLANG', \NukeViet\Core\Language::$lang_global);
 
@@ -412,8 +302,6 @@ function nv_newsletters_theme($array)
 }
 
 /**
- * nv_detail_theme()
- *
  * @param mixed $blog_data
  * @param mixed $BL
  * @return
@@ -429,7 +317,7 @@ function nv_detail_theme($blog_data, $BL)
     }
     $my_head .= "<script type=\"text/javascript\">jwplayer.key=\"KzcW0VrDegOG/Vl8Wb9X3JLUql+72MdP1coaag==\";</script>" . NV_EOL;
 
-    $xtpl = new XTemplate("detail.tpl", NV_ROOTDIR . "/themes/" . $module_info['template'] . "/modules/" . $module_file);
+    $xtpl = new XTemplate('detail.tpl', get_module_tpl_dir('detail.tpl'));
     $xtpl->assign('LANG', \NukeViet\Core\Language::$lang_module);
     $xtpl->assign('GLANG', \NukeViet\Core\Language::$lang_global);
     $xtpl->assign('NV_CHECK_SESSION', NV_CHECK_SESSION);
@@ -550,17 +438,15 @@ function nv_detail_theme($blog_data, $BL)
 }
 
 /**
- * nv_all_tags_theme()
- *
  * @param mixed $array
  * @param mixed $BL
  * @return
  */
 function nv_all_tags_theme($array, $BL)
 {
-    global $module_file, $module_info, $nv_Lang;
+    global $nv_Lang;
 
-    $xtpl = new XTemplate("tags-list.tpl", NV_ROOTDIR . "/themes/" . $module_info['template'] . "/modules/" . $module_file);
+    $xtpl = new XTemplate('tags-list.tpl', get_module_tpl_dir('tags-list.tpl'));
     $xtpl->assign('LANG', \NukeViet\Core\Language::$lang_module);
     $xtpl->assign('GLANG', \NukeViet\Core\Language::$lang_global);
 
@@ -581,8 +467,6 @@ function nv_all_tags_theme($array, $BL)
 }
 
 /**
- * nv_detail_tags_theme()
- *
  * @param mixed $array
  * @param mixed $generate_page
  * @param mixed $cfg
@@ -609,10 +493,10 @@ function nv_detail_tags_theme($array, $generate_page, $cfg, $page, $total_pages,
 
     if ($BL->setting['catViewType'] == 'type_blog') {
         // Kieu danh sach blog
-        $xtpl = new XTemplate("list_blog.tpl", NV_ROOTDIR . "/themes/" . $module_info['template'] . "/modules/" . $module_file);
+        $xtpl = new XTemplate('list_blog.tpl', get_module_tpl_dir('list_blog.tpl'));
     } else {
         // Kieu danh sach tin tuc
-        $xtpl = new XTemplate("list_news.tpl", NV_ROOTDIR . "/themes/" . $module_info['template'] . "/modules/" . $module_file);
+        $xtpl = new XTemplate('list_news.tpl', get_module_tpl_dir('list_news.tpl'));
     }
 
     $xtpl->assign('LANG', \NukeViet\Core\Language::$lang_module);
@@ -711,17 +595,15 @@ function nv_detail_tags_theme($array, $generate_page, $cfg, $page, $total_pages,
 }
 
 /**
- * nv_message_theme()
- *
  * @param mixed $message
  * @param integer $lev: 0: Error, 1: Warning, 2: Success, 3: Info
  * @return void
  */
 function nv_message_theme($message, $lev = 0)
 {
-    global $module_file, $module_info, $nv_Lang;
+    global $nv_Lang;
 
-    $xtpl = new XTemplate("message.tpl", NV_ROOTDIR . "/themes/" . $module_info['template'] . "/modules/" . $module_file);
+    $xtpl = new XTemplate('message.tpl', get_module_tpl_dir('message.tpl'));
     $xtpl->assign('MESSAGE', $message);
     $xtpl->assign('CLASS', $lev == 0 ? 'alert-danger' : ($lev == 1 ? 'alert-warning' : ($lev == 2 ? 'alert-success' : 'alert-info')));
     $xtpl->assign('ICON', $lev == 0 ? 'fa-times-circle' : ($lev == 1 ? 'fa-exclamation-triangle' : ($lev == 2 ? 'fa-check-circle' : 'fa-info-circle')));
@@ -731,8 +613,6 @@ function nv_message_theme($message, $lev = 0)
 }
 
 /**
- * nv_search_theme()
- *
  * @param mixed $array
  * @param mixed $page
  * @param mixed $total_pages
@@ -745,7 +625,7 @@ function nv_search_theme($array, $page, $total_pages, $all_page, $generate_page,
 {
     global $module_file, $module_info, $nv_Lang;
 
-    $xtpl = new XTemplate("search.tpl", NV_ROOTDIR . "/themes/" . $module_info['template'] . "/modules/" . $module_file);
+    $xtpl = new XTemplate('search.tpl', get_module_tpl_dir('search.tpl'));
     $xtpl->assign('GLANG', \NukeViet\Core\Language::$lang_global);
     $xtpl->assign('LANG', \NukeViet\Core\Language::$lang_module);
 

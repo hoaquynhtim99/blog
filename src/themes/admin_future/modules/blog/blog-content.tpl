@@ -331,7 +331,7 @@
                                 </select>
                             </div>
                             <div class="col-xs-12 col-sm-6">
-                                <input type="text" class="form-control mb-2 datepicker-post" value="{if not empty($DATA.pubtime)}{"d/m/Y"|date:$DATA.pubtime}{/if}" name="pubtime" id="formElementPubtime" placeholder="dd/mm/yyyy">
+                                <input type="text" class="form-control mb-2 datepicker-post" value="{$DATA.pubtime}" name="pubtime" id="formElementPubtime" placeholder="{$DATE_PLACEHOLDER}">
                             </div>
                         </div>
                     </div>
@@ -353,7 +353,7 @@
                                 </select>
                             </div>
                             <div class="col-xs-12 col-sm-6">
-                                <input type="text" class="form-control mb-2 datepicker-post" value="{if not empty($DATA.exptime)}{"d/m/Y"|date:$DATA.exptime}{/if}" name="exptime" id="formElementExptime" placeholder="dd/mm/yyyy">
+                                <input type="text" class="form-control mb-2 datepicker-post" value="{$DATA.exptime}" name="exptime" id="formElementExptime" placeholder="{$DATE_PLACEHOLDER}">
                             </div>
                         </div>
                     </div>

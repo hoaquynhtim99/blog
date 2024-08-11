@@ -101,7 +101,7 @@ if (!empty($array_ids)) {
 }
 
 // Du lieu phan trang
-$generate_page = nv_blog_alias_page($page_title, $base_url, $all_page, $per_page, $page, true, false);
+$generate_page = nv_alias_page($page_title, $base_url, $all_page, $per_page, $page, true, false);
 $total_pages = ceil($all_page / $per_page);
 
 // Them vao tieu de neu phan trang

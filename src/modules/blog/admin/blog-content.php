@@ -80,37 +80,37 @@ if ($id) {
     $row = $result->fetch();
 
     $array_old = $array = [
-        "postid" => (int)$row['postid'],
+        "postid" => (int) $row['postid'],
         "postgoogleid" => $row['postgoogleid'],
         "sitetitle" => $row['sitetitle'],
         "title" => $row['title'],
         "alias" => $row['alias'],
         "keywords" => $row['keywords'],
         "images" => $row['images'],
-        "mediatype" => (int)$row['mediatype'],
-        "mediashowlist" => (int)$row['mediashowlist'],
-        "mediashowdetail" => (int)$row['mediashowdetail'],
-        "mediaheight" => (int)$row['mediaheight'],
-        "mediawidth" => (int)$row['mediawidth'],
-        "mediaresponsive" => (int)$row['mediaresponsive'],
+        "mediatype" => (int) $row['mediatype'],
+        "mediashowlist" => (int) $row['mediashowlist'],
+        "mediashowdetail" => (int) $row['mediashowdetail'],
+        "mediaheight" => (int) $row['mediaheight'],
+        "mediawidth" => (int) $row['mediawidth'],
+        "mediaresponsive" => (int) $row['mediaresponsive'],
         "mediavalue" => $row['mediavalue'],
         "hometext" => nv_br2nl($row['hometext']),
         "bodytext" => $row['bodytext'],
         "bodyhtml" => '',
-        "posttype" => (int)$row['posttype'],
-        "fullpage" => (int)$row['fullpage'],
-        "inhome" => (int)$row['inhome'],
+        "posttype" => (int) $row['posttype'],
+        "fullpage" => (int) $row['fullpage'],
+        "inhome" => (int) $row['inhome'],
         "catids" => $BL->string2array($row['catids']),
         "tagids" => $BL->string2array($row['tagids']),
-        "numwords" => (int)$row['numwords'],
-        "pubtime" => (int)$row['pubtime'],
+        "numwords" => (int) $row['numwords'],
+        "pubtime" => (int) $row['pubtime'],
         "pubtime_h" => date("G", $row['pubtime']),
-        "pubtime_m" => (int)date("i", $row['pubtime']),
-        "exptime" => (int)$row['exptime'],
+        "pubtime_m" => (int) date("i", $row['pubtime']),
+        "exptime" => (int) $row['exptime'],
         "exptime_h" => $row['exptime'] ? date("G", $row['exptime']) : 0,
-        "exptime_m" => $row['exptime'] ? (int)date("i", $row['exptime']) : 0,
-        "expmode" => (int)$row['expmode'],
-        "status" => (int)$row['status'],
+        "exptime_m" => $row['exptime'] ? (int) date("i", $row['exptime']) : 0,
+        "expmode" => (int) $row['expmode'],
+        "status" => (int) $row['status'],
         'markdown_text' => ''
     ];
     $postingMode = $row['post_mode'];
@@ -295,16 +295,8 @@ if ($prosessMode != 'none') {
         $array['exptime_m'] = 0;
     }
 
-    if (preg_match("/^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$/", $array['pubtime'], $m)) {
-        $array['pubtime'] = mktime($array['pubtime_h'], $array['pubtime_m'], 0, $m[2], $m[1], $m[3]);
-    } else {
-        $array['pubtime'] = NV_CURRENTTIME;
-    }
-    if (preg_match("/^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$/", $array['exptime'], $m)) {
-        $array['exptime'] = mktime($array['exptime_h'], $array['exptime_m'], 0, $m[2], $m[1], $m[3]);
-    } else {
-        $array['exptime'] = 0;
-    }
+    $array['pubtime'] = nv_d2u_post($array['pubtime'], $array['pubtime_h'], $array['pubtime_m'], 0);
+    $array['exptime'] = nv_d2u_post($array['exptime'], $array['exptime_h'], $array['exptime_m'], 0);
 
     // Chuan hoa kieu xu ly khi het han
     if (!in_array($array['expmode'], $BL->blogExpMode)) {
@@ -565,10 +557,11 @@ if (!empty($array['images']) and preg_match("/^\//i", $array['images'])) {
 if (!empty($array['mediavalue']) and preg_match("/^\//i", $array['mediavalue'])) {
     $array['mediavalue'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . "/" . $module_name . $array['mediavalue'];
 }
+$array['pubtime'] = nv_u2d_post($array['pubtime']);
+$array['exptime'] = nv_u2d_post($array['exptime']);
 
 $template = get_tpl_dir([$global_config['module_theme'], $global_config['admin_theme']], 'admin_default', '/modules/' . $module_file . '/blog-content.tpl');
 $tpl = new \NukeViet\Template\NVSmarty();
-$tpl->registerPlugin('modifier', 'date', 'nv_date');
 $tpl->setTemplateDir(NV_ROOTDIR . '/themes/' . $template . '/modules/' . $module_file);
 $tpl->assign('LANG', $nv_Lang);
 $tpl->assign('TOKEND', NV_CHECK_SESSION);
@@ -580,6 +573,7 @@ $tpl->assign('ID', $id);
 $tpl->assign('DATA', $array);
 $tpl->assign('TAGIDS', implode(',', $array['tagids']));
 $tpl->assign('EDITOR', (defined('NV_EDITOR') and nv_function_exists('nv_aleditor') and $postingMode == 'editor') ? 'true' : 'false');
+$tpl->assign('DATE_PLACEHOLDER', nv_region_config('jsdate_post'));
 
 // Trả về JSON nếu lưu bản nháp
 if ($prosessMode == "draft") {
