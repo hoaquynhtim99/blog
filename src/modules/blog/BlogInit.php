@@ -648,18 +648,57 @@ class BlogInit
      */
     public function BoldKeywordInStr($str, $keyword)
     {
-        $tmp = explode(" ", $keyword);
+        $str = nv_br2nl($str);
+        $str = nv_nl2br($str, ' ');
+        $str = nv_unhtmlspecialchars(strip_tags(trim($str)));
 
-        foreach ($tmp as $k) {
-            $tp = nv_strtolower($k);
-            $str = str_replace($tp, "<span class=\"highlight\">" . $tp . "</span>", $str);
-            $tp = nv_strtoupper($k);
-            $str = str_replace($tp, "<span class=\"highlight\">" . $tp . "</span>", $str);
-            $k[0] = nv_strtoupper($k[0]);
-            $str = str_replace($k, "<span class=\"highlight\">" . $k . "</span>", $str);
+        if (empty($keyword)) {
+            return nv_clean60($str, 300);
         }
 
-        return $str;
+        $array_keyword = [
+            $keyword,
+            nv_EncString($keyword)
+        ];
+        $array_keyword = array_unique($array_keyword);
+
+        $pos = false;
+        $pattern = [];
+        foreach ($array_keyword as $k) {
+            $_k = function_exists('searchPatternByLang') ? searchPatternByLang(nv_preg_quote($k)) : nv_preg_quote($k);
+            $pattern[] = $_k;
+            if (!$pos and preg_match('/^(.*?)' . $_k . '/is', $str, $matches)) {
+                $strlen = nv_strlen($str);
+                $kstrlen = nv_strlen($k);
+                $residual = $strlen - 300;
+                if ($residual > 0) {
+                    $lstrlen = nv_strlen($matches[1]);
+                    $rstrlen = $strlen - $lstrlen - $kstrlen;
+
+                    $medium = round((300 - $kstrlen) / 2);
+                    if ($lstrlen <= $medium) {
+                        $str = nv_clean60($str, 300);
+                    } elseif ($rstrlen <= $medium) {
+                        $str = nv_substr($str, $residual, 300);
+                        $str = nv_substr_clean($str, 'l');
+                    } else {
+                        $str = nv_substr($str, $lstrlen - $medium, $strlen - $lstrlen + $medium);
+                        $str = nv_substr($str, 0, 300);
+                        $str = nv_substr_clean($str, 'lr');
+                    }
+                }
+
+                $pos = true;
+            }
+        }
+
+        if (!$pos) {
+            return nv_clean60($str, 300);
+        }
+
+        $pattern = '/(' . implode('|', $pattern) . ')/is';
+
+        return preg_replace($pattern, '<span class="highlight">$1</span>', $str);
     }
 
     /**

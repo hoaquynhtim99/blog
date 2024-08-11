@@ -12,6 +12,8 @@ if (!defined('NV_IS_MOD_BLOG')) {
     die('Stop!!!');
 }
 
+$nv_BotManager->setPrivate();
+
 // Dang ky nhan ban tin
 if ($nv_Request->isset_request('newsletters', 'post')) {
     $array['email'] = nv_substr($nv_Request->get_title('newsletters', 'post', '', 1), 0, 255);
@@ -67,10 +69,10 @@ if ($nv_Request->isset_request('newsletters', 'post')) {
 $page_title = $mod_title = $nv_Lang->getModule('newsletter');
 
 // Khoi tao
-$array = array(
+$array = [
     'status' => 0, // 0: ok, 1: error
-    'message' => "",
-);
+    'message' => ''
+];
 
 // Xac thuc hoac huy dang ky nhan tin
 if ($nv_Request->isset_request("confirm", "get") or $nv_Request->isset_request("cancel", "get")) {

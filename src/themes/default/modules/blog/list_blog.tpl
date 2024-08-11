@@ -6,7 +6,7 @@
 <!-- END: highlight_js -->
 <div class="post-list">
     <!-- BEGIN: loop -->
-    <div class="post-item clearfix" itemscope itemtype="http://schema.org/Article">
+    <article class="post-item clearfix" itemscope itemtype="http://schema.org/Article">
         <!-- BEGIN: media -->
         <!-- BEGIN: image -->
         <img class="media-image" src="{ROW.mediavalue}" alt="{ROW.title}"/>
@@ -58,7 +58,7 @@
             <span><a href="{ROW.linkComment}"><i class="fa fa-comments-o" aria-hidden="true"></i> {ROW.numcomments} {LANG.blNumComments}</a></span>
             <span><a class="btn btn-primary btn-xs pull-right" href="{ROW.link}">{LANG.blDetail}</a></span>
         </div>
-    </div>
+    </article>
     <!-- END: loop -->
 </div>
 <ul class="pagination bl-pagination clearfix">

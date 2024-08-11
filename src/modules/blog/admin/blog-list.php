@@ -191,11 +191,11 @@ $order['posttime']['order'] = $nv_Request->get_title('order_posttime', 'get', 'N
 $order['updatetime']['order'] = $nv_Request->get_title('order_updatetime', 'get', 'NO');
 
 foreach ($order as $key => $check) {
-    $order[$key]['data'] = array(
+    $order[$key]['data'] = [
         'key' => strtolower($order[$key]['order']),
         'url' => $base_url . "&amp;order_" . $key . "=" . $opposite_order[$order[$key]['order']],
         'title' => sprintf($nv_Lang->getModule('filter_order_by'), "&quot;" . $lang_order_2[$key] . "&quot;") . " " . $lang_order_1[$order[$key]['order']]
-    );
+    ];
 
     if (!in_array($check['order'], $check_order)) {
         $order[$key]['order'] = "NO";

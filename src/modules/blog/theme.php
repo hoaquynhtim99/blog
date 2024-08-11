@@ -635,7 +635,7 @@ function nv_search_theme($array, $page, $total_pages, $all_page, $generate_page,
     }
 
     if (!empty($array['contents'])) {
-        $xtpl->assign('RESULT_INFO', sprintf($nv_Lang->getModule('searchResultInfo'), $all_page, $array['q']));
+        $xtpl->assign('RESULT_INFO', sprintf($nv_Lang->getModule('searchResultInfo'), nv_number_format($all_page), $array['q']));
         $xtpl->assign('PAGE_TOTAL', $total_pages);
         $xtpl->assign('PAGE_CURRENT', $page);
 

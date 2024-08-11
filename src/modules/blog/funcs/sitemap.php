@@ -12,7 +12,9 @@ if (!defined('NV_IS_MOD_BLOG')) {
     die('Stop!!!');
 }
 
-$url = array();
+$nv_BotManager->setFollow()->setNoIndex()->printToHeaders();
+
+$url = [];
 $cacheFile = NV_LANG_DATA . '_sitemap_' . NV_CACHE_PREFIX . '.cache';
 $cacheTTL = 7200;
 
@@ -23,7 +25,10 @@ if (($cache = $nv_Cache->getItem($module_name, $cacheFile, $cacheTTL)) != false)
     $result = $db->query($sql);
 
     while (list($title, $alias, $posttime) = $result->fetch(3)) {
-        $url[] = array('link' => NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $alias . $global_config['rewrite_exturl'], 'publtime' => $posttime);
+        $url[] = [
+            'link' => NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $alias . $global_config['rewrite_exturl'],
+            'publtime' => $posttime
+        ];
     }
 
     $cache = serialize($url);

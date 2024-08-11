@@ -12,16 +12,19 @@ if (!defined('NV_IS_MOD_BLOG')) {
     die('Stop!!!');
 }
 
-$channel = array();
-$items = array();
+// Chặn index trang này
+$nv_BotManager->setFollow()->setNoIndex()->printToHeaders();
 
-$channel['title'] = $module_info['custom_title'] . ' ' . NV_TITLEBAR_DEFIS . ' ' . $global_config['site_name'] . ' RSS';
-$channel['link'] = NV_MY_DOMAIN . NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name;
-$channel['atomlink'] = NV_MY_DOMAIN . NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=rss";
+$channel = [];
+$items = [];
+
+$channel['title'] = $module_info['custom_title'] . NV_TITLEBAR_DEFIS . $global_config['site_name'] . ' RSS';
+$channel['link'] = NV_MY_DOMAIN . NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name;
+$channel['atomlink'] = NV_MY_DOMAIN . NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=rss';
 $channel['description'] = $module_info['description'] ? $module_info['description'] : $global_config['site_description'];
 
 if (!empty($global_array_cat)) {
-    $catalias = isset($array_op[1]) ? $array_op[1] : "";
+    $catalias = isset($array_op[1]) ? $array_op[1] : '';
     $catid = 0;
 
     if (!empty($catalias)) {
@@ -34,8 +37,8 @@ if (!empty($global_array_cat)) {
     }
 
     if ($catid > 0) {
-        $channel['title'] = $global_array_cat[$catid]['title'] . ' ' . NV_TITLEBAR_DEFIS . ' ' . $module_info['custom_title'] . ' ' . NV_TITLEBAR_DEFIS . ' ' . $global_config['site_name'] . ' RSS';
-        $channel['link'] = NV_MY_DOMAIN . NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $global_array_cat[$catid]['alias'];
+        $channel['title'] = $global_array_cat[$catid]['title'] . NV_TITLEBAR_DEFIS . $module_info['custom_title'] . NV_TITLEBAR_DEFIS . $global_config['site_name'] . ' RSS';
+        $channel['link'] = NV_MY_DOMAIN . NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $global_array_cat[$catid]['alias'];
         $channel['description'] = $global_array_cat[$catid]['description'];
 
         $sql = "SELECT id, title, alias, images, pubtime, hometext FROM " . $BL->table_prefix . "_rows WHERE ( " . $BL->build_query_search_id($catid, 'catids') . " ) AND status=1 ORDER BY pubtime DESC LIMIT 30";
@@ -46,10 +49,10 @@ if (!empty($global_array_cat)) {
     if ($module_info['rss']) {
         if (($result = $db->query($sql)) !== false) {
             while ($row = $result->fetch()) {
-                // Xac dinh images
+                // Xac định ảnh bài viết
                 if (!empty($row['images'])) {
                     if (is_file(NV_UPLOADS_REAL_DIR . '/' . $module_name . $row['images'])) {
-                        $row['images'] = '<img src="' . NV_MY_DOMAIN . NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_name . $row['images'] . '" alt="' . $row['title'] . '" width="100" style="float:left;margin-right:10px"/>';
+                        $row['images'] = '<img src="' . NV_MY_DOMAIN . NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . $row['images'] . '" alt="' . $row['title'] . '" width="100" style="float:left;margin-right:10px"/>';
                     } elseif (nv_is_url($row['images'])) {
                         $row['images'] = '<img src="' . $row['images'] . '" alt="' . $row['title'] . '" width="100" style="float:left;margin-right:10px"/>';
                     } else {
@@ -57,13 +60,13 @@ if (!empty($global_array_cat)) {
                     }
                 }
 
-                $items[] = array(
+                $items[] = [
                     'title' => $row['title'],
-                    'link' => NV_MY_DOMAIN . NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $row['alias'] . $global_config['rewrite_exturl'],
+                    'link' => NV_MY_DOMAIN . NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $row['alias'] . $global_config['rewrite_exturl'],
                     'guid' => $module_name . '_' . $row['id'],
                     'description' => $row['images'] . $row['hometext'],
                     'pubdate' => $row['pubtime']
-                );
+                ];
             }
         }
     }

@@ -16,11 +16,8 @@ if (empty($blog_data)) {
     nv_redirect_location(NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name, true);
 }
 
-// Chỉ có phần xem chi tiết bài viết mới có thể .html
-$base_url_rewrite = nv_url_rewrite(NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=' . $blog_data['alias'] . $global_config['rewrite_exturl'], true);
-if ($_SERVER['REQUEST_URI'] != $base_url_rewrite) {
-    nv_redirect_location($base_url_rewrite);
-}
+$page_url = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $blog_data['alias'] . $global_config['rewrite_exturl'];
+$canonicalUrl = getCanonicalUrl($page_url);
 
 $page_title = $mod_title = $blog_data['sitetitle'];
 $key_words = $blog_data['keywords'];
@@ -38,7 +35,7 @@ if ($result->rowCount()) {
 $blog_data['tags'] = $BL->getTagsByID($blog_data['tagids'], true);
 
 // Lấy bài viết tiếp theo
-$blog_data['nextPost'] = array();
+$blog_data['nextPost'] = [];
 $sql = "SELECT title, alias, images FROM " . $BL->table_prefix . "_rows WHERE status=1 AND ( " . $BL->build_query_search_id($catid, 'catids') . " ) AND pubtime>" . $blog_data['pubtime'] . " ORDER BY pubtime ASC LIMIT 1";
 $result = $db->query($sql);
 
@@ -63,7 +60,7 @@ if ($result->rowCount()) {
 }
 
 // Lấy bài viết trước đó
-$blog_data['prevPost'] = array();
+$blog_data['prevPost'] = [];
 $sql = "SELECT title, alias, images FROM " . $BL->table_prefix . "_rows WHERE status=1 AND ( " . $BL->build_query_search_id($catid, 'catids') . " ) AND pubtime<" . $blog_data['pubtime'] . " ORDER BY pubtime DESC LIMIT 1";
 $result = $db->query($sql);
 

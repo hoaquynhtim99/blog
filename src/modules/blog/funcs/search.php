@@ -15,97 +15,71 @@ if (!defined('NV_IS_MOD_BLOG')) {
 $page_title = $mod_title = $nv_Lang->getModule('search');
 
 // Breadcrumbs
-$array_mod_title[] = array(
+$array_mod_title[] = [
     'catid' => 0,
     'title' => $nv_Lang->getModule('search'),
-    'link' => NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $op,
-);
+    'link' => NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op,
+];
 
-$array = array(
+$array = [
     'q' => nv_substr($nv_Request->get_title('q', 'get', '', NV_MIN_SEARCH_LENGTH), 0, NV_MAX_SEARCH_LENGTH),
     'catid' => $nv_Request->get_int('catid', 'get', 0),
-    'contents' => array(),
-);
+    'contents' => [],
+];
+if (empty($array['q'])) {
+    nv_redirect_location(NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name);
+}
 
 // Phân trang
 $page = $nv_Request->get_int('page', 'get', 1);
 $generate_page = '';
 $total_pages = 0;
 $all_page = 0;
-
-// Chuyển đến trang xem theo theo mục nếu để trống từ khóa mà tìm theo danh mục
-if (empty($array['q']) and isset($global_array_cat[$array['catid']])) {
-    nv_redirect_location(NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . "&" . NV_OP_VARIABLE . "=" . $global_array_cat[$array['catid']]['alias'], true);
-}
-
-// Chỉnh lại đường dẫn cho phù hợp
-if ($page < 1 or ($page == 1 and $nv_Request->isset_request('page', 'get')) or ($nv_Request->isset_request('q', 'get') and empty($array['q'])) or (empty($array['q']) and isset($_GET['catid'])) or (isset($_GET['catid']) and (!is_numeric($_GET['catid']) or (!isset($global_array_cat[$array['catid']]) and $array['catid'] != 0)))) {
-    nv_redirect_location(NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . "&" . NV_OP_VARIABLE . "=" . $op, true);
-}
-
-// Tiêu đề nếu có từ khóa
-if (!empty($array['q'])) {
-    $page_title = $nv_Lang->getModule('searchAbout') . ' ' . $array['q'];
-}
-
-// Tiêu đề nếu có danh mục
-if (isset($_GET['catid'])) {
-    if (empty($array['catid'])) {
-        $page_title .= ' ' . $nv_Lang->getModule('searchAllCat');
-    } else {
-        $page_title .= ' ' . NV_TITLEBAR_DEFIS . ' ' . $global_array_cat[$array['catid']]['title'];
-    }
-}
+$nv_BotManager->setPrivate();
 
 // Xac dinh thong tin phan trang
 $per_page = intval($BL->setting['numSearchResult']);
 
-$array_userids = array();
+$array_userids = [];
 
-// Dữ liệu tìm kiếm khi có từ khóa tìm kiếm
-if (!empty($array['q'])) {
-    // Giá trị tìm được chuẩn hóa
-    $sql_like = "LIKE '%" . $db->dblikeescape($array['q']) . "%'";
+// Giá trị tìm được chuẩn hóa
+$sql_like = "LIKE '%" . $db->dblikeescape($array['q']) . "%'";
 
-    // SQL co ban
-    $sql = "FROM " . $BL->table_prefix . "_rows WHERE status=1 AND ( title " . $sql_like . " OR keywords " . $sql_like . " OR hometext " . $sql_like . " OR bodytext " . $sql_like . " )" . ($array['catid'] ? " AND ( " . $BL->build_query_search_id($array['catid'], 'catids') . " )" : "");
-    $base_url = NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $op . "&amp;q=" . urlencode($array['q']) . "&amp;catid=" . $array['catid'];
+// SQL co ban
+$sql = "FROM " . $BL->table_prefix . "_rows WHERE status=1 AND ( title " . $sql_like . " OR keywords " . $sql_like . " OR hometext " . $sql_like . " OR bodytext " . $sql_like . " )" . ($array['catid'] ? " AND ( " . $BL->build_query_search_id($array['catid'], 'catids') . " )" : "");
+$base_url = NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $op . "&amp;q=" . urlencode($array['q']) . "&amp;catid=" . $array['catid'];
 
-    // Lay so row
-    $sql1 = "SELECT COUNT(*) " . $sql;
-    $result1 = $db->query($sql1);
-    $all_page = $result1->fetchColumn();
+// Lay so row
+$sql1 = "SELECT COUNT(*) " . $sql;
+$result1 = $db->query($sql1);
+$all_page = $result1->fetchColumn();
 
-    // Lay du lieu
-    $sql = "SELECT * " . $sql . " ORDER BY pubtime DESC LIMIT " . (($page - 1) * $per_page) . ", " . $per_page;
-    $result = $db->query($sql);
+$urlappend = '&amp;page=';
+betweenURLs($page, ceil($all_page / $per_page), $base_url, $urlappend, $prevPage, $nextPage);
 
+// Lay du lieu
+$sql = "SELECT * " . $sql . " ORDER BY pubtime DESC LIMIT " . (($page - 1) * $per_page) . ", " . $per_page;
+$result = $db->query($sql);
 
-    while ($row = $result->fetch()) {
-        $row['mediatype'] = intval($row['mediatype']);
-        $row['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $row['alias'] . $global_config['rewrite_exturl'];
-        $row['postName'] = '';
+while ($row = $result->fetch()) {
+    $row['mediatype'] = intval($row['mediatype']);
+    $row['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $row['alias'] . $global_config['rewrite_exturl'];
+    $row['postName'] = '';
 
-        $array['contents'][$row['id']] = $row;
-        $array_userids[$row['postid']] = $row['postid'];
-    }
-
-    // Du lieu phan trang
-    $generate_page = nv_generate_page($base_url, $all_page, $per_page, $page, true, false, '', '', false);
-    $total_pages = ceil($all_page / $per_page);
+    $array['contents'][$row['id']] = $row;
+    $array_userids[$row['postid']] = $row['postid'];
 }
 
-// Khong cho dat $page tuy y
-if ($page > 1 and empty($array['contents'])) {
-    nv_redirect_location(NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name, true);
-}
+// Du lieu phan trang
+$generate_page = nv_generate_page($base_url, $all_page, $per_page, $page);
+$total_pages = ceil($all_page / $per_page);
 
 // Lay thanh vien dang bai
 if (!empty($array_userids)) {
     $sql = "SELECT userid, username, first_name, last_name FROM " . NV_USERS_GLOBALTABLE . " WHERE userid IN(" . implode(",", $array_userids) . ")";
     $result = $db->query($sql);
 
-    $array_userids = array();
+    $array_userids = [];
     while ($row = $result->fetch()) {
         $array_userids[$row['userid']] = nv_show_name_user($row['first_name'], $row['last_name'], $row['username']);
     }
@@ -117,10 +91,11 @@ if (!empty($array_userids)) {
     }
 }
 
-// Them vao tieu de neu phan trang
+$page_url = $base_url;
 if ($page > 1) {
-    $page_title .= ' ' . NV_TITLEBAR_DEFIS . ' ' . $nv_Lang->getGlobal('page') . ' ' . $page;
+    $page_url .= '&amp;page=' . $page;
 }
+$canonicalUrl = getCanonicalUrl($page_url);
 
 // Open Graph
 $meta_property['og:title'] = $page_title . ' ' . NV_TITLEBAR_DEFIS . ' ' . $global_config['site_name'];

@@ -33,6 +33,9 @@ $sql1 = "SELECT COUNT(*) " . $sql;
 $result1 = $db->query($sql1);
 $all_page = $result1->fetchColumn();
 
+$urlappend = '&amp;' . NV_OP_VARIABLE . '=page-';
+betweenURLs($page, ceil($all_page / $per_page), $base_url, $urlappend, $prevPage, $nextPage);
+
 // Lay du lieu
 $sql = "SELECT * " . $sql . " ORDER BY pubtime DESC LIMIT " . (($page - 1) * $per_page) . ", " . $per_page;
 $result = $db->query($sql);
@@ -74,11 +77,6 @@ while ($row = $result->fetch()) {
     $array_ids[] = $row['id'];
 }
 
-// Khong cho dat $page tuy y
-if ($page > 1 and empty($array)) {
-    nv_redirect_location(NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name, true);
-}
-
 // Lay thanh vien dang bai
 if (!empty($array_userids)) {
     $sql = "SELECT userid, username, first_name, last_name FROM " . NV_USERS_GLOBALTABLE . " WHERE userid IN(" . implode(",", $array_userids) . ")";
@@ -108,13 +106,16 @@ if (!empty($array_ids)) {
 // Du lieu phan trang
 $generate_page = nv_alias_page($page_title, $base_url, $all_page, $per_page, $page, true, false);
 $total_pages = ceil($all_page / $per_page);
+$page_url = $base_url;
 
 // Them vao tieu de neu phan trang
 if ($page > 1) {
     $page_title .= ' ' . NV_TITLEBAR_DEFIS . ' ' . $nv_Lang->getGlobal('page') . ' ' . $page;
     $key_words .= ', ' . $nv_Lang->getGlobal('page') . ' ' . $page;
     $description .= ' ' . NV_TITLEBAR_DEFIS . ' ' . $nv_Lang->getGlobal('page') . ' ' . $page;
+    $page_url .= '&amp;' . NV_OP_VARIABLE . '=page-' . $page;
 }
+$canonicalUrl = getCanonicalUrl($page_url);
 
 // Open Graph
 if ($global_config['site_home_module'] == $module_name and !empty($home)) {
