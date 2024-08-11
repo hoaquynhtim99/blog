@@ -1,7 +1,7 @@
 <!-- BEGIN: main -->
 <!-- BEGIN: highlight_js -->
-<link type="text/css" href="{NV_BASE_SITEURL}themes/default/images/{MODULE_FILE}/frameworks/highlight/styles/{HIGHLIGHT_THEME}.css" rel="stylesheet">
-<script type="text/javascript" src="{NV_BASE_SITEURL}themes/default/images/{MODULE_FILE}/frameworks/highlight/highlight.pack.js"></script>
+<link type="text/css" href="{NV_STATIC_URL}themes/default/images/{MODULE_FILE}/frameworks/highlight/styles/{HIGHLIGHT_THEME}.css" rel="stylesheet">
+<script type="text/javascript" src="{NV_STATIC_URL}themes/default/images/{MODULE_FILE}/frameworks/highlight/highlight.pack.js"></script>
 <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
 <!-- END: highlight_js -->
 <div class="post-list">
@@ -41,7 +41,7 @@
         <iframe class="media-iframe" src="{ROW.mediavalue}"<!-- BEGIN: height --> height="{ROW.mediaheight}"<!-- END: height --><!-- BEGIN: aspectratio --> data-toggle="postiframescale" data-w="{ROW.mediawidth}" data-h="{ROW.mediaheight}"<!-- END: aspectratio -->></iframe>
         <!-- END: iframe -->
         <!-- END: media -->
-        <h3 class="post-title"><i class="{ROW.icon}">&nbsp;</i><a href="{ROW.link}"><span itemprop="name">{ROW.title}</span></a> </h3>
+        <h3 class="post-title"><i class="{ROW.icon}"></i> <a href="{ROW.link}"><span itemprop="name">{ROW.title}</span></a></h3>
         <!-- BEGIN: hometext -->
         <p class="item-hometext">
             {ROW.hometext}
@@ -53,11 +53,11 @@
         </div>
         <!-- END: bodyhtml -->
         <div class="meta">
-            <span><i class="fa fa-user" aria-hidden="true"></i> <span itemprop="author">{ROW.postName}</span> </span>
-            <span><i class="fa fa-clock-o" aria-hidden="true"></i> {ROW.pubtime} </span>
-            <span><a href="{ROW.linkComment}"><i class="fa fa-comments-o" aria-hidden="true"></i> {ROW.numcomments} {LANG.blNumComments}</a> </span>
+            <span><i class="fa fa-user" aria-hidden="true"></i> <span itemprop="author">{ROW.postName}</span></span>
+            <span><i class="fa fa-clock-o" aria-hidden="true"></i> {ROW.pubtime}</span>
+            <span><a href="{ROW.linkComment}"><i class="fa fa-comments-o" aria-hidden="true"></i> {ROW.numcomments} {LANG.blNumComments}</a></span>
+            <span><a class="btn btn-primary btn-xs pull-right" href="{ROW.link}">{LANG.blDetail}</a></span>
         </div>
-        <a class="btn btn-primary btn-xs pull-right" href="{ROW.link}"><span> {LANG.blDetail} </span></a>
     </div>
     <!-- END: loop -->
 </div>
