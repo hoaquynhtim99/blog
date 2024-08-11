@@ -14,9 +14,10 @@ if (!defined('NV_BLOG_ADMIN')) {
 
 $page_title = $nv_Lang->getModule('mainTitle');
 
+$template = get_tpl_dir([$global_config['module_theme'], $global_config['admin_theme']], 'admin_default', '/modules/' . $module_file . '/main.tpl');
 $tpl = new \NukeViet\Template\NVSmarty();
+$tpl->setTemplateDir(NV_ROOTDIR . '/themes/' . $template . '/modules/' . $module_file);
 $tpl->registerPlugin('modifier', 'date', 'nv_date');
-$tpl->setTemplateDir(NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file);
 $tpl->assign('LANG', $nv_Lang);
 $tpl->assign('NV_BASE_ADMINURL', NV_BASE_ADMINURL);
 $tpl->assign('MODULE_NAME', $module_name);

@@ -566,9 +566,10 @@ if (!empty($array['mediavalue']) and preg_match("/^\//i", $array['mediavalue']))
     $array['mediavalue'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . "/" . $module_name . $array['mediavalue'];
 }
 
+$template = get_tpl_dir([$global_config['module_theme'], $global_config['admin_theme']], 'admin_default', '/modules/' . $module_file . '/blog-content.tpl');
 $tpl = new \NukeViet\Template\NVSmarty();
 $tpl->registerPlugin('modifier', 'date', 'nv_date');
-$tpl->setTemplateDir(NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file);
+$tpl->setTemplateDir(NV_ROOTDIR . '/themes/' . $template . '/modules/' . $module_file);
 $tpl->assign('LANG', $nv_Lang);
 $tpl->assign('TOKEND', NV_CHECK_SESSION);
 $tpl->assign('NV_BASE_ADMINURL', NV_BASE_ADMINURL);
