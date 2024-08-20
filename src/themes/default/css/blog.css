@@ -298,6 +298,16 @@ ul.pagination.bl-pagination li:nth-last-child(2) span {
     margin-top: 10px;
 }
 
+/* Fix NukeViet default css */
+.post-detail-content ul {
+    list-style-type: disc;
+}
+
+/* Fix NukeViet default css */
+.post-detail-content ol {
+    list-style-type: decimal;
+}
+
 .post-detail-tags {
     margin-bottom: 30px;
 }
